@@ -43,6 +43,10 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
+                trainee.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
+                trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
+                trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+
                 bl.AddTrainee(trainee);
                 new TraineeWindow(trainee).Show();
                 Close();
