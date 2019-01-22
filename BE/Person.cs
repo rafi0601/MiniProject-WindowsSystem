@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace BE
 {
@@ -24,7 +25,7 @@ namespace BE
         public string ID { get; set; }
     }
 
-    public abstract class Person //TODO : IEqualityComparer<Person> 
+    public abstract class Person //: DependencyObject    //TODO : IEqualityComparer<Person> 
     {
         public string ID { get; /*private*/ set; }
         public Name Name { get; set; } = new Name();
@@ -59,6 +60,7 @@ namespace BE
                 return (uint)(Birthdate.AddYears(age) > DateTime.Today ? --age : age);
             }
         }
+
 
         public override string ToString()
         {
