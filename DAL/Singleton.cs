@@ -26,6 +26,6 @@ namespace DAL
     //  public class Singleton
     //  {
     //      protected Singleton() { }
-    //      public static IDal GetDal { get; } = BE.Singleton<IDal, Dal_ListImp>.GetInstance;
+    //      public static IDal GetDal { get; } = BE.Singleton<IDal, Dal_ListImp>.Instance;
     //  }
 }

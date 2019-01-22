@@ -12,6 +12,7 @@ namespace BL
 {
     public partial class Bl_imp : IBL
     {
+
         private readonly DAL.IDal dal;
 
         public Bl_imp()

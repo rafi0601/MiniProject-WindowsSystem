@@ -25,6 +25,8 @@ namespace PL_WPF
         public MainWindow()
         {
             InitializeComponent();
+            new LoginWindow().ShowDialog();
+
         }
     }
 }
