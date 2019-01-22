@@ -1,0 +1,36 @@
+﻿<!--BS"D-->
+    
+<Window x:Class="PL_WPF.TEMPLATE.OldLoadingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL_WPF.TEMPLATE"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="OldLoadingWindow" Height="450" Width="{Binding Path=Height}">
+    <Grid>
+        <!--<MediaElement Source="Gif/loading-gears.gif"/>-->
+        <WrapPanel>
+            <WrapPanel.Resources>
+                <Grid x:Key="abc">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </WrapPanel.Resources>
+
+        </WrapPanel>
+        <StackPanel>
+
+            <xctk:SplitButton>
+                <xctk:SplitButton.DropDownContent>
+                    <xctk:ColorCanvas/>
+                </xctk:SplitButton.DropDownContent>
+            </xctk:SplitButton>
+            <xctk:DateTimePicker TimePickerAllowSpin="False" AllowSpin="False" TimePickerShowButtonSpinner="False" ShowButtonSpinner="False" UpdateValueOnEnterKey="True" Format="FullDateTime"/>
+            <!--minimun={Today}-->
+        </StackPanel>
+    </Grid>
+</Window>

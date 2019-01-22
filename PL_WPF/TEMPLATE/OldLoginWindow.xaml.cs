@@ -12,19 +12,28 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL_WPF
+namespace PL_WPF.TEMPLATE
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for OldLoginWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class OldLoginWindow : Window
     {
-        public MainWindow()
+        public OldLoginWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void User_Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }
