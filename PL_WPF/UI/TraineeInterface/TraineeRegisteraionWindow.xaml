@@ -72,7 +72,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Birthdate:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <DatePicker x:Name="birthdateDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" SelectedDate="{Binding Birthdate, Mode=TwoWay}" VerticalAlignment="Center" TextBlock.Foreground="Black" DisplayDateStart="01/01/1900"/>
+                <DatePicker x:Name="birthdateDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" SelectedDate="{Binding Birthdate, Mode=TwoWay}" VerticalAlignment="Center" TextBlock.Foreground="Black" FontSize="16" DisplayDateStart="01/01/1900" />
             </Grid>
 
             <Grid>

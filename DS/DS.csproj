@@ -32,13 +32,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Continuous.Management, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Continuous.Management.1.1.4\lib\net452\Continuous.Management.dll</HintPath>
+      <HintPath>..\packages\Continuous.Management.1.1.7-alpha\lib\net452\Continuous.Management.dll</HintPath>
     </Reference>
     <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Continuous.User.3.0.10-alpha\lib\net452\Continuous.User.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
+    </Reference>
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
     </Reference>
