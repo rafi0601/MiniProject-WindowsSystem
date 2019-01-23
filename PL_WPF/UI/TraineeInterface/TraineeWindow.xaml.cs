@@ -92,5 +92,61 @@ namespace PL_WPF.UI.TraineeInterface
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             }
         }
+
+        //private void DateTimePicker_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        //{
+        //    switch (MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.No))
+        //    {
+        //
+        //        case MessageBoxResult.OK:
+        //            try
+        //            {
+        //                bl.AddTest(trainee, (DateTime)addTestDateTimePicker.Value, new DateTime(), trainee.Address, trainee.Vehicle);
+        //                temp.Text = bl.GetTest("00000001").ToString();
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+        //            }
+        //            break;
+        //    }
+        //}
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // testViewSource.Source = [generic data source]
+        }
+
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // testViewSource.Source = [generic data source]
+        }
+
+        private void DateTimePicker_SelectionChanged(object sender, EventArgs e)
+        {
+            CheckDateButton.IsEnabled = true;
+        }
+
+        private void CheckDateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.Vehicle);
+                dateTimePicker.IsEnabled = false; // TODO change it back
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+            }
+
+
+
+        }
     }
 }

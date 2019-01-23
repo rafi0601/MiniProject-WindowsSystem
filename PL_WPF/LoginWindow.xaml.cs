@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BE;
 
 namespace PL_WPF
 {
@@ -72,12 +73,9 @@ namespace PL_WPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            //TraineeWindow traineeWindow = new TraineeWindow(new Trainee("212384507", new Name { FirstName = "Yael", LastName = "katri" }, new DateTime(1995, 10, 6), Gender.female, "0541234567", new Address { Street = "Franco", HouseNumber = 16, City = "Hadera" }, Vehicle.tractor, Gearbox.manual, "TheBest", new Name { FirstName = "Shmuel", LastName = "Garber" }, 34));
             new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
             Close();
 
-            //  new LoadingWindow().Show();
         }
     }
 }

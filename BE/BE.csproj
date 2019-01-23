@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="CustomizedExeption.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Inspections.cs" />
     <Compile Include="Person.cs" />

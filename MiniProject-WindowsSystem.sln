@@ -15,6 +15,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL_Console", "PL_Console\PL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL_WPF", "PL_WPF\PL_WPF.csproj", "{8F30636C-47E3-423F-9C93-0A2A205E7C64}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0BAA4C97-A3BC-428B-8379-6048EE1345CA}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\OneDrive\שולחן העבודה\מיני פרויקט\notes.txt = ..\..\..\OneDrive\שולחן העבודה\מיני פרויקט\notes.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

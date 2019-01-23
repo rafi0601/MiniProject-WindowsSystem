@@ -31,11 +31,14 @@ namespace BL
         List<IGrouping<Name, Trainee>> TraineesByTeacher(bool toSort = false);
         List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);
 
-        DateTime? AddTest(string IDTrainee, DateTime TestDate, DateTime length, Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
-        void UpdateTest(string idTrainee, Vehicle vehicle, Test.Criteria criteria, bool IsPass, string TesterNotes);
+        DateTime? AddTest(Trainee trainee, DateTime TestDate, DateTime length, Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
+        void UpdateTest(Trainee trainee, Vehicle vehicle, Test.Criteria criteria, bool IsPass, string TesterNotes);
         Test GetTest(string code);
         List<Test> GetTests(Predicate<Test> predicate = null);
-        List<Test> FindAllInTests(Predicate<Test> condition); // is GetTests -> not neccery
+        List<Test> FindAllInTests(Predicate<Test> condition); // it is GetTests -> not neccery
         List<Test> SortedFutureTests();
     }
+
+    ///GetTestsOfTester
+    ///GetTestsOfTrainee
 }
