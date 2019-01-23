@@ -31,14 +31,20 @@ namespace PL_WPF.UI.TraineeInterface
 
             bl = BL.Singleton.Instance;
             this.trainee = trainee;
-            this.DataContext = trainee;
+            DataContext = trainee;
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));//.SplitByUpperAndLower();
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
             vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
 
+            firstNameTextBox.Text = trainee.Name.FirstName;
+            lastNameTextBox.Text = trainee.Name.LastName;
+            Street.Text = trainee.Address.Street;
+            HouseNumber.Text = trainee.Address.HouseNumber.ToString();
+            City.Text = trainee.Address.City;
+            TeacherFirstNameTextBox.Text = trainee.TeacherName.FirstName;
+            TeacherLastNameTextBox.Text = trainee.TeacherName.LastName;
 
-            //firstNameTextBox.Text = trainee.Name.FirstName;
             //iDTextBox.Text = trainee.ID;
             //birthdateDatePicker.Text = trainee.Birthdate.ToString();
             //phoneNumberTextBox.Text = trainee.PhoneNumber;
@@ -47,16 +53,19 @@ namespace PL_WPF.UI.TraineeInterface
             //vehicleComboBox.Text = trainee.Vehicle.ToString();
             //numberOfDoneLessonsTextBox.Text = trainee.NumberOfDoneLessons.ToString();
             //drivingSchoolTextBox2.Text = trainee.DrivingSchool;
-            //this.Street.Text = trainee.Address.Street;
-            //this.HouseNumber.Text = trainee.Address.HouseNumber.ToString();
-            //this.City.Text = trainee.Address.City;
         }
 
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
+                trainee.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
+                trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
+                trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+
                 bl.UpdateTrainee(trainee);
+                new UI.TraineeInterface.TraineeWindow(trainee).Show();
+                Close();
             }
             catch (Exception ex)
             {
@@ -72,9 +81,9 @@ namespace PL_WPF.UI.TraineeInterface
                 {
                     case MessageBoxResult.Yes:
                         bl.RemoveTrainee(trainee.ID);
-                        this.Close();
+                        Close();
                         trainee = new Trainee();
-                        this.DataContext = trainee;
+                        DataContext = trainee;
                         break;
                 }
             }

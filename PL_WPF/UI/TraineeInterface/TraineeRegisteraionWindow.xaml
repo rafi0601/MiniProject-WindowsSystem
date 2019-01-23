@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="TraineeRegisteraionWindow" Height="530" Width="800">
+        Title="TraineeRegisteraionWindow" Height="540" Width="800">
     <Window.Resources>
         <Style x:Key="ComboBox_Style" TargetType="ComboBox">
             <Setter Property="Background" Value="{x:Null}"/>
@@ -35,7 +35,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="         Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" Width="120"/> <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                <TextBox  x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" Width="120" /> <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
               </Grid>
 
               <Grid>
@@ -54,7 +54,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:MaskedTextBox Mask="000000000" BeepOnError="True" x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=TwoWay}" VerticalAlignment="Center" Width="120"/>
+                <xctk:MaskedTextBox Mask="000000000" BeepOnError="True" x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=TwoWay}" VerticalAlignment="Center" Width="120" BorderBrush="{x:Null}"/>
             </Grid>
 
             <Grid>
@@ -124,7 +124,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Gearbox:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <ComboBox x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Gearbox}" Margin="3" />
+                <ComboBox x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Gearbox, Mode=TwoWay}" Margin="3" />
             </Grid>
 
             <Grid>
@@ -133,7 +133,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:WatermarkComboBox Watermark="Choose vehicle" x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Vehicle}" Margin="3" />
+                <xctk:WatermarkComboBox Watermark="Choose vehicle" x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Vehicle,  Mode=TwoWay}" Margin="3" />
             </Grid>
 
             <Grid>
@@ -154,7 +154,9 @@
                 <TextBox x:Name="drivingSchoolTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding DrivingSchool, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             </Grid>
 
-          <Grid>
+            <Label Content="    Teacher Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+
+            <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="*"/>

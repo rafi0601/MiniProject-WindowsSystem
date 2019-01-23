@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="850" Height="650" MinWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width, Mode=OneTime}" MinHeight="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Height, Mode=OneTime}" Icon="/Accessories/Images/logo3.png">
+        Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="850" Height="660" MinWidth="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Width, Mode=OneTime}" MinHeight="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Height, Mode=OneTime}" Icon="/Accessories/Images/logo3.png">
     <!--Description=interface of trainee-->
     <Window.Resources>
         <Style x:Key="Tab_Style" TargetType="TabItem">
@@ -203,13 +203,9 @@
                             <Style x:Name="GridStyle" TargetType="Grid">
                             </Style>
                         </WrapPanel.Resources>
-                        <Grid>
-                            <Label Content="Personal details" FontSize="25" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        </Grid>
+                        <Label Content="Personal details" FontSize="25" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
-                        <Grid>
-                            <Label Content="    Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        </Grid>
+                        <Label Content="    Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -217,7 +213,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="         Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
                         <Grid>
@@ -226,7 +223,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
                         <Grid>
@@ -235,7 +233,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=OneWay}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=OneWay}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
                         </Grid>
 
                         <Grid>
@@ -243,8 +241,8 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="        Gender:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <ComboBox x:Name="genderComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem="{Binding Gender, Mode=OneWay}" Margin="3"/>
+                            <Label Content="        Gender:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18" />
+                            <ComboBox x:Name="genderComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem="{Binding Gender, Mode=OneWay}" Margin="3" IsEnabled="False"/>
                         </Grid>
 
                         <Grid>
@@ -253,7 +251,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Birthdate:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <DatePicker x:Name="birthdateDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" SelectedDate="{Binding Birthdate, Mode=OneWay}" VerticalAlignment="Center" TextBlock.Foreground="Black"/>
+                            <DatePicker x:Name="birthdateDatePicker" Grid.Column="1" HorizontalAlignment="Center" Margin="3" SelectedDate="{Binding Birthdate, Mode=OneWay}" VerticalAlignment="Center" TextBlock.Foreground="Black" IsEnabled="False"/>
                         </Grid>
 
                         <Grid>
@@ -265,9 +263,7 @@
                             <TextBox x:Name="phoneNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         </Grid>
 
-                        <Grid>
-                            <Label Content="    Address" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        </Grid>
+                        <Label Content="    Address" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -275,7 +271,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
                         </Grid>
 
                         <Grid>
@@ -284,7 +281,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
                         <Grid>
@@ -293,12 +291,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
-                        <Grid>
-                            <Label Content="Car details" FontSize="25" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        </Grid>
+                        <Label Content="Car details" FontSize="25" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -306,7 +303,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Gearbox:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <ComboBox x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Gearbox}" Margin="3" />
+                            <ComboBox x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1"  SelectedItem ="{Binding Gearbox}" Margin="3" />
                         </Grid>
 
                         <Grid>
@@ -335,22 +332,35 @@
                             <Label Content="        Driving School:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="drivingSchoolTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding DrivingSchool, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         </Grid>
+                        <Label Content="    Teacher Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
                         <Grid>
-                            <Label Content="Account Update" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="         Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
+                            <TextBox x:Name="TeacherLastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
                         </Grid>
 
                         <Grid>
-                            <Button Content="Update" FontSize="25" Click="UpdateButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
+                            <TextBox x:Name="TeacherFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
-                        <Grid>
-                            <Label Content="Remove Account" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
-                        </Grid>
+                        <Label Content="Account Update" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
 
-                        <Grid>
-                            <Button Content="Remove" Background="Red" FontSize="25" Click="RemoveButtonClick" HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="132"/>
-                        </Grid>
+                        <Button Content="Update" FontSize="25" Click="UpdateButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center"/>
+
+                        <Label Content="Remove Account" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
+
+                        <Button Content="Remove" Background="Red" FontSize="25" Click="RemoveButtonClick" HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="132"/>
 
                     </WrapPanel>
                 </Grid>

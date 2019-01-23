@@ -26,6 +26,8 @@ namespace PL_WPF
         {
             InitializeComponent();
             new LoginWindow().ShowDialog();
+            //new UI.TraineeInterface.TraineeWindow(new BE.Trainee()).ShowDialog();
+            Close();
         }
     }
 }
