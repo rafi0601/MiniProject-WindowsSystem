@@ -41,6 +41,10 @@ namespace BE
                    tester.VehicleTypeExpertise, tester.WorkingHours, tester.MaxDistanceFromAddress)
         { }
 
+        public Tester()
+        {
+        }
+
         public override string ToString()
         {
             return base.ToString() + ", tester";
