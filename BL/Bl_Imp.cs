@@ -99,7 +99,7 @@ namespace BL
         public List<Tester> VacantTesters(DateTime dateAndTime)
         {
             return (from tester in dal.GetTesters()
-                    where tester.MyTests.All(test => test.TestDate != dateAndTime) && !tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour-9] //TODO 9=CONFIG.BEGINNING_OF_DAY
+                    where tester.MyTests.All(test => test.TestDate != dateAndTime) && !tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour - 9] //TODO 9=CONFIG.BEGINNING_OF_DAY
                     select tester)
                     .ToList();
         }
@@ -186,15 +186,12 @@ namespace BL
             if (!ExistingTraineeById(trainee?.ID))
                 throw new ArgumentException("This trainee doesn't exist in the database");
 
-            var tests = from test in dal.GetTests()
-                        where test.IDTrainee == trainee.ID
-                        select test;
-            return Convert.ToUInt32(tests.ToList().Count);
+            return (uint)dal.GetTests(test => test.IDTrainee == trainee.ID).Count;
         }
 
         public bool HasPassed(Trainee trainee)
         {
-            return dal.GetTests().Find(t => t.IDTrainee == trainee.ID && trainee.Vehicle == trainee.Vehicle).IsPass;
+            return dal.GetTests().Find(t => t.IDTrainee == trainee.ID && trainee.Vehicle == trainee.Vehicle).IsPass; //BUG if not found thereisnt ispass
         }
 
         public List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false)
@@ -235,7 +232,7 @@ namespace BL
         #region Test functions
 
         public DateTime? AddTest(Trainee trainee, DateTime testDate, DateTime length, Address departureAddress, Vehicle vehicle)
-        { // return bool is success and gget out HATZAA
+        { // return bool is success, and get out HATZAA
             if (!ExistingTraineeById(trainee.ID))
                 throw new ArgumentException("This Trainee doesn't exist in the database");
 
@@ -256,17 +253,17 @@ namespace BL
 
 
 
-            Tester tester = FindingAvailableTester(testDate, vehicle);
 
             try
             {
+                Tester tester = FindingAvailableTester(testDate, vehicle);
                 if (tester != null)
                 {
                     dal.AddTest(new Test(tester.ID, trainee.ID, testDate, length, departureAddress, vehicle));
                     return null;
                 }
-                else
-                    return FindingAvailableTester(vehicle);
+
+                return FindingAnAlternativeTest(vehicle).Value.Item1;
 
             }
             catch (Exception e)
@@ -274,7 +271,7 @@ namespace BL
                 throw e;
             }
 
-            //throw new ArgumentException("There is no available Tester on the requested date");
+            //throw new Exception("There is no available Tester on the requested date");
 
         }
 
@@ -377,6 +374,7 @@ namespace BL
             DayOfWeek theDayInTheWeek = calendar.GetDayOfWeek(dateTime); //dateTime.DayOfWeek;
             DateTime theFirstDayInTheWeek = dateTime.Date.AddDays(-1 * (int)theDayInTheWeek);
 
+            #region inner method
             IEnumerable<(bool HasAlreadyTest, uint CounterOfTheTestInTheWeek)> WillAvailable(Tester tester)
             {
                 uint counterOfTheTestInTheWeek = 0;
@@ -387,13 +385,11 @@ namespace BL
                     yield return (test.TestDate == dateTime, counterOfTheTestInTheWeek);
                 }
             }
+            #endregion
 
-
-            foreach (Tester tester in dal.GetTesters())
+            foreach (Tester tester in dal.GetTesters(t => t.VehicleTypeExpertise == expertise && t.WorkingHours[(int)theDayInTheWeek, dateTime.Hour - 9]))
             {
-                if (tester.VehicleTypeExpertise != expertise
-                    || !tester.WorkingHours[(int)theDayInTheWeek, dateTime.Hour - 9]) // CHECK hour is not 00:00 for example
-                    break;
+                // CHECK hour is not 00:00 for example
 
                 bool isAvailable = true;
                 foreach (var (HasAlreadyTest, CounterOfTheTestInTheWeek) in WillAvailable(tester))
@@ -406,8 +402,8 @@ namespace BL
                 if (isAvailable) //CHECK if iterator have pass on all the element
                     return tester;
             }
-            return null;
 
+            return null;
 
 
             // CHECK לבדוק שהיום לא מתחלף באמצע - כבר לא נדרש
@@ -420,27 +416,30 @@ namespace BL
             //{
             //    return theFirstDayInTheWeek == date.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(date));
             //}
-
         }
 
-        private DateTime? FindingAvailableTester(Vehicle vehicle)
+
+        private (DateTime, Tester)? FindingAnAlternativeTest(Vehicle vehicle)
         {
-            DateTime dt = DateTime.Today.AddDays(1).AddHours(9);
-            while (true)
+            DateTime dateTime = DateTime.Today.AddDays(1).AddHours(9),
+                aPeriodFromToday = dateTime.AddMonths(3); // IMPROVEMENT convert to config
+
+            while (dateTime < aPeriodFromToday)
             {
                 for (int i = 0; i < Configuration.WORKING_HOURS_A_DAY; i++)
                 {
-                    if (FindingAvailableTester(dt, vehicle) != null)
-                        return dt;
-                    dt.AddHours(1);
+                    Tester tester = FindingAvailableTester(dateTime, vehicle);
+                    if (tester != null)
+                        return (dateTime, tester);
+                    dateTime.AddHours(1);
                 }
 
-                dt.AddHours(-8);
-                dt.AddDays(dt.DayOfWeek != DayOfWeek.Thursday ? 1 : 2);
+                dateTime.AddHours(-(Configuration.WORKING_HOURS_A_DAY + 1)); //-c-1
+                dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - Configuration.WORKING_DAYS_A_WEEK);
             }
-            //BUG to stop somewhen
-        }
 
+            return null;
+        }
         #endregion
     }
 }

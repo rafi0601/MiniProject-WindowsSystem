@@ -10,6 +10,7 @@ namespace BE
     {
         protected static Interface instance = default(Interface);
 
+
         protected Singleton() { }
 
         public static Interface Instance
