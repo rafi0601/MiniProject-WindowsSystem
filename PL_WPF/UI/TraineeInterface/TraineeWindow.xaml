@@ -82,6 +82,7 @@
         </Grid.RowDefinitions>
 
         <Label x:Name="MainGrid_Col1" Grid.Column="1"/>
+        <Label x:Name="MainGrid_Col1Row1" Grid.Column="1" Grid.Row="1"/>
         <!--<Grid x:Name="AB" Height="125" Background="Orange" Width="125" Grid.Column="1" Margin="111,246.2,633.6,110.4" Grid.Row="1"/>
         <Rectangle x:Name="aba" Fill="DeepPink" HorizontalAlignment="Left" Height="60" Margin="5,181.2,-5.4,0" Grid.Row="1" VerticalAlignment="Top" Width="{Binding ElementName=MainGrid, Path=Width,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>-->
         <!--not neccary-->
@@ -365,8 +366,8 @@
                     </WrapPanel>
                 </Grid>
             </TabItem>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test">
-                <WrapPanel Orientation="Vertical">
+            <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test" >
+                <WrapPanel Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
                     <Label FontSize="25">Choose a date that's convenient for you</Label>
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged"/>
                     <Label Height="15"/>

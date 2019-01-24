@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace BE
 {
-    public struct Name
+    public struct Name // IMPROVEMENT insert into Person
     {
         public string LastName { get; set; }
         public string FirstName { get; set; }
@@ -52,7 +52,7 @@ namespace BE
             : this(person.ID, person.Name, person.Birthdate, person.Gender, person.PhoneNumber, person.Address)
         { }
 
-        public uint Age
+        public uint AgeInYears
         {
             get
             {
@@ -64,7 +64,7 @@ namespace BE
 
         public override string ToString()
         {
-            return Name.ToString() + ", " + Gender + ", " + Age;
+            return Name.ToString() + ", " + Gender + ", " + AgeInYears;
         }
 
         //      public bool Equals(Person x, Person y)

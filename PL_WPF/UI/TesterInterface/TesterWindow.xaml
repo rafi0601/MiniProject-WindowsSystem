@@ -349,7 +349,8 @@
                     </WrapPanel>
                 </Grid>
             </TabItem>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test">
+            <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
+                <DataGrid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="270.4,198.6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Testers">
             </TabItem>

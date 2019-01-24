@@ -26,12 +26,12 @@ namespace BL
         {
             Inspections.TesterInspection(tester);
 
+            if (ExistingTesterById(tester.ID))
+                throw new ArgumentException("This tester already exists in the database");
+
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
                 throw new ArgumentOutOfRangeException(nameof(Tester.Birthdate.Year), "The tester's age is not appropriate");
-
-            if (ExistingTesterById(tester.ID))
-                throw new ArgumentException("This tester already exists in the database");
 
             try
             {
@@ -50,7 +50,7 @@ namespace BL
 
             try
             {
-                dal.RemoveTester(FindingTesterById(idTester));
+                dal.RemoveTester(dal.GetTester(idTester));
             }
             catch (Exception e)
             {
@@ -147,7 +147,7 @@ namespace BL
 
             try
             {
-                dal.RemoveTrainee(FindingTraineeById(idTrainee));
+                dal.RemoveTrainee(dal.GetTrainee(idTrainee));
             }
             catch (Exception e)
             {
@@ -191,18 +191,32 @@ namespace BL
 
         public bool HasPassed(Trainee trainee)
         {
-            return dal.GetTests().Find(t => t.IDTrainee == trainee.ID && trainee.Vehicle == trainee.Vehicle).IsPass; //BUG if not found thereisnt ispass
+            return dal.GetTests(t => t.IDTrainee == trainee.ID && /*it is improvement because now it's always true*/ trainee.Vehicle == trainee.Vehicle).First().IsPass; //BUG if not found thereisnt ispass
         }
 
         public List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false)
         {
             List<Trainee> trainees = dal.GetTrainees();
 
+           // if (!toSort)
+           //     return (from trainee in trainees
+           //             group trainee by trainee.DrivingSchool)
+           //             .ToList();
+           //
+           // return (from trainee in trainees
+           //         orderby trainee.TeacherName
+           //         group trainee by trainee.DrivingSchool)
+           //         //into tmp orderby
+           //             .ToList();
+
+
+
             if (toSort)
                 trainees.Sort((trainee1, trainee2) => string.Compare(trainee1.TeacherName.ToString(), trainee2.TeacherName.ToString()));
 
             return (from trainee in trainees
-                    group trainee by trainee.DrivingSchool).ToList();
+                    group trainee by trainee.DrivingSchool)
+                    .ToList();
         }
 
         public List<IGrouping<Name, Trainee>> TraineesByTeacher(bool toSort = false)
@@ -235,20 +249,20 @@ namespace BL
         { // return bool is success, and get out HATZAA
             if (!ExistingTraineeById(trainee.ID))
                 throw new ArgumentException("This Trainee doesn't exist in the database");
-
-            if (DateTime.Now - FindingTraineeById(trainee.ID).TheLastTest < Configuration.TIME_RANGE_BETWEEN_TESTS)
+            
+            if (DateTime.Now - trainee.TheLastTest < Configuration.TIME_RANGE_BETWEEN_TESTS)
                 throw new ArgumentException("It is illegal to access to test less than 7 days after the last one");
 
-            if (FindingTraineeById(trainee.ID).NumberOfDoneLessons < Configuration.MIN_LESSONS)
+            if (trainee.NumberOfDoneLessons < Configuration.MIN_LESSONS)
                 throw new ArgumentException("It is illegal to access to test if you did less than " + Configuration.MIN_LESSONS + " lessons");
 
-            if (dal.GetTests().Exists(t => t.IDTrainee == trainee.ID && t.TestDate == testDate))
-                throw new ArgumentException("It is illegal to set for one trainee two tests at the same time");
+            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.TestDate == testDate).Count != 0)
+                throw new ArgumentException("It is illegal to set for a trainee two tests at the same time");
 
-            if (dal.GetTests().Exists(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && t.IsPass == true))
+            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && t.IsPass == true).Count != 0)
                 throw new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more");
 
-            if (FindingTraineeById(trainee.ID).Vehicle != vehicle)
+            if (trainee.Vehicle != vehicle)
                 throw new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive");
 
 
@@ -275,23 +289,27 @@ namespace BL
 
         }
 
-        public void UpdateTest(Trainee trainee, Vehicle vehicle, Test.Criteria criteria, bool isPass, string testerNotes)
+        public void UpdateTest(string code, Test.Criteria criteria, bool isPass, string testerNotes)
         {
-            if (!dal.GetTests().Exists(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && !t.IsDone()))
+            //if (!dal.GetTest(test.Code).Exists(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && !t.IsDone()))
+            Test theTest = dal.GetTest(code);
+            if (theTest == null)
                 throw new ArgumentException("This test doesn't exist in the database");
+            if (theTest.IsDone()) // BUG ISDONE=true immediately when the test over!
+                throw new Exception("Cannot update updated test");
 
             if (isPass && !IsEntitledToLicense(criteria))
                 throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than" + Configuration.MIN_CRITERIONS_TO_PASS_TEST + "Cartierians");
 
-            Test test = dal.GetTests().Find(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && !t.IsDone());
 
-            test.CriteriasGrades = criteria;
-            test.IsPass = isPass;
-            test.TesterNotes = testerNotes;
-            // test.IsDone = true;
+            theTest.CriteriasGrades = criteria;
+            theTest.IsPass = isPass;
+            theTest.TesterNotes = testerNotes;
+            //test.IsDone = true;
+
             try
             {
-                dal.UpdateTest(test);
+                dal.UpdateTest(theTest);
             }
             catch (Exception e)
             {
@@ -321,10 +339,9 @@ namespace BL
         {
             return (from test in dal.GetTests()
                     where !test.IsDone()
-                    orderby test.TestDate.Month
+                    orderby test.TestDate
                     select test)
                         .ToList();
-            //return (tests.OrderBy(t => t.TestDate.Month)).ToList();
         }
 
         #endregion
@@ -332,34 +349,19 @@ namespace BL
 
         #region private functions
 
-        private Tester FindingTesterById(string id)
-        {
-            return GetTesters().Find(tester => tester.ID == id);
-        }
-
         private bool ExistingTesterById(string id)
         {
-            return GetTesters().Exists(tester => tester.ID == id);
-        }
-
-        private Trainee FindingTraineeById(string id)
-        {
-            return GetTrainees().Find(trainee => trainee.ID == id);
+            return dal.GetTester(id) != null;
         }
 
         private bool ExistingTraineeById(string id)
         {
-            return GetTrainees().Exists(trainee => trainee.ID == id);
-        }
-
-        private Test FindingTestByCode(string code)
-        {
-            return GetTests().Find(test => test.Code == code);
+            return dal.GetTrainee(id) != null;
         }
 
         private bool ExistingTestByCode(string code)
         {
-            return GetTests().Exists(test => test.Code == code);
+            return dal.GetTest(code) != null;
         }
 
 
@@ -370,8 +372,7 @@ namespace BL
 
         private Tester FindingAvailableTester(DateTime dateTime, Vehicle expertise) //UNDONE improve
         {
-            var calendar = System.Globalization.DateTimeFormatInfo.CurrentInfo.Calendar;
-            DayOfWeek theDayInTheWeek = calendar.GetDayOfWeek(dateTime); //dateTime.DayOfWeek;
+            DayOfWeek theDayInTheWeek = dateTime.DayOfWeek; //CHECK if dateTime.DayOfWeek is short time
             DateTime theFirstDayInTheWeek = dateTime.Date.AddDays(-1 * (int)theDayInTheWeek);
 
             #region inner method
@@ -380,7 +381,8 @@ namespace BL
                 uint counterOfTheTestInTheWeek = 0;
                 foreach (Test test in tester.MyTests)
                 {
-                    if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(test.TestDate))) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    //if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(test.TestDate))) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)test.TestDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
                     yield return (test.TestDate == dateTime, counterOfTheTestInTheWeek);
                 }

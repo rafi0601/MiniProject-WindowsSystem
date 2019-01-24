@@ -50,6 +50,8 @@ namespace PL_WPF
 
         private void HoursListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            //SelectionChanged?.Invoke(this, new EventArgs());
             SelectionChanged(this, new EventArgs());
         }
 

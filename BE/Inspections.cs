@@ -118,7 +118,7 @@ namespace BE
             #endregion
 
             #region YearsOfExperience
-            if (tester.YearsOfExperience > tester.Age)
+            if (tester.YearsOfExperience > tester.AgeInYears)
                 throw new ArgumentOutOfRangeException("Years  of experience is illogical", nameof(tester.YearsOfExperience));
             #endregion
 

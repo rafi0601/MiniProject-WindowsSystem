@@ -196,6 +196,6 @@ namespace DAL
 
         #endregion
 
-        private Predicate<Tester> comperisonOfTestersId(Tester tester) => t => tester?.ID == t?.ID;
+        private Predicate<Tester> ComperisonOfTestersId(Tester tester) => t => tester?.ID == t?.ID;
     }
 }

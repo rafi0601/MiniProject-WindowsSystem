@@ -137,7 +137,8 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.Vehicle);
+                if (bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.Vehicle) == null)
+                    return;
                 dateTimePicker.IsEnabled = false; // TODO change it back
             }
             catch (Exception ex)

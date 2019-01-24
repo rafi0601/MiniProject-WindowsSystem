@@ -32,7 +32,7 @@ namespace BL
         List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);
 
         DateTime? AddTest(Trainee trainee, DateTime TestDate, DateTime length, Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
-        void UpdateTest(Trainee trainee, Vehicle vehicle, Test.Criteria criteria, bool IsPass, string TesterNotes);
+        void UpdateTest(string code, Test.Criteria criteria, bool IsPass, string TesterNotes);
         Test GetTest(string code);
         List<Test> GetTests(Predicate<Test> predicate = null);
         List<Test> FindAllInTests(Predicate<Test> condition); // it is GetTests -> not neccery

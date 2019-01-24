@@ -44,4 +44,9 @@ namespace BE
         IntegrationIntoMovement,
         ObeyParkSigns,
     }
+
+    //public enum Grade : short
+    //{
+    //    pass, failed
+    //}
 }

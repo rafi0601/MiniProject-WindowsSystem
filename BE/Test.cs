@@ -135,27 +135,11 @@ namespace BE
             Vehicle = vehicle;
         }
 
-        public Test(string code, string idTester, string idTrainee, DateTime testDate,
-            DateTime length, Address departureAddress, Vehicle vehicle)
-        {
-            Code = code;
-            IDTester = idTester;
-            IDTrainee = idTrainee;
-            TestDate = testDate;
-            Length = length;
-            DepartureAddress = departureAddress;
-            Vehicle = vehicle;
-        }
-        public Test(string code, string idTester, string idTrainee, DateTime testDate,
+        private Test(string code, string idTester, string idTrainee, DateTime testDate,
             DateTime length, Address departureAddress, Vehicle vehicle, Criteria criteria, bool isPass, string testerNotes)
+            :this(idTester,idTrainee,testDate,length,departureAddress,vehicle)
         {
             Code = code;
-            IDTester = idTester;
-            IDTrainee = idTrainee;
-            TestDate = testDate;
-            Length = length;
-            DepartureAddress = departureAddress;
-            Vehicle = vehicle;
             CriteriasGrades = criteria;
             IsPass = isPass;
             TesterNotes = testerNotes;
