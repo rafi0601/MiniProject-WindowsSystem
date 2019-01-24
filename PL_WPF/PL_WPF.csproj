@@ -109,6 +109,12 @@
     <Compile Include="UI\AdminInterface\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TesterInterface\TesterRegisteraionWindow.xaml.cs">
+      <DependentUpon>TesterRegisteraionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TesterInterface\TesterWindow.xaml.cs">
+      <DependentUpon>TesterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TraineeInterface\TraineeRegisteraionWindow.xaml.cs">
       <DependentUpon>TraineeRegisteraionWindow.xaml</DependentUpon>
     </Compile>
@@ -145,6 +151,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\AdminInterface\AdminWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TesterInterface\TesterRegisteraionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TesterInterface\TesterWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -205,9 +219,7 @@
       <Name>BL</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\TesterInterface\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Accessories\Images\logo1.jpg" />
     <Resource Include="Accessories\Images\logo2.png" />
