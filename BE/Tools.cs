@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace BE
 {
@@ -20,5 +21,12 @@ namespace BE
         //      Array.ForEach(array, item => (item as string).SplitByUpperAndToLower());
         //  }
 
+        internal static string ToStringProperty<T>(this T t)
+        {
+            StringBuilder str = new StringBuilder();
+            foreach (PropertyInfo property in t.GetType().GetProperties(BindingFlags.Public))
+                str.Append(property.Name + ": " + property.GetValue(t, null) + "\n"); //BUG if property is indexer
+            return str.ToString(); // CHECK if is work
+        }
     }
 }

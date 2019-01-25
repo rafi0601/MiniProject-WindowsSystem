@@ -29,7 +29,7 @@ namespace DAL
             if (ExistingTesterById(tester.ID))
                 throw new ArgumentException("Tester with same ID already exists in the database", nameof(tester.ID));
 
-            DS_Lists.TesterList.Add(tester);
+            DS_Lists.TesterList.Add(new Tester(tester));
         }
 
         public void RemoveTester(Tester tester)
@@ -47,11 +47,22 @@ namespace DAL
 
         public void UpdateTester(Tester tester)
         {
+            //try
+            //{
+            //    RemoveTester(tester);
+            //    AddTester(new Tester(tester)); // IMPROVEMENT ds.Add(tester)
+            //}
+            //catch
+            //{
+            //    throw new ArgumentException("This tester doesn't exist in the database");
+            //}
+
+
             Inspections.TesterInspection(tester);
             int index = DS_Lists.TesterList.FindIndex(t => t.ID == tester.ID);
             if (-1 == index)
                 throw new ArgumentException("This tester doesn't exist in the database");
-            DS_Lists.TesterList[index] = tester;
+            DS_Lists.TesterList[index] = new Tester(tester);
         }
 
         public Tester GetTester(string id)
@@ -92,7 +103,7 @@ namespace DAL
             if (ExistingTraineeById(trainee.ID))
                 throw new ArgumentException("This trainee already exists in the database");
 
-            DS_Lists.TraineeList.Add(trainee);
+            DS_Lists.TraineeList.Add(new Trainee(trainee));
         }
 
         public void RemoveTrainee(Trainee trainee)
@@ -110,7 +121,7 @@ namespace DAL
             int index = DS_Lists.TraineeList.FindIndex(t => t.ID == trainee.ID);
             if (-1 == index)
                 throw new ArgumentException("This trainee doesn't exist in the database");
-            DS_Lists.TraineeList[index] = trainee;
+            DS_Lists.TraineeList[index] = new Trainee(trainee);
         }
 
         public Trainee GetTrainee(string id)
@@ -157,9 +168,9 @@ namespace DAL
             if (test.Code == null)
                 test.Code = checked(++code).ToString().PadLeft(8, '0'); // TODO: catch (System.OverflowException e)
 
-            DS_Lists.TestList.Add(test);
-
-            tester.MyTests.Add(test);
+            Test copyOfTheTest = new Test(test);
+            DS_Lists.TestList.Add(copyOfTheTest);
+            tester.MyTests.Add(copyOfTheTest);
         }
 
         public void UpdateTest(Test test)
@@ -168,7 +179,7 @@ namespace DAL
             int index = DS_Lists.TestList.FindIndex(t => t.Code == test.Code);
             if (-1 == index)
                 throw new ArgumentException("This test doesn't exist in the database");
-            DS_Lists.TestList[index] = test;
+            DS_Lists.TestList[index] = new Test(test);
         }
 
         public Test GetTest(string code)
@@ -197,5 +208,48 @@ namespace DAL
         #endregion
 
         private Predicate<Tester> ComperisonOfTestersId(Tester tester) => t => tester?.ID == t?.ID;
+
+
+
+
+
+
+
+        private bool Add<T>(T t) where T : IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
+        {
+            //CHECK if we use inspec in prop so will check null here
+            dynamic l; // TODO האם אפשרי לעשות פונקצית הרחבה לרשימה  שמחזירה אותה כרשימה מטיפוס טי
+            switch (t)
+            {
+                case Tester tester:
+                    Inspections.TesterInspection(tester);
+                    l = DS_Lists.TesterList;
+                    break;
+                case Trainee trainee:
+                    Inspections.TraineeInspection(trainee);
+                    l = DS_Lists.TraineeList;
+                    break;
+                case Test test:
+                    Inspections.TestInspection(test);
+                    l = DS_Lists.TestList;
+                    break;
+                //case null:
+                //    break;
+                default:
+                    throw new CustomizedException(false, new Exception());
+            }
+
+            List<T> lm = l as List<T>;
+            if (lm.Exists(tt => t.Key == t.Key))
+                return false;
+            //lm.Add(t.Copy());
+            return true;
+        }
+
+        private bool ExistingByKey<T>(T t, List<T> l) where T : IKey
+        {
+            return DS_Lists.TesterList.Exists(tt => t.Key == tt.Key);
+        }
+
     }
 }

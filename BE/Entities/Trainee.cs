@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public class Trainee : Person
+    public sealed class Trainee : Person
     {
-        public Vehicle Vehicle { get; set; }
-        public Gearbox Gearbox { get; set; }
+        public Vehicle VehicleTypeTraining { get; set; }
+        public Gearbox GearboxTypeTraining { get; set; }
         public string DrivingSchool { get; set; }
         public Name TeacherName { get; set; } = new Name();
         public uint NumberOfDoneLessons { get; set; }
@@ -24,8 +24,8 @@ namespace BE
             string drivingSchool, Name teacherName, uint numberOfDoneLessons) //UNDONE DT theLastTest
             : base(id, name, birthdate, gender, phoneNumber, address)
         {
-            Vehicle = vehicle;
-            Gearbox = gearbox;
+            VehicleTypeTraining = vehicle;
+            GearboxTypeTraining = gearbox;
             DrivingSchool = drivingSchool;
             TeacherName = teacherName;
             NumberOfDoneLessons = numberOfDoneLessons;
@@ -33,7 +33,7 @@ namespace BE
 
         public Trainee(Trainee trainee)
             : this(trainee.ID, trainee.Name, trainee.Birthdate, trainee.Gender,
-                  trainee.PhoneNumber, trainee.Address, trainee.Vehicle, trainee.Gearbox,
+                  trainee.PhoneNumber, trainee.Address, trainee.VehicleTypeTraining, trainee.GearboxTypeTraining,
                   trainee.DrivingSchool, trainee.TeacherName, trainee.NumberOfDoneLessons)
         { }
 
@@ -41,6 +41,7 @@ namespace BE
         public override string ToString()
         {
             return base.ToString() + ", trainee";
+            //return this.ToStringProperty();
         }
     }
 }

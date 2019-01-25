@@ -15,22 +15,60 @@ namespace DAL
     public interface IDal
     {
         /// <summary>
-        /// Adding tester to the database
+        /// Adds a tester to the database.
         /// </summary>
         /// <param name="tester">
-        /// The added tester
+        /// The tester to be added.
         /// </param>
         void AddTester(Tester tester);
+
+        /// <summary>
+        /// Removes the occurrence of a specific tester from the database.
+        /// </summary>
+        /// <param name="tester">
+        /// The tester to remove.
+        /// </param>
         void RemoveTester(Tester tester); // TODO bool RemoveTester(string id);
+
+        /// <summary>
+        /// Updates the occurrence of a specific tester in the database.
+        /// </summary>
+        /// <param name="tester">
+        /// The tester to be updated.
+        /// </param>
         void UpdateTester(Tester tester);
+
+        /// <summary>
+        /// Gets the occurrence of
+        /// </summary>
+        /// <param name="id">
+        /// 
+        /// </param>
+        /// <returns>
+        /// 
+        /// </returns>
         Tester GetTester(string id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="predicate">
+        /// 
+        /// </param>
+        /// <returns>
+        /// 
+        /// </returns>
         List<Tester> GetTesters(Predicate<Tester> predicate = null);
+
+
 
         void AddTrainee(Trainee trainee);
         void RemoveTrainee(Trainee trainee);
         void UpdateTrainee(Trainee trainee);
         Trainee GetTrainee(string id);
         List<Trainee> GetTrainees(Predicate<Trainee> predicate = null);
+
+
 
         void AddTest(Test trainee);
         void UpdateTest(Test trainee); //When is Done!!!

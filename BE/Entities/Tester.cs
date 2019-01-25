@@ -11,7 +11,7 @@ namespace BE
     /// <summary>
     /// 
     /// </summary>
-    public class Tester : Person
+    public sealed class Tester : Person
     {
         public uint YearsOfExperience { get; set; }
         public uint MaxOfTestsPerWeek { get; set; }
@@ -19,7 +19,7 @@ namespace BE
         public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
         public uint MaxDistanceFromAddress { get; set; }
         public List<Test> MyTests = new List<Test>();
-        //SortedSet<Test> tests = new SortedSet<Test>(); IMPROVMENT will take less time to search
+        //public SortedList<DateTime, Test> Tests = new SortedList<DateTime, Test>((t1,t2)=>t);// IMPROVMENT will take less time to search
 
         public Tester(string id, Name name,
             DateTime birthdate, Gender gender, string phoneNumber,
@@ -48,6 +48,7 @@ namespace BE
         public override string ToString()
         {
             return base.ToString() + ", tester";
+            //return this.ToStringProperty();
         }
     }
 }
