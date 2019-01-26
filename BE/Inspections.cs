@@ -222,7 +222,7 @@ namespace BE
             if (test.Date == null)
                 throw new ArgumentNullException("The test's date musn't be null", nameof(test.Date));
 
-            if (test.TestDate < DateTime.Now)
+            if (test.Date < DateTime.Now)
                 throw new ArgumentException("The requested time has passed");
 
             // check in  the bl that the date is good for the trainee age

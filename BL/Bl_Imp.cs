@@ -265,7 +265,7 @@ namespace BL
             if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && t.IsDone() == false).Count != 0)
                 throw new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first");
 
-            if (trainee.Vehicle != vehicle)
+            if (trainee.VehicleTypeTraining != vehicle)
                 throw new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive");
 
             if(testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
