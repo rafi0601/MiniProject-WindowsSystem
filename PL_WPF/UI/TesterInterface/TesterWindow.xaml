@@ -64,6 +64,10 @@
             <Setter Property="Margin" Value="3"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+
+        <Style x:Key="DataGridTextColumnHeader_Style" TargetType="{x:Type DataGridRowHeader}">
+            <Setter Property="FontSize" Value="36"/>
+        </Style>
     </Window.Resources>
 
     <Grid x:Name="MainGrid">
@@ -350,7 +354,18 @@
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
-                <DataGrid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="270.4,198.6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+                <DataGrid x:Name="TestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
+                        <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                        <!--<DataGridTextColumn Header="Trainee Last Name" Binding="{Binding Name.lastName}"/>
+                        <DataGridTextColumn Header="Trainee First Name" Binding="{Binding Name.firstName}"/>-->
+                        <DataGridTextColumn Header="Test Date" Binding="{Binding TestDate}"/>
+                        <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
+                        <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Testers">
             </TabItem>
