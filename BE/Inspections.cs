@@ -123,8 +123,10 @@ namespace BE
             #endregion
 
             #region MaxOfTestsPerWeek
-            if (tester.MaxOfTestsPerWeek > 7 * 5)
+            if (tester.MaxOfTestsPerWeek > Configuration.WORKING_DAYS_A_WEEK * Configuration.WORKING_HOURS_A_DAY)
                 throw new ArgumentOutOfRangeException();
+            if (0 == tester.MaxOfTestsPerWeek)
+                throw new CustomException(true, new ArgumentOutOfRangeException());
             #endregion
 
             #region VehicleTypeExpertise
@@ -221,9 +223,9 @@ namespace BE
             #region TestDate
             if (test.Date == null)
                 throw new ArgumentNullException("The test's date musn't be null", nameof(test.Date));
-
-            if (test.Date < DateTime.Now)
-                throw new ArgumentException("The requested time has passed");
+            //BUG
+            //if (test.Date < DateTime.Now)
+            //    throw new ArgumentException("The requested time has passed");
 
             // check in  the bl that the date is good for the trainee age
             #endregion

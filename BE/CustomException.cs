@@ -24,6 +24,8 @@ namespace BE
         //{
         //}
 
+        public override string Message => InnerException.Message;
+
         public override string ToString()
         {
             return base.ToString();

@@ -128,5 +128,10 @@ namespace PL_WPF.UI.TesterInterface
             }
         }
 
+        private void Refrash_Button_Click(object sender, RoutedEventArgs e)
+        {
+            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
+            TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true);
+        }
     }
 }

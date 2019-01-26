@@ -9,6 +9,7 @@ using System.Windows;
 
 namespace BE
 {
+    [Serializable]
     public struct Name // IMPROVEMENT insert into Person
     {
         public string LastName { get; set; }
@@ -25,6 +26,7 @@ namespace BE
     //    public string ID { get; set; }
     //}
 
+    [Serializable]
     public abstract class Person : IKey //: DependencyObject    
     {
         public string Key => ID;

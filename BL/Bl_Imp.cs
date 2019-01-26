@@ -27,17 +27,17 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (ExistingTesterById(tester.ID))
-                throw new ArgumentException("This tester already exists in the database");
+                throw new CustomException(true, new ArgumentException("This tester already exists in the database"));
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
-                throw new ArgumentOutOfRangeException(nameof(Tester.Birthdate.Year), "The tester's age is not appropriate");
+                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate.Year), "The tester's age is not appropriate"));
 
             try
             {
                 dal.AddTester(tester);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -46,15 +46,15 @@ namespace BL
         public void RemoveTester(string idTester)
         {
             if (!ExistingTesterById(idTester))
-                throw new ArgumentException("This tester doesn't exist in the database");
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database"));
 
             try
             {
                 dal.RemoveTester(dal.GetTester(idTester));
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                throw;
             }
         }
 
@@ -63,7 +63,7 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (!ExistingTesterById(tester.ID))
-                throw new ArgumentException("This tester doesn't exist in the database");
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database"));
 
             try
             {
@@ -72,9 +72,9 @@ namespace BL
                 /// this.AddTester
                 dal.UpdateTester(tester);
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                throw;
             }
         }
 
@@ -125,18 +125,18 @@ namespace BL
             Inspections.TraineeInspection(trainee);
 
             if (DateTime.Today - trainee.Birthdate < Configuration.MIN_AGE_OF_TRAINEE)
-                throw new ArgumentOutOfRangeException(nameof(Trainee.Birthdate.Year), "This Trainee's age is not appropriate");
+                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Trainee.Birthdate.Year), "This Trainee's age is not appropriate"));
 
             if (ExistingTraineeById(trainee.ID))
-                throw new ArgumentException("This trainee already exists in the database");
+                throw new CustomException (true, new ArgumentException("This trainee already exists in the database"));
 
             try
             {
                 dal.AddTrainee(trainee);
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                throw;
             }
         }
 
@@ -149,9 +149,9 @@ namespace BL
             {
                 dal.RemoveTrainee(dal.GetTrainee(idTrainee));
             }
-            catch (Exception e)
+            catch
             {
-                throw e;
+                throw;
             }
         }
 
@@ -270,9 +270,9 @@ namespace BL
 
             if(testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
                 throw new ArgumentException("The requested time exceeds the working hours of the testers");
-
-            if (testDate < DateTime.Now)
-                throw new ArgumentException("The requested time has passed");
+            //BUG
+            //if (testDate < DateTime.Now)
+            //    throw new ArgumentException("The requested time has passed");
 
             try
             {
@@ -381,7 +381,7 @@ namespace BL
             DayOfWeek theDayInTheWeek = dateTime.DayOfWeek; //CHECK if dateTime.DayOfWeek is short time
             DateTime theFirstDayInTheWeek = dateTime.Date.AddDays(-1 * (int)theDayInTheWeek);
 
-            #region inner method
+            #region inner iteratror
             IEnumerable<(bool HasAlreadyTest, uint CounterOfTheTestInTheWeek)> WillAvailable(Tester tester)// BUG You can set two tests for the same day of the same hour with the same Tester!!!
             {
                 uint counterOfTheTestInTheWeek = 0;
@@ -430,7 +430,7 @@ namespace BL
         private (DateTime, Tester)? FindingAnAlternativeTest(Vehicle vehicle)
         {
             DateTime dateTime = DateTime.Today.AddDays(1).AddHours(9),
-                aPeriodFromToday = dateTime.AddMonths(3); // IMPROVEMENT convert to config
+                aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
 
             while (dateTime < aPeriodFromToday)
             {
@@ -449,5 +449,12 @@ namespace BL
             return null;
         }
         #endregion
+
+
+        public Tester FindsAnAlternativeTester(Test test)
+        {
+            //dal.GetTesters(test=>)
+            return null;
+        }
     }
 }

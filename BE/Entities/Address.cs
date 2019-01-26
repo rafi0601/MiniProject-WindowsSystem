@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
+    [Serializable]
     public struct Address
     {
         // TODO remove the properties

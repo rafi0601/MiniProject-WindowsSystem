@@ -33,13 +33,13 @@ namespace BE
 
         public static T Copy<T>(this T source)
         {
-            if(!typeof(T).IsSerializable)
+            if (!typeof(T).IsSerializable)
                 throw new CustomException(false, new ArgumentException("The type must be serializable.", "source")); // CHECK nameof(source)
             if (ReferenceEquals(source, null))
                 return default(T);
 
             BinaryFormatter formatter = new BinaryFormatter();
-            using (var stream=new MemoryStream())
+            using (var stream = new MemoryStream())
             {
                 formatter.Serialize(stream, source);
                 stream.Seek(0, SeekOrigin.Begin);

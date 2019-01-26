@@ -19,7 +19,8 @@ namespace BE
         public static readonly uint QUOTA_OF_TESTS_FOR_TESTER_FOR_WEEK = 25;
         public static readonly uint X = 10;
         public static readonly Random rand = new Random();
-        public static readonly uint MIN_CRITERIONS_TO_PASS_TEST = (uint)Math.Round(Test.Criteria.NumberOfCriteria * 0.8); // 80%
+        //public static readonly uint MIN_CRITERIONS_TO_PASS_TEST = (uint)Math.Round(Test.Criteria.NumberOfCriteria * 0.8); // 80%
+        public static readonly uint MIN_CRITERIONS_TO_PASS_TEST = 4; // 80%
         public static readonly uint WORKING_DAYS_A_WEEK = 5;
         public static readonly uint WORKING_HOURS_A_DAY = 7;
         //public static readonly DateTime BEGINNING_OF_A_WORKING_DAY = new DateTime(hour: 9, minute: 0, second: 0);

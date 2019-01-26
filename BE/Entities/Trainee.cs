@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
+    [Serializable]
     public sealed class Trainee : Person
     {
         public Vehicle VehicleTypeTraining { get; set; }

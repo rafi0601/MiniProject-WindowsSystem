@@ -11,6 +11,7 @@ namespace BE
     /// <summary>
     /// 
     /// </summary>
+    [Serializable]
     public sealed class Tester : Person
     {
         public uint YearsOfExperience { get; set; }

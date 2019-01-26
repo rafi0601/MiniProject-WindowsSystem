@@ -9,37 +9,39 @@ using System.Runtime.CompilerServices;
 
 namespace BE
 {
+    [Serializable]
     public sealed class Test : IKey
     {
         string IKey.Key => Code; //TODO public
 
-        public class Criteria
-        {
-            private readonly bool?[] grades = new bool?[NumberOfCriteria];
-
-            private static readonly string[] namesOfCriterial = (from criterionName in Enum.GetNames(typeof(Criterion))
-                                                                 orderby criterionName
-                                                                 select criterionName.SplitByUpperAndToLower()).ToArray();
-            public static readonly uint NumberOfCriteria = (uint)namesOfCriterial.Length;
-            public static string[] NamesOfCriterial() => namesOfCriterial; // NOTE: is by reference or value??? (value is bad)
-
-            // TODO: private or public?
-            Criteria() { }
-            Criteria(Criteria criteria) { }
-
-            public bool? this[Criterion e]
-            {
-                get => grades[(uint)e];
-                set => grades[(uint)e] = value;
-            }
-
-            public uint PassGrades()
-            {
-                return (uint)grades.Count(grade => grade == true);
-            }
-
-
-        }
+        //[Serializable]
+        //public class Criteria
+        //{
+        //    private readonly bool?[] grades = new bool?[NumberOfCriteria];
+        //
+        //    private static readonly string[] namesOfCriterial = (from criterionName in Enum.GetNames(typeof(Criterion))
+        //                                                         orderby criterionName
+        //                                                         select criterionName.SplitByUpperAndToLower()).ToArray();
+        //    public static readonly uint NumberOfCriteria = (uint)namesOfCriterial.Length;
+        //    public static string[] NamesOfCriterial() => namesOfCriterial; // NOTE: is by reference or value??? (value is bad)
+        //
+        //    // TODO: private or public?
+        //    Criteria() { }
+        //    Criteria(Criteria criteria) { }
+        //
+        //    public bool? this[Criterion e]
+        //    {
+        //        get => grades[(uint)e];
+        //        set => grades[(uint)e] = value;
+        //    }
+        //
+        //    public uint PassGrades()
+        //    {
+        //        return (uint)grades.Count(grade => grade == true);
+        //    }
+        //
+        //
+        //}
 
         ///       
         ///   //אין קונסטרקטור כי כמו שיוצרים את התיבות סימון בפוראיצ על כל קריטריון כך עושים סטטר על כל קריטריון ממה שיש בתיבות
@@ -112,6 +114,22 @@ namespace BE
         ///   public bool ObeyParkSigns { get; set; }
         /// 
         ///   */
+
+
+        public class Criteria
+        {
+            public bool KeepDistance { get; set; }
+            public bool BackParking { get; set; }
+            public bool UsingViewMirrors { get; set; }
+            public bool Signaling { get; set; }
+            public bool IntegrationIntoMovement { get; set; }
+            public bool ObeyParkSigns { get; set; }
+
+            public uint PassGrades()
+            {
+                return 3;
+            }
+        }
 
 
         public string Code { get; set; }

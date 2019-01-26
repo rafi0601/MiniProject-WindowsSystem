@@ -138,15 +138,19 @@ namespace PL_WPF.UI.TraineeInterface
             try
             {
                 if (bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.VehicleTypeTraining) == null)
+                {
                     return;
-                dateTimePicker.IsEnabled = false; // TODO change it back
+                }
+                else
+                {
+                    dateTimePicker.IsEnabled = true; // TODO change it back
+                                                     //dateTimePicker.Visibility = Visibility.Collapsed;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             }
-
-
 
         }
     }

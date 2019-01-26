@@ -67,7 +67,10 @@ namespace DAL
 
         public Tester GetTester(string id)
         {
-            return FindingTesterById(id)?.Copy();
+            Tester tester = FindingTesterById(id);
+            return tester != null ? new Tester(tester) : null;
+
+            //return FindingTesterById(id)?.Copy();
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
@@ -125,7 +128,10 @@ namespace DAL
 
         public Trainee GetTrainee(string id)
         {
-            return FindingTraineeById(id)?.Copy();
+            Trainee trainee = FindingTraineeById(id);
+            return trainee != null ? new Trainee(trainee) : null;
+
+            //return FindingTraineeById(id)?.Copy();
         }
 
         public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
@@ -183,7 +189,10 @@ namespace DAL
 
         public Test GetTest(string code)
         {
-            return FindingTestByCode(code)?.Copy();
+            Test test = FindingTestByCode(code);
+            return test != null ? new Test(test) : null;
+
+            //return FindingTestByCode(code)?.Copy();
         }
 
         public List<Test> GetTests(Predicate<Test> match = null)
