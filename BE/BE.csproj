@@ -59,7 +59,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomizedException.cs" />
+    <Compile Include="CustomException.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Enums.cs" />

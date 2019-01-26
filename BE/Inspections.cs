@@ -19,7 +19,7 @@ namespace BE
         public static void IdValidator(string id) //TODO StringBuilder
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new CustomizedException(true, new ArgumentNullException("ID mustn't be null or empty or consists only white spaces"));
+                throw new CustomException(true, new ArgumentNullException("ID mustn't be null or empty or consists only white spaces"));
 
             if (id.Length > 9 || !uint.TryParse(id, out uint temp))
                 throw new ArgumentException("ID is not valid");

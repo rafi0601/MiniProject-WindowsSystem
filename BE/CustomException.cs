@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace BE
 {
     [Serializable]
-    public class CustomizedException : Exception
+    public class CustomException : Exception
     {
         public bool DisplayToUser { get; }
 
-        public CustomizedException(bool displayToUser, /*string message,*/ Exception innerException)
+        public CustomException(bool displayToUser, /*string message,*/ Exception innerException)
             : base(/*message*/null, innerException)
         {
             DisplayToUser = displayToUser;

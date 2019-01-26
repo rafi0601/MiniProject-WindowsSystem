@@ -37,9 +37,9 @@ namespace BL
             {
                 dal.AddTester(tester);
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
 
@@ -83,9 +83,9 @@ namespace BL
             return dal.GetTester(id);
         }
 
-        public List<Tester> GetTesters(Predicate<Tester> predicate = null)
+        public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
-            return dal.GetTesters(predicate);
+            return dal.GetTesters(match);
         }
 
         public List<Tester> TheTestersWhoLiveInTheDistance(Address address)
@@ -176,9 +176,9 @@ namespace BL
             return dal.GetTrainee(id);
         }
 
-        public List<Trainee> GetTrainees(Predicate<Trainee> predicate = null)
+        public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
-            return dal.GetTrainees(predicate);
+            return dal.GetTrainees(match);
         }
 
         public uint NumberOfDoneTests(Trainee trainee)
@@ -191,23 +191,23 @@ namespace BL
 
         public bool HasPassed(Trainee trainee)
         {
-            return dal.GetTests(t => t.IDTrainee == trainee.ID && /*it is improvement because now it's always true*/ trainee.VehicleTypeTraining == trainee.VehicleTypeTraining).First().IsPass ?? throw new Exception(); //BUG if not found thereisnt ispass
+            return dal.GetTests(t => t.IDTrainee == trainee.ID && /*it is improvement because now it's always true*/ trainee.VehicleTypeTraining == trainee.VehicleTypeTraining).First().IsPass ?? throw new Exception("He didn't do any test"); //BUG if not found thereisnt ispass
         }
 
         public List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false)
         {
             List<Trainee> trainees = dal.GetTrainees();
 
-            // if (!toSort)
-            //     return (from trainee in trainees
-            //             group trainee by trainee.DrivingSchool)
-            //             .ToList();
-            //
-            // return (from trainee in trainees
-            //         orderby trainee.TeacherName
-            //         group trainee by trainee.DrivingSchool)
-            //         //into tmp orderby
-            //             .ToList();
+             if (!toSort)
+                 return (from trainee in trainees
+                         group trainee by trainee.DrivingSchool)
+                         .ToList();
+            
+             //return (from trainee in trainees
+             //        orderby trainee.TeacherName
+             //        group trainee by trainee.DrivingSchool
+             //        into tmp orderby tmp.Key)
+             //            .ToList();
 
 
 
@@ -322,9 +322,9 @@ namespace BL
             return dal.GetTest(code);
         }
 
-        public List<Test> GetTests(Predicate<Test> predicate = null)
+        public List<Test> GetTests(Predicate<Test> match = null)
         {
-            return dal.GetTests(predicate);
+            return dal.GetTests(match);
         }
 
         public List<Test> FindAllInTests(Predicate<Test> condition)

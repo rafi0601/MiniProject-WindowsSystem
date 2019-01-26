@@ -68,15 +68,14 @@ namespace DAL
         public Tester GetTester(string id)
         {
             return new Tester(FindingTesterById(id));
-            //TesterList.FirstOrDefault(t => t.ID==id);
         }
 
-        public List<Tester> GetTesters(Predicate<Tester> predicate = null)
+        public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
             //if (predicate == null) return TesterList;
 
             return (from tester in DS_Lists.TesterList
-                    where predicate != null ? predicate(tester) : true
+                    where match != null ? match(tester) : true
                     select new Tester(tester)).ToList();
             //return (predicate == null ? TesterList.Where(t => true) : TesterList.Where(t => predicate(t))).ToList();
         }
@@ -129,10 +128,10 @@ namespace DAL
             return new Trainee(FindingTraineeById(id));
         }
 
-        public List<Trainee> GetTrainees(Predicate<Trainee> predicate = null)
+        public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
             return (from trainee in DS_Lists.TraineeList
-                    where predicate != null ? predicate(trainee) : true
+                    where match != null ? match(trainee) : true
                     select new Trainee(trainee)).ToList();
         }
 
@@ -187,10 +186,10 @@ namespace DAL
             return new Test(FindingTestByCode(code));
         }
 
-        public List<Test> GetTests(Predicate<Test> predicate = null)
+        public List<Test> GetTests(Predicate<Test> match = null)
         {
             return (from test in DS_Lists.TestList
-                    where predicate != null ? predicate(test) : true
+                    where match != null ? match(test) : true
                     select new Test(test)).ToList();
         }
 
@@ -214,7 +213,12 @@ namespace DAL
 
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
+        /// <returns></returns>
         private bool Add<T>(T t) where T : IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
         {
             //CHECK if we use inspec in prop so will check null here
@@ -236,19 +240,19 @@ namespace DAL
                 //case null:
                 //    break;
                 default:
-                    throw new CustomizedException(false, new Exception());
+                    throw new CustomException(false, new Exception());
             }
 
             List<T> lm = l as List<T>;
-            if (lm.Exists(tt => t.Key == t.Key))
+            if (lm.Exists(tt => t.Key == tt.Key))
                 return false;
-            //lm.Add(t.Copy());
+            lm.Add(t.Copy());
             return true;
         }
 
-        private bool ExistingByKey<T>(T t, List<T> l) where T : IKey
+        private bool ExistingByKey<T>(T item, List<T> list) where T : IKey
         {
-            return DS_Lists.TesterList.Exists(tt => t.Key == tt.Key);
+            return list.Exists(t => item?.Key == t?.Key);
         }
 
     }

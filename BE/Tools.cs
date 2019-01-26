@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace BE
 {
@@ -27,6 +29,22 @@ namespace BE
             foreach (PropertyInfo property in t.GetType().GetProperties(BindingFlags.Public))
                 str.Append(property.Name + ": " + property.GetValue(t, null) + "\n"); //BUG if property is indexer
             return str.ToString(); // CHECK if is work
+        }
+
+        public static T Copy<T>(this T source)
+        {
+            if(!typeof(T).IsSerializable)
+                throw new CustomException(false, new ArgumentException("The type must be serializable.", "source")); // CHECK nameof(source)
+            if (ReferenceEquals(source, null))
+                return default(T);
+
+            BinaryFormatter formatter = new BinaryFormatter();
+            using (var stream=new MemoryStream())
+            {
+                formatter.Serialize(stream, source);
+                stream.Seek(0, SeekOrigin.Begin);
+                return (T)formatter.Deserialize(stream);
+            }
         }
     }
 }

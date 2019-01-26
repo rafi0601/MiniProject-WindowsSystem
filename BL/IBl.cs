@@ -15,7 +15,7 @@ namespace BL
         void RemoveTester(string idTester); // TODO match to IDal
         void UpdateTester(Tester tester);
         Tester GetTester(string id);
-        List<Tester> GetTesters(Predicate<Tester> predicate = null);
+        List<Tester> GetTesters(Predicate<Tester> match = null);
         List<Tester> TheTestersWhoLiveInTheDistance(Address address);
         List<Tester> VacantTesters(DateTime dateAndTime);
         List<IGrouping<Vehicle, Tester>> TestersByExpertise(bool toSort = false);
@@ -24,7 +24,7 @@ namespace BL
         void RemoveTrainee(string idTrainee);
         void UpdateTrainee(Trainee trainee);
         Trainee GetTrainee(string id);
-        List<Trainee> GetTrainees(Predicate<Trainee> predicate = null);
+        List<Trainee> GetTrainees(Predicate<Trainee> match = null);
         uint NumberOfDoneTests(Trainee trainee);
         bool HasPassed(Trainee trainee); //IsEntitledToLicense()
         List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false);
@@ -34,7 +34,7 @@ namespace BL
         DateTime? AddTest(Trainee trainee, DateTime TestDate, DateTime length, Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
         void UpdateTest(string code, Test.Criteria criteria, bool IsPass, string TesterNotes);
         Test GetTest(string code);
-        List<Test> GetTests(Predicate<Test> predicate = null);
+        List<Test> GetTests(Predicate<Test> match = null);
         List<Test> FindAllInTests(Predicate<Test> condition); // it is GetTests -> not neccery
         List<Test> SortedFutureTests();
     }
