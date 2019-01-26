@@ -19,7 +19,7 @@ namespace BE
         public static void IdValidator(string id) //TODO StringBuilder
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new ArgumentNullException("ID mustn't be null or empty or consists only white spaces");
+                throw new CustomizedException(true, new ArgumentNullException("ID mustn't be null or empty or consists only white spaces"));
 
             if (id.Length > 9 || !uint.TryParse(id, out uint temp))
                 throw new ArgumentException("ID is not valid");
@@ -135,7 +135,7 @@ namespace BE
                 throw new ArgumentNullException("");
 
             if (tester.WorkingHours.GetLength(0) != Configuration.WORKING_DAYS_A_WEEK
-                || tester.WorkingHours.GetLength(1)!=Configuration.WORKING_HOURS_A_DAY)
+                || tester.WorkingHours.GetLength(1) != Configuration.WORKING_HOURS_A_DAY)
                 throw new Exception();
             #endregion
 
@@ -219,8 +219,8 @@ namespace BE
             #endregion
 
             #region TestDate
-            if (test.TestDate == null)
-                throw new ArgumentNullException("The test's date musn't be null", nameof(test.TestDate));
+            if (test.Date == null)
+                throw new ArgumentNullException("The test's date musn't be null", nameof(test.Date));
 
             if (test.TestDate < DateTime.Now)
                 throw new ArgumentException("The requested time has passed");
@@ -228,11 +228,13 @@ namespace BE
             // check in  the bl that the date is good for the trainee age
             #endregion
 
+            /*
             #region Length
             if (test.Length == null)
                 throw new ArgumentNullException("The test's length musn't be null", nameof(test.Length));
             //?????????????????
             #endregion
+            */
 
             #region DepartureAddress
             try

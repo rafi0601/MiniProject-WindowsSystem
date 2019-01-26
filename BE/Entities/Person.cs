@@ -20,13 +20,15 @@ namespace BE
         }
     }
 
-    public struct Id
-    {
-        public string ID { get; set; }
-    }
+    //public struct Id
+    //{
+    //    public string ID { get; set; }
+    //}
 
-    public abstract class Person //: DependencyObject    //TODO : IEqualityComparer<Person> 
+    public abstract class Person : IKey //: DependencyObject    
     {
+        public string Key => ID;
+
         public string ID { get; /*private*/ set; }
         public Name Name { get; set; } = new Name();
         public DateTime Birthdate { get; /*private*/ set; }
@@ -65,6 +67,7 @@ namespace BE
         public override string ToString()
         {
             return Name.ToString() + ", " + Gender + ", " + AgeInYears;
+            //return this.ToStringProperty();
         }
 
         //      public bool Equals(Person x, Person y)

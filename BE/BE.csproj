@@ -59,18 +59,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Address.cs" />
+    <Compile Include="CustomizedException.cs" />
+    <Compile Include="Entities\Address.cs" />
     <Compile Include="Configuration.cs" />
-    <Compile Include="CustomizedExeption.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="IKey.cs" />
     <Compile Include="Inspections.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Entities\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
-    <Compile Include="Test.cs" />
-    <Compile Include="Tester.cs" />
+    <Compile Include="Entities\Test.cs" />
+    <Compile Include="Entities\Tester.cs" />
     <Compile Include="Tools.cs" />
-    <Compile Include="Trainee.cs" />
+    <Compile Include="Entities\Trainee.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

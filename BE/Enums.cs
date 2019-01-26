@@ -8,13 +8,16 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public enum Gender
     {
         male = 1,
         female
+
+        /// male, female
+        ///     is forbidden because then male=0 (and female=1)
+        /// and 
+        /// female, male 
+        ///     is forbidden because the female before the male
     }
 
 

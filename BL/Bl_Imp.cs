@@ -99,7 +99,7 @@ namespace BL
         public List<Tester> VacantTesters(DateTime dateAndTime)
         {
             return (from tester in dal.GetTesters()
-                    where tester.MyTests.All(test => test.TestDate != dateAndTime) && !tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour - 9] //TODO 9=CONFIG.BEGINNING_OF_DAY
+                    where tester.MyTests.All(test => test.Date != dateAndTime) && !tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour - 9] //TODO 9=CONFIG.BEGINNING_OF_DAY
                     select tester)
                     .ToList();
         }
@@ -191,23 +191,23 @@ namespace BL
 
         public bool HasPassed(Trainee trainee)
         {
-            return dal.GetTests(t => t.IDTrainee == trainee.ID && /*it is improvement because now it's always true*/ trainee.Vehicle == trainee.Vehicle).First().IsPass; //BUG if not found thereisnt ispass
+            return dal.GetTests(t => t.IDTrainee == trainee.ID && /*it is improvement because now it's always true*/ trainee.VehicleTypeTraining == trainee.VehicleTypeTraining).First().IsPass ?? throw new Exception(); //BUG if not found thereisnt ispass
         }
 
         public List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false)
         {
             List<Trainee> trainees = dal.GetTrainees();
 
-           // if (!toSort)
-           //     return (from trainee in trainees
-           //             group trainee by trainee.DrivingSchool)
-           //             .ToList();
-           //
-           // return (from trainee in trainees
-           //         orderby trainee.TeacherName
-           //         group trainee by trainee.DrivingSchool)
-           //         //into tmp orderby
-           //             .ToList();
+            // if (!toSort)
+            //     return (from trainee in trainees
+            //             group trainee by trainee.DrivingSchool)
+            //             .ToList();
+            //
+            // return (from trainee in trainees
+            //         orderby trainee.TeacherName
+            //         group trainee by trainee.DrivingSchool)
+            //         //into tmp orderby
+            //             .ToList();
 
 
 
@@ -249,14 +249,14 @@ namespace BL
         { // return bool is success, and get out HATZAA
             if (!ExistingTraineeById(trainee.ID))
                 throw new ArgumentException("This Trainee doesn't exist in the database");
-            
+
             if (DateTime.Now - trainee.TheLastTest < Configuration.TIME_RANGE_BETWEEN_TESTS)
                 throw new ArgumentException("It is illegal to access to test less than 7 days after the last one");
 
             if (trainee.NumberOfDoneLessons < Configuration.MIN_LESSONS)
                 throw new ArgumentException("It is illegal to access to test if you did less than " + Configuration.MIN_LESSONS + " lessons");
 
-            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.TestDate == testDate).Count != 0)
+            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Date == testDate).Count != 0)
                 throw new ArgumentException("It is illegal to set for a trainee two tests at the same time");
 
             if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && t.IsPass == true).Count != 0)
@@ -279,7 +279,7 @@ namespace BL
                 Tester tester = FindingAvailableTester(testDate, vehicle);
                 if (tester != null)
                 {
-                    dal.AddTest(new Test(tester.ID, trainee.ID, testDate, length, departureAddress, vehicle));
+                    dal.AddTest(new Test(tester.ID, trainee.ID, testDate, /*length,*/ departureAddress, vehicle));
                     return null;
                 }
 
@@ -345,7 +345,7 @@ namespace BL
         {
             return (from test in dal.GetTests()
                     where !test.IsDone()
-                    orderby test.TestDate
+                    orderby test.Date
                     select test)
                         .ToList();
         }
@@ -388,9 +388,9 @@ namespace BL
                 foreach (Test test in tester.MyTests)
                 {
                     //if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(test.TestDate))) //if (IsDateAreInTheSameWeek(test.TestDate))
-                    if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)test.TestDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (theFirstDayInTheWeek == test.Date.Date.AddDays(-1 * (int)test.Date.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
-                    yield return (test.TestDate == dateTime, counterOfTheTestInTheWeek);
+                    yield return (test.Date == dateTime, counterOfTheTestInTheWeek);
                 }
             }
             #endregion

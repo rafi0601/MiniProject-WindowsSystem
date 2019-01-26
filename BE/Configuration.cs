@@ -10,7 +10,7 @@ namespace BE
 {
     public static class Configuration
     {
-        public static readonly TimeSpan Length_OF_TEST = new TimeSpan(1, 0, 0);
+        public static readonly TimeSpan LENGTH_OF_TEST = new TimeSpan(1, 0, 0);
         public static readonly uint MIN_LESSONS = 20;
         public static readonly TimeSpan MAX_AGE_OF_TESTER = new TimeSpan(365 * 90, 0, 0, 0); // TODO: search for better
         public static readonly TimeSpan MIN_AGE_OF_TRAINEE = new TimeSpan(365 * 18, 0, 0, 0);

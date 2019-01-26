@@ -19,7 +19,7 @@ namespace ConsoleApp1
             try
             {
 
-                
+
 
                 bl.AddTester(new Tester("323947747", new Name { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "Hganenet", HouseNumber = 5, City = "Jerusalem" }, 10, 30, Vehicle.tractor, new bool[,] { { true, false, false, false, false, false, true, false }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false } }, 20));
                 bl.AddTester(new Tester("322680083", new Name { FirstName = "Refael", LastName = "Goldis" }, new DateTime(1949, 5, 12), Gender.male, "0556824870", new Address { Street = "Gordon", HouseNumber = 22, City = "Tel-Aviv" }, 6, 16, Vehicle.heavyTruck, new bool[,] { { true, true, false, true, false, false, false, true }, { true, false, false, true, false, true, false, false }, { true, false, false, false, false, false, false, true }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false } }, 16));
@@ -45,7 +45,7 @@ namespace ConsoleApp1
                 Console.WriteLine(bl.NumberOfDoneTests(bl.GetTrainee("212384507")));
                 Console.WriteLine("--------------------------------------------------");
 
-                foreach (var test in bl.FindAllInTests(t => t.IsPass))
+                foreach (var test in bl.FindAllInTests(t => t.IsPass ?? false))
                 {
                     Console.WriteLine(test.ToString());
                 }

@@ -8,7 +8,7 @@ namespace BE
 {
     public class Singleton<Interface, Implementaion> where Implementaion : Interface, new() // CHECK where Interface:interface
     {
-        protected static Interface instance = default(Interface);
+        protected static Interface instance = default;
 
 
         protected Singleton() { }

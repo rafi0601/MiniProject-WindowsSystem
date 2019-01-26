@@ -9,8 +9,10 @@ using System.Runtime.CompilerServices;
 
 namespace BE
 {
-    public class Test
+    public sealed class Test : IKey
     {
+        string IKey.Key => Code; //TODO public
+
         public class Criteria
         {
             private readonly bool?[] grades = new bool?[NumberOfCriteria];
@@ -100,59 +102,65 @@ namespace BE
         /// 
         /// 
         ///   }
+        ///   
+        /// 
+        ///   public bool KeepDistance { get; set; }
+        ///   public bool BackParking { get; set; }
+        ///   public bool UsingViewMirrors { get; set; }
+        ///   public bool Signaling { get; set; }
+        ///   public bool IntegrationIntoMovement { get; set; }
+        ///   public bool ObeyParkSigns { get; set; }
+        /// 
         ///   */
 
 
         public string Code { get; set; }
         public string IDTester { get; }
         public string IDTrainee { get; }
-        public DateTime TestDate { get; set; }
-        public DateTime Length { get; set; } //CHECK: what is this
+        public DateTime Date { get; set; }
+        //public DateTime Length { get; set; } //CHECK: what is this
         public Address DepartureAddress { get; set; }
         public Vehicle Vehicle { get; }
 
-        public Criteria CriteriasGrades { get; set; }
-        //   public bool KeepDistance { get; set; }
-        //   public bool BackParking { get; set; }
-        //   public bool UsingViewMirrors { get; set; }
-        //   public bool Signaling { get; set; }
-        //   public bool IntegrationIntoMovement { get; set; }
-        //   public bool ObeyParkSigns { get; set; }
+        public Criteria CriteriasGrades { get; set; }//=new Criteria()
 
-        public bool IsPass { get; set; }
+        public bool? IsPass { get; set; }
         public string TesterNotes { get; set; }
 
-        public bool IsDone() => DateTime.Now > TestDate.AddHours(1); // TODO: TestDate+Length; is better to change after updating 
+        public bool IsDone() => DateTime.Now > Date + Configuration.LENGTH_OF_TEST; // IMPROVEMENT is better to change after updating 
 
-        public Test(string idTester, string idTrainee, DateTime testDate,
-            DateTime length, Address departureAddress, Vehicle vehicle)
+        public Test(string idTester, string idTrainee, DateTime date,
+            /*DateTime length,*/ Address departureAddress, Vehicle vehicle)
         {
             IDTester = idTester;
             IDTrainee = idTrainee;
-            TestDate = testDate;
-            Length = length;
+            Date = date;
+            //Length = length;
             DepartureAddress = departureAddress;
             Vehicle = vehicle;
         }
 
-        private Test(string code, string idTester, string idTrainee, DateTime testDate,
-            DateTime length, Address departureAddress, Vehicle vehicle, Criteria criteria, bool isPass, string testerNotes)
-            :this(idTester,idTrainee,testDate,length,departureAddress,vehicle)
+        private Test(string code, string idTester, string idTrainee, DateTime date,
+            /*DateTime length,*/ Address departureAddress, Vehicle vehicle,
+            Criteria criteriasGrades, bool? isPass, string testerNotes)
+            : this(idTester, idTrainee, date,/*length,*/departureAddress, vehicle)
         {
             Code = code;
-            CriteriasGrades = criteria;
+            CriteriasGrades = criteriasGrades;
             IsPass = isPass;
             TesterNotes = testerNotes;
         }
 
         public Test(Test test)
-            : this(test.Code, test.IDTester, test.IDTrainee, test.TestDate, test.Length, test.DepartureAddress, test.Vehicle,
+            : this(test.Code, test.IDTester, test.IDTrainee, test.Date,
+                  /*test.Length,*/ test.DepartureAddress, test.Vehicle,
                   test.CriteriasGrades, test.IsPass, test.TesterNotes)
         { }
 
         public override string ToString()
         {
             return "Test " + Code;
+            //return this.ToStringProperty();
         }
     }
 }
