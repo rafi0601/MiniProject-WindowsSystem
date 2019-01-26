@@ -262,11 +262,17 @@ namespace BL
             if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && t.IsPass == true).Count != 0)
                 throw new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more");
 
-            if (trainee.VehicleTypeTraining != vehicle)
+            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == vehicle && t.IsDone() == false).Count != 0)
+                throw new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first");
+
+            if (trainee.Vehicle != vehicle)
                 throw new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive");
 
+            if(testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
+                throw new ArgumentException("The requested time exceeds the working hours of the testers");
 
-
+            if (testDate < DateTime.Now)
+                throw new ArgumentException("The requested time has passed");
 
             try
             {
@@ -376,7 +382,7 @@ namespace BL
             DateTime theFirstDayInTheWeek = dateTime.Date.AddDays(-1 * (int)theDayInTheWeek);
 
             #region inner method
-            IEnumerable<(bool HasAlreadyTest, uint CounterOfTheTestInTheWeek)> WillAvailable(Tester tester)
+            IEnumerable<(bool HasAlreadyTest, uint CounterOfTheTestInTheWeek)> WillAvailable(Tester tester)// BUG You can set two tests for the same day of the same hour with the same Tester!!!
             {
                 uint counterOfTheTestInTheWeek = 0;
                 foreach (Test test in tester.MyTests)
