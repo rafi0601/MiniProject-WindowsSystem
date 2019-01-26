@@ -78,7 +78,9 @@ namespace PL_WPF.UI.TesterInterface
             CheckBox46.IsChecked = tester.WorkingHours[4, 5];
             CheckBox47.IsChecked = tester.WorkingHours[4, 6];
 
-            TestsDataGrid.ItemsSource = bl.GetTests(t=>t.IDTester == tester.ID);
+            FutureTestsDataGrid.ItemsSource = bl.GetTests(t=>t.IDTester == tester.ID && t.IsDone() == false);
+            TestsDataGrid.ItemsSource = bl.GetTests(t=>t.IDTester == tester.ID && t.IsDone() == true);
+            //TestsDataGrid.ItemsSource = tester.MyTests;
         }
 
         private void UpdateButtonClick(object sender, RoutedEventArgs e)

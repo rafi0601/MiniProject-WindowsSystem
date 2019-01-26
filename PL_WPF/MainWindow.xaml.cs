@@ -43,8 +43,8 @@ namespace PL_WPF
                 Trainee trainee2 = new Trainee("323947739", new Name { FirstName = "Asaf", LastName = "Levi" }, new DateTime(1948, 10, 6), Gender.female, "0541234567", new Address { Street = "Hatmarim", HouseNumber = 17, City = "Eilat" }, Vehicle.privateCar, Gearbox.manual, "TheBest", new Name { FirstName = "Shmuel", LastName = "Garber" }, 34);
                 bl.AddTrainee(trainee1);
                 bl.AddTrainee(trainee2);
-                bl.AddTest(trainee1, new DateTime(2019, 1, 27, 10, 0, 0), new DateTime(), trainee1.Address, trainee1.Vehicle);
-                bl.AddTest(trainee2, new DateTime(2019, 1, 27, 11, 0, 0), new DateTime(), trainee2.Address, trainee2.Vehicle);
+                bl.AddTest(trainee1, new DateTime(2019, 1, 27, 10, 0, 0), new DateTime(), trainee1.Address, trainee1.VehicleTypeTraining);
+                bl.AddTest(trainee2, new DateTime(2019, 1, 27, 11, 0, 0), new DateTime(), trainee2.Address, trainee2.VehicleTypeTraining);
                 new UI.TesterInterface.TesterWindow(bl.GetTester("323947747")).Show();
                 new UI.TesterInterface.TesterWindow(bl.GetTester("322680083")).Show();
                 Close();

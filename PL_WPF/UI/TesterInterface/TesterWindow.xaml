@@ -354,18 +354,34 @@
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
-                <DataGrid x:Name="TestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
-                        <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
-                        <!--<DataGridTextColumn Header="Trainee Last Name" Binding="{Binding Name.lastName}"/>
+                <WrapPanel Orientation="Vertical">
+                    <Label Content="Future tests" FontSize="35" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                    <DataGrid x:Name="FutureTestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
+                            <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                            <!--<DataGridTextColumn Header="Trainee Last Name" Binding="{Binding Name.lastName}"/>
                         <DataGridTextColumn Header="Trainee First Name" Binding="{Binding Name.firstName}"/>-->
-                        <DataGridTextColumn Header="Test Date" Binding="{Binding TestDate}"/>
-                        <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
-                        <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
-                    </DataGrid.Columns>
+                            <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
+                            <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Label Content="Tests that are waiting for a grade"  FontSize="35" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" Foreground="Red"/>
+                    <DataGrid x:Name="TestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
+                            <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                            <!--<DataGridTextColumn Header="Trainee Last Name" Binding="{Binding Name.lastName}"/>
+                        <DataGridTextColumn Header="Trainee First Name" Binding="{Binding Name.firstName}"/>-->
+                            <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
+                            <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
+                            <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                     
-                </DataGrid>
+                </WrapPanel>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Testers">
             </TabItem>
