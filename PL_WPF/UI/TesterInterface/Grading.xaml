@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="PL_WPF.UI.TesterInterface.Grading"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PL_WPF.UI.TesterInterface"
+             mc:Ignorable="d" >
+    <ListBox SelectionChanged="ListBox_SelectionChanged">
+        <CheckBox x:Name="KeepDistance" Content="Keep Distance" FontSize="20" IsThreeState="True"/>
+        <CheckBox x:Name="BackParking" Content="Back Parking" FontSize="20" IsThreeState="True"/>
+        <CheckBox x:Name="UsingViewMirrors" Content="Using View Mirrors" FontSize="20" IsThreeState="True"/>
+        <CheckBox x:Name="Signaling" Content="Signaling" FontSize="20" IsThreeState="True"/>
+        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement" FontSize="20" IsThreeState="True"/>
+        <CheckBox x:Name="ObeyParkSigns" Content="Obey Park Signs" FontSize="20" IsThreeState="True"/>
+        <TextBox  x:Name="Note" FontSize="20"/>
+        <CheckBox x:Name="IsPass" Content="Is Pass" FontSize="20"/>
+        <Button x:Name="sendButton" Content="Send" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Send_Button_Click"/>
+    </ListBox>
+
+</UserControl>

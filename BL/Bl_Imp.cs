@@ -27,11 +27,11 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester already exists in the database"));
+                throw new CustomException(true, new ArgumentException("This tester already exists in the database", nameof(tester)));
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
-                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate.Year), "The tester's age is not appropriate"));
+                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
 
             try
             {
@@ -45,8 +45,13 @@ namespace BL
 
         public void RemoveTester(string idTester)
         {
-            if (!ExistingTesterById(idTester))
+            Tester tester = dal.GetTester(idTester);
+
+            if (tester is null)
                 throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database"));
+
+            if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
+                throw new CustomException(true, new Exception("This tester have future tests."));
 
             try
             {
@@ -99,7 +104,7 @@ namespace BL
         public List<Tester> VacantTesters(DateTime dateAndTime) //BUG inputcheck
         {
             return (from tester in dal.GetTesters()
-                    where tester.MyTests.All(test => test.Date != dateAndTime) && !tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour - 9] //TODO 9=CONFIG.BEGINNING_OF_DAY
+                    where tester.MyTests.All(test => test.Date != dateAndTime) && tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour - 9] //TODO 9=CONFIG.BEGINNING_OF_DAY
                     select tester)
                     .ToList();
         }
@@ -276,7 +281,7 @@ namespace BL
 
             try
             {
-                Tester tester = VacantTesters(testDate).Where(t => t.VehicleTypeExpertise == vehicle).FirstOrDefault();
+                Tester tester = VacantTesters(testDate).Where(t => t.VehicleTypeExpertise == vehicle).FirstOrDefault(); //IMPROVEMENT rand index
 
                 if (tester != default)
                 {
@@ -284,8 +289,12 @@ namespace BL
                     return null;
                 }
 
-                //BUG return FindingAnAlternativeTest(vehicle).Value.Item1; 
-                return new DateTime(2019, 1, 28, 10, 0, 0);
+                //foreach (var alternativeDate in FindingAnAlternativeDateForTest(testDate, vehicle))
+                //{
+                //
+                //}
+                return FindingAnAlternativeDateForTest(testDate, vehicle).Value.Item1;
+                //return new DateTime(2019, 1, 28, 10, 0, 0);
             }
             catch (Exception e)
             {
@@ -302,7 +311,7 @@ namespace BL
             Test theTest = dal.GetTest(code);
             if (theTest == null)
                 throw new ArgumentException("This test doesn't exist in the database");
-            if (theTest.IsDone()) // BUG ISDONE=true immediately when the test over!
+            if (theTest.IsPass != null)
                 throw new Exception("Cannot update updated test");
 
             if (isPass && !HasPassed(criteria))
@@ -428,18 +437,20 @@ namespace BL
         }
 
 
-        private (DateTime, Tester)? FindingAnAlternativeTest(Vehicle vehicle)
+        //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
+        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicleTypeLearning)
         {
-            DateTime dateTime = DateTime.Today.AddDays(1).AddHours(9),
+            DateTime dateTime = startDate.AddDays(1).AddHours(9),
                 aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
 
             while (dateTime < aPeriodFromToday)
             {
                 for (int i = 0; i < Configuration.WORKING_HOURS_A_DAY; i++)
                 {
-                    Tester tester = FindingAvailableTester(dateTime, vehicle);
-                    if (tester != null)
-                        return (dateTime, tester);
+                    Tester vacantTester = VacantTesters(dateTime).Where(t => t.VehicleTypeExpertise == vehicleTypeLearning).FirstOrDefault();
+                    if (vacantTester != default)
+                        /*yield*/
+                        return (dateTime, vacantTester);
                     dateTime.AddHours(1);
                 }
 

@@ -133,6 +133,18 @@ namespace BE
             {
                 return (uint)GetType().GetProperties().Count(property => (bool?)property.GetValue(this) ?? false);
             }
+
+            public Criteria(){}
+
+            public Criteria(bool? keepDistance, bool? backParking, bool? usingViewMirrors, bool? signaling, bool? integrationIntoMovement, bool? obeyParkSigns)
+            {
+                KeepDistance = keepDistance;
+                BackParking = backParking;
+                UsingViewMirrors = usingViewMirrors;
+                Signaling = signaling;
+                IntegrationIntoMovement = integrationIntoMovement;
+                ObeyParkSigns = obeyParkSigns;
+            }
         }
 
         public struct TestDate

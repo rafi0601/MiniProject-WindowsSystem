@@ -354,39 +354,46 @@
             </TabItem>
 
             <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
-                <WrapPanel Orientation="Vertical">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                        
+                    <WrapPanel Orientation="Vertical" Grid.Column="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Label Content="Future tests" FontSize="35" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        <Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="1" Width="100" HorizontalAlignment="Right"/>
-                    </Grid>
-                    <DataGrid x:Name="FutureTestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
-                            <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
-                            <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
-                            <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
-                            <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                            <Label Content="Future tests" FontSize="35" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
+                            <Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="1" Width="100" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <DataGrid x:Name="FutureTestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
+                                <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                                <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
+                                <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
+                                <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                    <Label Content="Tests that are waiting for a grade"  FontSize="35" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" />
-                    <DataGrid x:Name="TestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
-                            <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
-                            <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
-                            <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
-                            <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
-                            <DataGridTextColumn Header="Criteria" Binding="{Binding CriteriaGrades}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                        <Label Content="Tests that are waiting for a grade"  FontSize="35" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" />
+                        <DataGrid x:Name="TestsDataGrid" Grid.Column="1" SelectionChanged="TestsDataGrid_SelectionChanged" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
+                                <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                                <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
+                                <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
+                                <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </WrapPanel>
 
-                </WrapPanel>
+                    <local:Grading x:Name="GradingTest" Grid.Column="1" IsEnabled="False" SendClick="GradingTest_SendClick" />
+                </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Grade entry">
                 <WrapPanel Orientation="Vertical">
@@ -397,12 +404,11 @@
                             <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
                             <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
                             <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
-                            <DataGridTextColumn Header="Criteria" Binding="{Binding CriteriaGrades}" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    
+
                     <Label Height="25"/>
-                    
+
                     <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <CheckBox Content="Keep Distance   " FontSize="20"/>
                         <CheckBox Content="Back Parking   " FontSize="20"/>

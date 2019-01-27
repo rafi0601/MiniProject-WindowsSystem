@@ -3,6 +3,7 @@
 using BE;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,8 +79,8 @@ namespace PL_WPF.UI.TesterInterface
             CheckBox46.IsChecked = tester.WorkingHours[0, 5];
             CheckBox47.IsChecked = tester.WorkingHours[0, 6];
 
-            FutureTestsDataGrid.ItemsSource = bl.GetTests(t=>t.IDTester == tester.ID && t.IsDone() == false);
-            TestsDataGrid.ItemsSource = bl.GetTests(t=>t.IDTester == tester.ID && t.IsDone() == true);
+            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
+            TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true);
             //TestsDataGrid.ItemsSource = tester.MyTests;
         }
 
@@ -133,5 +134,26 @@ namespace PL_WPF.UI.TesterInterface
             FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
             TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true);
         }
-    }
-}
+
+        private void TestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GradingTest.IsEnabled = true;
+           // MessageBox.Show(v.Code.ToString(), "RRRRRRRRRAVVVVVVVVVVV", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+        }
+
+        private void GradingTest_SendClick(object sender, EventArgs e)
+        {
+            var test = TestsDataGrid.SelectedItem as Test;
+            bl.UpdateTest(test.Code, new Test.Criteria(GradingTest.KeepDistance.IsChecked, GradingTest.BackParking.IsChecked, GradingTest.UsingViewMirrors.IsChecked, GradingTest.Signaling.IsChecked, GradingTest.IntegrationIntoMovement.IsChecked, GradingTest.ObeyParkSigns.IsChecked), (bool)GradingTest.IsPass.IsChecked, GradingTest.Note.Text);
+            GradingTest.KeepDistance.IsChecked = null;
+            GradingTest.ObeyParkSigns.IsChecked = null;
+            GradingTest.IntegrationIntoMovement.IsChecked = null;
+            GradingTest.Signaling.IsChecked = null;
+            GradingTest.IsEnabled = false;
+        }
+    }                   
+}                       
+                        
+                        
+                        
+                        

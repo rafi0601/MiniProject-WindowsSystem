@@ -111,6 +111,9 @@
     <Compile Include="UI\AdminInterface\AdminWindow.xaml.cs">
       <DependentUpon>AdminWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TesterInterface\Grading.xaml.cs">
+      <DependentUpon>Grading.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TesterInterface\TesterRegisteraionWindow.xaml.cs">
       <DependentUpon>TesterRegisteraionWindow.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\AdminInterface\AdminWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TesterInterface\Grading.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
