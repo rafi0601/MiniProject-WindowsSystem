@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace PL_WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    [DebuggerDisplay("The main window")]
     public partial class MainWindow : Window
     {
         private BL.IBL bl = BL.Singleton.Instance;

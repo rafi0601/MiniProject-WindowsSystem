@@ -175,11 +175,13 @@ namespace BE
             #endregion
 
             #region NumberOfDoneLessons
+
             #endregion
 
             #region TheLastTest
             if (trainee.TheLastTest > DateTime.Now)
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("");
+
             #endregion
         }
 

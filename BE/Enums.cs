@@ -22,15 +22,15 @@ namespace BE
         /// And when it's like that male=1 and female=2
     }
 
-
+    [Flags]
     public enum Vehicle
     {
-        privateCar,
-        twoWheeledVehicle,
-        mediumTruck,
-        heavyTruck,
-        publicVehicle,
-        tractor
+        privateCar = 0b1,
+        twoWheeledVehicle = 0b10,
+        mediumTruck = 0b100,
+        heavyTruck = 0b1_000,
+        publicVehicle = 0b10_000,
+        tractor = 0b100_000
     }
 
     public enum Gearbox
@@ -40,15 +40,15 @@ namespace BE
     }
 
 
-    public enum Criterion : uint
-    {
-        KeepDistance,
-        BackParking,
-        UsingViewMirrors,
-        Signaling,
-        IntegrationIntoMovement,
-        ObeyParkSigns,
-    }
+    //public enum Criterion : uint
+    //{
+    //    KeepDistance,
+    //    BackParking,
+    //    UsingViewMirrors,
+    //    Signaling,
+    //    IntegrationIntoMovement,
+    //    ObeyParkSigns,
+    //}
 
     //public enum Grade : short
     //{

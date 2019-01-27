@@ -26,7 +26,7 @@ namespace BL
         Trainee GetTrainee(string id);
         List<Trainee> GetTrainees(Predicate<Trainee> match = null);
         uint NumberOfDoneTests(Trainee trainee);
-        bool HasPassed(Trainee trainee); //IsEntitledToLicense()
+        bool IsEntitledToLicense(Trainee trainee);
         List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false);
         List<IGrouping<Name, Trainee>> TraineesByTeacher(bool toSort = false);
         List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);

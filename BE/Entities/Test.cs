@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
 
 namespace BE
 {
     [Serializable]
+    [DebuggerDisplay("Code: {Code}; tester's ID: {IdTester}, trainee's ID: {IdTrainee}")]
     public sealed class Test : IKey
     {
         string IKey.Key => Code; //TODO public
@@ -118,16 +120,34 @@ namespace BE
 
         public class Criteria
         {
-            public bool KeepDistance { get; set; }
-            public bool BackParking { get; set; }
-            public bool UsingViewMirrors { get; set; }
-            public bool Signaling { get; set; }
-            public bool IntegrationIntoMovement { get; set; }
-            public bool ObeyParkSigns { get; set; }
+            public bool? KeepDistance { get; set; }
+            public bool? BackParking { get; set; }
+            public bool? UsingViewMirrors { get; set; }
+            public bool? Signaling { get; set; }
+            public bool? IntegrationIntoMovement { get; set; }
+            public bool? ObeyParkSigns { get; set; }
+
+            public static readonly uint NumberOfCriteria = (uint)new Criteria().GetType().GetProperties().Length;
 
             public uint PassGrades()
             {
-                return 3;
+                return (uint)GetType().GetProperties().Count(property => (bool?)property.GetValue(this) ?? false);
+            }
+        }
+
+        public struct TestDate
+        {
+            DateTime dateAndTime;
+
+            //public static TestDate operator =(TestDate testDate, DateTime dateTime)
+            //{
+            //    testDate.dateAndTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, 0, 0);
+            //    return testDate;
+            //}
+
+            public static implicit operator DateTime(TestDate testDate)
+            {
+                return testDate.dateAndTime;
             }
         }
 

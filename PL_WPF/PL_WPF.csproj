@@ -117,6 +117,12 @@
     <Compile Include="UI\TesterInterface\TesterWindow.xaml.cs">
       <DependentUpon>TesterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TraineeInterface\DetailsAboutMyTest.xaml.cs">
+      <DependentUpon>DetailsAboutMyTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\TraineeInterface\SuggestAlternateDate.xaml.cs">
+      <DependentUpon>SuggestAlternateDate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TraineeInterface\TraineeRegisteraionWindow.xaml.cs">
       <DependentUpon>TraineeRegisteraionWindow.xaml</DependentUpon>
     </Compile>
@@ -161,6 +167,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\TesterInterface\TesterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TraineeInterface\DetailsAboutMyTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TraineeInterface\SuggestAlternateDate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

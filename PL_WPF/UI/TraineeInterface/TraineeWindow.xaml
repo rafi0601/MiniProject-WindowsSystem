@@ -10,7 +10,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:PL_WPF="clr-namespace:PL_WPF" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
         mc:Ignorable="d"
-        Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="850" Height="660" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
+        Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="660" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
     <!--Description=interface of trainee-->
     <Window.Resources>
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
@@ -304,16 +304,17 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Gearbox:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <ComboBox x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1"  SelectedItem ="{Binding Gearbox}" Margin="3" />
+                            <ComboBox x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1"  SelectedItem ="{Binding GearboxTypeTraining}" Margin="3" />
                         </Grid>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="195*"/>
+                                <ColumnDefinition Width="53*"/>
+                                <ColumnDefinition Width="142*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Content="        Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <ComboBox x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Vehicle}" Margin="3" />
+                            <Label Content="        Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,3" VerticalAlignment="Center" FontSize="18"/>
+                            <ComboBox x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeTraining}" Margin="2.8,3,3.4,3" Grid.ColumnSpan="2" />
                         </Grid>
 
                         <Grid>
@@ -368,11 +369,12 @@
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test" >
                 <WrapPanel Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
-                    <Label FontSize="25">Choose a date that's convenient for you</Label>
-                    <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged"/>
+                    <Label x:Name="ChooseLabel" FontSize="25" Margin="160,0,0,0">Choose a date that's convenient for you</Label>
+                    <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
                     <Label Height="15"/>
-                    <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" IsEnabled="False" Click="CheckDateButton_Click"/>
-
+                    <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click"/>
+                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed"/>
+                    <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
                     <!--<WindowsFormHost/>-->
                     <!--<xctk:DateTimePicker x:Name="addTestDateTimePicker" TimePickerAllowSpin="False" TimePickerShowButtonSpinner="False" AutoCloseCalendar="False" ValueChanged="DateTimePicker_ValueChanged" ShowButtonSpinner="False"  IsOpen="True" AllowTextInput="False" Height="103" Width="730"/>-->
                 </WrapPanel>

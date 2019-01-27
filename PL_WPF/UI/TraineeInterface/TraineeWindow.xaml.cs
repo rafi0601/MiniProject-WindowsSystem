@@ -133,18 +133,29 @@ namespace PL_WPF.UI.TraineeInterface
             CheckDateButton.IsEnabled = true;
         }
 
+        private DateTime? AlternateDate;
+
         private void CheckDateButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                if (bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.VehicleTypeTraining) == null)
+                AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.VehicleTypeTraining);
+                if (AlternateDate == null)
                 {
+                    dateTimePicker.Visibility = Visibility.Collapsed;
+                    CheckDateButton.Visibility = Visibility.Collapsed;
+                    ChooseLabel.Visibility = Visibility.Collapsed;
+                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+                    DetailsOfMyTest.Visibility = Visibility.Visible;
                     return;
                 }
                 else
                 {
-                    dateTimePicker.IsEnabled = true; // TODO change it back
-                                                     //dateTimePicker.Visibility = Visibility.Collapsed;
+                    dateTimePicker.Visibility = Visibility.Collapsed;
+                    CheckDateButton.Visibility = Visibility.Collapsed;
+                    ChooseLabel.Visibility = Visibility.Collapsed;
+                    SuggestAlternateDateOfTest.Date.Text = AlternateDate.ToString();
+                    SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
                 }
             }
             catch (Exception ex)
@@ -152,6 +163,29 @@ namespace PL_WPF.UI.TraineeInterface
                 MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             }
 
+        }
+
+        private void SuggestAlternateDateOfTest_AcceptClick(object sender, EventArgs e)
+        {
+            try
+            {
+                bl.AddTest(trainee, (DateTime)AlternateDate, new DateTime(), trainee.Address, trainee.VehicleTypeTraining);
+                SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+                DetailsOfMyTest.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+            }
+        }
+
+        private void SuggestAlternateDateOfTest_CancelClick(object sender, EventArgs e)
+        {
+            dateTimePicker.Visibility = Visibility.Visible;
+            CheckDateButton.Visibility = Visibility.Visible;
+            ChooseLabel.Visibility = Visibility.Visible;
+            SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
         }
     }
 }
