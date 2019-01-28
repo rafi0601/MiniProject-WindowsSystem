@@ -43,41 +43,41 @@ namespace PL_WPF.UI.TesterInterface
             HouseNumber.Text = tester.Address.HouseNumber.ToString();
             City.Text = tester.Address.City;
 
-            CheckBox01.IsChecked = tester.WorkingHours[4, 0];
-            CheckBox02.IsChecked = tester.WorkingHours[4, 1];
-            CheckBox03.IsChecked = tester.WorkingHours[4, 2];
-            CheckBox04.IsChecked = tester.WorkingHours[4, 3];
-            CheckBox05.IsChecked = tester.WorkingHours[4, 4];
-            CheckBox06.IsChecked = tester.WorkingHours[4, 5];
-            CheckBox07.IsChecked = tester.WorkingHours[4, 6];
-            CheckBox11.IsChecked = tester.WorkingHours[3, 0];
-            CheckBox12.IsChecked = tester.WorkingHours[3, 1];
-            CheckBox13.IsChecked = tester.WorkingHours[3, 2];
-            CheckBox14.IsChecked = tester.WorkingHours[3, 3];
-            CheckBox15.IsChecked = tester.WorkingHours[3, 4];
-            CheckBox16.IsChecked = tester.WorkingHours[3, 5];
-            CheckBox17.IsChecked = tester.WorkingHours[3, 6];
-            CheckBox21.IsChecked = tester.WorkingHours[2, 0];
-            CheckBox22.IsChecked = tester.WorkingHours[2, 1];
-            CheckBox23.IsChecked = tester.WorkingHours[2, 2];
-            CheckBox24.IsChecked = tester.WorkingHours[2, 3];
-            CheckBox25.IsChecked = tester.WorkingHours[2, 4];
-            CheckBox26.IsChecked = tester.WorkingHours[2, 5];
-            CheckBox27.IsChecked = tester.WorkingHours[2, 6];
-            CheckBox31.IsChecked = tester.WorkingHours[1, 0];
-            CheckBox32.IsChecked = tester.WorkingHours[1, 1];
-            CheckBox33.IsChecked = tester.WorkingHours[1, 2];
-            CheckBox34.IsChecked = tester.WorkingHours[1, 3];
-            CheckBox35.IsChecked = tester.WorkingHours[1, 4];
-            CheckBox36.IsChecked = tester.WorkingHours[1, 5];
-            CheckBox37.IsChecked = tester.WorkingHours[1, 6];
-            CheckBox41.IsChecked = tester.WorkingHours[0, 0];
-            CheckBox42.IsChecked = tester.WorkingHours[0, 1];
-            CheckBox43.IsChecked = tester.WorkingHours[0, 2];
-            CheckBox44.IsChecked = tester.WorkingHours[0, 3];
-            CheckBox45.IsChecked = tester.WorkingHours[0, 4];
-            CheckBox46.IsChecked = tester.WorkingHours[0, 5];
-            CheckBox47.IsChecked = tester.WorkingHours[0, 6];
+            CheckBox11.IsChecked = tester.WorkingHours[0, 0];
+            CheckBox12.IsChecked = tester.WorkingHours[1, 0];
+            CheckBox13.IsChecked = tester.WorkingHours[2, 0];
+            CheckBox14.IsChecked = tester.WorkingHours[3, 0];
+            CheckBox15.IsChecked = tester.WorkingHours[4, 0];
+            CheckBox21.IsChecked = tester.WorkingHours[0, 1];
+            CheckBox22.IsChecked = tester.WorkingHours[1, 1];
+            CheckBox23.IsChecked = tester.WorkingHours[2, 1];
+            CheckBox24.IsChecked = tester.WorkingHours[3, 1];
+            CheckBox25.IsChecked = tester.WorkingHours[4, 1];
+            CheckBox31.IsChecked = tester.WorkingHours[0, 2];
+            CheckBox32.IsChecked = tester.WorkingHours[1, 2];
+            CheckBox33.IsChecked = tester.WorkingHours[2, 2];
+            CheckBox34.IsChecked = tester.WorkingHours[3, 2];
+            CheckBox35.IsChecked = tester.WorkingHours[4, 2];
+            CheckBox41.IsChecked = tester.WorkingHours[0, 3];
+            CheckBox42.IsChecked = tester.WorkingHours[1, 3];
+            CheckBox43.IsChecked = tester.WorkingHours[2, 3];
+            CheckBox44.IsChecked = tester.WorkingHours[3, 3];
+            CheckBox45.IsChecked = tester.WorkingHours[4, 3];
+            CheckBox51.IsChecked = tester.WorkingHours[0, 4];
+            CheckBox52.IsChecked = tester.WorkingHours[1, 4];
+            CheckBox53.IsChecked = tester.WorkingHours[2, 4];
+            CheckBox54.IsChecked = tester.WorkingHours[3, 4];
+            CheckBox55.IsChecked = tester.WorkingHours[4, 4];
+            CheckBox61.IsChecked = tester.WorkingHours[0, 5];
+            CheckBox62.IsChecked = tester.WorkingHours[1, 5];
+            CheckBox63.IsChecked = tester.WorkingHours[2, 5];
+            CheckBox64.IsChecked = tester.WorkingHours[3, 5];
+            CheckBox65.IsChecked = tester.WorkingHours[4, 5];
+            CheckBox71.IsChecked = tester.WorkingHours[0, 6];
+            CheckBox72.IsChecked = tester.WorkingHours[1, 6];
+            CheckBox73.IsChecked = tester.WorkingHours[2, 6];
+            CheckBox74.IsChecked = tester.WorkingHours[3, 6];
+            CheckBox75.IsChecked = tester.WorkingHours[4, 6];
 
             FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
             TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true);
@@ -91,11 +91,11 @@ namespace PL_WPF.UI.TesterInterface
                 tester.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
                 bool[,] workingHours = {
-                    { (bool)CheckBox41.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox46.IsChecked, (bool)CheckBox47.IsChecked },
-                    { (bool)CheckBox31.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox36.IsChecked, (bool)CheckBox37.IsChecked },
-                    { (bool)CheckBox21.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox26.IsChecked, (bool)CheckBox27.IsChecked },
-                    { (bool)CheckBox11.IsChecked, (bool)CheckBox12.IsChecked, (bool)CheckBox13.IsChecked, (bool)CheckBox14.IsChecked, (bool)CheckBox15.IsChecked, (bool)CheckBox16.IsChecked, (bool)CheckBox17.IsChecked },
-                    { (bool)CheckBox01.IsChecked, (bool)CheckBox02.IsChecked, (bool)CheckBox03.IsChecked, (bool)CheckBox04.IsChecked, (bool)CheckBox05.IsChecked, (bool)CheckBox06.IsChecked, (bool)CheckBox07.IsChecked },
+                    { (bool)CheckBox11.IsChecked, (bool)CheckBox21.IsChecked, (bool)CheckBox31.IsChecked, (bool)CheckBox41.IsChecked, (bool)CheckBox51.IsChecked, (bool)CheckBox61.IsChecked, (bool)CheckBox71.IsChecked },
+                    { (bool)CheckBox12.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox52.IsChecked, (bool)CheckBox62.IsChecked, (bool)CheckBox72.IsChecked},
+                    { (bool)CheckBox13.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox53.IsChecked, (bool)CheckBox63.IsChecked, (bool)CheckBox73.IsChecked},
+                    { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked},
+                    { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked},
                 };
                 tester.WorkingHours = workingHours;
 
