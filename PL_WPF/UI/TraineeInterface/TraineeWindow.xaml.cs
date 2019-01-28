@@ -69,7 +69,7 @@ namespace PL_WPF.UI.TraineeInterface
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -106,7 +106,7 @@ namespace PL_WPF.UI.TraineeInterface
         //            }
         //            catch (Exception ex)
         //            {
-        //                MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+        //                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
         //            }
         //            break;
         //    }
@@ -160,7 +160,7 @@ namespace PL_WPF.UI.TraineeInterface
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             }
 
         }
@@ -176,7 +176,7 @@ namespace PL_WPF.UI.TraineeInterface
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             }
         }
 

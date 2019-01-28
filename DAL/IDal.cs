@@ -75,7 +75,6 @@ namespace DAL
         /// </returns>
         List<Tester> GetTesters(Predicate<Tester> match = null);
 
-
         /// <summary>
         /// Adds a trainee to the database.
         /// </summary>

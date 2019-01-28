@@ -47,6 +47,14 @@ namespace DAL
 
         public void UpdateTester(Tester tester)
         {
+
+
+            Inspections.TesterInspection(tester);
+            int index = DS_Lists.TesterList.FindIndex(t => t.ID == tester.ID);
+            if (-1 == index)
+                throw new ArgumentException("This tester doesn't exist in the database");
+            DS_Lists.TesterList[index] = new Tester(tester);
+            
             //try
             //{
             //    RemoveTester(tester);
@@ -56,13 +64,6 @@ namespace DAL
             //{
             //    throw new ArgumentException("This tester doesn't exist in the database");
             //}
-
-
-            Inspections.TesterInspection(tester);
-            int index = DS_Lists.TesterList.FindIndex(t => t.ID == tester.ID);
-            if (-1 == index)
-                throw new ArgumentException("This tester doesn't exist in the database");
-            DS_Lists.TesterList[index] = new Tester(tester);
         }
 
         public Tester GetTester(string id)
@@ -82,7 +83,6 @@ namespace DAL
                     select new Tester(tester)).ToList();
             //return (predicate == null ? TesterList.Where(t => true) : TesterList.Where(t => predicate(t))).ToList();
         }
-
 
         private Tester FindingTesterById(string id)
         {
@@ -140,7 +140,6 @@ namespace DAL
                     where match != null ? match(trainee) : true
                     select new Trainee(trainee)).ToList();
         }
-
 
         private Trainee FindingTraineeById(string id)
         {
@@ -202,7 +201,6 @@ namespace DAL
                     select new Test(test)).ToList();
         }
 
-
         private Test FindingTestByCode(string code)
         {
             return DS_Lists.TestList.Find(test => test.Code == code);
@@ -214,13 +212,7 @@ namespace DAL
         }
 
         #endregion
-
         private Predicate<Tester> ComperisonOfTestersId(Tester tester) => t => tester?.ID == t?.ID;
-
-
-
-
-
 
         /// <summary>
         /// 

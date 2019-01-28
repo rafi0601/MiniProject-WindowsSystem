@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TesterInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Title="TesterWindow" Height="660" Width="1200">
+        WindowStartupLocation="CenterScreen" Title="TesterWindow" Height="850" Width="1200">
 
     <Window.Resources>
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
@@ -352,8 +352,8 @@
             <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <WrapPanel Orientation="Vertical" Grid.Column="0">

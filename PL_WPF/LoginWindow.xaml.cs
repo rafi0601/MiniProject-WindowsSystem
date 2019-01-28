@@ -22,7 +22,7 @@ namespace PL_WPF
     /// </summary>
     public partial class LoginWindow : Window
     {
-        IUserManager userManager = new UsersManager(new User());
+        IUserManager userManager = Singleton.Instance;
         BL.IBL bl = BL.Singleton.Instance;
 
         public LoginWindow()

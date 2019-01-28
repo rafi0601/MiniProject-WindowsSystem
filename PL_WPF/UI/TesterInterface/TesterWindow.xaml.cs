@@ -30,6 +30,9 @@ namespace PL_WPF.UI.TesterInterface
         {
             InitializeComponent();
 
+            if(tester == null)
+                throw new ArgumentException("Ther is no tester");
+
             bl = BL.Singleton.Instance;
             this.tester = tester;
             DataContext = tester;
@@ -105,7 +108,7 @@ namespace PL_WPF.UI.TesterInterface
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -132,24 +135,41 @@ namespace PL_WPF.UI.TesterInterface
         private void Refrash_Button_Click(object sender, RoutedEventArgs e)
         {
             FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
-            TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true);
+            TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true && t.IsPass == null);
         }
 
         private void TestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GradingTest.IsEnabled = true;
-            // MessageBox.Show(v.Code.ToString(), "RRRRRRRRRAVVVVVVVVVVV", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+            var test = TestsDataGrid.SelectedItem as Test;
+
+            if (test == null)
+                return;
+
+            if (test.IsPass == null)
+            {
+                GradingTest.KeepDistance.IsChecked = false;
+                GradingTest.ObeyParkSigns.IsChecked = false;
+                GradingTest.IntegrationIntoMovement.IsChecked = false;
+                GradingTest.Signaling.IsChecked = false;
+                GradingTest.BackParking.IsChecked = false;
+                GradingTest.UsingViewMirrors.IsChecked = false;
+                GradingTest.IsPass.IsChecked = false;
+                GradingTest.IsEnabled = true;
+            }
         }
 
         private void GradingTest_SendClick(object sender, EventArgs e)
         {
             var test = TestsDataGrid.SelectedItem as Test;
-            bl.UpdateTest(test.Code, new Test.Criteria(GradingTest.KeepDistance.IsChecked, GradingTest.BackParking.IsChecked, GradingTest.UsingViewMirrors.IsChecked, GradingTest.Signaling.IsChecked, GradingTest.IntegrationIntoMovement.IsChecked, GradingTest.ObeyParkSigns.IsChecked), (bool)GradingTest.IsPass.IsChecked, GradingTest.Note.Text);
-            GradingTest.KeepDistance.IsChecked = null;
-            GradingTest.ObeyParkSigns.IsChecked = null;
-            GradingTest.IntegrationIntoMovement.IsChecked = null;
-            GradingTest.Signaling.IsChecked = null;
-            GradingTest.IsEnabled = false;
+            try
+            {
+                bl.UpdateTest(test.Code, new Test.Criteria(GradingTest.KeepDistance.IsChecked, GradingTest.BackParking.IsChecked, GradingTest.UsingViewMirrors.IsChecked, GradingTest.Signaling.IsChecked, GradingTest.IntegrationIntoMovement.IsChecked, GradingTest.ObeyParkSigns.IsChecked), (bool)GradingTest.IsPass.IsChecked, GradingTest.Note.Text);
+                GradingTest.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+            }
         }
     }
 }
