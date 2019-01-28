@@ -46,10 +46,11 @@ namespace PL_WPF
                 bl.AddTrainee(trainee1);
                 bl.AddTrainee(trainee2);
                 //bl.AddTest(trainee1, new DateTime(2019, 1, 27, 10, 0, 0), new DateTime(), trainee1.Address, trainee1.VehicleTypeTraining);
-                bl.AddTest(trainee2, new DateTime(2019, 1, 24, 11, 0, 0), new DateTime(), trainee2.Address, trainee2.VehicleTypeTraining);
+                //bl.AddTest(trainee2, new DateTime(2019, 1, 24, 11, 0, 0), new DateTime(), trainee2.Address, trainee2.VehicleTypeTraining);
                 //new UI.TesterInterface.TesterWindow(bl.GetTester("323947747")).Show();
                 new UI.TesterInterface.TesterWindow(bl.GetTester("322680083")).Show();
                 new UI.TraineeInterface.TraineeWindow(trainee1).Show();
+                new UI.TraineeInterface.TraineeWindow(trainee2).Show();
                 Close();
             }
             catch (Exception ex)

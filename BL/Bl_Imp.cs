@@ -31,7 +31,7 @@ namespace BL
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
-                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate."));
+                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
 
             try
             {
@@ -330,12 +330,15 @@ namespace BL
             Test theTest = dal.GetTest(code);
             if (theTest == null)
                 throw new ArgumentException("This test doesn't exist in the database");
+
             if (theTest.IsPass != null)
                 throw new Exception("Cannot update updated test");
 
             if (isPass && !HasPassed(criteria))
                 throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + Configuration.MIN_CRITERIONS_TO_PASS_TEST + " Cartierians.");
 
+            if (testerNotes == null || testerNotes =="")
+                throw new ArgumentException("You must enter a test note");
 
             theTest.CriteriasGrades = criteria;
             theTest.IsPass = isPass;
@@ -380,7 +383,6 @@ namespace BL
         }
 
         #endregion
-
 
         #region private functions
 
@@ -493,7 +495,6 @@ namespace BL
             return null;
         }
         #endregion
-
 
         public Tester FindsAnAlternativeTester(Test test)
         {

@@ -10,11 +10,6 @@ namespace BE
 {
     public static class Inspections
     {
-        //public static void StringInspection(string str, string nameOfVariable)
-        //{
-        //    if (string.IsNullOrWhiteSpace(str))
-        //        throw new ArgumentNullException(nameOfVariable + "mustn't be null or empty or consists only white spaces", nameof(nameOfVariable));
-        //}
 
         public static void IdValidator(string id) //TODO StringBuilder
         {
@@ -37,6 +32,7 @@ namespace BE
             if (counter % 10 != 0)
                 throw new ArgumentException("ID is not valid");
         }
+
         public static void AddressValidator(Address address)
         {
             //           if (person.Address == null)
@@ -50,7 +46,6 @@ namespace BE
             if (address.HouseNumber == 0)
                 throw new ArgumentOutOfRangeException("House number mustn't be zero");
         }
-
 
         private static void PersonInspection(Person person)
         {
@@ -190,15 +185,6 @@ namespace BE
             if (test == null)
                 throw new ArgumentNullException(nameof(test), "Person mustn't be null");
 
-            /*
-            #region Code
-            if (test.Code == null)
-                throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
-
-            if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
-                throw new ArgumentException("Code is not valid");
-            #endregion
-            */
 
             #region IDTester
             try
@@ -232,14 +218,6 @@ namespace BE
             // check in  the bl that the date is good for the trainee age
             #endregion
 
-            /*
-            #region Length
-            if (test.Length == null)
-                throw new ArgumentNullException("The test's length musn't be null", nameof(test.Length));
-            //?????????????????
-            #endregion
-            */
-
             #region DepartureAddress
             try
             {
@@ -256,9 +234,33 @@ namespace BE
 
 
 
+            /*
+            #region Code
+            if (test.Code == null)
+                throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
+
+            if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
+                throw new ArgumentException("Code is not valid");
+            #endregion
+            */
+            /*
+            #region Length
+            if (test.Length == null)
+                throw new ArgumentNullException("The test's length musn't be null", nameof(test.Length));
+            //?????????????????
+            #endregion
+            */
             //IsDone cant done before TestDate
             //IsPass cant pass if most failed
             //TesterNotes
         }
+
+        #region
+        //public static void StringInspection(string str, string nameOfVariable)
+        //{
+        //    if (string.IsNullOrWhiteSpace(str))
+        //        throw new ArgumentNullException(nameOfVariable + "mustn't be null or empty or consists only white spaces", nameof(nameOfVariable));
+        //}
+        #endregion
     }
 }

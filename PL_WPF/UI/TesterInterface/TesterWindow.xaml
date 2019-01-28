@@ -351,8 +351,8 @@
             <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
 
                     <WrapPanel Orientation="Vertical" Grid.Column="0">
