@@ -4,16 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL_WPF.UI.TesterInterface"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" >
+    <UserControl.Resources>
+        <Style TargetType="CheckBox">
+            <Setter Property="IsThreeState" Value="True"/>
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+    </UserControl.Resources>
     <ListBox SelectionChanged="ListBox_SelectionChanged">
-        <CheckBox x:Name="KeepDistance" Content="Keep Distance" FontSize="20" IsThreeState="True"/>
-        <CheckBox x:Name="BackParking" Content="Back Parking" FontSize="20" IsThreeState="True"/>
-        <CheckBox x:Name="UsingViewMirrors" Content="Using View Mirrors" FontSize="20" IsThreeState="True"/>
-        <CheckBox x:Name="Signaling" Content="Signaling" FontSize="20" IsThreeState="True"/>
-        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement" FontSize="20" IsThreeState="True"/>
-        <CheckBox x:Name="ObeyParkSigns" Content="Obey Park Signs" FontSize="20" IsThreeState="True"/>
-        <TextBox  x:Name="Note" FontSize="20"/>
-        <CheckBox x:Name="IsPass" Content="Is Pass" FontSize="20"/>
+        <CheckBox x:Name="KeepDistance" Content="Keep Distance"/>
+        <CheckBox x:Name="BackParking" Content="Back Parking"/>
+        <CheckBox x:Name="UsingViewMirrors" Content="Using View Mirrors"/>
+        <CheckBox x:Name="Signaling" Content="Signaling"/>
+        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement"/>
+        <CheckBox x:Name="ObeyParkSigns" Content="Obey Park Signs"/>
+        <xctk:WatermarkTextBox x:Name="Note" FontSize="20" Watermark="Notes"/>
+        <CheckBox x:Name="IsPass" Content="Is Pass" IsThreeState="False"/>
         <Button x:Name="sendButton" Content="Send" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Send_Button_Click"/>
     </ListBox>
 

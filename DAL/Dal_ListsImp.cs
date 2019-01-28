@@ -226,25 +226,25 @@ namespace DAL
         /// 
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="t"></param>
+        /// <param name="item"></param>
         /// <returns></returns>
-        private bool Add<T>(T t) where T : IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
+        private bool Add<T>(T item) where T : IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
         {
             //CHECK if we use inspec in prop so will check null here
-            dynamic l; // TODO האם אפשרי לעשות פונקצית הרחבה לרשימה  שמחזירה אותה כרשימה מטיפוס טי
-            switch (t)
+            dynamic list; // TODO האם אפשרי לעשות פונקצית הרחבה לרשימה  שמחזירה אותה כרשימה מטיפוס טי
+            switch (item)
             {
                 case Tester tester:
                     Inspections.TesterInspection(tester);
-                    l = DS_Lists.TesterList;
+                    list = DS_Lists.TesterList;
                     break;
                 case Trainee trainee:
                     Inspections.TraineeInspection(trainee);
-                    l = DS_Lists.TraineeList;
+                    list = DS_Lists.TraineeList;
                     break;
                 case Test test:
                     Inspections.TestInspection(test);
-                    l = DS_Lists.TestList;
+                    list = DS_Lists.TestList;
                     break;
                 //case null:
                 //    break;
@@ -252,17 +252,16 @@ namespace DAL
                     throw new CustomException(false, new Exception());
             }
 
-            List<T> lm = l as List<T>;
-            if (lm.Exists(tt => t.Key == tt.Key))
+            if (list.Exists((Predicate<T>)(t => item.Key == t.Key)))
                 return false;
-            lm.Add(t.Copy());
+            list.Add(item.Copy());
             return true;
         }
 
-        private bool ExistingByKey<T>(T item, List<T> list) where T : IKey
-        {
-            return list.Exists(t => item?.Key == t?.Key);
-        }
+       // private bool ExistingByKey<T>(T item, List<T> list) where T : IKey
+       // {
+       //     return list.Exists(t => item?.Key == t?.Key);
+       // }
 
     }
 }

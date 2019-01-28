@@ -46,5 +46,10 @@ namespace BE
                 return (T)formatter.Deserialize(stream);
             }
         }
+
+        public static bool IsNullOrEmpty<T>(this List<T> list)
+        {
+            return list is null ? true : (0 == list.Count); // count==0
+        }
     }
 }

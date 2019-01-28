@@ -27,11 +27,11 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester already exists in the database", nameof(tester)));
+                throw new CustomException(true, new ArgumentException("This tester already exists in the database.", nameof(tester)));
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
-                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
+                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate."));
 
             try
             {
@@ -48,7 +48,7 @@ namespace BL
             Tester tester = dal.GetTester(idTester);
 
             if (tester is null)
-                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database"));
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(idTester)));
 
             if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
                 throw new CustomException(true, new Exception("This tester have future tests."));
@@ -68,7 +68,7 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (!ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database"));
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(tester)));
 
             try
             {
@@ -101,10 +101,29 @@ namespace BL
                           .ToList();
         }
 
-        public List<Tester> VacantTesters(DateTime dateAndTime) //BUG inputcheck
+        public List<Tester> VacantTesters(DateTime dateAndTime) //BUG inputcheck IMPROVEMENT Vehicle
         {
-            return (from tester in dal.GetTesters()
-                    where tester.MyTests.All(test => test.Date != dateAndTime) && tester.WorkingHours[(int)dateAndTime.DayOfWeek, dateAndTime.Hour - 9] //TODO 9=CONFIG.BEGINNING_OF_DAY
+
+            DayOfWeek theDayInTheWeek = dateAndTime.DayOfWeek; //CHECK if dateTime.DayOfWeek is short time
+            DateTime theFirstDayInTheWeek = dateAndTime.Date.AddDays(-1 * (int)theDayInTheWeek);
+
+            bool WillAvailable(Tester tester)
+            {
+                uint counterOfTheTestInTheWeek = 0;
+                foreach (Test test in tester.MyTests)
+                {
+                    if (test.Date == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
+                        break;
+
+                    if (theFirstDayInTheWeek == test.Date.Date.AddDays(-1 * (int)test.Date.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+                        ++counterOfTheTestInTheWeek;
+                }
+                return counterOfTheTestInTheWeek < tester.MaxOfTestsPerWeek;
+            }
+
+
+            return (from tester in dal.GetTesters(t => t.WorkingHours[(uint)theDayInTheWeek, dateAndTime.Hour - Configuration.BEGINNING_OF_A_WORKING_DAY])
+                    where WillAvailable(tester)
                     select tester)
                     .ToList();
         }
@@ -130,10 +149,10 @@ namespace BL
             Inspections.TraineeInspection(trainee);
 
             if (DateTime.Today - trainee.Birthdate < Configuration.MIN_AGE_OF_TRAINEE)
-                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Trainee.Birthdate.Year), "This Trainee's age is not appropriate"));
+                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(trainee.Birthdate), "This Trainee's age is not appropriate."));
 
             if (ExistingTraineeById(trainee.ID))
-                throw new CustomException(true, new ArgumentException("This trainee already exists in the database"));
+                throw new CustomException(true, new ArgumentException("This trainee already exists in the database.", nameof(trainee.ID)));
 
             try
             {
@@ -148,7 +167,7 @@ namespace BL
         public void RemoveTrainee(string idTrainee)
         {
             if (!ExistingTraineeById(idTrainee))
-                throw new ArgumentException("This Trainee doesn't exist in the database");
+                throw new CustomException(true, new Exception("This Trainee doesn't exist in the database."));
 
             try
             {
@@ -164,7 +183,7 @@ namespace BL
         {
             Inspections.TraineeInspection(trainee);
             if (!ExistingTraineeById(trainee.ID))
-                throw new ArgumentException("This trainee doesn't exist in the database");
+                throw new CustomException(true, new ArgumentException("This trainee doesn't exist in the database."));
 
             try
             {
@@ -315,7 +334,7 @@ namespace BL
                 throw new Exception("Cannot update updated test");
 
             if (isPass && !HasPassed(criteria))
-                throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than" + Configuration.MIN_CRITERIONS_TO_PASS_TEST + "Cartierians");
+                throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + Configuration.MIN_CRITERIONS_TO_PASS_TEST + " Cartierians.");
 
 
             theTest.CriteriasGrades = criteria;
@@ -386,39 +405,51 @@ namespace BL
             return criteria.PassGrades() >= Configuration.MIN_CRITERIONS_TO_PASS_TEST;
         }
 
+        /*
         private Tester FindingAvailableTester(DateTime dateTime, Vehicle expertise) //UNDONE improve
         {
             DayOfWeek theDayInTheWeek = dateTime.DayOfWeek; //CHECK if dateTime.DayOfWeek is short time
             DateTime theFirstDayInTheWeek = dateTime.Date.AddDays(-1 * (int)theDayInTheWeek);
 
-            #region inner iteratror
-            IEnumerable<(bool HasAlreadyTest, uint CounterOfTheTestInTheWeek)> WillAvailable(Tester tester)// BUG You can set two tests for the same day of the same hour with the same Tester!!!
+            //#region inner iteratror
+            //IEnumerable<(bool HasAlreadyTest, uint CounterOfTheTestInTheWeek)> WillAvailable(Tester tester)// BUG You can set two tests for the same day of the same hour with the same Tester!!!
+            //{
+            //    uint counterOfTheTestInTheWeek = 0;
+            //    foreach (Test test in tester.MyTests)
+            //    {
+            //        //if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(test.TestDate))) //if (IsDateAreInTheSameWeek(test.TestDate))
+            //        if (theFirstDayInTheWeek == test.Date.Date.AddDays(-1 * (int)test.Date.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+            //            ++counterOfTheTestInTheWeek;
+            //        yield return (test.Date == dateTime, counterOfTheTestInTheWeek);
+            //    }
+            //}
+            //#endregion
+
+            foreach (Tester tester in dal.GetTesters(t => t.VehicleTypeExpertise == expertise && t.WorkingHours[(int)theDayInTheWeek, dateTime.Hour - Configuration.BEGINNING_OF_A_WORKING_DAY]))
             {
+                // CHECK hour is not 00:00 for example
                 uint counterOfTheTestInTheWeek = 0;
                 foreach (Test test in tester.MyTests)
                 {
-                    //if (theFirstDayInTheWeek == test.TestDate.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(test.TestDate))) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (test.Date == dateTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek) break;
+
                     if (theFirstDayInTheWeek == test.Date.Date.AddDays(-1 * (int)test.Date.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
-                    yield return (test.Date == dateTime, counterOfTheTestInTheWeek);
                 }
-            }
-            #endregion
+                if (counterOfTheTestInTheWeek < tester.MaxOfTestsPerWeek) return tester;
 
-            foreach (Tester tester in dal.GetTesters(t => t.VehicleTypeExpertise == expertise && t.WorkingHours[(int)theDayInTheWeek, dateTime.Hour - 9]))
-            {
-                // CHECK hour is not 00:00 for example
 
-                bool isAvailable = true;
-                foreach (var (HasAlreadyTest, CounterOfTheTestInTheWeek) in WillAvailable(tester))
-                    if (HasAlreadyTest == true || CounterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
-                    {
-                        isAvailable = false;
-                        break;
-                    }
 
-                if (isAvailable) //CHECK if iterator have pass on all the element
-                    return tester;
+                // bool isAvailable = true;
+                // foreach (var (HasAlreadyTest, CounterOfTheTestInTheWeek) in WillAvailable(tester))
+                //     if (HasAlreadyTest == true || CounterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
+                //     {
+                //         isAvailable = false;
+                //         break;
+                //     }
+                //
+                // if (isAvailable) //CHECK if iterator have pass on all the element
+                //     return tester;
             }
 
             return null;
@@ -435,12 +466,13 @@ namespace BL
             //    return theFirstDayInTheWeek == date.Date.AddDays(-1 * (int)calendar.GetDayOfWeek(date));
             //}
         }
+        */
 
 
         //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
-        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicleTypeLearning)
+        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicleTypeLearning) // BUG input check of date
         {
-            DateTime dateTime = startDate.AddDays(1).AddHours(9),
+            DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
                 aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
 
             while (dateTime < aPeriodFromToday)
@@ -451,11 +483,11 @@ namespace BL
                     if (vacantTester != default)
                         /*yield*/
                         return (dateTime, vacantTester);
-                    dateTime.AddHours(1);
+                    dateTime = dateTime.AddHours(1);
                 }
 
-                dateTime.AddHours(-(Configuration.WORKING_HOURS_A_DAY + 1)); //-c-1
-                dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - Configuration.WORKING_DAYS_A_WEEK);
+                dateTime = dateTime.AddHours(-(Configuration.WORKING_HOURS_A_DAY + 1)); //-c-1
+                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - Configuration.WORKING_DAYS_A_WEEK);
             }
 
             return null;
