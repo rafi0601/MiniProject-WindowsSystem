@@ -47,13 +47,16 @@ namespace PL_WPF.UI.TraineeInterface
                 trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
                 trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
 
+                //IUserManager userManager = Singleton.Instance;
+                //userManager.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Trainee) });
+
                 bl.AddTrainee(trainee);
                 new TraineeWindow(trainee).Show();
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
     }

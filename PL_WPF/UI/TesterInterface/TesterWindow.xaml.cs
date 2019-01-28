@@ -30,6 +30,9 @@ namespace PL_WPF.UI.TesterInterface
         {
             InitializeComponent();
 
+            if(tester == null)
+                throw new ArgumentException("Ther is no tester");
+
             bl = BL.Singleton.Instance;
             this.tester = tester;
             DataContext = tester;
@@ -105,7 +108,7 @@ namespace PL_WPF.UI.TesterInterface
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 

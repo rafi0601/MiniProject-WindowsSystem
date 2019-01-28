@@ -312,7 +312,7 @@ namespace BL
                 //{
                 //
                 //}
-                return FindingAnAlternativeDateForTest(testDate, vehicle).Value.Item1;
+                return FindingAnAlternativeDateForTest(testDate, vehicle)?.Item1;
                 //return new DateTime(2019, 1, 28, 10, 0, 0);
             }
             catch (Exception e)
@@ -337,7 +337,7 @@ namespace BL
             if (isPass && !HasPassed(criteria))
                 throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + Configuration.MIN_CRITERIONS_TO_PASS_TEST + " Cartierians.");
 
-            if (testerNotes == null || testerNotes =="")
+            if (testerNotes == null || testerNotes == "")
                 throw new ArgumentException("You must enter a test note");
 
             theTest.CriteriasGrades = criteria;
@@ -479,7 +479,7 @@ namespace BL
 
             while (dateTime < aPeriodFromToday)
             {
-                for (int i = 0; i < Configuration.WORKING_HOURS_A_DAY; i++)
+                while (dateTime.Hour < Configuration.WORKING_HOURS_A_DAY + Configuration.BEGINNING_OF_A_WORKING_DAY)
                 {
                     Tester vacantTester = VacantTesters(dateTime).Where(t => t.VehicleTypeExpertise == vehicleTypeLearning).FirstOrDefault();
                     if (vacantTester != default)
@@ -488,7 +488,7 @@ namespace BL
                     dateTime = dateTime.AddHours(1);
                 }
 
-                dateTime = dateTime.AddHours(-(Configuration.WORKING_HOURS_A_DAY + 1)); //-c-1
+                dateTime = dateTime.AddHours(-(Configuration.WORKING_HOURS_A_DAY)); //-c-1
                 dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - Configuration.WORKING_DAYS_A_WEEK);
             }
 

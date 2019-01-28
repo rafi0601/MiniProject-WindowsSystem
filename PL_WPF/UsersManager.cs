@@ -42,16 +42,20 @@ namespace PL_WPF
         List<User> Get(Predicate<User> predicate = null);
     }
 
-    public class UsersManager : IUserManager
+    internal class UsersManager : IUserManager
     {
         // private static readonly Continuous.Management.ContinuousManagementFactory factory = new Continuous.Management.ContinuousManagementFactory();
         // private static readonly Continuous.User.LocalUserGroups.ILocalUserGroupShell localUsersGroup = factory.LocalUserGroup();
 
         private static readonly Continuous.User.Users.IUserShell usersShell = new Continuous.Management.ContinuousManagementFactory().UserShell();
 
-        public UsersManager(User admin)
+        private UsersManager(User admin)
         {
-            Add(admin);
+            //Add(admin);
+        }
+
+        public UsersManager()
+        {
         }
 
         public void Add(User user)
@@ -113,5 +117,24 @@ namespace PL_WPF
             public string Password { get; }//=
         }
     }
+
+    public /*static*/ abstract class Singleton
+    {
+        protected static IUserManager instance = null;
+
+        //protected Singleton() { }
+
+        public static IUserManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                    instance = new UsersManager();
+                return instance;
+            }
+        }
+    }
+
+
 }
 

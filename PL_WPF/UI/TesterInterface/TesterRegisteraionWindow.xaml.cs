@@ -51,13 +51,16 @@ namespace PL_WPF.UI.TesterInterface
                 };
                 tester.WorkingHours = workingHours;
 
+                //IUserManager userManager = Singleton.Instance;
+                //userManager.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Tester) });
+                
                 bl.AddTester(tester);
                 new TesterWindow(tester).Show();
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message);
             }
         }
 
