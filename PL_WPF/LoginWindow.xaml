@@ -28,12 +28,12 @@
         <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
             <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" />
             <StackPanel VerticalAlignment="Center" Margin="10">
-                <TextBox materialDesign:HintAssist.Hint="ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
-                <PasswordBox materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
+                <TextBox x:Name="idTextBox" materialDesign:HintAssist.Hint="ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
+                <PasswordBox x:Name="passwordTextBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
             </StackPanel>
         </Grid>
-        <Button VerticalAlignment="Bottom" Margin="0,85" Width="150" Content="LOG IN"/>
-        <TextBlock Text="Forgot password?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50" Foreground="Gray" Cursor="Hand"/>
+        <Button VerticalAlignment="Bottom" Margin="0,85" Width="150" Content="LOG IN" Click="Login_Click"/>
+        <TextBlock Text="Forgot password?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50" Foreground="Gray" Cursor="Hand" MouseLeftButtonDown="Registeration_MouseLeftButtonDown" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Button Name="Minimize_Button" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Controller_Click" MouseEnter="Controller_MouseEnter" MouseLeave="Controller_MouseLeave">
                 <materialDesign:PackIcon Name="Minimize_Icon" Kind="WindowMinimize" Foreground="WhiteSmoke" Width="25" Height="25" Margin="0"/>

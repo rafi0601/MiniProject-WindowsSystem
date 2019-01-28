@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using Continuous.User;
 using Continuous.User.Users.Model;
 
-namespace PLWPF
+namespace PL_WPF
 {
-    struct User
+    public struct User
     {
         public string name;
         public string password;
@@ -32,7 +32,7 @@ namespace PLWPF
         //}
     }
 
-    interface IUserManager
+    public interface IUserManager
     {
         void Add(User user);
         void Remove(User user);
@@ -42,7 +42,7 @@ namespace PLWPF
         List<User> Get(Predicate<User> predicate = null);
     }
 
-    internal class UsersManager : IUserManager
+    public class UsersManager : IUserManager
     {
         // private static readonly Continuous.Management.ContinuousManagementFactory factory = new Continuous.Management.ContinuousManagementFactory();
         // private static readonly Continuous.User.LocalUserGroups.ILocalUserGroupShell localUsersGroup = factory.LocalUserGroup();

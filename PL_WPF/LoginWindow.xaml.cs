@@ -22,6 +22,9 @@ namespace PL_WPF
     /// </summary>
     public partial class LoginWindow : Window
     {
+        IUserManager userManager = new UsersManager(new User());
+        BL.IBL bl = BL.Singleton.Instance;
+
         public LoginWindow()
         {
             InitializeComponent();
@@ -76,6 +79,43 @@ namespace PL_WPF
             new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
             Close();
 
+        }
+
+        private void Login_Click(object sender, RoutedEventArgs e)
+        {
+            User loginedUser = userManager.Get(idTextBox.Text);
+            if (loginedUser.name is null || loginedUser.password != passwordTextBox.Password)
+                throw new Exception("not exist");
+
+            switch (loginedUser.role)
+            {
+                case Type type when type == typeof(Tester):
+                    new UI.TesterInterface.TesterWindow(bl.GetTester(loginedUser.name)).Show();
+                    break;
+                case Type type when type == typeof(Trainee):
+                    new UI.TraineeInterface.TraineeWindow(bl.GetTrainee(loginedUser.name)).Show();
+                    break;
+                default:
+                    new UI.AdminInterface.AdminWindow().Show();
+                    break;
+            }
+
+        }
+
+        private void Registeration_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question)
+)
+            {
+                case MessageBoxResult.Yes:
+                    new UI.TesterInterface.TesterRegisteraionWindow().Show();
+                    break;
+                case MessageBoxResult.No:
+                    new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
