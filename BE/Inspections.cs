@@ -74,9 +74,6 @@ namespace BE
             #endregion
 
             #region Birthdate
-            if (person.Birthdate == null)
-                throw new ArgumentNullException("Birthdate musn't be null", nameof(person.Birthdate));
-
             if (person.Birthdate > DateTime.Today || person.Birthdate.Year < DateTime.Today.Year - 120)
                 throw new ArgumentException("The Birthdate date is illogical", nameof(person.Birthdate));
             #endregion

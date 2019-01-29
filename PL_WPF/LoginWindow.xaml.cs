@@ -30,61 +30,58 @@ namespace PL_WPF
             InitializeComponent();
         }
 
-        private void Controller_Click(object sender, RoutedEventArgs e)
-        {
-            if (!(sender is Button)) throw new Exception();
-
-            if (sender == Shutdown_Button)
-                switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
-                {
-                    case MessageBoxResult.Yes:
-                        Close();
-                        break;
-                }
-            else if (sender == Minimize_Button)
-                WindowState = WindowState.Minimized;
-        }
-
-
-        private void Controller_MouseEnter(object sender, RoutedEventArgs e)
-        {
-            if (!(sender is Button button)) throw new Exception();
-            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-            packIcon.Foreground = Brushes.Black;
-
-
-            //     (sender as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
-        }
-
-        private void Controller_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (!(sender is Button button)) throw new Exception();
-            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-            packIcon.Foreground = Brushes.WhiteSmoke;
-
-            //switch(sender)
-            //{
-            //    case Button but:
-            //        
-            //        break;
-            //}
-            // if (!(sender is Button)) throw new Exception();
-            // Shutdown_Icon.Foreground = Brushes.WhiteSmoke; //CHECK Shutdownd_Icon.ערך התחלתי
-            // (sender as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
-        }
+        //private void Controller_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (!(sender is Button)) throw new Exception();
+        //
+        //    if (sender == Shutdown_Button)
+        //        switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
+        //        {
+        //            case MessageBoxResult.Yes:
+        //                Close();
+        //                break;
+        //        }
+        //    else if (sender == Minimize_Button)
+        //        WindowState = WindowState.Minimized;
+        //}
+        //private void Controller_MouseEnter(object sender, RoutedEventArgs e)
+        //{
+        //    if (!(sender is Button button)) throw new Exception();
+        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+        //    packIcon.Foreground = Brushes.Black;
+        //
+        //
+        //    //     (sender as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
+        //}
+        //private void Controller_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    if (!(sender is Button button)) throw new Exception();
+        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+        //    packIcon.Foreground = Brushes.WhiteSmoke;
+        //
+        //    //switch(sender)
+        //    //{
+        //    //    case Button but:
+        //    //        
+        //    //        break;
+        //    //}
+        //    // if (!(sender is Button)) throw new Exception();
+        //    // Shutdown_Icon.Foreground = Brushes.WhiteSmoke; //CHECK Shutdownd_Icon.ערך התחלתי
+        //    // (sender as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
+        //}
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
-            Close();
-
-        }
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
+        //    Close();
+        //
+        //}
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
             User loginedUser = userManager.Get(idTextBox.Text);
-            if (loginedUser.name is null || loginedUser.password != passwordTextBox.Password)
+            if (loginedUser.name is null || loginedUser.password != passwordPasswordBox.Password)
                 throw new Exception("not exist");
 
             switch (loginedUser.role)
@@ -117,5 +114,41 @@ namespace PL_WPF
                     break;
             }
         }
+
+        private void Shutdown_Click(object sender, RoutedEventArgs e)
+        {
+            switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
+            {
+                case MessageBoxResult.Yes:
+                    Close();
+                    break;
+            }
+        }
+
+        private void Shutdown_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (Shutdown_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
+        }
+
+        private void Shutdown_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (Shutdown_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Minimize_MouseEnter(object sender, MouseEventArgs e)
+        {
+            (Minimize_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
+        }
+
+        private void Minimize_MouseLeave(object sender, MouseEventArgs e)
+        {
+            (Minimize_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
+        }
+
     }
 }

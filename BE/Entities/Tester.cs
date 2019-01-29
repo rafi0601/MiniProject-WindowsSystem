@@ -20,7 +20,23 @@ namespace BE
         public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
         public uint MaxDistanceFromAddress { get; set; }
         public List<Test> MyTests = new List<Test>();
-        //public SortedList<DateTime, Test> Tests = new SortedList<DateTime, Test>((t1,t2)=>t);// IMPROVMENT will take less time to search
+        //public SortedList<DateTime, Test> MyTests = new SortedList<DateTime, Test>();// IMPROVMENT will take less time to search
+
+        [System.Runtime.CompilerServices.IndexerName("WoHo")]
+        public bool this[DayOfWeek day, uint hour]
+        {
+            get
+            {
+                if (day > DayOfWeek.Thursday ||
+                    hour < Configuration.BEGINNING_OF_A_WORKING_DAY ||
+                    hour >= Configuration.BEGINNING_OF_A_WORKING_DAY + Configuration.WORKING_HOURS_A_DAY)
+                    throw new Exception();
+
+                return WorkingHours[(uint)day, (uint)hour];
+            }
+            private set => WorkingHours[(uint)day, (uint)hour] = value;
+        }
+
 
         public Tester(string id, Name name,
             DateTime birthdate, Gender gender, string phoneNumber,

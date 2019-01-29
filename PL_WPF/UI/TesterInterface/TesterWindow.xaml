@@ -367,6 +367,11 @@
                             <Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="1" Width="100" HorizontalAlignment="Right"/>
                         </Grid>
                         <DataGrid x:Name="FutureTestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                    <Setter Property="FontSize" Value="20"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
                                 <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>

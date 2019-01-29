@@ -12,7 +12,7 @@ namespace BL
         //       DAL.IDal dal { get; }
 
         void AddTester(Tester tester);
-        void RemoveTester(string idTester); // TODO match to IDal
+        void RemoveTester(Tester tester);
         void UpdateTester(Tester tester);
         Tester GetTester(string id);
         List<Tester> GetTesters(Predicate<Tester> match = null);
@@ -21,7 +21,7 @@ namespace BL
         List<IGrouping<Vehicle, Tester>> TestersByExpertise(bool toSort = false);
 
         void AddTrainee(Trainee trainee);
-        void RemoveTrainee(string idTrainee);
+        void RemoveTrainee(Trainee trainee);
         void UpdateTrainee(Trainee trainee);
         Trainee GetTrainee(string id);
         List<Trainee> GetTrainees(Predicate<Trainee> match = null);

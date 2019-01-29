@@ -10,6 +10,8 @@ namespace BE
     [Serializable]
     public class ExistingInTheDatabaseException : Exception
     {
+        bool IsExist { get; }
+
         public ExistingInTheDatabaseException()
         {
         }

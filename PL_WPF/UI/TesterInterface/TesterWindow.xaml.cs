@@ -119,7 +119,7 @@ namespace PL_WPF.UI.TesterInterface
                 switch (MessageBox.Show("Are you sure you want to Remove your account?", "Verify deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
                 {
                     case MessageBoxResult.Yes:
-                        bl.RemoveTester(tester.ID);
+                        bl.RemoveTester(tester);
                         Close();
                         tester = new Tester();
                         DataContext = tester;

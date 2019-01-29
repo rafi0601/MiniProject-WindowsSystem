@@ -80,7 +80,7 @@ namespace PL_WPF.UI.TraineeInterface
                 switch (MessageBox.Show("Are you sure you want to Remove your account?", "Verify deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
                 {
                     case MessageBoxResult.Yes:
-                        bl.RemoveTrainee(trainee.ID);
+                        bl.RemoveTrainee(trainee);
                         Close();
                         trainee = new Trainee();
                         DataContext = trainee;

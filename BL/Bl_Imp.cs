@@ -43,19 +43,17 @@ namespace BL
             }
         }
 
-        public void RemoveTester(string idTester)
+        public void RemoveTester(Tester tester)
         {
-            Tester tester = dal.GetTester(idTester);
-
             if (tester is null)
-                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(idTester)));
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(tester)));
 
             if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
                 throw new CustomException(true, new Exception("This tester have future tests."));
 
             try
             {
-                dal.RemoveTester(dal.GetTester(idTester));
+                dal.RemoveTester(tester);
             }
             catch
             {
@@ -164,14 +162,14 @@ namespace BL
             }
         }
 
-        public void RemoveTrainee(string idTrainee)
+        public void RemoveTrainee(Trainee trainee)
         {
-            if (!ExistingTraineeById(idTrainee))
+            if (trainee is null)
                 throw new CustomException(true, new Exception("This Trainee doesn't exist in the database."));
 
             try
             {
-                dal.RemoveTrainee(dal.GetTrainee(idTrainee));
+                dal.RemoveTrainee(trainee);
             }
             catch
             {
