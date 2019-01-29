@@ -11,6 +11,7 @@ namespace BE
     public class CustomException : Exception
     {
         public bool DisplayToUser { get; }
+        //public bool IsCritical { get; set; }
 
         public CustomException(bool displayToUser, /*string message,*/ Exception innerException)
             : base(/*message*/null, innerException)

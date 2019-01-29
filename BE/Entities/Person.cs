@@ -96,8 +96,8 @@ namespace BE
             get => _birthdate;
             set
             {
-                if (_birthdate == default)
-                    throw new Exception();
+                //if (_birthdate == default)
+                //    throw new Exception();
 
                 if (value > DateTime.Today || value.Year < DateTime.Today.Year - 120)
                     throw new ArgumentException("The Birthdate date is illogical", nameof(value));

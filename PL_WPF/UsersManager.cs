@@ -97,7 +97,7 @@ namespace PL_WPF
         }
 
 
-        public void ChangePassword(User user) //TODO return true if succed
+        public void ChangePassword(User user) //TODO return true if succeed
         {
             //var securePassword = new System.Security.SecureString();
             //foreach (char c in user.password)

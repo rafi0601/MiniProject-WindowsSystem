@@ -139,7 +139,7 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, new DateTime(), trainee.Address, trainee.VehicleTypeTraining);
+                AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
                 if (AlternateDate == null)
                 {
                     dateTimePicker.Visibility = Visibility.Collapsed;
@@ -169,7 +169,7 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                bl.AddTest(trainee, (DateTime)AlternateDate, new DateTime(), trainee.Address, trainee.VehicleTypeTraining);
+                bl.AddTest(trainee, (DateTime)AlternateDate, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
                 SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
                 DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
                 DetailsOfMyTest.Visibility = Visibility.Visible;

@@ -16,7 +16,7 @@ namespace BE
     {
         public uint YearsOfExperience { get; set; }
         public uint MaxOfTestsPerWeek { get; set; }
-        public Vehicle VehicleTypeExpertise { get; set; }
+        public Vehicle VehicleTypeExpertise { get; set; } // TODO rename to VTypesE
         public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
         public uint MaxDistanceFromAddress { get; set; }
         public List<Test> MyTests = new List<Test>();
