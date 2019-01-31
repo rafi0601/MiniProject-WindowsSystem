@@ -70,5 +70,13 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DS_Xml\Configuration.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DS_Xml\Testers.xml" />
+    <Content Include="DS_Xml\Tests.xml" />
+    <Content Include="DS_Xml\Trainees.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

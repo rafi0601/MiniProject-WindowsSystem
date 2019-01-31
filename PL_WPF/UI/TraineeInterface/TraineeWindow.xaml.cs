@@ -165,7 +165,7 @@ namespace PL_WPF.UI.TraineeInterface
 
         }
 
-        private void SuggestAlternateDateOfTest_AcceptClick(object sender, EventArgs e)
+        private void SuggestAlternateDateOfTest_AcceptClick(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -180,7 +180,7 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
-        private void SuggestAlternateDateOfTest_CancelClick(object sender, EventArgs e)
+        private void SuggestAlternateDateOfTest_CancelClick(object sender, RoutedEventArgs e)
         {
             dateTimePicker.Visibility = Visibility.Visible;
             CheckDateButton.Visibility = Visibility.Visible;

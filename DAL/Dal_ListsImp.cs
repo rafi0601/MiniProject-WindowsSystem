@@ -211,8 +211,10 @@ namespace DAL
         }
 
         #endregion
-        private Predicate<Tester> ComperisonOfTestersId(Tester tester) => t => tester?.ID == t?.ID;
-
+        private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey
+        {
+            return t => item?.Key == t?.Key;
+        }
 
         private bool Add<T>(T item) where T : IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
         {

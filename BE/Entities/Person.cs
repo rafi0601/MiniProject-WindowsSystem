@@ -65,8 +65,9 @@ namespace BE
             get => _iD;
             set
             {
-                if (_iD != default)
+                if (_iD != default) // BUG if the registeration failed then it is impossible to change the details. 
                     throw new Exception();
+                // TODO or check if value==_iD (bug if he has mistake in the id) or reset the instance in the ui
 
                 if (string.IsNullOrWhiteSpace(value))
                     throw new CustomException(true, new ArgumentNullException("ID mustn't be null or empty or consists only white spaces"));
