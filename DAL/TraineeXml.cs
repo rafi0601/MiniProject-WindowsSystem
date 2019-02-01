@@ -87,9 +87,9 @@ namespace DAL
         public void AddTrainee(Trainee trainee)
         {
             traineeRoot.Add(new XElement("trainee",
-                new XElement("Person",
+                new XElement("person",
                     new XElement("id", trainee.ID),
-                    new XElement("Name",
+                    new XElement("name",
                         new XElement("lastName", trainee.Name.LastName),
                         new XElement("firstName", trainee.Name.FirstName)),
                     new XElement("birthdate", trainee.Birthdate),
@@ -107,19 +107,19 @@ namespace DAL
                     new XElement("teacherNameLastName", trainee.TeacherName.LastName),
                     new XElement("teacherNameFirstName", trainee.TeacherName.FirstName)),
                 new XElement("numberOfDoneLessons", trainee.NumberOfDoneLessons)));
-                
+
             traineeRoot.Save(traineePath);
         }
 
-        public bool RemoveTrainee(Trainee trainee)
+        public bool RemoveTrainee(string id)
         {
             XElement traineeElement;
 
             try
             {
-                traineeElement = (from stu in traineeRoot.Elements()
-                                  where stu.Element("id").Value == id
-                                  select stu
+                traineeElement = (from tra in traineeRoot.Elements()
+                                  where tra.Element("person").Element("id").Value == id
+                                  select tra
                                   ).FirstOrDefault();
 
                 traineeElement.Remove();
@@ -132,18 +132,52 @@ namespace DAL
             }
         }
 
-        public void UpdateStudent(Student student)
+        public void UpdateStudent(Trainee trainee)
         {
             XElement traineeElement = (
-                                       from stu in traineeRoot.Elements()
-                                       where stu.Element("id").Value == student.ID
-                                       select stu
+                                       from tra in traineeRoot.Elements()
+                                       where tra.Element("person").Element("id").Value == trainee.ID
+                                       select tra
                                        ).FirstOrDefault();
 
-            traineeElement.Element("name").Element("firstName").Value = student.name.FirstName;
-            traineeElement.Element("name").Element("lastName").Value = student.name.LastName;
+            RemoveTrainee(trainee.ID);
+            AddTrainee(trainee);
 
             traineeRoot.Save(traineePath);
+        }
+
+        public Trainee GetTrainee(string id)
+        {
+            LoadData();
+            Trainee trainee = (
+                           from tra in traineeRoot.Elements()
+                           where tra.Element("person").Element("id").Value == id
+                           select new Trainee(
+                               tra.Element("person").Element("id").Value,
+                               new Name()
+                               {
+                                   LastName = tra.Element("person").Element("name").Element("lastName").Value,
+                                   FirstName = tra.Element("person").Element("name").Element("firstName").Value,
+                               },
+                               tra.Element("person").Element("birthdate").Value,
+                               tra.Element("person").Element("gender").Value,
+                               tra.Element("person").Element("phoneNumber").Value,
+                               new Address()
+                               {
+                                   Street = tra.Element("person").Element("address").Element("street").Value,
+                                   HouseNumber = tra.Element("person").Element("address").Element("houseNumber").Value,
+                                   HouseNumber = tra.Element("person").Element("address").Element("houseNumber").Value,
+                               }
+
+
+
+
+
+
+
+                           ).FirstOrDefault();
+
+            return (Trainee)traineeElement;
         }
     }
 }
