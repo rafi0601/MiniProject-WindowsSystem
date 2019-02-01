@@ -63,6 +63,7 @@
     <Compile Include="IDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
+    <Compile Include="TraineeXml.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">
