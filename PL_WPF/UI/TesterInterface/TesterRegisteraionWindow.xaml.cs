@@ -43,11 +43,11 @@ namespace PL_WPF.UI.TesterInterface
                 tester.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
                 bool[,] workingHours = {
-                    { (bool)CheckBox41.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox46.IsChecked, (bool)CheckBox47.IsChecked },
-                    { (bool)CheckBox31.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox36.IsChecked, (bool)CheckBox37.IsChecked },
-                    { (bool)CheckBox21.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox26.IsChecked, (bool)CheckBox27.IsChecked },
-                    { (bool)CheckBox11.IsChecked, (bool)CheckBox12.IsChecked, (bool)CheckBox13.IsChecked, (bool)CheckBox14.IsChecked, (bool)CheckBox15.IsChecked, (bool)CheckBox16.IsChecked, (bool)CheckBox17.IsChecked },
-                    { (bool)CheckBox01.IsChecked, (bool)CheckBox02.IsChecked, (bool)CheckBox03.IsChecked, (bool)CheckBox04.IsChecked, (bool)CheckBox05.IsChecked, (bool)CheckBox06.IsChecked, (bool)CheckBox07.IsChecked },
+                    { (bool)CheckBox11.IsChecked, (bool)CheckBox21.IsChecked, (bool)CheckBox31.IsChecked, (bool)CheckBox41.IsChecked, (bool)CheckBox51.IsChecked, (bool)CheckBox61.IsChecked, (bool)CheckBox71.IsChecked },
+                    { (bool)CheckBox12.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox52.IsChecked, (bool)CheckBox62.IsChecked, (bool)CheckBox72.IsChecked},
+                    { (bool)CheckBox13.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox53.IsChecked, (bool)CheckBox63.IsChecked, (bool)CheckBox73.IsChecked},
+                    { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked},
+                    { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked},
                 };
                 tester.WorkingHours = workingHours;
 

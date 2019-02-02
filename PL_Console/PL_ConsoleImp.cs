@@ -18,7 +18,7 @@ namespace ConsoleApp1
         {
             try
             {
-
+                Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
 
 
                 bl.AddTester(new Tester("323947747", new Name { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "Hganenet", HouseNumber = 5, City = "Jerusalem" }, 10, 30, Vehicle.tractor, new bool[,] { { true, false, false, false, false, false, true, false }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false } }, 20));
@@ -27,8 +27,8 @@ namespace ConsoleApp1
                 bl.AddTrainee(new Trainee("212384507", new Name { FirstName = "Yael", LastName = "katri" }, new DateTime(1995, 10, 6), Gender.female, "0541234567", new Address { Street = "Franco", HouseNumber = 16, City = "Hadera" }, Vehicle.tractor, Gearbox.manual, "TheBest", new Name { FirstName = "Shmuel", LastName = "Garber" }, 34));
                 bl.AddTrainee(new Trainee("323947739", new Name { FirstName = "Asaf", LastName = "Levi" }, new DateTime(1948, 10, 6), Gender.female, "0541234567", new Address { Street = "Hatmarim", HouseNumber = 16, City = "Eilat" }, Vehicle.heavyTruck, Gearbox.manual, "TheBest", new Name { FirstName = "Shmuel", LastName = "Garber" }, 34));
 
-                bl.AddTest(bl.GetTrainee("212384507"), new DateTime(2019, 1, 2, 8, 0, 0), new DateTime(2019, 1, 2), new Address { Street = "Hganenet", HouseNumber = 7, City = "Jerusalem" }, Vehicle.tractor);
-                bl.AddTest(bl.GetTrainee("323947739"), new DateTime(2019, 1, 2, 8, 0, 0), new DateTime(2019, 1, 2), new Address { Street = "Hatmarim", HouseNumber = 18, City = "Eilat" }, Vehicle.heavyTruck);
+                bl.AddTest(bl.GetTrainee("212384507"), new DateTime(2019, 1, 2, 8, 0, 0), /*new DateTime(2019, 1, 2),*/ new Address { Street = "Hganenet", HouseNumber = 7, City = "Jerusalem" }, Vehicle.tractor);
+                bl.AddTest(bl.GetTrainee("323947739"), new DateTime(2019, 1, 2, 8, 0, 0), /*new DateTime(2019, 1, 2),*/ new Address { Street = "Hatmarim", HouseNumber = 18, City = "Eilat" }, Vehicle.heavyTruck);
 
                 bl.UpdateTester(new Tester("323947747", new Name { FirstName = "Samuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0566824871", new Address { Street = "Jorg", HouseNumber = 9, City = "Jerusalem" }, 10, 30, Vehicle.tractor, new bool[,] { { true, false, false, false, false, false, true, false }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false } }, 20));
                 bl.UpdateTrainee(new Trainee("212384507", new Name { FirstName = "Yosepa", LastName = "katri" }, new DateTime(1995, 10, 6), Gender.female, "054124545", new Address { Street = "Franco", HouseNumber = 16, City = "KiriatShmona" }, Vehicle.tractor, Gearbox.manual, "TheBest", new Name { FirstName = "Shmuel", LastName = "Garber" }, 34));
@@ -109,11 +109,11 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine("--------------------------------------------------");
 
-                bl.RemoveTester("323947747");
-                bl.RemoveTester("322680083");
+                bl.RemoveTester(bl.GetTester("323947747"));
+                bl.RemoveTester(bl.GetTester("322680083"));
 
-                bl.RemoveTrainee("212384507");
-                bl.RemoveTrainee("323947739");
+                bl.RemoveTrainee(bl.GetTrainee("212384507"));
+                bl.RemoveTrainee(bl.GetTrainee("323947739"));
 
             }
             catch (Exception e)

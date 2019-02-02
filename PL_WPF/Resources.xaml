@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PL_WPF">
+
+    <Style TargetType="{x:Type Window}">
+        <Setter Property="Title" Value="The Tests System"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <Setter Property="MinWidth" Value="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}"/>
+        <Setter Property="MinHeight" Value="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" />
+        <Setter Property="Icon" Value="/Accessories/Images/logo3.png"/>
+    </Style>
+</ResourceDictionary>

@@ -3,15 +3,80 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using BE;
 
 namespace DAL
 {
     internal class Dal_XmlImp : IDal
     {
+        private struct MyStruct
+        {
+            public readonly string filePath;
+            public readonly XElement root;
+
+            public MyStruct(string filePath, XElement root)
+            {
+                this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+                this.root = root ?? throw new ArgumentNullException(nameof(root));
+            }
+        }
+
+        MyStruct tests;
+        MyStruct testers;
+        MyStruct trainees;
+
+        private const string filesPath = @"\\DS\DS_Xml";
+        private readonly string testsFilePath;
+        private readonly string testersFilePath;
+        private readonly string traineesFilePath;
+        private readonly XElement testsRoot = new XElement(nameof(Test) + 's');
+        private readonly XElement testersRoot = new XElement(nameof(Tester) + 's');
+        private readonly XElement traineesRoot = new XElement(nameof(Trainee) + 's');
+
+        public Dal_XmlImp()
+        {
+
+            testsFilePath = $@"{filesPath}\{testsRoot.Name}.xml";
+            testersFilePath = $@"{filesPath}\{testersRoot.Name}.xml";
+            traineesFilePath = $@"{filesPath}\{traineesRoot.Name}.xml";
+
+            tests = new MyStruct(testsFilePath, testsRoot);
+            testers = new MyStruct(testersFilePath, testersRoot);
+            trainees = new MyStruct(traineesFilePath, traineesRoot);
+
+            testsRoot.Changed += XmlFile_Changed;
+            testersRoot.Changed += XmlFile_Changed;
+            traineesRoot.Changed += XmlFile_Changed;
+        }
+
+        private void XmlFile_Changed(object sender, XObjectChangeEventArgs e)
+        {
+            try
+            {
+                (sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
+            }
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                //testsRoot.Close();
+            }
+            //e.ObjectChange;
+        }
+
+        private void CreateFile(string path)
+        {
+
+        }
+
+
+
         public void AddTest(Test test)
         {
-            throw new NotImplementedException();
+            testsRoot.Add(tests);
         }
 
         public void AddTester(Tester tester)

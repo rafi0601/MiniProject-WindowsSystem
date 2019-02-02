@@ -13,16 +13,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Indigo.xaml" />
+                <ResourceDictionary Source="/Resources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <Style TargetType="{x:Type Window}">
-                <Setter Property="Title" Value="The Tests System"/>
-                <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
-                <Setter Property="MinWidth" Value="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}"/>
-                <Setter Property="MinHeight" Value="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" />
-                <Setter Property="Icon" Value="/Accessories/Images/logo3.png"/>
-            </Style>
-            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

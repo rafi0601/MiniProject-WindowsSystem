@@ -59,6 +59,10 @@ namespace PL_WPF
 
                 Close();
             }
+            catch(CustomException ex) when (ex.DisplayToUser)
+            {
+
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
