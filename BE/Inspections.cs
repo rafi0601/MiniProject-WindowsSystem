@@ -130,12 +130,12 @@ namespace BE
 
             if (tester.WorkingHours.GetLength(0) != Configuration.WORKING_DAYS_A_WEEK
                 || tester.WorkingHours.GetLength(1) != Configuration.WORKING_HOURS_A_DAY)
-                throw new Exception();
+                throw new Exception("The schedule is not right");
             #endregion
 
             #region MaxDistanceFromAddress
             if (tester.MaxDistanceFromAddress == 0)
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("Max Distance From Address can not get 0");
             #endregion
         }
 

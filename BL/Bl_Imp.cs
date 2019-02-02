@@ -33,8 +33,8 @@ namespace BL
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
                 throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
 
-            if (tester.YearsOfExperience > tester.AgeInYears - Configuration.MIN_AGE_OF_TESTER.Days)
-                throw new Exception();
+            if (tester.YearsOfExperience > tester.AgeInYears - (Configuration.MIN_AGE_OF_TESTER.Days/365))
+                throw new Exception("Years of experience do not make sense according to age");
 
             try
             {
