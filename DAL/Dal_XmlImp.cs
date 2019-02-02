@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,20 @@ namespace DAL
 
         public Dal_XmlImp()
         {
+            if (!File.Exists(testsFilePath))
+                testsRoot.Save(testsFilePath);
+            else
+                testsRoot = XElement.Load(testsFilePath);
+
+            if (!File.Exists(testersFilePath))
+                testersRoot.Save(testersFilePath);
+            else
+                testersRoot = XElement.Load(testersFilePath);
+
+            if (!File.Exists(traineesFilePath))
+                traineesRoot.Save(traineesFilePath);
+            else
+                traineesRoot = XElement.Load(traineesFilePath);
 
             testsFilePath = $@"{filesPath}\{testsRoot.Name}.xml";
             testersFilePath = $@"{filesPath}\{testersRoot.Name}.xml";
@@ -79,17 +94,34 @@ namespace DAL
             testsRoot.Add(tests);
         }
 
-        public void AddTester(Tester tester)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddTrainee(Trainee trainee)
+        public void UpdateTest(Test test)
         {
             throw new NotImplementedException();
         }
 
         public Test GetTest(string code)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Test> GetTests(Predicate<Test> match = null)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+        public void AddTester(Tester tester)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateTester(Tester tester)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveTester(Tester tester)
         {
             throw new NotImplementedException();
         }
@@ -104,42 +136,77 @@ namespace DAL
             throw new NotImplementedException();
         }
 
-        public List<Test> GetTests(Predicate<Test> match = null)
+
+
+        public void AddTrainee(Trainee trainee)
         {
-            throw new NotImplementedException();
+            //traineesRoot.Add(
+            //    from x in trainee.GetType().GetFields()
+            //    select new XElement(x.Name, x.GetValue(x)));
+
+            traineesRoot.Add(
+                new XElement(nameof(Trainee),
+                    new XElement(nameof(trainee.ID), trainee.ID),
+                    new XElement(nameof(trainee.Name),
+                        new XElement(nameof(trainee.Name.LastName), trainee.Name.LastName),
+                        new XElement(nameof(trainee.Name.FirstName), trainee.Name.FirstName)),
+                    new XElement(nameof(trainee.Birthdate), trainee.Birthdate),
+                    new XElement(nameof(trainee.Gender), trainee.Gender),
+                    new XElement(nameof(trainee.PhoneNumber), trainee.PhoneNumber),
+                    new XElement(nameof(trainee.Address),
+                        new XElement(nameof(trainee.Address.Street), trainee.Address.Street),
+                        new XElement(nameof(trainee.Address.HouseNumber), trainee.Address.HouseNumber),
+                        new XElement(nameof(trainee.Address.City), trainee.Address.City)),
+                    new XElement(nameof(trainee.VehicleTypeTraining), trainee.VehicleTypeTraining),
+                    new XElement(nameof(trainee.GearboxTypeTraining), trainee.GearboxTypeTraining),
+                    new XElement(nameof(trainee.DrivingSchool), trainee.DrivingSchool),
+                    new XElement(nameof(trainee.TeacherName),
+                        new XElement(nameof(trainee.TeacherName.LastName), trainee.TeacherName.LastName),
+                        new XElement(nameof(trainee.TeacherName.FirstName)), trainee.TeacherName.FirstName)),
+                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons));
         }
 
-        public Trainee GetTrainee(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveTester(Tester tester)
+        public void UpdateTrainee(Trainee trainee)
         {
             throw new NotImplementedException();
         }
 
         public void RemoveTrainee(Trainee trainee)
         {
-            throw new NotImplementedException();
+            Trainee tmp;
+            (from traineeXElement in traineesRoot.Elements()
+             where traineeXElement.Element(nameof(tmp.ID)).Value == trainee.ID
+             select traineeXElement)
+             .FirstOrDefault().Remove(); //TODO ?.
         }
 
-        public void UpdateTest(Test test)
+        public Trainee GetTrainee(string id)
         {
-            throw new NotImplementedException();
+            //IMPROVEMENT to that with foreach until it find the id
+            Trainee tmp = new Trainee();
+
+            return (
+                from trainee in traineesRoot.Elements()
+                where trainee.Element(nameof(tmp.ID)).Value == id
+                let nameXElement = trainee.Element(nameof(tmp.Name))
+                let addressXElement = trainee.Element(nameof(tmp.Address))
+                let teacherNameXElement = trainee.Element(nameof(tmp.TeacherName))
+                select new Trainee(
+                    id,
+                    new Name(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
+                    DateTime.Parse(trainee.Element(nameof(tmp.Birthdate)).Value),
+                    (Gender)Enum.Parse(typeof(Gender), trainee.Element(nameof(tmp.Gender)).Value),
+                    trainee.Element(nameof(tmp.PhoneNumber)).Value,
+                    new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
+                    (Vehicle)Enum.Parse(typeof(Vehicle), trainee.Element(nameof(tmp.VehicleTypeTraining)).Value),
+                    (Gearbox)Enum.Parse(typeof(Gearbox), trainee.Element(nameof(tmp.GearboxTypeTraining)).Value),
+                    trainee.Element(nameof(tmp.DrivingSchool)).Value,
+                    new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
+                    uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value)
+                )).FirstOrDefault();
         }
 
-        public void UpdateTester(Tester tester)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateTrainee(Trainee trainee)
+        public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
             throw new NotImplementedException();
         }

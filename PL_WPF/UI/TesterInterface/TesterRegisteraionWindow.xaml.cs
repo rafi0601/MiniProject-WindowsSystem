@@ -33,7 +33,7 @@ namespace PL_WPF.UI.TesterInterface
             DataContext = tester;
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            vehicleTypeExpertiseComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
+            vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -53,7 +53,11 @@ namespace PL_WPF.UI.TesterInterface
 
                 //IUserManager userManager = Singleton.Instance;
                 //userManager.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Tester) });
-                
+                foreach (Vehicle expertise in vehicleTypeExpertiseListBox.SelectedItems)
+                    tester.VehicleTypeExpertise |= expertise;
+                iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
+
+
                 bl.AddTester(tester);
                 new TesterWindow(tester).Show();
                 Close();

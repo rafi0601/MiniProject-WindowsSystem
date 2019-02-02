@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -19,12 +20,15 @@ namespace DAL
         public TraineeXml()
         {
             if (!File.Exists(traineePath))
-                CreateFiles();
+                CreateFile();
             else
                 LoadData();
+
+
+            //Dictionary<PropertyInfo, string> traineePropertyNames;
         }
 
-        private void CreateFiles()
+        private void CreateFile()
         {
             traineeRoot = new XElement("trainees");
             traineeRoot.Save(traineePath);
@@ -54,7 +58,7 @@ namespace DAL
         //                                    )
         //                                )
         //                            );
-
+        //
         //    traineeRoot.Save(traineePath);
         //}
 
@@ -86,43 +90,17 @@ namespace DAL
 
         public void AddTrainee(Trainee trainee)
         {
-            traineeRoot.Add(new XElement("trainee",
-                new XElement("person",
-                    new XElement("id", trainee.ID),
-                    new XElement("name",
-                        new XElement("lastName", trainee.Name.LastName),
-                        new XElement("firstName", trainee.Name.FirstName)),
-                    new XElement("birthdate", trainee.Birthdate),
-                    new XElement("gender", trainee.Gender),
-                    new XElement("phoneNumber", trainee.PhoneNumber),
-                    new XElement("address",
-                        new XElement("street", trainee.Address.Street),
-                        new XElement("houseNumber", trainee.Address.HouseNumber),
-                        new XElement("city", trainee.Address.City))),
-
-                new XElement("vehicleTypeTraining", trainee.VehicleTypeTraining),
-                new XElement("gearboxTypeTraining", trainee.GearboxTypeTraining),
-                new XElement("drivingSchool", trainee.DrivingSchool),
-                new XElement("teacherName",
-                    new XElement("teacherNameLastName", trainee.TeacherName.LastName),
-                    new XElement("teacherNameFirstName", trainee.TeacherName.FirstName)),
-                new XElement("numberOfDoneLessons", trainee.NumberOfDoneLessons)));
 
             traineeRoot.Save(traineePath);
         }
 
         public bool RemoveTrainee(string id)
         {
-            XElement traineeElement;
+            Trainee tmp = new Trainee();
 
             try
             {
-                traineeElement = (from tra in traineeRoot.Elements()
-                                  where tra.Element("person").Element("id").Value == id
-                                  select tra
-                                  ).FirstOrDefault();
 
-                traineeElement.Remove();
                 traineeRoot.Save(traineePath);
                 return true;
             }
@@ -134,50 +112,27 @@ namespace DAL
 
         public void UpdateStudent(Trainee trainee)
         {
-            XElement traineeElement = (
-                                       from tra in traineeRoot.Elements()
-                                       where tra.Element("person").Element("id").Value == trainee.ID
-                                       select tra
+            (
+                from traineeXElement in traineeRoot.Elements()
+                where traineeXElement.Element(nameof(trainee.ID)).Value == trainee.ID
+                select traineeXElement
                                        ).FirstOrDefault();
 
-            RemoveTrainee(trainee.ID);
-            AddTrainee(trainee);
+            traineeRoot.ReplaceAttributes(trainee); // TODO check if it work
+
+            //RemoveTrainee(trainee.ID);
+            //AddTrainee(trainee);
 
             traineeRoot.Save(traineePath);
         }
 
         public Trainee GetTrainee(string id)
         {
+
+
             LoadData();
-            Trainee trainee = (
-                           from tra in traineeRoot.Elements()
-                           where tra.Element("person").Element("id").Value == id
-                           select new Trainee(
-                               tra.Element("person").Element("id").Value,
-                               new Name()
-                               {
-                                   LastName = tra.Element("person").Element("name").Element("lastName").Value,
-                                   FirstName = tra.Element("person").Element("name").Element("firstName").Value,
-                               },
-                               tra.Element("person").Element("birthdate").Value,
-                               tra.Element("person").Element("gender").Value,
-                               tra.Element("person").Element("phoneNumber").Value,
-                               new Address()
-                               {
-                                   Street = tra.Element("person").Element("address").Element("street").Value,
-                                   HouseNumber = tra.Element("person").Element("address").Element("houseNumber").Value,
-                                   HouseNumber = tra.Element("person").Element("address").Element("houseNumber").Value,
-                               }
 
-
-
-
-
-
-
-                           ).FirstOrDefault();
-
-            return (Trainee)traineeElement;
+            return new Trainee();
         }
     }
 }

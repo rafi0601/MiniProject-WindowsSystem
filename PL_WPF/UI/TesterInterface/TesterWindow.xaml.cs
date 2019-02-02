@@ -38,7 +38,7 @@ namespace PL_WPF.UI.TesterInterface
             DataContext = tester;
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
-            vehicleTypeExpertiseComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
+            vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
 
             firstNameTextBox.Text = tester.Name.FirstName;
             lastNameTextBox.Text = tester.Name.LastName;

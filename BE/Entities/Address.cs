@@ -15,6 +15,13 @@ namespace BE
         private uint _houseNumber;
         private string _city;
 
+        public Address(string street, uint houseNumber, string city) : this()
+        {
+            Street = street;
+            HouseNumber = houseNumber;
+            City = city;
+        }
+
         // TODO remove the properties
         public string Street
         {

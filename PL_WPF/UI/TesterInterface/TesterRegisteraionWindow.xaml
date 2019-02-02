@@ -59,7 +59,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        ID:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:MaskedTextBox Mask="000000000" BeepOnError="True" x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=TwoWay}" VerticalAlignment="Center" Width="120" BorderBrush="{x:Null}"/>
+                <xctk:MaskedTextBox Mask="000000000" BeepOnError="True" x:Name="iDTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=TwoWay, UpdateSourceTrigger=Explicit}" VerticalAlignment="Center" Width="120" BorderBrush="{x:Null}"/>
             </Grid>
 
             <Grid>
@@ -159,7 +159,7 @@
                 <Label Content="        Vehicle Type Expertise:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <xctk:DropDownButton Content="Choose vehicles"  Grid.Column="1">
                     <xctk:DropDownButton.DropDownContent>
-                        <ListBox x:Name="vehicleTypeExpertiseComboBox" SelectionMode="Multiple" SelectedItem ="{Binding VehicleTypeExpertise,  Mode=TwoWay}" Margin="3" Width="150" HorizontalAlignment="Left"/>
+                        <ListBox x:Name="vehicleTypeExpertiseListBox" SelectionMode="Multiple" SelectedItem ="{Binding VehicleTypeExpertise,  Mode=TwoWay}" Margin="3" Width="150" HorizontalAlignment="Left"/>
                     </xctk:DropDownButton.DropDownContent>
                 </xctk:DropDownButton>
             </Grid>

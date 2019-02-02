@@ -16,6 +16,12 @@ namespace BE
         private string _lastName;
         private string _firstName;
 
+        public Name(string lastName, string firstName) : this()
+        {
+            LastName = lastName;
+            FirstName = firstName;
+        }
+
         public string LastName
         {
             get => _lastName;
@@ -38,6 +44,7 @@ namespace BE
                 _firstName = value;
             }
         }
+
 
         public override string ToString()
         {
