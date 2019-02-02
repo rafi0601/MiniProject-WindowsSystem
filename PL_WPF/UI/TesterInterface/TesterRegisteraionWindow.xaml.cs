@@ -22,14 +22,13 @@ namespace PL_WPF.UI.TesterInterface
     /// </summary>
     public partial class TesterRegisteraionWindow : Window
     {
-        Tester tester;
-        BL.IBL bl;
+        Tester tester = new Tester();
+        BL.IBL bl = BL.Singleton.Instance;
 
         public TesterRegisteraionWindow()
         {
             InitializeComponent();
-            bl = BL.Singleton.Instance;
-            tester = new Tester();
+
             DataContext = tester;
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
@@ -51,20 +50,26 @@ namespace PL_WPF.UI.TesterInterface
                 };
                 tester.WorkingHours = workingHours;
 
-                //IUserManager userManager = Singleton.Instance;
-                //userManager.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Tester) });
                 foreach (Vehicle expertise in vehicleTypeExpertiseListBox.SelectedItems)
                     tester.VehicleTypeExpertise |= expertise;
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 
-
-                bl.AddTester(tester);
+                try
+                {
+                    bl.AddTester(tester);
+                    Singleton.Instance.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Tester) });
+                }
+                catch (CustomException)
+                {
+                    throw;
+                }
+                
                 new TesterWindow(tester).Show();
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 

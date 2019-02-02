@@ -23,15 +23,14 @@ namespace PL_WPF.UI.TraineeInterface
     public partial class TraineeWindow : Window
     {
         Trainee trainee;
-        BL.IBL bl;
+        BL.IBL bl= BL.Singleton.Instance;
 
         public TraineeWindow(Trainee trainee)
         {
             InitializeComponent();
 
-            bl = BL.Singleton.Instance;
             this.trainee = trainee;
-            DataContext = trainee;
+            DataContext = trainee; // BUG ? this.trainee
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));//.SplitByUpperAndLower();
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
@@ -80,8 +79,10 @@ namespace PL_WPF.UI.TraineeInterface
                 switch (MessageBox.Show("Are you sure you want to Remove your account?", "Verify deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
                 {
                     case MessageBoxResult.Yes:
+                        Singleton.Instance.Remove(Singleton.Instance.Get(trainee.ID));
                         bl.RemoveTrainee(trainee);
                         Close();
+                        // CHECK it is unreachable code???
                         trainee = new Trainee();
                         DataContext = trainee;
                         break;
