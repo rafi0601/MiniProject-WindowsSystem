@@ -21,7 +21,7 @@ namespace DAL
 
         #region Tester functions
 
-        public void AddTester(Tester tester)
+        void IDal.AddTester(Tester tester)
         {
             ////CHECK if we use inspec in prop so will check null here
             //Inspections.TesterInspection(tester);
@@ -36,7 +36,7 @@ namespace DAL
                 //throw new ArgumentException("Tester with same ID already exists in the database", nameof(tester.ID));
         }
 
-        public void RemoveTester(Tester tester)
+        void IDal.RemoveTester(Tester tester)
         {
             //if (tester == null)
             //    throw new ArgumentNullException(nameof(tester), "Cannot remove null");
@@ -61,7 +61,7 @@ namespace DAL
                 //throw new ArgumentException("This tester doesn't exist in the database");
         }
 
-        public void UpdateTester(Tester tester)
+        void IDal.UpdateTester(Tester tester)
         {
             //Inspections.TesterInspection(tester);
             //int index = DS_Lists.TesterList.FindIndex(t => t.ID == tester.ID);
@@ -84,7 +84,7 @@ namespace DAL
                 //throw new ArgumentException("This tester doesn't exist in the database");
         }
 
-        public Tester GetTester(string id)
+        Tester IDal.GetTester(string id)
         {
             //Tester tester = FindingTesterById(id);
             //return tester != null ? new Tester(tester) : null;

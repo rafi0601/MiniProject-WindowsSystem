@@ -1,4 +1,6 @@
-﻿using System;
+﻿//Bs"d
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,32 +30,29 @@ namespace DAL
         MyStruct testers;
         MyStruct trainees;
 
+        private const char s = 's';
         private const string filesPath = @"\\DS\DS_Xml";
         private readonly string testsFilePath;
         private readonly string testersFilePath;
         private readonly string traineesFilePath;
-        private readonly XElement testsRoot = new XElement(nameof(Test) + 's');
-        private readonly XElement testersRoot = new XElement(nameof(Tester) + 's');
-        private readonly XElement traineesRoot = new XElement(nameof(Trainee) + 's');
+        private readonly XElement testsRoot = new XElement(nameof(Test) + s);
+        private readonly XElement testersRoot = new XElement(nameof(Tester) + s);
+        private readonly XElement traineesRoot = new XElement(nameof(Trainee) + s);
+        private readonly FileStream testsFile;
+        private readonly FileStream testersFile;
 
         public Dal_XmlImp()
         {
-            if (!File.Exists(testsFilePath))
-                testsRoot.Save(testsFilePath);
-            else
-                testsRoot = XElement.Load(testsFilePath);
+            testsFile = new FileStream(testsFilePath, FileMode.Create);
 
-            if (!File.Exists(testersFilePath))
-                testersRoot.Save(testersFilePath);
-            else
-                testersRoot = XElement.Load(testersFilePath);
+            testersFile = new FileStream(testsFilePath, FileMode.Create); //CHECK
 
             if (!File.Exists(traineesFilePath))
                 traineesRoot.Save(traineesFilePath);
             else
                 traineesRoot = XElement.Load(traineesFilePath);
 
-            testsFilePath = $@"{filesPath}\{testsRoot.Name}.xml";
+            testsFilePath = $@"{filesPath}\{testsRoot.Name}.xml"; // BUG root.FirstSun
             testersFilePath = $@"{filesPath}\{testersRoot.Name}.xml";
             traineesFilePath = $@"{filesPath}\{traineesRoot.Name}.xml";
 
@@ -92,11 +91,9 @@ namespace DAL
 
         public void AddTest(Test test)
         {
-            //testsRoot.Add(tests);
-            FileStream file = new FileStream(testsFilePath, FileMode.Create);
             XmlSerializer xmlSerializer = new XmlSerializer(testsRoot.GetType());
-            xmlSerializer.Serialize(file, testsRoot);
-            file.Close();
+            xmlSerializer.Serialize(testsFile, testsRoot);
+            testsFile.Close();
         }
 
         public void UpdateTest(Test test)
