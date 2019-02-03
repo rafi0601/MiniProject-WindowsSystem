@@ -168,12 +168,12 @@ namespace DAL
         {
             Inspections.TestInspection(test);
 
-            Tester tester = FindingTesterById(test.IDTester);
+            Tester tester = FindingTesterById(test.TesterID);
 
             if (tester == default(Tester)) //!ExistingTesterById(test.IDTester)
                 throw new ArgumentException("The tester doesn't exist in the database");
 
-            if (!ExistingTraineeById(test.IDTrainee))
+            if (!ExistingTraineeById(test.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database");
 
              //if !ExistingTestByCode

@@ -186,22 +186,22 @@ namespace BE
             #region IDTester
             try
             {
-                IdValidator(test.IDTester);
+                IdValidator(test.TesterID);
             }
             catch (Exception e)// when (e is ArgumentNullException)
             {
-                new ArgumentException("ID is not valid", nameof(test.IDTester), e);
+                new ArgumentException("ID is not valid", nameof(test.TesterID), e);
             }
             #endregion
 
             #region IDTrainee
             try
             {
-                IdValidator(test.IDTrainee);
+                IdValidator(test.TraineeID);
             }
             catch (Exception e)// when (e is ArgumentNullException)
             {
-                new ArgumentException("ID is not valid", nameof(test.IDTrainee), e);
+                new ArgumentException("ID is not valid", nameof(test.TraineeID), e);
             }
             #endregion
 

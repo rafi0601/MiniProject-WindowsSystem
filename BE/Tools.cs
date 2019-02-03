@@ -72,7 +72,7 @@ namespace BE
                 (Gearbox)Enum.Parse(typeof(Gearbox), xElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
                 xElement.Element(nameof(tmp.DrivingSchool)).Value,
                 new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                uint.Parse(xElement.Element(nameof(tmp.NumberOfDoneLessons)).Value)
+                uint.Parse(xElement.Element(nameof(tmp.NumberOfDoneLessons)).Value));
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BE;
+using static BE.Configuration;
 
 namespace BL
 {
@@ -33,7 +34,7 @@ namespace BL
             if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
                 throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
 
-            if (tester.YearsOfExperience > tester.AgeInYears - (Configuration.MIN_AGE_OF_TESTER.Days/365))
+            if (tester.YearsOfExperience > tester.AgeInYears - (Configuration.MIN_AGE_OF_TESTER.Days / 365))
                 throw new Exception("Years of experience do not make sense according to age");
 
             try
@@ -211,12 +212,12 @@ namespace BL
             if (!ExistingTraineeById(trainee?.ID))
                 throw new ArgumentException("This trainee doesn't exist in the database");
 
-            return (uint)dal.GetTests(test => test.IDTrainee == trainee.ID && test.IsDone()).Count;
+            return (uint)dal.GetTests(test => test.TraineeID == trainee.ID && test.IsDone()).Count;
         }
 
         public bool IsEntitledToLicense(Trainee trainee)
         {
-            return dal.GetTests(test => test.IDTrainee == trainee.ID && /*it is IMPROVEMENT because now it's always true,CHECK maybe opposite?*/ test.Vehicle.HasFlag(trainee.VehicleTypeTraining) && test.IsPass == true).Count == 1;
+            return dal.GetTests(test => test.TraineeID == trainee.ID && /*it is IMPROVEMENT because now it's always true,CHECK maybe opposite?*/ test.Vehicle.HasFlag(trainee.VehicleTypeTraining) && test.IsPass == true).Count == 1;
         }
 
         public List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false)
@@ -263,7 +264,7 @@ namespace BL
                 trainees.Sort((trainee1, trainee2) => string.Compare(trainee1.DrivingSchool, trainee2.DrivingSchool));
 
             return (from trainee in trainees
-                    group trainee by (uint)GetTests().FindAll(t => t.IDTrainee == trainee.ID).Count).ToList();
+                    group trainee by (uint)GetTests().FindAll(t => t.TraineeID == trainee.ID).Count).ToList();
         }
 
         #endregion
@@ -282,13 +283,13 @@ namespace BL
             if (trainee.NumberOfDoneLessons < Configuration.MIN_LESSONS)
                 throw new ArgumentException("It is illegal to access to test if you did less than " + Configuration.MIN_LESSONS + " lessons");
 
-            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Date == testDate).IsNullOrEmpty() == false)
+            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Date == testDate).IsNullOrEmpty() == false)
                 throw new ArgumentException("It is illegal to set for a trainee two tests at the same time");
 
             if (IsEntitledToLicense(trainee))
                 throw new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more");
 
-            if (dal.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle.HasFlag(vehicle) && t.IsDone() == false).IsNullOrEmpty() == false)
+            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle.HasFlag(vehicle) && t.IsDone() == false).IsNullOrEmpty() == false)
                 throw new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first");
 
             if (trainee.VehicleTypeTraining.HasFlag(vehicle))
@@ -501,8 +502,7 @@ namespace BL
 
         public Tester FindsAnAlternativeTester(Test test)
         {
-            //dal.GetTesters(test=>)
-            return null;
+            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.MyTests.All(t => t.Date != test.Date)).FirstOrDefault();
         }
     }
 }

@@ -146,7 +146,7 @@ namespace PL_WPF.UI.TraineeInterface
                     dateTimePicker.Visibility = Visibility.Collapsed;
                     CheckDateButton.Visibility = Visibility.Collapsed;
                     ChooseLabel.Visibility = Visibility.Collapsed;
-                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
                     DetailsOfMyTest.Visibility = Visibility.Visible;
                     return;
                 }
@@ -172,7 +172,7 @@ namespace PL_WPF.UI.TraineeInterface
             {
                 bl.AddTest(trainee, (DateTime)AlternateDate, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
                 SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.IDTrainee == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }
             catch (Exception ex)

@@ -165,10 +165,11 @@ namespace BE
 
 
         public string Code { get; set; }
-        public string IDTester { get; }
-        public string IDTrainee { get; }
+        public string TesterID { get; }
+        public string TraineeID { get; }
         public DateTime Date { get; set; }
-        //public DateTime Length { get; set; } //CHECK: what is this
+        [Obsolete(message: "For future propose", error: false)]
+        public DateTime Length { get; set; } //CHECK: what is this
         public Address DepartureAddress { get; set; }
         public Vehicle Vehicle { get; }
 
@@ -182,8 +183,8 @@ namespace BE
         public Test(string idTester, string idTrainee, DateTime date,
             /*DateTime length,*/ Address departureAddress, Vehicle vehicle)
         {
-            IDTester = idTester;
-            IDTrainee = idTrainee;
+            TesterID = idTester;
+            TraineeID = idTrainee;
             Date = date;
             //Length = length;
             DepartureAddress = departureAddress;
@@ -202,7 +203,7 @@ namespace BE
         }
 
         public Test(Test test)
-            : this(test.Code, test.IDTester, test.IDTrainee, test.Date,
+            : this(test.Code, test.TesterID, test.TraineeID, test.Date,
                   /*test.Length,*/ test.DepartureAddress, test.Vehicle,
                   test.CriteriasGrades, test.IsPass, test.TesterNotes)
         { }

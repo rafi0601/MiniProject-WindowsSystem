@@ -82,8 +82,8 @@ namespace PL_WPF.UI.TesterInterface
             CheckBox74.IsChecked = tester.WorkingHours[3, 6];
             CheckBox75.IsChecked = tester.WorkingHours[4, 6];
 
-            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
-            TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true);
+            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == false);
+            TestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == true);
             //TestsDataGrid.ItemsSource = tester.MyTests;
         }
 
@@ -135,8 +135,8 @@ namespace PL_WPF.UI.TesterInterface
 
         private void Refrash_Button_Click(object sender, RoutedEventArgs e)
         {
-            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == false);
-            TestsDataGrid.ItemsSource = bl.GetTests(t => t.IDTester == tester.ID && t.IsDone() == true && t.IsPass == null);
+            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == false);
+            TestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == true && t.IsPass == null);
         }
 
         private void TestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -64,6 +64,12 @@
     <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Constants\Enums.cs" />
     <Compile Include="Exceptions\ExistingInTheDatabaseException.cs" />
+    <Compile Include="Exceptions\Settings1.cs" />
+    <Compile Include="Exceptions\Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings1.settings</DependentUpon>
+    </Compile>
     <Compile Include="IKey.cs" />
     <Compile Include="Inspections.cs" />
     <Compile Include="Entities\Person.cs" />
@@ -76,6 +82,11 @@
     <Compile Include="UserDisplayAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Exceptions\Settings1.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
