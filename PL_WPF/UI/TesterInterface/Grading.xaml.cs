@@ -25,11 +25,11 @@ namespace PL_WPF.UI.TesterInterface
             InitializeComponent();
         }
 
-        public event EventHandler SendClick;
+        public event RoutedEventHandler SendClick;
 
         private void Send_Button_Click(object sender, RoutedEventArgs e)
         {
-            SendClick(this, new EventArgs());
+            SendClick(this, new RoutedEventArgs()); // TODO send information in the args
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

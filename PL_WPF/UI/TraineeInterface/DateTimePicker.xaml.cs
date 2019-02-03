@@ -55,7 +55,7 @@ namespace PL_WPF
             SelectionChanged(this, new EventArgs());
         }
 
-        public event EventHandler SelectionChanged;
+        public event EventHandler SelectionChanged; // CHECK which args to use
     }
 
     //public class DateTimeToDateString_Converter : IValueConverter

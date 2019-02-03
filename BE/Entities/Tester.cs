@@ -19,7 +19,7 @@ namespace BE
         public Vehicle VehicleTypeExpertise { get; set; } // TODO rename to VTypesE
         public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
         public uint MaxDistanceFromAddress { get; set; }
-        public List<Test> MyTests = new List<Test>();
+        public List<Test> MyTests = new List<Test>(); //TODO change to list of DateTime
         //public SortedList<DateTime, Test> MyTests = new SortedList<DateTime, Test>();// IMPROVMENT will take less time to search
 
         [System.Runtime.CompilerServices.IndexerName("WoHo")]

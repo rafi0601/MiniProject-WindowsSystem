@@ -96,7 +96,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DateTimePicker.xaml.cs">
+    <Compile Include="UI\TraineeInterface\DateTimePicker.xaml.cs">
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="LoginWindow.xaml.cs">
@@ -133,7 +133,7 @@
       <DependentUpon>TraineeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UsersManager.cs" />
-    <Page Include="DateTimePicker.xaml">
+    <Page Include="UI\TraineeInterface\DateTimePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
