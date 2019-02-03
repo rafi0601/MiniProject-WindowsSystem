@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using BE;
 
 namespace DAL
@@ -91,7 +92,11 @@ namespace DAL
 
         public void AddTest(Test test)
         {
-            testsRoot.Add(tests);
+            //testsRoot.Add(tests);
+            FileStream file = new FileStream(testsFilePath, FileMode.Create);
+            XmlSerializer xmlSerializer = new XmlSerializer(testsRoot.GetType());
+            xmlSerializer.Serialize(file, testsRoot);
+            file.Close();
         }
 
         public void UpdateTest(Test test)
@@ -208,7 +213,14 @@ namespace DAL
 
         public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
-            throw new NotImplementedException();
+            Trainee tmp = new Trainee();
+
+            return (
+                from trainee in traineesRoot.Elements()
+                let t = Tools.FromXElement(trainee)
+                where match != null ? match(t) : true
+                select t
+                ).ToList();
         }
     }
 }

@@ -8,5 +8,7 @@
         <Setter Property="MinWidth" Value="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}"/>
         <Setter Property="MinHeight" Value="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" />
         <Setter Property="Icon" Value="/Accessories/Images/logo3.png"/>
+        <!--<Setter Property="WindowStartupLocation" Value="CenterScreen"/>-->
     </Style>
+    <WindowStartupLocation x:Key="WSL">CenterScreen</WindowStartupLocation>
 </ResourceDictionary>

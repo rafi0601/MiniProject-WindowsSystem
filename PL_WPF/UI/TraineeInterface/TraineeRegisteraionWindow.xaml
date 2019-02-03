@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" 
-        WindowStartupLocation="CenterScreen" Title="TraineeRegisteraionWindow" Height="680" Width="770">
+        WindowStartupLocation="CenterScreen" Height="680" Width="770" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="ComboBox_Style" TargetType="ComboBox">
             <Setter Property="Background" Value="{x:Null}"/>

@@ -73,6 +73,7 @@
     <Compile Include="Entities\Tester.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Entities\Trainee.cs" />
+    <Compile Include="UserDisplayAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

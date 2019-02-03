@@ -58,5 +58,13 @@ namespace PL_WPF.UI.TraineeInterface
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+
+            vehicleComboBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                                          select 1; //UNDONE
+        }
     }
 }

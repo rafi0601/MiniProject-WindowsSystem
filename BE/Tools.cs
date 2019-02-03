@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using System.Xml.Linq;
 
 namespace BE
 {
@@ -51,6 +52,27 @@ namespace BE
         {
             //return list is null ? true : (0 == list.Count); // count==0
             return list?.Any() ?? true;
+        }
+
+        public static Trainee FromXElement(XElement xElement)
+        {
+            Trainee tmp = new Trainee();
+
+            XElement nameXElement = xElement.Element(nameof(tmp.Name));
+            XElement addressXElement = xElement.Element(nameof(tmp.Address));
+            XElement teacherNameXElement = xElement.Element(nameof(tmp.TeacherName));
+            return new Trainee(
+                xElement.Element(nameof(tmp.ID)).Value,
+                new Name(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
+                DateTime.Parse(xElement.Element(nameof(tmp.Birthdate)).Value),
+                (Gender)Enum.Parse(typeof(Gender), xElement.Element(nameof(tmp.Gender)).Value),
+                xElement.Element(nameof(tmp.PhoneNumber)).Value,
+                new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
+                (Vehicle)Enum.Parse(typeof(Vehicle), xElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
+                (Gearbox)Enum.Parse(typeof(Gearbox), xElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
+                xElement.Element(nameof(tmp.DrivingSchool)).Value,
+                new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
+                uint.Parse(xElement.Element(nameof(tmp.NumberOfDoneLessons)).Value)
         }
     }
 }

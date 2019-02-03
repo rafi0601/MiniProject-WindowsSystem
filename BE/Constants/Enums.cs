@@ -25,9 +25,10 @@ namespace BE
     [Flags]
     public enum Vehicle
     {
+        [UserDisplay(nameof(privateCar))]
         privateCar = 0b1,
-        twoWheeledVehicle = 0b10,
-        mediumTruck = 0b100,
+        twoWheeledVehicle = 0b10, //1<<1
+        mediumTruck = 0b100,//1<<2
         heavyTruck = 0b1_000,
         publicVehicle = 0b10_000,
         tractor = 0b100_000

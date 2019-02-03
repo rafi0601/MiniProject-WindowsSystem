@@ -32,7 +32,8 @@ namespace DAL
             //DS_Lists.TesterList.Add(tester.Copy());
 
             if (!Add(tester))
-                throw new ArgumentException("Tester with same ID already exists in the database", nameof(tester.ID));
+                throw new ExistingInTheDatabaseException(true, "Tester with same ID already exists in the database");
+                //throw new ArgumentException("Tester with same ID already exists in the database", nameof(tester.ID));
         }
 
         public void RemoveTester(Tester tester)
@@ -56,7 +57,8 @@ namespace DAL
             ///
 
             if (!Remove(tester))
-                throw new ArgumentException("This tester doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
+                //throw new ArgumentException("This tester doesn't exist in the database");
         }
 
         public void UpdateTester(Tester tester)
@@ -78,7 +80,8 @@ namespace DAL
             ////}
 
             if (!Update(tester))
-                throw new ArgumentException("This tester doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
+                //throw new ArgumentException("This tester doesn't exist in the database");
         }
 
         public Tester GetTester(string id)
@@ -87,6 +90,7 @@ namespace DAL
             //return tester != null ? new Tester(tester) : null;
 
             return FindingTesterById(id)?.Copy();
+            //return GetTesters(tester => tester.ID == id).FirstOrDefault();
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
@@ -211,7 +215,10 @@ namespace DAL
         }
 
         #endregion
-        private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey
+
+
+
+        private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey // TODO rename to equalitionOfKey
         {
             return t => item?.Key == t?.Key;
         }
@@ -240,7 +247,8 @@ namespace DAL
                     throw new CustomException(false, new Exception());
             }
 
-            if (list.Exists((Predicate<T>)(t => item.Key == t.Key)))
+            //if (list.Exists((Predicate<T>)(t => item.Key == t.Key)))
+            if (list.Exists(ComperisonOfKey(item)))
                 return false;
             list.Add(item.Copy());
             return true;
@@ -248,7 +256,7 @@ namespace DAL
 
         private bool Remove<T>(T item) where T : IKey
         {
-            return 0 == GetTheMatchingList(example: item).RemoveAll((Predicate<T>)(t => item.Key == t.Key));
+            return 0 == GetTheMatchingList<T>().RemoveAll(ComperisonOfKey(item));
         }
 
         private bool Update<T>(T item) where T : IKey
@@ -274,7 +282,7 @@ namespace DAL
                     throw new CustomException(false, new Exception());
             }
 
-            int index = list.FindIndex((Predicate<T>)(t => t.Key == item.Key));
+            int index = list.FindIndex(ComperisonOfKey(item));
             if (-1 == index)
                 return false;
             list[index] = item.Copy();
@@ -286,15 +294,15 @@ namespace DAL
         //    return GetTheMatchingList(example: item).Find((Predicate<T>)(t => t.Key == item.Key));
         //}
 
-        protected dynamic GetTheMatchingList<T>(T example)
+        protected dynamic GetTheMatchingList<T>()
         {
-            switch (example)
+            switch (typeof(T))
             {
-                case Tester t:
+                case Type t when t == typeof(Tester):
                     return DS_Lists.TesterList;
-                case Trainee t:
+                case Type t when t == typeof(Trainee):
                     return DS_Lists.TraineeList;
-                case Test t:
+                case Type t when t == typeof(Test):
                     return DS_Lists.TestList;
                 //case null:
                 //    break;

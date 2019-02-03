@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace BE
 {
@@ -159,6 +160,7 @@ namespace BE
             : this(person.ID, person.Name, person.Birthdate, person.Gender, person.PhoneNumber, person.Address)
         { }
 
+        [XmlIgnore] //CHECK if need it since no setter
         public uint AgeInYears
         {
             get
