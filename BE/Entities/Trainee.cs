@@ -21,12 +21,12 @@ namespace BE
         public Trainee() { }
 
         public Trainee(string id, Name name, DateTime birthdate, Gender gender,
-            string phoneNumber, Address address, Vehicle vehicle, Gearbox gearbox,
+            string phoneNumber, Address address, Vehicle vehicleTypeTraining, Gearbox gearboxTypeTraining,
             string drivingSchool, Name teacherName, uint numberOfDoneLessons) //UNDONE DT theLastTest
             : base(id, name, birthdate, gender, phoneNumber, address)
         {
-            VehicleTypeTraining = vehicle;
-            GearboxTypeTraining = gearbox;
+            VehicleTypeTraining = vehicleTypeTraining;
+            GearboxTypeTraining = gearboxTypeTraining;
             DrivingSchool = drivingSchool;
             TeacherName = teacherName;
             NumberOfDoneLessons = numberOfDoneLessons;

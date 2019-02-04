@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BE
 {
@@ -17,10 +18,12 @@ namespace BE
         public uint YearsOfExperience { get; set; }
         public uint MaxOfTestsPerWeek { get; set; }
         public Vehicle VehicleTypeExpertise { get; set; } // TODO rename to VTypesE
+        [XmlIgnore]
         public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
         public uint MaxDistanceFromAddress { get; set; }
-        public List<Test> MyTests = new List<Test>(); //TODO change to list of DateTime
-        //public SortedList<DateTime, Test> MyTests = new SortedList<DateTime, Test>();// IMPROVMENT will take less time to search
+        [XmlIgnore]
+        public List<Test> MyTests = new List<Test>();
+        //public SortedList<DateTime, DateTime> MyTests = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
 
         [System.Runtime.CompilerServices.IndexerName("WoHo")]
         public bool this[DayOfWeek day, uint hour]

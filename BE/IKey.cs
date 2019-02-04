@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BE
 {
-    public interface IKey//<T> //TODO : IEqualityComparer<Person>
+    public interface IKey //TODO : IEqualityComparer<Person>
     {
         //T Key { get; }
         string Key { get; }

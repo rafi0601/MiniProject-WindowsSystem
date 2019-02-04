@@ -13,12 +13,7 @@ namespace BL
     public partial class Bl_imp : IBL
     {
 
-        private readonly DAL.IDal dal;
-
-        public Bl_imp()
-        {
-            dal = DAL.Singleton.Instance;
-        }
+        private readonly DAL.IDal dal = DAL.Singleton.Instance;
 
 
         #region Tester functions
@@ -31,17 +26,17 @@ namespace BL
                 throw new CustomException(true, new ArgumentException("This tester already exists in the database.", nameof(tester)));
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
-            if (testerAge < Configuration.MIN_AGE_OF_TESTER || testerAge > Configuration.MAX_AGE_OF_TESTER)
+            if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
                 throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
 
-            if (tester.YearsOfExperience > tester.AgeInYears - (Configuration.MIN_AGE_OF_TESTER.Days / 365))
+            if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365))// check minageoftrainee?
                 throw new Exception("Years of experience do not make sense according to age");
 
             if (0 == tester.MaxOfTestsPerWeek)
                 throw new CustomException(true, new ArgumentOutOfRangeException("It is illegal for the teter to not test"));
 
-            if (tester.WorkingHours.GetLength(0) != Configuration.WORKING_DAYS_A_WEEK
-                    || tester.WorkingHours.GetLength(1) != Configuration.WORKING_HOURS_A_DAY)
+            if (tester.WorkingHours.GetLength(0) != WORKING_DAYS_A_WEEK
+                    || tester.WorkingHours.GetLength(1) != WORKING_HOURS_A_DAY)
                 throw new Exception("The schedule is not right");
 
             if (tester.MaxDistanceFromAddress == 0)
@@ -51,9 +46,13 @@ namespace BL
             {
                 dal.AddTester(tester);
             }
-            catch
+            catch(ExistingInTheDatabaseException e)
             {
-                throw;
+                throw new CustomException(true, e);
+            }
+            catch(Exception e)
+            {
+                throw new CustomException(true, e);
             }
         }
 
@@ -108,7 +107,7 @@ namespace BL
         public List<Tester> TheTestersWhoLiveInTheDistance(Address address)
         {
             return (from tester in dal.GetTesters()
-                    where Configuration.rand.Next(1, 40) < Configuration.X
+                    where rand.Next(1, 40) < X
                     select tester)
                           .ToList();
         }
@@ -134,7 +133,7 @@ namespace BL
             }
 
 
-            return (from tester in dal.GetTesters(t => t.WorkingHours[(uint)theDayInTheWeek, dateAndTime.Hour - Configuration.BEGINNING_OF_A_WORKING_DAY])
+            return (from tester in dal.GetTesters(t => t.WorkingHours[(uint)theDayInTheWeek, dateAndTime.Hour - BEGINNING_OF_A_WORKING_DAY])
                     where WillAvailable(tester)
                     select tester)
                     .ToList();
@@ -160,7 +159,7 @@ namespace BL
         {
             Inspections.TraineeInspection(trainee);
 
-            if (DateTime.Today - trainee.Birthdate < Configuration.MIN_AGE_OF_TRAINEE)
+            if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
                 throw new CustomException(true, new ArgumentOutOfRangeException(nameof(trainee.Birthdate), "This Trainee's age is not appropriate."));
 
             if (ExistingTraineeById(trainee.ID))
@@ -287,22 +286,22 @@ namespace BL
             if (!ExistingTraineeById(trainee.ID))
                 throw new ArgumentException("This Trainee doesn't exist in the database");
 
-            if (DateTime.Now - trainee.TheLastTest < Configuration.TIME_RANGE_BETWEEN_TESTS)
+            if (DateTime.Now - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
                 throw new ArgumentException("It is illegal to access to test less than 7 days after the last one");
 
-            if (trainee.NumberOfDoneLessons < Configuration.MIN_LESSONS)
-                throw new ArgumentException("It is illegal to access to test if you did less than " + Configuration.MIN_LESSONS + " lessons");
+            if (trainee.NumberOfDoneLessons < MIN_LESSONS)
+                throw new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons");
 
-            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Date == testDate).IsNullOrEmpty() == false)
+            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Date == testDate).Any() == true)
                 throw new ArgumentException("It is illegal to set for a trainee two tests at the same time");
 
             if (IsEntitledToLicense(trainee))
                 throw new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more");
 
-            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle.HasFlag(vehicle) && t.IsDone() == false).IsNullOrEmpty() == false)
+            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle.HasFlag(vehicle) && t.IsDone() == false).Any() == true)
                 throw new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first");
 
-            if (trainee.VehicleTypeTraining.HasFlag(vehicle))
+            if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
                 throw new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive");
 
             if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
@@ -318,7 +317,7 @@ namespace BL
 
                 if (tester != default)
                 {
-                    dal.AddTest(new Test(tester.ID, trainee.ID, testDate, /*length,*/ departureAddress, vehicle));
+                    dal.AddTest(new Test(tester.ID, trainee.ID, testDate, departureAddress, vehicle));
                     return null;
                 }
 
@@ -349,7 +348,7 @@ namespace BL
                 throw new Exception("Cannot update updated test");
 
             if (isPass && !HasPassed(criteria))
-                throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + Configuration.MIN_CRITERIONS_TO_PASS_TEST + " Cartierians.");
+                throw new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + MIN_CRITERIONS_TO_PASS_TEST + " Cartierians.");
 
             if (testerNotes == null || testerNotes == "")
                 throw new ArgumentException("You must enter a test note");
@@ -418,7 +417,7 @@ namespace BL
 
         private bool HasPassed(Test.Criteria criteria) // NOTE: better to send (Test test)
         {
-            return criteria.PassGrades() >= Configuration.MIN_CRITERIONS_TO_PASS_TEST;
+            return criteria.PassGrades() >= MIN_CRITERIONS_TO_PASS_TEST;
         }
 
         /*
@@ -441,7 +440,7 @@ namespace BL
             //}
             //#endregion
 
-            foreach (Tester tester in dal.GetTesters(t => t.VehicleTypeExpertise == expertise && t.WorkingHours[(int)theDayInTheWeek, dateTime.Hour - Configuration.BEGINNING_OF_A_WORKING_DAY]))
+            foreach (Tester tester in dal.GetTesters(t => t.VehicleTypeExpertise == expertise && t.WorkingHours[(int)theDayInTheWeek, dateTime.Hour - BEGINNING_OF_A_WORKING_DAY]))
             {
                 // CHECK hour is not 00:00 for example
                 uint counterOfTheTestInTheWeek = 0;
@@ -493,7 +492,7 @@ namespace BL
 
             while (dateTime < aPeriodFromToday)
             {
-                while (dateTime.Hour < Configuration.WORKING_HOURS_A_DAY + Configuration.BEGINNING_OF_A_WORKING_DAY)
+                while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
                 {
                     Tester vacantTester = VacantTesters(dateTime).Where(t => t.VehicleTypeExpertise.HasFlag(vehicleTypeLearning)).FirstOrDefault();
                     if (vacantTester != default)
@@ -502,8 +501,8 @@ namespace BL
                     dateTime = dateTime.AddHours(1);
                 }
 
-                dateTime = dateTime.AddHours(-Configuration.WORKING_HOURS_A_DAY);
-                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - Configuration.WORKING_DAYS_A_WEEK);
+                dateTime = dateTime.AddHours(-WORKING_HOURS_A_DAY);
+                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - WORKING_DAYS_A_WEEK);
             }
 
             return null;

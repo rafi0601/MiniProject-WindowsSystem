@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using BE;
+using static BE.Configuration;
 
 
 
@@ -32,14 +33,14 @@ namespace DAL
 
             private void root_Changing(object sender, XObjectChangeEventArgs e)
             {
-                throw new NotImplementedException();
+                //throw new NotImplementedException();
             }
 
             private void root_Changed(object sender, XObjectChangeEventArgs e)
             {
                 try
                 {
-                    (sender as XElement).Save(FilePath, SaveOptions.None);
+                    //(sender as XElement).Save(FilePath);//, SaveOptions.None);
                 }
                 catch
                 {
@@ -53,19 +54,19 @@ namespace DAL
             }
 
 
-            public MyStruct(XElement root, string folderPath) : this()
+            public MyStruct(XElement root/*, string folderPath*/) : this()
             {
                 Root = root ?? throw new ArgumentNullException(nameof(root));
                 //FilePath = $@"{filesPath}\{root.Name}.xml" ?? throw new ArgumentNullException(nameof(folderPath));
             }
         }
 
-        private MyStruct tests = new MyStruct(new XElement(nameof(Test) + s), filesPath);
-        private MyStruct testers = new MyStruct(new XElement(nameof(Tester) + s), filesPath);
-        private MyStruct trainees = new MyStruct(new XElement(nameof(Trainee) + s), filesPath);
+        private MyStruct tests;// = new MyStruct(new XElement(nameof(Test) + s) /*,filesPath*/);
+        private MyStruct testers;// = new MyStruct(new XElement(nameof(Tester) + s)/*, filesPath*/);
+        private MyStruct trainees;// = new MyStruct(new XElement(nameof(Trainee) + s)/*, filesPath*/);
 
         private const char s = 's';
-        private const string filesPath = @"\\DS\DS_Xml";
+        // private const string filesPath = @"\\DS\DS_Xml";
         private readonly FileStream testsFile;
         private readonly FileStream testersFile;
 
@@ -77,13 +78,20 @@ namespace DAL
             testers.FilePath = @"TestersXml.xml";
             trainees.FilePath = @"TraineesXml.xml";
 
-            testsFile = new FileStream(tests.FilePath, FileMode.Create);
-            testersFile = new FileStream(testers.FilePath, FileMode.Create); //CHECK
+            //testsFile = new FileStream(tests.FilePath, FileMode.Create);
+            //testersFile = new FileStream(testers.FilePath, FileMode.Create); //CHECK
+
+            //testsFile.Close();
+            //testersFile.Close();
 
             if (!File.Exists(trainees.FilePath))
+            {
+                trainees.Root = new XElement("trainees");
                 trainees.Root.Save(trainees.FilePath);
+            }
             else
                 TraineeloadData();
+
         }
 
 
@@ -96,7 +104,7 @@ namespace DAL
         {
             try
             {
-                (sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
+                //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
             }
             catch
             {
@@ -121,19 +129,19 @@ namespace DAL
             }
         }
 
-        public static void SaveListToXML<T>(List<T> list, string path)
+        public static void SaveToXML<T>(T source, string path)
         {
             FileStream file = new FileStream(path, FileMode.Create);
-            XmlSerializer xmlSerializer = new XmlSerializer(list.GetType());
-            xmlSerializer.Serialize(file, list);
+            XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
+            xmlSerializer.Serialize(file, source);
             file.Close();
         }
 
-        public static List<T> LoadFromXML<T>(string path)
+        public static T LoadFromXML<T>(string path)
         {
-            FileStream file = new FileStream(path, FileMode.Create);
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
-            List<T> result = (List<T>)xmlSerializer.Deserialize(file);
+            FileStream file = new FileStream(path, FileMode.Open);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            T result = (T)xmlSerializer.Deserialize(file);
             file.Close();
             return result;
         }
@@ -142,6 +150,13 @@ namespace DAL
         public void AddTest(Test test)
         {
             Inspections.TestInspection(test);
+
+            List<Test> testsList;
+
+            if (File.Exists(tests.FilePath))
+                testsList = LoadFromXML<List<Test>>(tests.FilePath);
+            else
+                testsList = new List<Test>();
 
             Tester tester = GetTester(test.TesterID);
 
@@ -158,9 +173,8 @@ namespace DAL
 
             try
             {
-                List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
                 testsList.Add(test);
-                SaveListToXML<Test>(testsList, tests.FilePath);
+                SaveToXML(testsList, tests.FilePath);
             }
             catch (Exception ex)
             {
@@ -175,14 +189,14 @@ namespace DAL
 
             try
             {
-                List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+                List<Test> testsList = LoadFromXML<List<Test>>(tests.FilePath);
 
                 int index = testsList.FindIndex(ComperisonOfKey(test));
                 if (-1 == index)
                     throw new ArgumentException("This test doesn't exist in the database");
 
                 testsList[index] = test.Copy();
-                SaveListToXML(testsList, tests.FilePath);
+                SaveToXML(testsList, tests.FilePath);
             }
             catch (Exception ex)
             {
@@ -192,13 +206,19 @@ namespace DAL
 
         public Test GetTest(string code)
         {
-            List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+            if (!File.Exists(testers.FilePath))
+                return null;
+
+            List<Test> testsList = LoadFromXML<List<Test>>(tests.FilePath);
             return testsList.Find(t => t.Code == code)?.Copy();
         }
 
         public List<Test> GetTests(Predicate<Test> match = null)
         {
-            List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+            if (!File.Exists(tests.FilePath))
+                return new List<Test>();
+
+            List<Test> testsList = LoadFromXML<List<Test>>(tests.FilePath);
 
             return (from test in testsList
                     where match != null ? match(test) : true
@@ -211,13 +231,18 @@ namespace DAL
         {
             Inspections.TesterInspection(tester);
 
-            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+
+            List<Tester> testersList;
+            if (File.Exists(testers.FilePath))
+                testersList = LoadFromXML<List<Tester>>(testers.FilePath);
+            else
+                testersList = new List<Tester>();
 
             if (testersList.Exists(ComperisonOfKey(tester)))
                 throw new ExistingInTheDatabaseException(true, "Tester with same ID already exists in the database");
 
             testersList.Add(tester);
-            SaveListToXML(testersList, testers.FilePath);
+            SaveToXML(testersList, testers.FilePath);
         }
 
         public void UpdateTester(Tester tester)
@@ -226,14 +251,14 @@ namespace DAL
 
             try
             {
-                List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+                List<Tester> testersList = LoadFromXML<List<Tester>>(testers.FilePath);
 
                 int index = testersList.FindIndex(ComperisonOfKey(tester));
                 if (-1 == index)
                     throw new ArgumentException("This tester doesn't exist in the database");
 
                 testersList[index] = tester.Copy();
-                SaveListToXML(testersList, testers.FilePath);
+                SaveToXML(testersList, testers.FilePath);
             }
             catch (Exception ex)
             {
@@ -243,7 +268,7 @@ namespace DAL
 
         public void RemoveTester(Tester tester)
         {
-            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+            List<Tester> testersList = LoadFromXML<List<Tester>>(testers.FilePath);
 
             if (tester is null)
                 throw new ArgumentNullException(nameof(tester), "Cannot remove null");
@@ -252,25 +277,29 @@ namespace DAL
                 throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
 
             testersList.Remove(tester);
-            SaveListToXML(testersList, testers.FilePath);
+            SaveToXML(testersList, testers.FilePath);
         }
 
         public Tester GetTester(string id)
         {
-            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+            if (!File.Exists(testers.FilePath))
+                return null;
+
+            List<Tester> testersList = LoadFromXML<List<Tester>>(testers.FilePath);
             return testersList.Find(t => t.ID == id)?.Copy();
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
-            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+            if (!File.Exists(testers.FilePath))
+                return new List<Tester>();
+
+            List<Tester> testersList = LoadFromXML<List<Tester>>(testers.FilePath);
 
             return (from tester in testersList
                     where match != null ? match(tester) : true
                     select new Tester(tester)).ToList();
         }
-
-
 
         public void AddTrainee(Trainee trainee)
         {
@@ -305,8 +334,9 @@ namespace DAL
                     new XElement(nameof(trainee.DrivingSchool), trainee.DrivingSchool),
                     new XElement(nameof(trainee.TeacherName),
                         new XElement(nameof(trainee.TeacherName.LastName), trainee.TeacherName.LastName),
-                        new XElement(nameof(trainee.TeacherName.FirstName)), trainee.TeacherName.FirstName)),
-                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons));
+                        new XElement(nameof(trainee.TeacherName.FirstName), trainee.TeacherName.FirstName)),
+                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons)));
+            trainees.Root.Save(trainees.FilePath);
         }
 
         public void UpdateTrainee(Trainee trainee)
@@ -373,7 +403,7 @@ namespace DAL
 
         private bool ExistingTraineeById(string id)
         {
-            List<Trainee> traineesList = LoadFromXML<Trainee>(trainees.FilePath);
+            List<Trainee> traineesList = LoadFromXML<List<Trainee>>(trainees.FilePath);
             return traineesList.Exists(trainee => trainee.ID == id);
         }
 
