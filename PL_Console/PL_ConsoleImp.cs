@@ -2,10 +2,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using BE;
+using static System.Console;
 //using BL;
 
 namespace ConsoleApp1
@@ -14,12 +20,21 @@ namespace ConsoleApp1
     {
         public static BL.IBL bl = Singleton<BL.IBL, BL.Bl_imp>.Instance;
 
+
+
         static void Main(string[] args)
         {
             try
             {
-                Console.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+                MapReq();
 
+
+
+
+                Console.WriteLine("FrEf");
+                //WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+                ReadKey();
+                ForegroundColor = ConsoleColor.Green;
 
                 bl.AddTester(new Tester("323947747", new Name { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "Hganenet", HouseNumber = 5, City = "Jerusalem" }, 10, 30, Vehicle.tractor, new bool[,] { { true, false, false, false, false, false, true, false }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false } }, 20));
                 bl.AddTester(new Tester("322680083", new Name { FirstName = "Refael", LastName = "Goldis" }, new DateTime(1949, 5, 12), Gender.male, "0556824870", new Address { Street = "Gordon", HouseNumber = 22, City = "Tel-Aviv" }, 6, 16, Vehicle.heavyTruck, new bool[,] { { true, true, false, true, false, false, false, true }, { true, false, false, true, false, true, false, false }, { true, false, false, false, false, false, false, true }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false } }, 16));
@@ -122,6 +137,74 @@ namespace ConsoleApp1
             }
             Console.Read();
             //DateTimeOffset
+        }
+
+        private static void MapReq()
+        {
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.DoWork += Worker_DoWork;
+
+            for (int i = 0; i < 100; i++)
+            {
+                Thread thread = new Thread(Dist);
+                thread.Start();
+                Thread.Sleep(2000);
+            }
+        }
+
+        private protected static void Dist()
+        {
+            //string origin = "pisga 45 st. jerusalem"; //or " אחד העם  פתח תקווה 100 " etc.
+            //string destination = "gilgal 78 st. ramat-gan";//or " ז'בוטינסקי  רמת גן 10 " etc.
+            string origin = "אהרוני 10 ירושלים"; //or " אחד העם  פתח תקווה 100 " etc.
+            string destination = "אלעזר המודעי 5 ירושלים";//or " ז'בוטינסקי  רמת גן 10 " etc.
+            string KEY = @"PffGghfFGtzNFx1MqL9NLykkFHmpHkmc";
+
+            string url = @"https://www.mapquestapi.com/directions/v2/route" +
+                @"?key=" + KEY +
+                @"&from=" + origin +
+                @"&to=" + destination +
+                @"&outFormat=xml" +
+                @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
+                @"&enhancedNarrative=false&avoidTimedConditions=false";
+
+            //request from MapQuest service the distance between the 2 addresses
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader sreader = new StreamReader(dataStream);
+            string responsereader = sreader.ReadToEnd();
+            response.Close();
+            //the response is given in an XML format 
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(responsereader);
+
+            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
+            {     //display the returned distance
+                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
+                Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                //display the returned driving time   
+                XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                string fTime = formattedTime[0].ChildNodes[0].InnerText;
+                Console.WriteLine("Driving Time: " + fTime);
+            }
+            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+            //we have an answer that an error occurred, one of the addresses is not found 
+            {
+                Console.WriteLine("an error occurred, one of the addresses is not found. try again.");
+            }
+            else //busy network or other error... 
+            {
+                Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
+            }
+
+        }
+
+        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
