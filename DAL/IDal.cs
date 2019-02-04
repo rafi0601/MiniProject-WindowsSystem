@@ -20,9 +20,11 @@ namespace DAL
         /// <param name="tester">
         /// The tester to be added.
         /// </param>
-        /// <exception cref="ExistingInTheDatabaseException">
+        /// <exception cref="Exception">
         /// <paramref name="tester"/> is illegal. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
-        /// <para>A tester with the same ID as <paramref name="tester"/> already exists in the database.</para>
+        /// </exception>
+        /// <exception cref="ExistingInTheDatabaseException">
+        /// A tester with the same ID as <paramref name="tester"/> already exists in the database.
         /// </exception>
         void AddTester(Tester tester);
 
