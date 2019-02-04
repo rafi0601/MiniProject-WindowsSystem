@@ -51,7 +51,8 @@ namespace PL_WPF.UI.TesterInterface
                 tester.WorkingHours = workingHours;
 
                 foreach (Vehicle expertise in vehicleTypeExpertiseListBox.SelectedItems)
-                    tester.VehicleTypeExpertise |= expertise;
+                    tester.VehicleTypeExpertise |= expertise;  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 
                 try
@@ -63,7 +64,7 @@ namespace PL_WPF.UI.TesterInterface
                 {
                     throw;
                 }
-                
+
                 new TesterWindow(tester).Show();
                 Close();
             }

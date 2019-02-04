@@ -74,5 +74,10 @@ namespace BE
                 new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
                 uint.Parse(xElement.Element(nameof(tmp.NumberOfDoneLessons)).Value));
         }
+
+        public static T AddFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type | (int)(object)value);
+
+        public static T RemoveFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type & ~(int)(object)value);
+
     }
 }
