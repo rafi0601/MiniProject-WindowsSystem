@@ -10,59 +10,86 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using BE;
 
+
+
 namespace DAL
 {
     internal class Dal_XmlImp : IDal
     {
         private struct MyStruct
         {
-            public readonly string filePath;
-            public readonly XElement root;
-
-            public MyStruct(string filePath, XElement root)
+            private XElement root; public XElement Root
             {
-                this.filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
-                this.root = root ?? throw new ArgumentNullException(nameof(root));
+                get => root;
+                set
+                {
+                    root = value;
+                    root.Changing += root_Changing;
+                    root.Changed += root_Changed;
+                }
+            }
+            public string FilePath { get; set; }
+
+            private void root_Changing(object sender, XObjectChangeEventArgs e)
+            {
+                throw new NotImplementedException();
+            }
+
+            private void root_Changed(object sender, XObjectChangeEventArgs e)
+            {
+                try
+                {
+                    (sender as XElement).Save(FilePath, SaveOptions.None);
+                }
+                catch
+                {
+                    throw;
+                }
+                finally
+                {
+                    //tests.root.close();
+                }
+                //e.ObjectChange;
+            }
+
+
+            public MyStruct(XElement root, string folderPath) : this()
+            {
+                Root = root ?? throw new ArgumentNullException(nameof(root));
+                //FilePath = $@"{filesPath}\{root.Name}.xml" ?? throw new ArgumentNullException(nameof(folderPath));
             }
         }
 
-        MyStruct tests;
-        MyStruct testers;
-        MyStruct trainees;
+        private MyStruct tests = new MyStruct(new XElement(nameof(Test) + s), filesPath);
+        private MyStruct testers = new MyStruct(new XElement(nameof(Tester) + s), filesPath);
+        private MyStruct trainees = new MyStruct(new XElement(nameof(Trainee) + s), filesPath);
 
         private const char s = 's';
         private const string filesPath = @"\\DS\DS_Xml";
-        private readonly string testsFilePath;
-        private readonly string testersFilePath;
-        private readonly string traineesFilePath;
-        private readonly XElement testsRoot = new XElement(nameof(Test) + s);
-        private readonly XElement testersRoot = new XElement(nameof(Tester) + s);
-        private readonly XElement traineesRoot = new XElement(nameof(Trainee) + s);
         private readonly FileStream testsFile;
         private readonly FileStream testersFile;
 
+        private static uint code = 0;
+
         public Dal_XmlImp()
         {
-            testsFile = new FileStream(testsFilePath, FileMode.Create);
+            tests.FilePath = @"TestsXml.xml";
+            testers.FilePath = @"TestersXml.xml";
+            trainees.FilePath = @"TraineesXml.xml";
 
-            testersFile = new FileStream(testsFilePath, FileMode.Create); //CHECK
+            testsFile = new FileStream(tests.FilePath, FileMode.Create);
+            testersFile = new FileStream(testers.FilePath, FileMode.Create); //CHECK
 
-            if (!File.Exists(traineesFilePath))
-                traineesRoot.Save(traineesFilePath);
+            if (!File.Exists(trainees.FilePath))
+                trainees.Root.Save(trainees.FilePath);
             else
-                traineesRoot = XElement.Load(traineesFilePath);
+                TraineeloadData();
+        }
 
-            testsFilePath = $@"{filesPath}\{testsRoot.Name}.xml"; // BUG root.FirstSun
-            testersFilePath = $@"{filesPath}\{testersRoot.Name}.xml";
-            traineesFilePath = $@"{filesPath}\{traineesRoot.Name}.xml";
 
-            tests = new MyStruct(testsFilePath, testsRoot);
-            testers = new MyStruct(testersFilePath, testersRoot);
-            trainees = new MyStruct(traineesFilePath, traineesRoot);
-
-            testsRoot.Changed += XmlFile_Changed;
-            testersRoot.Changed += XmlFile_Changed;
-            traineesRoot.Changed += XmlFile_Changed;
+        private void XmlFile_Changing(object sender, XObjectChangeEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void XmlFile_Changed(object sender, XObjectChangeEventArgs e)
@@ -77,76 +104,190 @@ namespace DAL
             }
             finally
             {
-                //testsRoot.Close();
+                //tests.root.close();
             }
             //e.ObjectChange;
         }
 
-        private void CreateFile(string path)
+        private void TraineeloadData()
         {
-
+            try
+            {
+                trainees.Root = XElement.Load(trainees.FilePath);
+            }
+            catch
+            {
+                throw new Exception("Trainees File upload problem");
+            }
         }
 
+        public static void SaveListToXML<T>(List<T> list, string path)
+        {
+            FileStream file = new FileStream(path, FileMode.Create);
+            XmlSerializer xmlSerializer = new XmlSerializer(list.GetType());
+            xmlSerializer.Serialize(file, list);
+            file.Close();
+        }
 
+        public static List<T> LoadFromXML<T>(string path)
+        {
+            FileStream file = new FileStream(path, FileMode.Create);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
+            List<T> result = (List<T>)xmlSerializer.Deserialize(file);
+            file.Close();
+            return result;
+        }
 
+        #region Test Fanc
         public void AddTest(Test test)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(testsRoot.GetType());
-            xmlSerializer.Serialize(testsFile, testsRoot);
-            testsFile.Close();
+            Inspections.TestInspection(test);
+
+            Tester tester = GetTester(test.TesterID);
+
+            if (tester == default(Tester)) //!ExistingTesterById(test.IDTester)
+                throw new ArgumentException("The tester doesn't exist in the database");
+
+            if (!ExistingTraineeById(test.TraineeID))
+                throw new ArgumentException("The trainee doesn't exist in the database");
+
+            //if !ExistingTestByCode
+
+            if (test.Code == null)
+                test.Code = checked(++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0'); // TODO: catch (System.OverflowException e)
+
+            try
+            {
+                List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+                testsList.Add(test);
+                SaveListToXML<Test>(testsList, tests.FilePath);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
 
         public void UpdateTest(Test test)
         {
-            throw new NotImplementedException();
+            Inspections.TestInspection(test);
+
+            try
+            {
+                List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+
+                int index = testsList.FindIndex(ComperisonOfKey(test));
+                if (-1 == index)
+                    throw new ArgumentException("This test doesn't exist in the database");
+
+                testsList[index] = test.Copy();
+                SaveListToXML(testsList, tests.FilePath);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Test GetTest(string code)
         {
-            throw new NotImplementedException();
+            List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+            return testsList.Find(t => t.Code == code)?.Copy();
         }
 
         public List<Test> GetTests(Predicate<Test> match = null)
         {
-            throw new NotImplementedException();
+            List<Test> testsList = LoadFromXML<Test>(tests.FilePath);
+
+            return (from test in testsList
+                    where match != null ? match(test) : true
+                    select new Test(test)).ToList();
         }
 
-
+        #endregion
 
         public void AddTester(Tester tester)
         {
-            throw new NotImplementedException();
+            Inspections.TesterInspection(tester);
+
+            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+
+            if (testersList.Exists(ComperisonOfKey(tester)))
+                throw new ExistingInTheDatabaseException(true, "Tester with same ID already exists in the database");
+
+            testersList.Add(tester);
+            SaveListToXML(testersList, testers.FilePath);
         }
 
         public void UpdateTester(Tester tester)
         {
-            throw new NotImplementedException();
+            Inspections.TesterInspection(tester);
+
+            try
+            {
+                List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+
+                int index = testersList.FindIndex(ComperisonOfKey(tester));
+                if (-1 == index)
+                    throw new ArgumentException("This tester doesn't exist in the database");
+
+                testersList[index] = tester.Copy();
+                SaveListToXML(testersList, testers.FilePath);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void RemoveTester(Tester tester)
         {
-            throw new NotImplementedException();
+            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+
+            if (tester is null)
+                throw new ArgumentNullException(nameof(tester), "Cannot remove null");
+
+            if (testersList.RemoveAll(ComperisonOfKey(tester)) == 0)
+                throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
+
+            testersList.Remove(tester);
+            SaveListToXML(testersList, testers.FilePath);
         }
 
         public Tester GetTester(string id)
         {
-            throw new NotImplementedException();
+            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+            return testersList.Find(t => t.ID == id)?.Copy();
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
-            throw new NotImplementedException();
+            List<Tester> testersList = LoadFromXML<Tester>(testers.FilePath);
+
+            return (from tester in testersList
+                    where match != null ? match(tester) : true
+                    select new Tester(tester)).ToList();
         }
 
 
 
         public void AddTrainee(Trainee trainee)
         {
-            //traineesRoot.Add(
-            //    from x in trainee.GetType().GetFields()
-            //    select new XElement(x.Name, x.GetValue(x)));
+            //trainees.root.Add(
+            //    from fieldInfo in trainee.GetType().GetFields()
+            //    where fieldInfo.IsPublic
+            //    join 
+            //    select new XElement(fieldInfo.Name, fieldInfo.GetValue(fieldInfo)));
 
-            traineesRoot.Add(
+            List<Trainee> traineesList = GetTrainees();
+
+            Inspections.TraineeInspection(trainee);
+
+            if (traineesList.Exists(ComperisonOfKey(trainee)))
+                throw new ArgumentException("This trainee already exists in the database");
+
+            trainees.Root.Add(
                 new XElement(nameof(Trainee),
                     new XElement(nameof(trainee.ID), trainee.ID),
                     new XElement(nameof(trainee.Name),
@@ -170,13 +311,21 @@ namespace DAL
 
         public void UpdateTrainee(Trainee trainee)
         {
-            throw new NotImplementedException();
+            Trainee tmp;
+            (from traineeXElement in trainees.Root.Elements()
+             where traineeXElement.Element(nameof(tmp.ID)).Value == trainee.ID
+             select traineeXElement)
+             .FirstOrDefault().Remove();
+
+            AddTrainee(trainee);
+
+            trainees.Root.Save(trainees.FilePath);
         }
 
         public void RemoveTrainee(Trainee trainee)
         {
             Trainee tmp;
-            (from traineeXElement in traineesRoot.Elements()
+            (from traineeXElement in trainees.Root.Elements()
              where traineeXElement.Element(nameof(tmp.ID)).Value == trainee.ID
              select traineeXElement)
              .FirstOrDefault().Remove(); //TODO ?.
@@ -184,11 +333,12 @@ namespace DAL
 
         public Trainee GetTrainee(string id)
         {
+            TraineeloadData();
             //IMPROVEMENT to that with foreach until it find the id
             Trainee tmp = new Trainee();
 
             return (
-                from trainee in traineesRoot.Elements()
+                from trainee in trainees.Root.Elements()
                 where trainee.Element(nameof(tmp.ID)).Value == id
                 let nameXElement = trainee.Element(nameof(tmp.Name))
                 let addressXElement = trainee.Element(nameof(tmp.Address))
@@ -210,14 +360,26 @@ namespace DAL
 
         public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
+            TraineeloadData();
             Trainee tmp = new Trainee();
 
             return (
-                from trainee in traineesRoot.Elements()
-                let t = Tools.FromXElement(trainee)
-                where match != null ? match(t) : true
-                select t
+                from traineeXElement in trainees.Root.Elements()
+                let trainee = Tools.FromXElement(traineeXElement)
+                where match != null ? match(trainee) : true
+                select trainee
                 ).ToList();
+        }
+
+        private bool ExistingTraineeById(string id)
+        {
+            List<Trainee> traineesList = LoadFromXML<Trainee>(trainees.FilePath);
+            return traineesList.Exists(trainee => trainee.ID == id);
+        }
+
+        private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey // TODO rename to equalitionOfKey
+        {
+            return t => item?.Key == t?.Key;
         }
     }
 }

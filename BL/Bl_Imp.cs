@@ -37,6 +37,16 @@ namespace BL
             if (tester.YearsOfExperience > tester.AgeInYears - (Configuration.MIN_AGE_OF_TESTER.Days / 365))
                 throw new Exception("Years of experience do not make sense according to age");
 
+            if (0 == tester.MaxOfTestsPerWeek)
+                throw new CustomException(true, new ArgumentOutOfRangeException("It is illegal for the teter to not test"));
+
+            if (tester.WorkingHours.GetLength(0) != Configuration.WORKING_DAYS_A_WEEK
+                    || tester.WorkingHours.GetLength(1) != Configuration.WORKING_HOURS_A_DAY)
+                throw new Exception("The schedule is not right");
+
+            if (tester.MaxDistanceFromAddress == 0)
+                throw new ArgumentOutOfRangeException("Max Distance From Address can not get 0");
+
             try
             {
                 dal.AddTester(tester);

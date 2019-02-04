@@ -66,7 +66,7 @@ namespace BE
         private DateTime _birthdate;
         private string _phoneNumber;
 
-        public string Key => ID;
+        string IKey.Key => ID;
 
         public string ID
         {

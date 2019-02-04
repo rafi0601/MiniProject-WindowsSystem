@@ -9,105 +9,50 @@ using System.Threading.Tasks;
 using BE;
 using DS;
 //using static DS.DS_Lists;
+//using static BE.Inspections;
+using static BE.Configuration;
+
 
 namespace DAL
 {
     internal class Dal_ListsImp : IDal
     {
-        public Dal_ListsImp() { }
-
         private static uint code = 0;
 
 
         #region Tester functions
 
-        void IDal.AddTester(Tester tester)
+        public void AddTester(Tester tester)
         {
-            ////CHECK if we use inspec in prop so will check null here
-            //Inspections.TesterInspection(tester);
-            //
-            //if (ExistingTesterById(tester.ID))
-            //    throw new ArgumentException("Tester with same ID already exists in the database", nameof(tester.ID));
-            //
-            //DS_Lists.TesterList.Add(tester.Copy());
-
-            if (!Add(tester))
+            if (!Add(tester, DS_Lists.TesterList, Inspections.TesterInspection))
                 throw new ExistingInTheDatabaseException(true, "Tester with same ID already exists in the database");
-                //throw new ArgumentException("Tester with same ID already exists in the database", nameof(tester.ID));
         }
 
-        void IDal.RemoveTester(Tester tester)
+        public void RemoveTester(Tester tester)
         {
-            //if (tester == null)
-            //    throw new ArgumentNullException(nameof(tester), "Cannot remove null");
-            //
-            //if (0 == DS_Lists.TesterList.RemoveAll(t => t.ID == tester.ID))
-            //    throw new ArgumentException("This tester doesn't exist in the database");
-            //
-            //
-            ////int index = DS_Lists.TesterList.FindIndex(t => t.ID == tester.ID);
-            ////if (-1 == index)
-            ////    throw new ArgumentException("This tester doesn't exist in the database");
-            ////DS_Lists.TesterList.RemoveAt(index);
-            //
-            //
-            ////Tester t = FindingTesterById(tester?.ID);
-            ////if(t==null) throw new ArgumentException("This tester doesn't exist in the database");
-            ////DS_Lists.TesterList.Remove(t);
-            ///
+            if (!Remove(tester, DS_Lists.TesterList))
+                throw new ExistingInTheDatabaseException(false, "Tester with same ID doesn't exist in the database");
+        }
 
-            if (!Remove(tester))
+        public void UpdateTester(Tester tester)
+        {
+            if (!Update(tester, DS_Lists.TesterList, Inspections.TesterInspection))
                 throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
-                //throw new ArgumentException("This tester doesn't exist in the database");
         }
 
-        void IDal.UpdateTester(Tester tester)
+        public Tester GetTester(string id)
         {
-            //Inspections.TesterInspection(tester);
-            //int index = DS_Lists.TesterList.FindIndex(t => t.ID == tester.ID);
-            //if (-1 == index)
-            //    throw new ArgumentException("This tester doesn't exist in the database");
-            //DS_Lists.TesterList[index] = new Tester(tester);
-            //
-            ////try
-            ////{
-            ////    RemoveTester(tester);
-            ////    AddTester(new Tester(tester)); // IMPROVEMENT ds.Add(tester)
-            ////}
-            ////catch
-            ////{
-            ////    throw new ArgumentException("This tester doesn't exist in the database");
-            ////}
-
-            if (!Update(tester))
-                throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
-                //throw new ArgumentException("This tester doesn't exist in the database");
-        }
-
-        Tester IDal.GetTester(string id)
-        {
-            //Tester tester = FindingTesterById(id);
-            //return tester != null ? new Tester(tester) : null;
-
-            return FindingTesterById(id)?.Copy();
-            //return GetTesters(tester => tester.ID == id).FirstOrDefault();
+            return Get(DS_Lists.TesterList, id);
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
-            //if (predicate == null) return TesterList;
-
-            return (from tester in DS_Lists.TesterList
-                    where match != null ? match(tester) : true
-                    select tester.Copy())
-                    .ToList();
-            //return (predicate == null ? TesterList.Where(t => true) : TesterList.Where(t => predicate(t))).ToList();
+            return Get(DS_Lists.TesterList, match);
         }
 
         private Tester FindingTesterById(string id)
         {
             return DS_Lists.TesterList.Find(tester => tester.ID == id);
-            //return Find()
         }
 
         private bool ExistingTesterById(string id)
@@ -121,33 +66,30 @@ namespace DAL
 
         public void AddTrainee(Trainee trainee)
         {
-            if (!Add(trainee))
-                throw new ArgumentException("This trainee already exists in the database");
+            if (!Add(trainee, DS_Lists.TraineeList, Inspections.TraineeInspection))
+                throw new ExistingInTheDatabaseException(true, "Trainee with same ID already exists in the database");
         }
 
         public void RemoveTrainee(Trainee trainee)
         {
-            if (!Remove(trainee))
-                throw new ArgumentException("This trainee doesn't exist in the database");
+            if (!Remove(trainee, DS_Lists.TraineeList))
+                throw new ExistingInTheDatabaseException(false, "Trainee with same ID doesn't exist in the database");
         }
 
         public void UpdateTrainee(Trainee trainee)
         {
-            if (!Update(trainee))
-                throw new ArgumentException("This trainee doesn't exist in the database");
+            if (!Update(trainee, DS_Lists.TraineeList, Inspections.TraineeInspection))
+                throw new ExistingInTheDatabaseException(false, "This trainee doesn't exist in the database");
         }
 
         public Trainee GetTrainee(string id)
         {
-            return FindingTraineeById(id)?.Copy();
+            return Get(DS_Lists.TraineeList, id);
         }
 
         public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
-            return (from trainee in DS_Lists.TraineeList
-                    where match != null ? match(trainee) : true
-                    select trainee.Copy())
-                    .ToList();
+            return Get(DS_Lists.TraineeList, match);
         }
 
         private Trainee FindingTraineeById(string id)
@@ -166,8 +108,6 @@ namespace DAL
 
         public void AddTest(Test test)
         {
-            Inspections.TestInspection(test);
-
             Tester tester = FindingTesterById(test.TesterID);
 
             if (tester == default(Tester)) //!ExistingTesterById(test.IDTester)
@@ -176,32 +116,32 @@ namespace DAL
             if (!ExistingTraineeById(test.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database");
 
-             //if !ExistingTestByCode
+            if (test.Code != null)
+                throw new ArgumentException("", nameof(test.Code)); // UNDONE 
+            if (code > MAX_VALUE_TO_CODE)
+                throw new OverflowException(""); //UNDONE
+            test.Code = (++code).ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0');
 
-            if (test.Code == null)
-                test.Code = checked(++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0'); // TODO: catch (System.OverflowException e)
+            if (!Add(test, DS_Lists.TestList, Inspections.TestInspection))
+                throw new Exception();
 
-            Test copyOfTheTest = test.Copy();
-            DS_Lists.TestList.Add(copyOfTheTest);
-            tester.MyTests.Add(copyOfTheTest);
+            tester.MyTests.Add(test.Copy());
         }
 
         public void UpdateTest(Test test)
         {
-            if(!Update(test))
-                throw new ArgumentException("This test doesn't exist in the database");
+            if (!Update(test, DS_Lists.TestList, Inspections.TestInspection))
+                throw new ExistingInTheDatabaseException(false, "This test doesn't exist in the database");
         }
 
         public Test GetTest(string code)
         {
-            return FindingTestByCode(code)?.Copy();
+            return Get(DS_Lists.TestList, code);
         }
 
         public List<Test> GetTests(Predicate<Test> match = null)
         {
-            return (from test in DS_Lists.TestList
-                    where match != null ? match(test) : true
-                    select new Test(test)).ToList();
+            return Get(DS_Lists.TestList, match);
         }
 
         private Test FindingTestByCode(string code)
@@ -217,71 +157,35 @@ namespace DAL
         #endregion
 
 
+        #region Execution functions
 
-        private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey // TODO rename to equalitionOfKey
+        private Predicate<T> ComperisonOfKey<T>(T item) where T : class, IKey // TODO rename to equalitionOfKey
         {
-            return t => item?.Key == t?.Key;
+            return t => item?.Key == t.Key;
         }
 
-        private bool Add<T>(T item) where T : IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
+        private bool Add<T>(T item, List<T> list, Action<T> inspection) where T : class, IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
         {
             //CHECK if we use inspec in prop so will check null here
-            dynamic list; // TODO האם אפשרי לעשות פונקצית הרחבה לרשימה  שמחזירה אותה כרשימה מטיפוס טי
-            switch (item)
-            {
-                case Tester tester:
-                    Inspections.TesterInspection(tester);
-                    list = DS_Lists.TesterList;
-                    break;
-                case Trainee trainee:
-                    Inspections.TraineeInspection(trainee);
-                    list = DS_Lists.TraineeList;
-                    break;
-                case Test test:
-                    Inspections.TestInspection(test);
-                    list = DS_Lists.TestList;
-                    break;
-                //case null:
-                //    break;
-                default:
-                    throw new CustomException(false, new Exception());
-            }
 
-            //if (list.Exists((Predicate<T>)(t => item.Key == t.Key)))
+
+            inspection?.Invoke(item);
             if (list.Exists(ComperisonOfKey(item)))
                 return false;
             list.Add(item.Copy());
             return true;
         }
 
-        private bool Remove<T>(T item) where T : IKey
+        private bool Remove<T>(T item, List<T> list) where T : class, IKey
         {
-            return 0 == GetTheMatchingList<T>().RemoveAll(ComperisonOfKey(item));
+            if (item is null)
+                throw new ArgumentNullException(nameof(item), "Cannot remove null");
+            return 0 == list.RemoveAll(ComperisonOfKey(item));
         }
 
-        private bool Update<T>(T item) where T : IKey
+        private bool Update<T>(T item, List<T> list, Action<T> inspection) where T : class, IKey
         {
-            dynamic list;
-            switch (item)
-            {
-                case Tester tester:
-                    Inspections.TesterInspection(tester);
-                    list = DS_Lists.TesterList;
-                    break;
-                case Trainee trainee:
-                    Inspections.TraineeInspection(trainee);
-                    list = DS_Lists.TraineeList;
-                    break;
-                case Test test:
-                    Inspections.TestInspection(test);
-                    list = DS_Lists.TestList;
-                    break;
-                //case null:
-                //    break;
-                default:
-                    throw new CustomException(false, new Exception());
-            }
-
+            inspection?.Invoke(item);
             int index = list.FindIndex(ComperisonOfKey(item));
             if (-1 == index)
                 return false;
@@ -289,11 +193,25 @@ namespace DAL
             return true;
         }
 
-        //private T Find<T>(IKey key) where T : IKey
-        //{
-        //    return GetTheMatchingList(example: item).Find((Predicate<T>)(t => t.Key == item.Key));
-        //}
+        private T Get<T>(List<T> list, string key) where T : class, IKey // TODO input check
+        {
+            return list.Find(t => t.Key == key)?.Copy();
+            //return Get(list, t => t.Key == key).SingleOrDefault();
+            //return list.SingleOrDefault(t => t.Key == key);
+        }
 
+        private List<T> Get<T>(List<T> list, Predicate<T> match = null) where T : class, IKey
+        {
+            return (List<T>)(match is null ? list : list.Where(t => match(t))).Select(t => t.Copy());
+
+            //return (from tester in DS_Lists.TesterList
+            //        where match != null ? match(tester) : true
+            //        select tester.Copy())
+            //        .ToList();
+        }
+
+
+        [Obsolete("it is not safety", true)]
         protected dynamic GetTheMatchingList<T>()
         {
             switch (typeof(T))
@@ -309,11 +227,29 @@ namespace DAL
                 default:
                     throw new CustomException(false, new Exception());
             }
-        }
-        // private bool ExistingByKey<T>(T item, List<T> list) where T : IKey
-        // {
-        //     return list.Exists(t => item?.Key == t?.Key);
-        // }
 
+            //List<T> list;
+            //switch (item)
+            //{
+            //    case Tester tester:
+            //        Inspections.TesterInspection(tester);
+            //        list = (List<T>)DS_Lists.TesterList.Cast<T>();
+            //        break;
+            //    case Trainee trainee:
+            //        Inspections.TraineeInspection(trainee);
+            //        list = DS_Lists.TraineeList;
+            //        break;
+            //    case Test test:
+            //        Inspections.TestInspection(test);
+            //        list = DS_Lists.TestList;
+            //        break;
+            //    //case null:
+            //    //    break;
+            //    default:
+            //        throw new CustomException(false, new Exception());
+            //}
+        }
+
+        #endregion
     }
 }

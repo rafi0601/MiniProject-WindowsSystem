@@ -10,6 +10,9 @@ namespace BE
 {
     public static class Configuration
     {
+        public static readonly uint MAX_VALUE_TO_CODE = (uint)Math.Pow(10, 9) - 1;
+        public static readonly uint LENGTH_OF_CODE = 8;
+
         public static readonly TimeSpan LENGTH_OF_TEST = new TimeSpan(1, 0, 0);
         public static readonly uint MIN_LESSONS = 20;
         public static readonly TimeSpan MAX_AGE_OF_TESTER = new TimeSpan(365 * 90, 0, 0, 0); // TODO: search for better

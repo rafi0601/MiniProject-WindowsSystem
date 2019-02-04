@@ -20,7 +20,7 @@ namespace DAL
         /// <param name="tester">
         /// The tester to be added.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="tester"/> is illegal. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
         /// <para>A tester with the same ID as <paramref name="tester"/> already exists in the database.</para>
         /// </exception>
@@ -32,7 +32,7 @@ namespace DAL
         /// <param name="tester">
         /// The tester to remove.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="tester"/> is null.
         /// <para>A tester with the same ID as <paramref name="tester"/> doesn't exist in the database.</para>
         /// </exception>
@@ -44,7 +44,7 @@ namespace DAL
         /// <param name="tester">
         /// The tester to update.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="tester"/> is illegal. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
         /// <para>A tester with the same ID as <paramref name="tester"/> doesn't exist in the database.</para>
         /// </exception>
@@ -59,7 +59,7 @@ namespace DAL
         /// <returns>
         /// The tester that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="id"/> is null.
         /// </exception>
         Tester GetTester(string id); // UNDONE throw exception if null
@@ -81,7 +81,7 @@ namespace DAL
         /// <param name="trainee">
         /// The trainee to be added.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="trainee"/> is illegal. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
         /// <para>A trainee with the same ID as <paramref name="trainee"/> already exists in the database.</para>
         /// </exception>
@@ -93,7 +93,7 @@ namespace DAL
         /// <param name="trainee">
         /// The trainee to remove.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="trainee"/> is null.
         /// <para>A trainee with the same ID as <paramref name="trainee"/> doesn't exist in the database.</para>
         /// </exception>
@@ -105,7 +105,7 @@ namespace DAL
         /// <param name="trainee">
         /// The trainee to update.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="trainee"/> is illegal. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
         /// <para>A trainee with the same ID as <paramref name="trainee"/> doesn't exist in the database.</para>
         /// </exception>
@@ -120,7 +120,7 @@ namespace DAL
         /// <returns>
         /// The trainee that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="id"/> is null.
         /// </exception>
         Trainee GetTrainee(string id);
@@ -143,7 +143,7 @@ namespace DAL
         /// <param name="test">
         /// The test to be added.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="test"/> is illegal. <see cref="Inspections.TestInspection(Test)"/> for more information.
         /// <para>A test with the same ID as <paramref name="test"/> already exists in the database.</para>
         /// </exception>
@@ -155,7 +155,7 @@ namespace DAL
         /// <param name="test">
         /// The test to update.
         /// </param>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="test"/> is illegal. <see cref="Inspections.TestInspection(Test)"/> for more information.
         /// <para>A test with the same ID as <paramref name="test"/> doesn't exist in the database.</para>
         /// </exception>
@@ -170,7 +170,7 @@ namespace DAL
         /// <returns>
         /// The test that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
-        /// <exception cref="CustomException">
+        /// <exception cref="ExistingInTheDatabaseException">
         /// <paramref name="id"/> is null.
         /// </exception>
         Test GetTest(string code);

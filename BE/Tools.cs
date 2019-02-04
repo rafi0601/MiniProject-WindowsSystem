@@ -54,25 +54,25 @@ namespace BE
             return list?.Any() ?? true;
         }
 
-        public static Trainee FromXElement(XElement xElement)
+        public static Trainee FromXElement(XElement traineeXElement)//BUG input check
         {
             Trainee tmp = new Trainee();
 
-            XElement nameXElement = xElement.Element(nameof(tmp.Name));
-            XElement addressXElement = xElement.Element(nameof(tmp.Address));
-            XElement teacherNameXElement = xElement.Element(nameof(tmp.TeacherName));
+            XElement nameXElement = traineeXElement.Element(nameof(tmp.Name)); //BUG might be null
+            XElement addressXElement = traineeXElement.Element(nameof(tmp.Address));
+            XElement teacherNameXElement = traineeXElement.Element(nameof(tmp.TeacherName));
             return new Trainee(
-                xElement.Element(nameof(tmp.ID)).Value,
+                traineeXElement.Element(nameof(tmp.ID)).Value,
                 new Name(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
-                DateTime.Parse(xElement.Element(nameof(tmp.Birthdate)).Value),
-                (Gender)Enum.Parse(typeof(Gender), xElement.Element(nameof(tmp.Gender)).Value),
-                xElement.Element(nameof(tmp.PhoneNumber)).Value,
+                DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
+                (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
+                traineeXElement.Element(nameof(tmp.PhoneNumber)).Value,
                 new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
-                (Vehicle)Enum.Parse(typeof(Vehicle), xElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
-                (Gearbox)Enum.Parse(typeof(Gearbox), xElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
-                xElement.Element(nameof(tmp.DrivingSchool)).Value,
+                (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
+                (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
+                traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
                 new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                uint.Parse(xElement.Element(nameof(tmp.NumberOfDoneLessons)).Value));
+                uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value));
         }
 
         public static T AddFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type | (int)(object)value);
