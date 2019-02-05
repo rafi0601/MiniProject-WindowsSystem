@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Xml.Serialization;
 
 namespace BE
 {
@@ -117,7 +118,7 @@ namespace BE
         /// 
         ///   */
 
-
+        [Serializable]
         public class Criteria
         {
             public bool? KeepDistance { get; set; }
@@ -134,7 +135,7 @@ namespace BE
                 return (uint)GetType().GetProperties().Count(property => (bool?)property.GetValue(this) ?? false);
             }
 
-            public Criteria(){}
+            public Criteria() { }
 
             public Criteria(bool? keepDistance, bool? backParking, bool? usingViewMirrors, bool? signaling, bool? integrationIntoMovement, bool? obeyParkSigns)
             {
@@ -172,8 +173,37 @@ namespace BE
         public DateTime Length { get; set; } //CHECK: what is this
         public Address DepartureAddress { get; set; }
         public Vehicle Vehicle { get; set; }
-
+        [XmlIgnore]
         public Criteria CriteriasGrades { get; set; }//=new Criteria()
+        public string criteriasGrades
+        {
+            get
+            {
+                if (CriteriasGrades == null)
+                    return "";
+
+                StringBuilder result = new StringBuilder();
+                foreach (PropertyInfo criteriaInfo in typeof(Criteria).GetProperties())
+                    result.Append((criteriaInfo.GetValue(CriteriasGrades)?.ToString() ?? "null") + ",");
+                return result.ToString();
+            }
+
+            set
+            {
+                if (value != null && value.Length > 0)
+                {
+                    string[] values = value.Split(',');
+
+                    CriteriasGrades = new Criteria();
+
+                    int index = 0;
+                    foreach (PropertyInfo criteriaInfo in typeof(Criteria).GetProperties())
+                        criteriaInfo.SetValue(CriteriasGrades, values[index++] != "null" ? (bool?)bool.Parse(values[index - 1]) : null);
+                }
+                else
+                    CriteriasGrades = new Criteria();
+            }
+        }
 
         public bool? IsPass { get; set; }
         public string TesterNotes { get; set; }
