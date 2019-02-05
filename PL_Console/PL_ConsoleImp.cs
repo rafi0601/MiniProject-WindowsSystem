@@ -30,7 +30,6 @@ namespace ConsoleApp1
 
 
 
-
                 Console.WriteLine("FrEf");
                 //WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
                 ReadKey();
@@ -143,21 +142,52 @@ namespace ConsoleApp1
         {
             BackgroundWorker worker = new BackgroundWorker();
             worker.DoWork += Worker_DoWork;
+            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
+            worker.WorkerReportsProgress = false;
+            worker.WorkerSupportsCancellation = true; //??
 
-            for (int i = 0; i < 100; i++)
+
+            worker.RunWorkerAsync((new Address("Jafo", 2, "Jerusalem"), new Address("Hamatzor", 3, "Jerusalem")));
+
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    Thread thread = new Thread(Dist);
+            //    thread.Start();
+            //    Thread.Sleep(2000);
+            //}
+        }
+
+        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            uint length = (uint)e.Argument;
+
+            try
             {
-                Thread thread = new Thread(Dist);
-                thread.Start();
+                Dist(new Address(),new Address());
                 Thread.Sleep(2000);
+                e.Result = true;
+            }
+            catch (Exception ex)
+            {
+                e.Result = ex;
             }
         }
 
-        private protected static void Dist()
+        private static void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Result is bool b && b == true)
+                Console.WriteLine("Succed");
+            else
+                Console.WriteLine((e.Result as Exception).ToString());
+        }
+
+        private protected static void Dist(Address address1, Address address2)
         {
             //string origin = "pisga 45 st. jerusalem"; //or " אחד העם  פתח תקווה 100 " etc.
             //string destination = "gilgal 78 st. ramat-gan";//or " ז'בוטינסקי  רמת גן 10 " etc.
-            string origin = "אהרוני 10 ירושלים"; //or " אחד העם  פתח תקווה 100 " etc.
-            string destination = "אלעזר המודעי 5 ירושלים";//or " ז'בוטינסקי  רמת גן 10 " etc.
+            string origin = address1.Street + address1.HouseNumber + address1.City;
+            string destination = address2.Street + address2.HouseNumber + address2.City;
             string KEY = @"PffGghfFGtzNFx1MqL9NLykkFHmpHkmc";
 
             string url = @"https://www.mapquestapi.com/directions/v2/route" +
@@ -200,11 +230,6 @@ namespace ConsoleApp1
                 Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
             }
 
-        }
-
-        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

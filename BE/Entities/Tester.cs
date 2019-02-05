@@ -27,15 +27,15 @@ namespace BE
                 if (WorkingHours == null)
                     return null;
 
-                string result = "";
+                StringBuilder result = new StringBuilder();
                 if (WorkingHours != null)
                 {
                     for (int i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
                         for (int j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
-                            result += WorkingHours[i, j] + ",";
+                            result.Append(WorkingHours[i, j] + ",");
                 }
 
-                return result;
+                return result.ToString();
             }
 
             set

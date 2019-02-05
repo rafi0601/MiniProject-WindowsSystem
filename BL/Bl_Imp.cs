@@ -125,7 +125,7 @@ namespace BL
                 foreach (DateTime testDateTime in tester.MyTests)
                 {
                     if (testDateTime == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
-                        break;
+                        return false;
 
                     if (theFirstDayInTheWeek == testDateTime.AddDays(-1 * (int)testDateTime.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
