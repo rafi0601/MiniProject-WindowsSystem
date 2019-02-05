@@ -154,8 +154,6 @@ namespace DAL
             if (!ExistingTraineeById(test.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database");
 
-            //if !ExistingTestByCode
-
             if (test.Code == null)
                 test.Code = checked(++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0'); // TODO: catch (System.OverflowException e)
 
@@ -329,11 +327,7 @@ namespace DAL
 
         public void UpdateTrainee(Trainee trainee)
         {
-            Trainee tmp;
-            (from traineeXElement in trainees.Root.Elements()
-             where traineeXElement.Element(nameof(tmp.ID)).Value == trainee.ID
-             select traineeXElement)
-             .FirstOrDefault().Remove();
+            RemoveTrainee(GetTrainee(trainee.ID));
 
             AddTrainee(trainee);
 
@@ -342,11 +336,14 @@ namespace DAL
 
         public void RemoveTrainee(Trainee trainee)
         {
-            Trainee tmp;
-            (from traineeXElement in trainees.Root.Elements()
-             where traineeXElement.Element(nameof(tmp.ID)).Value == trainee.ID
-             select traineeXElement)
-             .FirstOrDefault().Remove(); //TODO ?.
+            XElement traineeXElement =
+                (from tra in trainees.Root.Elements()
+                 where tra.Element(nameof(trainee.ID)).Value == trainee.ID
+                 select tra)
+                 .FirstOrDefault(); //TODO ?.
+
+            traineeXElement.Remove();
+            trainees.Root.Save(trainees.FilePath);
         }
 
         public Trainee GetTrainee(string id)
@@ -391,7 +388,7 @@ namespace DAL
 
         private bool ExistingTraineeById(string id)
         {
-            List<Trainee> traineesList = LoadFromXML<List<Trainee>>(trainees.FilePath);
+            List<Trainee> traineesList = GetTrainees();
             return traineesList.Exists(trainee => trainee.ID == id);
         }
 

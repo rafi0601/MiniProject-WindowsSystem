@@ -20,9 +20,77 @@ namespace BE
         public Vehicle VehicleTypeExpertise { get; set; } // TODO rename to VTypesE
         [XmlIgnore]
         public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
+        public string workingHours
+        {
+            get
+            {
+                if (WorkingHours == null)
+                    return null;
+
+                string result = "";
+                if (WorkingHours != null)
+                {
+                    int sizeA = WorkingHours.GetLength(0);
+                    int sizeB = WorkingHours.GetLength(1);
+                    result += "" + sizeA + "," + sizeB;
+
+                    for (int i = 0; i < sizeA; i++)
+                        for (int j = 0; j < sizeB; j++)
+                            result += "," + WorkingHours[i, j];
+                }
+
+                return result;
+            }
+
+            set
+            {
+                if (value != null && value.Length > 0)
+                {
+                    string[] values = value.Split(',');
+
+                    int sizeA = int.Parse(values[0]);
+                    int sizeB = int.Parse(values[1]);
+                    WorkingHours = new bool[sizeA, sizeB];
+
+                    int index = 2;
+                    for (int i = 0; i < sizeA; i++)
+                        for (int j = 0; j < sizeB; j++)
+                            WorkingHours[i, j] = bool.Parse(values[index++]);
+                }
+            }
+        }
         public uint MaxDistanceFromAddress { get; set; }
+
+        //public List<Test> MyTests = new List<Test>();
         [XmlIgnore]
-        public List<Test> MyTests = new List<Test>();
+        public List<DateTime> MyTests = new List<DateTime>();
+        public string myTests
+        {
+            get
+            {
+                if (MyTests == null)
+                    return null;
+
+                string result = "";
+                foreach (var testDateTime in myTests)
+                    result += "," + testDateTime.ToString();
+
+                return result;
+            }
+
+            set
+            {
+                if (value != null && value.Length > 0)
+                {
+                    string[] values = value.Split(',');
+
+                    MyTests = new List<DateTime>();
+
+                    for (int i = 0; i < values.Length; i++)
+                        MyTests.Add(DateTime.Parse(values[i]));
+                }
+            }
+        }
         //public SortedList<DateTime, DateTime> MyTests = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
 
         [System.Runtime.CompilerServices.IndexerName("WoHo")]

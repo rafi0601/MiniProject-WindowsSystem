@@ -125,7 +125,7 @@ namespace DAL
             if (!Add(test, DS_Lists.TestList, Inspections.TestInspection))
                 throw new Exception();
 
-            tester.MyTests.Add(test.Copy());
+            tester.MyTests.Add(test.Date.Copy());
         }
 
         public void UpdateTest(Test test)
