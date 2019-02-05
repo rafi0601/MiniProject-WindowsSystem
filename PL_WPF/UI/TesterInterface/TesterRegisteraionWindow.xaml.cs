@@ -31,8 +31,16 @@ namespace PL_WPF.UI.TesterInterface
 
             DataContext = tester;
 
+            this.Loaded += TesterRegisteraionWindow_Loaded;
+
+            
+        }
+
+        private void TesterRegisteraionWindow_Loaded(object sender, RoutedEventArgs e)
+        {
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
+            vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)

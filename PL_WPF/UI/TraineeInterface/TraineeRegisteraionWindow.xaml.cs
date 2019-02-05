@@ -23,20 +23,14 @@ namespace PL_WPF.UI.TraineeInterface
     public partial class TraineeRegisteraionWindow : Window
     {
         Trainee trainee;
-        BL.IBL bl;
+        BL.IBL bl = BL.Singleton.Instance;
 
         public TraineeRegisteraionWindow()
         {
             InitializeComponent();
 
-            bl = BL.Singleton.Instance;
             trainee = new Trainee();
             DataContext = trainee;
-
-            gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
-            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            //vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
-
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -46,6 +40,9 @@ namespace PL_WPF.UI.TraineeInterface
                 trainee.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
                 trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+
+                foreach (Vehicle expertise in vehicleListBox.SelectedItems)
+                    trainee.VehicleTypeTraining |= expertise;  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 bl.AddTrainee(trainee);
                 Singleton.Instance.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Trainee) });
@@ -61,27 +58,11 @@ namespace PL_WPF.UI.TraineeInterface
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
-
-            vehicleComboBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                          select GetAttribute(vehicle)?.DisplayName;
-            UserDisplayAttribute GetAttribute(Vehicle vehicle)
-            {
-                var arr = vehicle.GetType().GetField(vehicle.ToString()).GetCustomAttributes(false);
-                if (arr.Length == 1)
-                    return (UserDisplayAttribute)arr[0];
-                return null;
-            }
-            Vehicle? GetEnum(string display)
-            {
-                foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
-                {
-                    UserDisplayAttribute attribute = GetAttribute(vehicle);
-                    if (attribute != null && attribute.DisplayName == display)
-                        return vehicle;
-                }
-                return null;
-            }
+            gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
+            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
+            vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                                          select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+            //vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
         }
     }
 }
