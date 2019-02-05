@@ -80,7 +80,7 @@ namespace BE
 
                     MyTests = new List<DateTime>();
 
-                    for (int i = 0; i < values.Length; i++)
+                    for (int i = 0; i < values.Length-1; i++)
                         MyTests.Add(DateTime.Parse(values[i]));
                 }
                 else

@@ -384,7 +384,7 @@
                             </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
-                                <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                                <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeID}"/>
                                 <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
                                 <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
                                 <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
@@ -395,7 +395,7 @@
                         <DataGrid x:Name="TestsDataGrid" Grid.Column="1" SelectionChanged="TestsDataGrid_SelectionChanged" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
-                                <DataGridTextColumn Header="Trainee ID" Binding="{Binding IDTrainee}"/>
+                                <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeID}"/>
                                 <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
                                 <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
                                 <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />

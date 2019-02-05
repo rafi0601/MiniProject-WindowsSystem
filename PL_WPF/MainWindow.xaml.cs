@@ -36,7 +36,7 @@ namespace PL_WPF
             //new UI.TesterInterface.TesterRegisteraionWindow().Show();
             try
             {
-                //bl.AddTester(new Tester("323947747", new Name { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "Hganenet", HouseNumber = 5, City = "Jerusalem" }, 10, 30, Vehicle.tractor, new bool[,] { { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true } }, 100));
+                bl.AddTester(new Tester("323947747", new Name { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "Hganenet", HouseNumber = 5, City = "Jerusalem" }, 10, 30, Vehicle.tractor, new bool[,] { { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true } }, 100));
                 bl.AddTester(new Tester("322680083", new Name { FirstName = "Refael", LastName = "Goldis" }, new DateTime(1949, 5, 12), Gender.male, "0556824870", new Address { Street = "Gordon", HouseNumber = 22, City = "Tel-Aviv" }, 6, 16, Vehicle.privateCar, new bool[,] { { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true } }, 16));
 
                 Trainee trainee1 = new Trainee("212384507", new Name { FirstName = "Yael", LastName = "katri" }, new DateTime(1995, 10, 6), Gender.female, "0541234567", new Address { Street = "Franco", HouseNumber = 16, City = "Hadera" }, Vehicle.privateCar, Gearbox.manual, "TheBest", new Name { FirstName = "Shmuel", LastName = "Garber" }, 34);
@@ -48,7 +48,7 @@ namespace PL_WPF
                 //bl.AddTest(trainee1, new DateTime(2019, 2, 6, 10, 0, 0), trainee1.Address, trainee1.VehicleTypeTraining);
                 //bl.AddTest(trainee2, new DateTime(2019, 2, 6, 11, 0, 0), trainee2.Address, trainee2.VehicleTypeTraining);
 
-                //new UI.TesterInterface.TesterWindow(bl.GetTester("323947747")).Show();
+                new UI.TesterInterface.TesterWindow(bl.GetTester("323947747")).Show();
                 new UI.TesterInterface.TesterWindow(bl.GetTester("322680083")).Show();
 
                 new UI.TraineeInterface.TraineeWindow(trainee1).Show();
