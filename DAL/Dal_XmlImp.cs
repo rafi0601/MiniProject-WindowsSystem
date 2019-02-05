@@ -40,7 +40,7 @@ namespace DAL
             {
                 try
                 {
-                    //(sender as XElement).Save(FilePath);//, SaveOptions.None);
+                    Root.Save(FilePath);//, SaveOptions.None);
                 }
                 catch
                 {
@@ -102,19 +102,7 @@ namespace DAL
 
         private void XmlFile_Changed(object sender, XObjectChangeEventArgs e)
         {
-            try
-            {
-                //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
-            }
-            catch
-            {
-                throw;
-            }
-            finally
-            {
-                //tests.root.close();
-            }
-            //e.ObjectChange;
+            //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
         }
 
         private void TraineeloadData()
