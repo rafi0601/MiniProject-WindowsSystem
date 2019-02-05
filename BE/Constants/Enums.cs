@@ -26,13 +26,15 @@ namespace BE
     {
         [UserDisplay(nameof(privateCar))]
         privateCar = 0b1,
-        [UserDisplay()]
+        [UserDisplay(nameof(twoWheeledVehicle))]
         twoWheeledVehicle = 0b10, //1<<1
-        [UserDisplay]
+        [UserDisplay(nameof(mediumTruck))]
         mediumTruck = 0b100,//1<<2
-        [UserDisplay("Hi Reb Kidron")]
+        [UserDisplay(nameof(heavyTruck))]
         heavyTruck = 0b1_000,
+        [UserDisplay(nameof(publicVehicle))]
         publicVehicle = 0b10_000,
+        [UserDisplay(nameof(tractor))]
         tractor = 0b100_000
     }
 

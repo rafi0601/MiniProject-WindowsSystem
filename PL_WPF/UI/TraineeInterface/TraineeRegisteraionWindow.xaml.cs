@@ -35,7 +35,7 @@ namespace PL_WPF.UI.TraineeInterface
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
+            //vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
 
         }
 
@@ -64,7 +64,7 @@ namespace PL_WPF.UI.TraineeInterface
 
 
             vehicleComboBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                          select GetAttribute(vehicle).DisplayName;
+                                          select GetAttribute(vehicle)?.DisplayName;
             UserDisplayAttribute GetAttribute(Vehicle vehicle)
             {
                 var arr = vehicle.GetType().GetField(vehicle.ToString()).GetCustomAttributes(false);
