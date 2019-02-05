@@ -180,21 +180,22 @@ namespace BE
 
         public bool IsDone() => DateTime.Now > Date + Configuration.LENGTH_OF_TEST; // IMPROVEMENT is better to change after updating 
 
+        public Test() { }
+
         public Test(string idTester, string idTrainee, DateTime date,
-            /*DateTime length,*/ Address departureAddress, Vehicle vehicle)
+             Address departureAddress, Vehicle vehicle)
         {
             TesterID = idTester;
             TraineeID = idTrainee;
             Date = date;
-            //Length = length;
             DepartureAddress = departureAddress;
             Vehicle = vehicle;
         }
 
         private Test(string code, string idTester, string idTrainee, DateTime date,
-            /*DateTime length,*/ Address departureAddress, Vehicle vehicle,
+            Address departureAddress, Vehicle vehicle,
             Criteria criteriasGrades, bool? isPass, string testerNotes)
-            : this(idTester, idTrainee, date,/*length,*/departureAddress, vehicle)
+            : this(idTester, idTrainee, date, departureAddress, vehicle)
         {
             Code = code;
             CriteriasGrades = criteriasGrades;
@@ -204,7 +205,7 @@ namespace BE
 
         public Test(Test test)
             : this(test.Code, test.TesterID, test.TraineeID, test.Date,
-                  /*test.Length,*/ test.DepartureAddress, test.Vehicle,
+                  test.DepartureAddress, test.Vehicle,
                   test.CriteriasGrades, test.IsPass, test.TesterNotes)
         { }
 

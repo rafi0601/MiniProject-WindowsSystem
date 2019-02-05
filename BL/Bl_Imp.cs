@@ -61,7 +61,8 @@ namespace BL
             if (tester is null)
                 throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(tester)));
 
-            if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
+            //if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
+            if (GetTests(test=>test.TesterID == tester.ID && test.IsPass == null).Any())
                 throw new CustomException(true, new Exception("This tester have future tests."));
 
             try
@@ -121,12 +122,12 @@ namespace BL
             bool WillAvailable(Tester tester)
             {
                 uint counterOfTheTestInTheWeek = 0;
-                foreach (Test test in tester.MyTests)
+                foreach (DateTime testDateTime in tester.MyTests)
                 {
-                    if (test.Date == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
+                    if (testDateTime == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
                         break;
 
-                    if (theFirstDayInTheWeek == test.Date.Date.AddDays(-1 * (int)test.Date.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (theFirstDayInTheWeek == testDateTime.AddDays(-1 * (int)testDateTime.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
                 }
                 return counterOfTheTestInTheWeek < tester.MaxOfTestsPerWeek;
@@ -280,7 +281,7 @@ namespace BL
 
         #region Test functions
 
-        public DateTime? AddTest(Trainee trainee, DateTime testDate, /*DateTime length,*/ Address departureAddress, Vehicle vehicle)
+        public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         { // return bool is success, and get out HATZAA
             // BUG input check of vehicle (only one type)
             if (!ExistingTraineeById(trainee.ID))
