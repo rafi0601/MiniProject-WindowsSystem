@@ -49,8 +49,8 @@ namespace DAL
                 finally
                 {
                     //tests.root.close();
+                    //e.ObjectChange;
                 }
-                //e.ObjectChange;
             }
 
 

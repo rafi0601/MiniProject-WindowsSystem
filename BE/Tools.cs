@@ -35,7 +35,7 @@ namespace BE
         public static T Copy<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
-                throw new CustomException(false, new ArgumentException("The type must be serializable.", "source")); // CHECK nameof(source)
+                throw new CustomException(false, new ArgumentException("The type must be serializable.", nameof(source)));
             if (ReferenceEquals(source, null))
                 return default(T);
 

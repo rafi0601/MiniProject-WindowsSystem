@@ -159,7 +159,7 @@ namespace PL_WPF.UI.TesterInterface
             }
         }
 
-        private void GradingTest_SendClick(object sender, EventArgs e)
+        private void GradingTest_SendClick(object sender, RoutedEventArgs e)
         {
             var test = TestsDataGrid.SelectedItem as Test;
             try

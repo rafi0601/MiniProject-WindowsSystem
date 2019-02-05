@@ -46,11 +46,11 @@ namespace BL
             {
                 dal.AddTester(tester);
             }
-            catch(ExistingInTheDatabaseException e)
+            catch (ExistingInTheDatabaseException e)
             {
                 throw new CustomException(true, e);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new CustomException(true, e);
             }
@@ -502,7 +502,7 @@ namespace BL
                 }
 
                 dateTime = dateTime.AddHours(-WORKING_HOURS_A_DAY);
-                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Friday ? 1 : 7 - WORKING_DAYS_A_WEEK);
+                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Thursday ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
             }
 
             return null;

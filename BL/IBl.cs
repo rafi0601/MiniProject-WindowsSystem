@@ -9,8 +9,6 @@ namespace BL
 {
     public interface IBL
     {
-        //       DAL.IDal dal { get; }
-
         void AddTester(Tester tester);
         void RemoveTester(Tester tester);
         void UpdateTester(Tester tester);
