@@ -30,8 +30,8 @@ namespace PL_WPF.UI.TesterInterface
         {
             InitializeComponent();
 
-            this.tester = tester ?? throw new ArgumentException("Ther is no tester");
-            DataContext = tester;
+            DataContext = this.tester = tester ?? throw new ArgumentException("Ther is no tester");
+            //DataContext = tester;
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
             vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
@@ -44,9 +44,9 @@ namespace PL_WPF.UI.TesterInterface
 
             foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
                 if (tester.VehicleTypeExpertise.HasFlag(vehicle))
-                    vehicleTypeExpertiseListBox.SelectedItem = vehicle;
+                    vehicleTypeExpertiseListBox.SelectedItems.Add(vehicle);
 
-                CheckBox11.IsChecked = tester.WorkingHours[0, 0];
+            CheckBox11.IsChecked = tester.WorkingHours[0, 0];
             CheckBox12.IsChecked = tester.WorkingHours[1, 0];
             CheckBox13.IsChecked = tester.WorkingHours[2, 0];
             CheckBox14.IsChecked = tester.WorkingHours[3, 0];

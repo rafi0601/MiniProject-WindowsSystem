@@ -34,7 +34,7 @@ namespace PL_WPF.UI.TraineeInterface
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));//.SplitByUpperAndLower();
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
-            vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
+            vehicleListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
 
             firstNameTextBox.Text = trainee.Name.FirstName;
             lastNameTextBox.Text = trainee.Name.LastName;
@@ -44,6 +44,9 @@ namespace PL_WPF.UI.TraineeInterface
             TeacherFirstNameTextBox.Text = trainee.TeacherName.FirstName;
             TeacherLastNameTextBox.Text = trainee.TeacherName.LastName;
 
+            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
+                if (trainee.VehicleTypeTraining.HasFlag(vehicle))
+                    vehicleListBox.SelectedItems.Add(vehicle);
             //iDTextBox.Text = trainee.ID;
             //birthdateDatePicker.Text = trainee.Birthdate.ToString();
             //phoneNumberTextBox.Text = trainee.PhoneNumber;

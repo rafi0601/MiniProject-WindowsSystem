@@ -283,7 +283,9 @@ namespace BL
 
         public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         { // return bool is success, and get out HATZAA
-            // BUG input check of vehicle (only one type)
+            if (!vehicle.IsFlag())
+                throw new Exception();
+
             if (!ExistingTraineeById(trainee.ID))
                 throw new ArgumentException("This Trainee doesn't exist in the database");
 

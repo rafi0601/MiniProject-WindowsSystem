@@ -58,8 +58,8 @@ namespace PL_WPF.UI.TesterInterface
                 };
                 tester.WorkingHours = workingHours;
 
-                foreach (Vehicle expertise in vehicleTypeExpertiseListBox.SelectedItems)
-                    tester.VehicleTypeExpertise |= expertise;  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                foreach (object expertise in vehicleTypeExpertiseListBox.SelectedItems) // IMPROVEMENT change object to string so remove cast
+                    tester.VehicleTypeExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), (string)expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 

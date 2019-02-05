@@ -79,6 +79,11 @@ namespace BE
 
         public static T RemoveFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type & ~(int)(object)value);
 
+        [Obsolete("undone", false)]//undone
+        public static bool IsFlag(this Enum type)
+        {
+            return true;
+        }
 
         public static UserDisplayAttribute GetUserDisplayAttribute(Enum item)
         {
@@ -90,11 +95,11 @@ namespace BE
                 return (UserDisplayAttribute)arr[0];
             return null;
         }
-        public static Enum GetEnum(Type enumType,string display)
+        public static Enum GetEnum(Type enumType, string display)
         {
             if (enumType == null)
                 throw new ArgumentNullException(nameof(enumType));
-            if (!(enumType is Enum))
+            if (!enumType.IsEnum)
                 throw new ArgumentException();
 
             foreach (Enum field in Enum.GetValues(enumType))

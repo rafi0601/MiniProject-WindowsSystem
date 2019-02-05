@@ -314,7 +314,12 @@
                                 <ColumnDefinition Width="142*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,3" VerticalAlignment="Center" FontSize="18"/>
-                            <ComboBox x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeTraining}" Margin="2.8,3,3.4,3" Grid.ColumnSpan="2" />
+                            <!--<ComboBox x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeTraining}" Margin="2.8,3,3.4,3" Grid.ColumnSpan="2" />-->
+                            <xctk:DropDownButton Content="Choose vehicles"  Grid.Column="1">
+                                <xctk:DropDownButton.DropDownContent>
+                                    <ListBox x:Name="vehicleListBox" SelectionMode="Multiple" SelectedItem ="{Binding VehicleTypeTraining,  Mode=TwoWay}" Margin="3" Width="150" HorizontalAlignment="Left"/>
+                                </xctk:DropDownButton.DropDownContent>
+                            </xctk:DropDownButton>
                         </Grid>
 
                         <Grid>

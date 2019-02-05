@@ -41,8 +41,8 @@ namespace PL_WPF.UI.TraineeInterface
                 trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
                 trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
 
-                foreach (Vehicle expertise in vehicleListBox.SelectedItems)
-                    trainee.VehicleTypeTraining |= expertise;  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                foreach (string expertise in vehicleListBox.SelectedItems)
+                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 bl.AddTrainee(trainee);
                 Singleton.Instance.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Trainee) });

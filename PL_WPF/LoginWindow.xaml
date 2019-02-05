@@ -35,13 +35,14 @@
         <Button VerticalAlignment="Bottom" Margin="0,85" Width="150" Content="LOG IN" Click="Login_Click">
             <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                    <Style.Triggers>
+                    <!--<Style.Triggers>
                         <DataTrigger Binding="{Binding ElementName=idTextBox, Path=Text}" Value="">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding ElementName=passwordPasswordBox, Path=Password}" Value="">
                             <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
+                        </DataTrigger>-->
+                    <!--the first is the good-->
                         <!--<MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding ElementName=idTextBox, Path=Text}" Value=""/>
@@ -49,7 +50,7 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Button.IsEnabled" Value="False"/>
                         </MultiDataTrigger>-->
-                    </Style.Triggers>
+                    <!--</Style.Triggers>-->
                     <!--<Setter Property="IsEnabled" Value="True"/>-->
                 </Style>
             </Button.Style>
