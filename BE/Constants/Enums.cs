@@ -26,8 +26,11 @@ namespace BE
     {
         [UserDisplay(nameof(privateCar))]
         privateCar = 0b1,
+        [UserDisplay()]
         twoWheeledVehicle = 0b10, //1<<1
+        [UserDisplay]
         mediumTruck = 0b100,//1<<2
+        [UserDisplay("Hi Reb Kidron")]
         heavyTruck = 0b1_000,
         publicVehicle = 0b10_000,
         tractor = 0b100_000

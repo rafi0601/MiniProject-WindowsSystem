@@ -24,17 +24,13 @@ namespace PL_WPF.UI.TesterInterface
     public partial class TesterWindow : Window
     {
         Tester tester;
-        BL.IBL bl;
+        BL.IBL bl = BL.Singleton.Instance;
 
         public TesterWindow(Tester tester)
         {
             InitializeComponent();
-
-            if(tester == null)
-                throw new ArgumentException("Ther is no tester");
-
-            bl = BL.Singleton.Instance;
-            this.tester = tester;
+            
+            this.tester = tester ?? throw new ArgumentException("Ther is no tester");
             DataContext = tester;
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();

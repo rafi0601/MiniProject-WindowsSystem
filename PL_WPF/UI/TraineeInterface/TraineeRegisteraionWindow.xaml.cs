@@ -64,7 +64,24 @@ namespace PL_WPF.UI.TraineeInterface
 
 
             vehicleComboBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                          select 1; //UNDONE
+                                          select GetAttribute(vehicle).DisplayName;
+            UserDisplayAttribute GetAttribute(Vehicle vehicle)
+            {
+                var arr = vehicle.GetType().GetField(vehicle.ToString()).GetCustomAttributes(false);
+                if (arr.Length == 1)
+                    return (UserDisplayAttribute)arr[0];
+                return null;
+            }
+            Vehicle? GetEnum(string display)
+            {
+                foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
+                {
+                    UserDisplayAttribute attribute = GetAttribute(vehicle);
+                    if (attribute != null && attribute.DisplayName == display)
+                        return vehicle;
+                }
+                return null;
+            }
         }
     }
 }
