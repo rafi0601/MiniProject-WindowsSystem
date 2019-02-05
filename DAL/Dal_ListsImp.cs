@@ -156,7 +156,6 @@ namespace DAL
 
         #endregion
 
-
         #region Execution functions
 
         private Predicate<T> ComperisonOfKey<T>(T item) where T : class, IKey // TODO rename to equalitionOfKey

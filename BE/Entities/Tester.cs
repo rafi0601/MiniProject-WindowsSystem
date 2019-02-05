@@ -67,7 +67,7 @@ namespace BE
 
                 string result = "";
                 foreach (var testDateTime in MyTests)
-                    result += "," + testDateTime.ToString();
+                    result +=  testDateTime.ToString() + ",";
 
                 return result;
             }
@@ -83,6 +83,8 @@ namespace BE
                     for (int i = 0; i < values.Length; i++)
                         MyTests.Add(DateTime.Parse(values[i]));
                 }
+                else
+                    MyTests = new List<DateTime>();
             }
         }
         //public SortedList<DateTime, DateTime> MyTests = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
