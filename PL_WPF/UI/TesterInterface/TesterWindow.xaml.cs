@@ -29,7 +29,7 @@ namespace PL_WPF.UI.TesterInterface
         public TesterWindow(Tester tester)
         {
             InitializeComponent();
-            
+
             this.tester = tester ?? throw new ArgumentException("Ther is no tester");
             DataContext = tester;
 
@@ -42,7 +42,11 @@ namespace PL_WPF.UI.TesterInterface
             HouseNumber.Text = tester.Address.HouseNumber.ToString();
             City.Text = tester.Address.City;
 
-            CheckBox11.IsChecked = tester.WorkingHours[0, 0];
+            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
+                if (tester.VehicleTypeExpertise.HasFlag(vehicle))
+                    vehicleTypeExpertiseListBox.SelectedItem = vehicle;
+
+                CheckBox11.IsChecked = tester.WorkingHours[0, 0];
             CheckBox12.IsChecked = tester.WorkingHours[1, 0];
             CheckBox13.IsChecked = tester.WorkingHours[2, 0];
             CheckBox14.IsChecked = tester.WorkingHours[3, 0];

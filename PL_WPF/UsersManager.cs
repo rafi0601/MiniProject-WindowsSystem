@@ -23,14 +23,14 @@ namespace PL_WPF
         }
     }
 
-    class Tools
-    {
-        //TODO פונקציה הרחבה למחלקת המרה (סוף המרות באואסאף) שממירה בין היוזרים
-        //internal static User ToUser(this Convert c)
-        //{
-        //
-        //}
-    }
+    //class Tools
+    //{
+    //    //TODO פונקציה הרחבה למחלקת המרה (סוף המרות באואסאף) שממירה בין היוזרים
+    //    //internal static User ToUser(this Convert c)
+    //    //{
+    //    //
+    //    //}
+    //}
 
     public interface IUserManager
     {

@@ -79,5 +79,31 @@ namespace BE
 
         public static T RemoveFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type & ~(int)(object)value);
 
+
+        public static UserDisplayAttribute GetUserDisplayAttribute(Enum item)
+        {
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+
+            object[] arr = item.GetType().GetField(item.ToString()).GetCustomAttributes(false);
+            if (arr.Length == 1)
+                return (UserDisplayAttribute)arr[0];
+            return null;
+        }
+        public static Enum GetEnum(Type enumType,string display)
+        {
+            if (enumType == null)
+                throw new ArgumentNullException(nameof(enumType));
+            if (!(enumType is Enum))
+                throw new ArgumentException();
+
+            foreach (Enum field in Enum.GetValues(enumType))
+            {
+                UserDisplayAttribute attribute = GetUserDisplayAttribute(field);
+                if (attribute?.DisplayName == display)
+                    return field;
+            }
+            return null;
+        }
     }
 }
