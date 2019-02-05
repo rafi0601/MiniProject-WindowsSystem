@@ -30,13 +30,9 @@ namespace BE
                 string result = "";
                 if (WorkingHours != null)
                 {
-                    int sizeA = WorkingHours.GetLength(0);
-                    int sizeB = WorkingHours.GetLength(1);
-                    result += "" + sizeA + "," + sizeB;
-
-                    for (int i = 0; i < sizeA; i++)
-                        for (int j = 0; j < sizeB; j++)
-                            result += "," + WorkingHours[i, j];
+                    for (int i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
+                        for (int j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
+                            result += WorkingHours[i, j] + ",";
                 }
 
                 return result;
@@ -48,13 +44,11 @@ namespace BE
                 {
                     string[] values = value.Split(',');
 
-                    int sizeA = int.Parse(values[0]);
-                    int sizeB = int.Parse(values[1]);
-                    WorkingHours = new bool[sizeA, sizeB];
+                    WorkingHours = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
 
-                    int index = 2;
-                    for (int i = 0; i < sizeA; i++)
-                        for (int j = 0; j < sizeB; j++)
+                    int index = 0;
+                    for (int i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
+                        for (int j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
                             WorkingHours[i, j] = bool.Parse(values[index++]);
                 }
             }
@@ -69,10 +63,10 @@ namespace BE
             get
             {
                 if (MyTests == null)
-                    return null;
+                    return "";
 
                 string result = "";
-                foreach (var testDateTime in myTests)
+                foreach (var testDateTime in MyTests)
                     result += "," + testDateTime.ToString();
 
                 return result;

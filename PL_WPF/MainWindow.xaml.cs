@@ -59,7 +59,7 @@ namespace PL_WPF
 
                 Close();
             }
-            catch(CustomException ex) when (ex.DisplayToUser)
+            catch (CustomException ex) when (ex.DisplayToUser)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
                 Close();
@@ -69,7 +69,7 @@ namespace PL_WPF
                 MessageBox.Show(ex.ToString(), "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
                 Close();
             }
-            
+
             Close();
         }
     }
