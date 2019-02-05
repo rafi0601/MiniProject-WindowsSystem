@@ -23,11 +23,11 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester already exists in the database.", nameof(tester)));
+                throw new CustomException(true, new ArgumentException("This tester already exists in the database."));
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
-                throw new CustomException(true, new ArgumentOutOfRangeException(nameof(Tester.Birthdate), "The tester's age is not appropriate"));
+                throw new CustomException(true, new ArgumentOutOfRangeException("The tester's age is not appropriate"));
 
             if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365))// check minageoftrainee?
                 throw new Exception("Years of experience do not make sense according to age");
@@ -59,7 +59,7 @@ namespace BL
         public void RemoveTester(Tester tester)
         {
             if (tester is null)
-                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(tester)));
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database."));
 
             //if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
             if (GetTests(test=>test.TesterID == tester.ID && test.IsPass == null).Any())
@@ -80,7 +80,7 @@ namespace BL
             Inspections.TesterInspection(tester);
 
             if (!ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database.", nameof(tester)));
+                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database."));
 
             try
             {

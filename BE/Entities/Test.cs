@@ -165,13 +165,13 @@ namespace BE
 
 
         public string Code { get; set; }
-        public string TesterID { get; }
-        public string TraineeID { get; }
+        public string TesterID { get; set; }
+        public string TraineeID { get; set; }
         public DateTime Date { get; set; }
         [Obsolete(message: "For future propose", error: false)]
         public DateTime Length { get; set; } //CHECK: what is this
         public Address DepartureAddress { get; set; }
-        public Vehicle Vehicle { get; }
+        public Vehicle Vehicle { get; set; }
 
         public Criteria CriteriasGrades { get; set; }//=new Criteria()
 

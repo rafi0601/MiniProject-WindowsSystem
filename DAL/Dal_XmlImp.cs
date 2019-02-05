@@ -161,6 +161,9 @@ namespace DAL
             {
                 testsList.Add(test);
                 SaveToXML(testsList, tests.FilePath);
+
+                tester.MyTests.Add(test.Date.Copy());
+                UpdateTester(tester);
             }
             catch (Exception ex)
             {
@@ -237,6 +240,9 @@ namespace DAL
 
             try
             {
+                if(!File.Exists(testers.FilePath))
+                    throw new ArgumentException("This tester doesn't exist in the database");
+
                 List<Tester> testersList = LoadFromXML<List<Tester>>(testers.FilePath);
 
                 int index = testersList.FindIndex(ComperisonOfKey(tester));
