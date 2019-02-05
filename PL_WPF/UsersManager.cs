@@ -42,19 +42,58 @@ namespace PL_WPF
         List<User> Get(Predicate<User> predicate = null);
     }
 
-    internal class UsersManager : IUserManager
+    internal class UserManager_Dictionary : IUserManager
+    {
+        Dictionary<string, User> users = new Dictionary<string, User>();
+
+
+        public void Add(User user)
+        {
+            users.Add(user.name, user);
+        }
+
+        public void Remove(User user)
+        {
+            users.Remove(user.name);
+        }
+
+        public void ChangePassword(User user)
+        {
+            users[user.name] = user;
+        }
+
+        public bool Exist(User user)
+        {
+            return users.Contains(new KeyValuePair<string, User>(user.name,user));
+        }
+
+        public User Get(string name)
+        {
+            return users[name];
+        }
+
+        public List<User> Get(Predicate<User> predicate = null)
+        {
+            return (from user in users
+                    where predicate != null ? predicate(user.Value) : true
+                    select user.Value).ToList();
+        }
+    }
+
+
+    internal class UsersManager_Api : IUserManager
     {
         // private static readonly Continuous.Management.ContinuousManagementFactory factory = new Continuous.Management.ContinuousManagementFactory();
         // private static readonly Continuous.User.LocalUserGroups.ILocalUserGroupShell localUsersGroup = factory.LocalUserGroup();
 
         private static readonly Continuous.User.Users.IUserShell usersShell = new Continuous.Management.ContinuousManagementFactory().UserShell();
 
-        private UsersManager(User admin)
+        private UsersManager_Api(User admin)
         {
             //Add(admin);
         }
 
-        public UsersManager()
+        public UsersManager_Api()
         {
         }
 
@@ -129,7 +168,8 @@ namespace PL_WPF
             get
             {
                 if (instance == null)
-                    instance = new UsersManager();
+                    //instance = new UsersManager_Api();
+                    instance = new UserManager_Dictionary();
                 return instance;
             }
         }
