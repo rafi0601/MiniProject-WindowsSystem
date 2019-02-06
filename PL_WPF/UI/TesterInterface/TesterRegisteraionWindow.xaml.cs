@@ -33,7 +33,7 @@ namespace PL_WPF.UI.TesterInterface
 
             this.Loaded += TesterRegisteraionWindow_Loaded;
 
-            
+
         }
 
         private void TesterRegisteraionWindow_Loaded(object sender, RoutedEventArgs e)
@@ -47,6 +47,9 @@ namespace PL_WPF.UI.TesterInterface
         {
             try
             {
+                if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
+                    throw new Exception("The authentication password not correct.");
+
                 tester.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
                 bool[,] workingHours = {
@@ -63,18 +66,8 @@ namespace PL_WPF.UI.TesterInterface
 
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 
-                if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
-                    throw new Exception();
 
-                try
-                {
-                    bl.AddTester(tester);
-                    Singleton.Instance.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Tester) });
-                }
-                catch (CustomException)
-                {
-                    throw;
-                }
+                bl.AddTester(tester);
 
                 new TesterWindow(tester).Show();
                 Close();

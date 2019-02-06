@@ -68,6 +68,7 @@ namespace BE
                 (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
                 traineeXElement.Element(nameof(tmp.PhoneNumber)).Value,
                 new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
+                traineeXElement.Element(nameof(tmp.Password)).Value,
                 (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
                 (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
                 traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,

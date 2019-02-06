@@ -107,10 +107,10 @@ namespace BE
 
         public Tester(string id, Name name,
             DateTime birthdate, Gender gender, string phoneNumber,
-            Address address, uint yearsOfExperience,
+            Address address,string password, uint yearsOfExperience,
             uint maxOfTestsPerWeek, Vehicle vehicleTypeExpertise,
             bool[,] workingHours, uint maxDistanceFromAddress)
-            : base(id, name, birthdate, gender, phoneNumber, address)
+            : base(id, name, birthdate, gender, phoneNumber, address,password)
         {
             YearsOfExperience = yearsOfExperience;
             MaxOfTestsPerWeek = maxOfTestsPerWeek;
@@ -121,7 +121,7 @@ namespace BE
 
         public Tester(Tester tester)
              : this(tester.ID, tester.Name, tester.Birthdate, tester.Gender, tester.PhoneNumber,
-                   tester.Address, tester.YearsOfExperience, tester.MaxOfTestsPerWeek,
+                   tester.Address,tester.Password, tester.YearsOfExperience, tester.MaxOfTestsPerWeek,
                    tester.VehicleTypeExpertise, tester.WorkingHours, tester.MaxDistanceFromAddress)
         { }
 

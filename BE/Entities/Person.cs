@@ -14,37 +14,14 @@ namespace BE
     [Serializable]
     public struct Name // IMPROVEMENT insert into Person
     {
-        private string _lastName;
-        private string _firstName;
-
         public Name(string lastName, string firstName) : this()
         {
             LastName = lastName;
             FirstName = firstName;
         }
 
-        public string LastName
-        {
-            get => _lastName;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("Last name mustn't be null or empty or consists only white spaces", nameof(value));
-
-                _lastName = value;
-            }
-        }
-        public string FirstName
-        {
-            get => _firstName;
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("First name mustn't be null or empty or consists only white spaces", nameof(value));
-
-                _firstName = value;
-            }
-        }
+        public string LastName { get; set; }
+        public string FirstName { get; set; }
 
 
         public override string ToString()
@@ -64,25 +41,19 @@ namespace BE
     {
         string IKey.Key => ID;
 
-        public string ID { get; set; }
+        public string ID { get; /*private*/set; }
         public Name Name { get; set; } = new Name();
-        public DateTime Birthdate { get; set; }
+        public DateTime Birthdate { get; /*private*/set; }
         public Gender Gender { get; /*private*/ set; }
         public string PhoneNumber { get; set; }
         public Address Address { get; set; } = new Address();
-
-        //public string ID { get; /*private*/ set; }
-        //public Name Name { get; set; } = new Name();
-        //public DateTime Birthdate { get; /*private*/ set; }
-        //public Gender Gender { get; /*private*/ set; }
-        //public string PhoneNumber { get; set; }
-        //public Address Address { get; set; } = new Address();
+        public string Password { get; set; }
 
         public Person()
         { }
 
         public Person(string id, Name name, DateTime birthdate,
-            Gender gender, string phoneNumber, Address address)
+            Gender gender, string phoneNumber, Address address, string password)
         {
             ID = id;
             Name = name;
@@ -90,10 +61,11 @@ namespace BE
             Gender = gender;
             PhoneNumber = phoneNumber;
             Address = address;
+            Password = password;
         }
 
         public Person(Person person)
-            : this(person.ID, person.Name, person.Birthdate, person.Gender, person.PhoneNumber, person.Address)
+            : this(person.ID, person.Name, person.Birthdate, person.Gender, person.PhoneNumber, person.Address, person.Password)
         { }
 
         [XmlIgnore] //CHECK if need it since no setter

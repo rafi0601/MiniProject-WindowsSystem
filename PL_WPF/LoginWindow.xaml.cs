@@ -22,7 +22,6 @@ namespace PL_WPF
     /// </summary>
     public partial class LoginWindow : Window
     {
-        IUserManager userManager = Singleton.Instance;
         BL.IBL bl = BL.Singleton.Instance;
 
         public LoginWindow()
@@ -80,17 +79,17 @@ namespace PL_WPF
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            User loginedUser = userManager.Get(idTextBox.Text);
-            if (loginedUser.name is null || loginedUser.password != passwordPasswordBox.Password)
-                throw new Exception("not exist");
+            Person person = (Person)bl.GetTester(idTextBox.Text) ?? bl.GetTrainee(idTextBox.Text);
+            if (person is null || person.Password != passwordPasswordBox.Password)
+                throw new Exception("Not exist.");
 
-            switch (loginedUser.role)
+            switch (person)
             {
-                case Type type when type == typeof(Tester):
-                    new UI.TesterInterface.TesterWindow(bl.GetTester(loginedUser.name)).Show();
+                case Tester tester:
+                    new UI.TesterInterface.TesterWindow(tester).Show();
                     break;
-                case Type type when type == typeof(Trainee):
-                    new UI.TraineeInterface.TraineeWindow(bl.GetTrainee(loginedUser.name)).Show();
+                case Trainee trainee:
+                    new UI.TraineeInterface.TraineeWindow(trainee).Show();
                     break;
                 default:
                     new UI.AdminInterface.AdminWindow().Show();

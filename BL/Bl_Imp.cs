@@ -122,87 +122,84 @@ namespace BL
         private (uint distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
         {
             (uint, TimeSpan)? t = null;
-            Exception exception = null;
 
             BackgroundWorker requester = new BackgroundWorker();
             requester.DoWork += Requester_DoWork;
-            requester.RunWorkerCompleted += Requester_RunWorkerCompleted;
-            //requester.WorkerReportsProgress = true;
-            requester.WorkerSupportsCancellation = true; //??
-
-            //requester.CreateObjRef(typeof((uint, TimeSpan))).
-
-            while (!t.HasValue)
-                if (!requester.IsBusy)
-                    requester.RunWorkerAsync(KEY);
-            //if (requester.WorkerSupportsCancellation)
-            //    requester.CancelAsync();
-            if (exception != null)
-                throw exception;
-            return t.Value;
-
-            void Requester_DoWork(object sender, DoWorkEventArgs e)
-            {
-                //BackgroundWorker worker = sender as BackgroundWorker;
-                //string key = e.Argument as string;
-
-                string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City;
-                string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City;
-
-                string url = @"https://www.mapquestapi.com/directions/v2/route" +
-                    @"?key=" + KEY +
-                    @"&from=" + origin +
-                    @"&to=" + destination +
-                    @"&outFormat=xml" +
-                    @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
-                    @"&enhancedNarrative=false&avoidTimedConditions=false";
-
-                //request from MapQuest service the distance between the 2 addresses
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                WebResponse response = request.GetResponse();
-                Stream dataStream = response.GetResponseStream();
-                StreamReader sreader = new StreamReader(dataStream);
-                string responsereader = sreader.ReadToEnd();
-                response.Close();
-                //the response is given in an XML format 
-                XmlDocument xmldoc = new XmlDocument();
-                xmldoc.LoadXml(responsereader);
-
-                if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
-                {     //display the returned distance
-                    XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
-                    double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
-                    Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
-
-                    //display the returned driving time   
-                    XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
-                    string fTime = formattedTime[0].ChildNodes[0].InnerText;
-                    Debug.WriteLine("Driving Time: " + fTime);
-
-                    e.Result = (distInMiles * 1.609344, fTime);
-                }
-                else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
-                //we have an answer that an error occurred, one of the addresses is not found 
-                {
-                    //e.Cancel = true;
-                    e.Result = new Exception();
-                    Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
-                }
-                else //busy network or other error... 
-                {
-                    Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
-                    Thread.Sleep(2000);
-                }
-            }
-
-            void Requester_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+            requester.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
             {
                 if (e.Result is ValueTuple<uint, TimeSpan> vt)
                     t = vt;
-                else if (e.Result is Exception ex)
-                    exception = ex;
+                //else if (e.Result is Exception ex)
+                //    exception = ex;
                 else
-                    t = (X, new TimeSpan());
+                    t = (DEFAULT_DISTANCE, new TimeSpan());
+            };
+
+            while (t == null)//!t.HasValue)
+                if (!requester.IsBusy)
+                    requester.RunWorkerAsync((address1, address2));
+
+            return t.Value;
+
+            //if (requester.WorkerSupportsCancellation)
+            //    requester.CancelAsync();
+            //requester.WorkerReportsProgress = true;
+            //requester.WorkerSupportsCancellation = true; //??
+            //requester.CreateObjRef(typeof((uint, TimeSpan))).
+        }
+
+        private void Requester_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            (Address address1, Address address2) = ((Address, Address))e.Argument;
+
+            string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City;
+            string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City;
+
+            string url = @"https://www.mapquestapi.com/directions/v2/route" +
+                @"?key=" + KEY +
+                @"&from=" + origin +
+                @"&to=" + destination +
+                @"&outFormat=xml" +
+                @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
+                @"&enhancedNarrative=false&avoidTimedConditions=false";
+
+            //request from MapQuest service the distance between the 2 addresses
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader sreader = new StreamReader(dataStream);
+            string responsereader = sreader.ReadToEnd();
+            response.Close();
+            //the response is given in an XML format 
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(responsereader);
+
+            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
+            {     //display the returned distance
+                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
+                Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                //display the returned driving time   
+                XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                string fTime = formattedTime[0].ChildNodes[0].InnerText;
+                Debug.WriteLine("Driving Time: " + fTime);
+
+                e.Result = (distInMiles * 1.609344, fTime);
+            }
+            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+            //we have an answer that an error occurred, one of the addresses is not found 
+            {
+                //e.Cancel = true;
+                e.Result = null;
+                Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
+            }
+            else //busy network or other error... 
+            {
+                Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
+                //Thread.Sleep(2000);
+                e.Result = null;
             }
         }
 
@@ -491,6 +488,8 @@ namespace BL
         }
 
         #endregion
+
+
 
         #region private functions
 

@@ -43,15 +43,18 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
+                if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
+                    throw new Exception("The authentication password not correct.");
+
                 trainee.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
                 trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+                trainee.Password = passwordBoxNew.Password;
 
                 foreach (string expertise in vehicleListBox.SelectedItems)
                     trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 bl.AddTrainee(trainee);
-                Singleton.Instance.Add(new User() { name = iDTextBox.Text, password = passwordBoxNew.Password, role = typeof(Trainee) });
 
                 new TraineeWindow(trainee).Show();
                 Close();

@@ -168,6 +168,10 @@ namespace DAL
             if (!GetTrainees().Exists(trainee => trainee.ID == test.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database");
 
+            if (code > MAX_VALUE_TO_CODE)
+                throw new OverflowException();
+            if (test.Code != null)
+                throw new ArgumentException();
             test.Code = (++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0');
 
             config.Root.Element("Code").Remove();
@@ -360,7 +364,8 @@ namespace DAL
                     new XElement(nameof(trainee.TeacherName),
                         new XElement(nameof(trainee.TeacherName.LastName), trainee.TeacherName.LastName),
                         new XElement(nameof(trainee.TeacherName.FirstName), trainee.TeacherName.FirstName)),
-                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons)));
+                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons),
+                    new XElement(nameof(trainee.Password),trainee.Password)));
             trainees.Root.Save(trainees.FilePath);
         }
 
@@ -404,6 +409,7 @@ namespace DAL
                     (Gender)Enum.Parse(typeof(Gender), trainee.Element(nameof(tmp.Gender)).Value),
                     trainee.Element(nameof(tmp.PhoneNumber)).Value,
                     new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
+                    trainee.Element(nameof(tmp.Password)).Value,
                     (Vehicle)Enum.Parse(typeof(Vehicle), trainee.Element(nameof(tmp.VehicleTypeTraining)).Value),
                     (Gearbox)Enum.Parse(typeof(Gearbox), trainee.Element(nameof(tmp.GearboxTypeTraining)).Value),
                     trainee.Element(nameof(tmp.DrivingSchool)).Value,
@@ -432,16 +438,16 @@ namespace DAL
             return t => item?.Key == t?.Key;
         }
 
-        private void SaveUsers()
-        {
-            new XElement("users", from u in users
-                                  select new XElement("user",
-                                    new XElement("name", u.Value.name),
-                                    new XElement("password", u.Value.password),
-                                    new XElement("role", u.Value.role.ToString()))).Save("usersXml.xml");
-        }
-
-        Dictionary<string, User> users = new Dictionary<string, User>();
+        //private void SaveUsers()
+        //{
+        //    new XElement("users", from u in users
+        //                          select new XElement("user",
+        //                            new XElement("name", u.Value.name),
+        //                            new XElement("password", u.Value.password),
+        //                            new XElement("role", u.Value.role.ToString()))).Save("usersXml.xml");
+        //}
+        //
+        //Dictionary<string, User> users = new Dictionary<string, User>();
 
 
         //Dictionary<PropertyInfo, string> traineePropertyNames;

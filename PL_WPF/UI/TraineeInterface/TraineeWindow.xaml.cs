@@ -86,7 +86,6 @@ namespace PL_WPF.UI.TraineeInterface
                 switch (MessageBox.Show("Are you sure you want to Remove your account?", "Verify deletion", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
                 {
                     case MessageBoxResult.Yes:
-                        Singleton.Instance.Remove(Singleton.Instance.Get(trainee.ID));
                         bl.RemoveTrainee(trainee);
                         Close();
                         // CHECK it is unreachable code???
