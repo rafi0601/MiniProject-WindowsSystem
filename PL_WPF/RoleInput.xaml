@@ -1,0 +1,24 @@
+﻿<Window x:Class="PL_WPF.RoleInput"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL_WPF"
+        mc:Ignorable="d"
+        Title="RoleInput" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <WrapPanel Orientation="Vertical">
+        <Grid>
+            
+        </Grid>
+        <Label Content="Choose yore role" FontSize="25"/>
+        <ListBox x:Name="RoleListBox" SelectionChanged="RoleListBox_SelectionChanged"  VerticalContentAlignment="Center" HorizontalAlignment="Center">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBoxItem FontSize="20">Tester</ListBoxItem>
+            <ListBoxItem FontSize="20">Trainee</ListBoxItem>
+        </ListBox>
+    </WrapPanel>
+</Window>
