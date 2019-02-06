@@ -101,14 +101,16 @@ namespace PL_WPF
 
         private void Registeration_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-
-            switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            string role ="";
+            new RoleInput(ref role).ShowDialog();
+            role = "Tester";
+            //switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            switch (role)
             {
-                case MessageBoxResult.Yes:
+                case "Tester":
                     new UI.TesterInterface.TesterRegisteraionWindow().Show();
                     break;
-                case MessageBoxResult.No:
+                case "Trainee":
                     new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
                     break;
                 default:

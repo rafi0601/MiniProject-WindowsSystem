@@ -8,7 +8,8 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:PL_WPF="clr-namespace:PL_WPF" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
+        xmlns:PL_WPF="clr-namespace:PL_WPF"
+    xmlns:local1="clr-namespace:PL_WPF.UI.TesterInterface" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="660" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
     <!--Description=interface of trainee-->
@@ -378,7 +379,7 @@
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
                     <Label Height="15"/>
                     <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click"/>
-                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed" RefrashButtonClick="DetailsOfMyTest_RefrashButtonClick"/>
+                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed" RefrashButtonClick="DetailsOfMyTest_RefrashButtonClick" Margin="160,0,0,0"/>
                     <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
                     <!--<WindowsFormHost/>-->
                     <!--<xctk:DateTimePicker x:Name="addTestDateTimePicker" TimePickerAllowSpin="False" TimePickerShowButtonSpinner="False" AutoCloseCalendar="False" ValueChanged="DateTimePicker_ValueChanged" ShowButtonSpinner="False"  IsOpen="True" AllowTextInput="False" Height="103" Width="730"/>-->
@@ -387,24 +388,35 @@
                 <!--BUG minimun={Today}-->
 
             </TabItem>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Testers">
-                <WrapPanel Orientation="Vertical">
+            <TabItem Style="{DynamicResource Tab_Style}" Header="My Test">
+                <WrapPanel Orientation="Vertical" Margin="160,0,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="The Test Details:" FontSize="25" Grid.Column="0" RenderTransformOrigin="0.32,0.273"/>
+                        <Button Content="Refrash" Click="Refrash_Button_Click"  Grid.Column="1" Width="100" HorizontalAlignment="Right"/>
+                    </Grid>
+
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="The Test Details:           " FontSize="25" Grid.Column="0" RenderTransformOrigin="0.32,0.273"/>
-                        <Button Content="Refrash" Click="Refrash_Button_Click"  Grid.Column="1" Width="100" HorizontalAlignment="Right"/>
+                        <DataGrid x:Name="DadaGridOfDoneTests" Grid.Column="0" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" SelectionChanged="DadaGridOfDoneTests_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
+                                <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
+                                <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <!--<CheckBox x:Name="IsPassCheckBox" Content="Is Pass" Grid.Column="1"/>-->
+                        <local1:Grading x:Name="Grading" Grid.Column="1"/>
                     </Grid>
-                    <DataGrid x:Name="DadaGridOfDoneTests" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
-                            <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
-                            <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+
                 </WrapPanel>
                 <!--<StackPanel>FFoFF
                     <Button x:Name="asdf"/>

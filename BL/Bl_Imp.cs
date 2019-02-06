@@ -133,7 +133,10 @@ namespace BL
             //requester.CreateObjRef(typeof((uint, TimeSpan))).
 
             while (!t.HasValue)
-                requester.RunWorkerAsync(KEY);
+                if (!requester.IsBusy)
+                    requester.RunWorkerAsync(KEY);
+            //if (requester.WorkerSupportsCancellation)
+            //    requester.CancelAsync();
             if (exception != null)
                 throw exception;
             return t.Value;
@@ -143,8 +146,8 @@ namespace BL
                 //BackgroundWorker worker = sender as BackgroundWorker;
                 //string key = e.Argument as string;
 
-                string origin = address1.Street + address1.HouseNumber + address1.City;
-                string destination = address2.Street + address2.HouseNumber + address2.City;
+                string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City;
+                string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City;
 
                 string url = @"https://www.mapquestapi.com/directions/v2/route" +
                     @"?key=" + KEY +
