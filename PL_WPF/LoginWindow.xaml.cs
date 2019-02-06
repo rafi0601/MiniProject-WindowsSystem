@@ -103,7 +103,8 @@ namespace PL_WPF
         {
             string role ="";
             new RoleInput(ref role).ShowDialog();
-           // switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            role = "Tester";
+            //switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question))
             switch (role)
             {
                 case "Tester":

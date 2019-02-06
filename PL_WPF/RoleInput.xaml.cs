@@ -25,6 +25,7 @@ namespace PL_WPF
         public RoleInput(ref string roleName)
         {
             InitializeComponent();
+            RoleName = roleName;
         }
 
         private void RoleListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

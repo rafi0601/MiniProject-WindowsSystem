@@ -57,6 +57,8 @@ namespace PL_WPF.UI.TraineeInterface
             //vehicleComboBox.Text = trainee.Vehicle.ToString();
             //numberOfDoneLessonsTextBox.Text = trainee.NumberOfDoneLessons.ToString();
             //drivingSchoolTextBox2.Text = trainee.DrivingSchool;
+
+            Grading.sendButton.Visibility = Visibility.Collapsed;
         }
 
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
@@ -208,6 +210,23 @@ namespace PL_WPF.UI.TraineeInterface
                 ChooseLabel.Visibility = Visibility.Visible;
                 DetailsOfMyTest.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void DadaGridOfDoneTests_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var test = DadaGridOfDoneTests.SelectedItem as Test;
+
+            if (test == null)
+                return;
+
+            Grading.BackParking.IsChecked = test.CriteriasGrades.BackParking;
+            Grading.IntegrationIntoMovement.IsChecked = test.CriteriasGrades.IntegrationIntoMovement;
+            Grading.IsPass.IsChecked = test.IsPass;
+            Grading.KeepDistance.IsChecked = test.CriteriasGrades.KeepDistance;
+            Grading.Note.Text = test.TesterNotes;
+            Grading.ObeyParkSigns.IsChecked = test.CriteriasGrades.ObeyParkSigns;
+            Grading.Signaling.IsChecked = test.CriteriasGrades.Signaling;
+            Grading.UsingViewMirrors.IsChecked = test.CriteriasGrades.UsingViewMirrors;
         }
     }
 }
