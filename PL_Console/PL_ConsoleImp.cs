@@ -26,7 +26,7 @@ namespace ConsoleApp1
         {
             try
             {
-                MapReq();
+                MapReq(new Address(),new Address());
 
 
 
@@ -138,98 +138,36 @@ namespace ConsoleApp1
             //DateTimeOffset
         }
 
-        private static void MapReq()
+        private static void MapReq(Address address1, Address address2)
         {
-            BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += Worker_DoWork;
-            worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
-            worker.WorkerReportsProgress = false;
-            worker.WorkerSupportsCancellation = true; //??
-
-
-            worker.RunWorkerAsync((new Address("Jafo", 2, "Jerusalem"), new Address("Hamatzor", 3, "Jerusalem")));
-
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    Thread thread = new Thread(Dist);
-            //    thread.Start();
-            //    Thread.Sleep(2000);
-            //}
+            
         }
 
-        private static void Worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            uint length = (uint)e.Argument;
+        //private static void Worker_DoWork(object sender, DoWorkEventArgs e)
+        //{
+        //    try
+        //    {
+                
+        //        while (Dist(addresses.Item1, addresses.Item2))
+        //            Thread.Sleep(2000);
+        //        e.Result = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //    }
 
-            try
-            {
-                Dist(new Address(),new Address());
-                Thread.Sleep(2000);
-                e.Result = true;
-            }
-            catch (Exception ex)
-            {
-                e.Result = ex;
-            }
-        }
+        //    void Dist(Address address1, Address address2)
+        //    {
+                
 
-        private static void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (e.Result is bool b && b == true)
-                Console.WriteLine("Succed");
-            else
-                Console.WriteLine((e.Result as Exception).ToString());
-        }
+        //    }
+        //}
 
-        private protected static void Dist(Address address1, Address address2)
-        {
-            //string origin = "pisga 45 st. jerusalem"; //or " אחד העם  פתח תקווה 100 " etc.
-            //string destination = "gilgal 78 st. ramat-gan";//or " ז'בוטינסקי  רמת גן 10 " etc.
-            string origin = address1.Street + address1.HouseNumber + address1.City;
-            string destination = address2.Street + address2.HouseNumber + address2.City;
-            string KEY = @"PffGghfFGtzNFx1MqL9NLykkFHmpHkmc";
+        //private static void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+            
+        //}
 
-            string url = @"https://www.mapquestapi.com/directions/v2/route" +
-                @"?key=" + KEY +
-                @"&from=" + origin +
-                @"&to=" + destination +
-                @"&outFormat=xml" +
-                @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
-                @"&enhancedNarrative=false&avoidTimedConditions=false";
 
-            //request from MapQuest service the distance between the 2 addresses
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader sreader = new StreamReader(dataStream);
-            string responsereader = sreader.ReadToEnd();
-            response.Close();
-            //the response is given in an XML format 
-            XmlDocument xmldoc = new XmlDocument();
-            xmldoc.LoadXml(responsereader);
-
-            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
-            {     //display the returned distance
-                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
-                double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
-                Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
-
-                //display the returned driving time   
-                XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
-                string fTime = formattedTime[0].ChildNodes[0].InnerText;
-                Console.WriteLine("Driving Time: " + fTime);
-            }
-            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
-            //we have an answer that an error occurred, one of the addresses is not found 
-            {
-                Console.WriteLine("an error occurred, one of the addresses is not found. try again.");
-            }
-            else //busy network or other error... 
-            {
-                Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
-            }
-
-        }
     }
 }

@@ -63,6 +63,9 @@ namespace PL_WPF.UI.TesterInterface
 
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 
+                if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
+                    throw new Exception();
+
                 try
                 {
                     bl.AddTester(tester);
