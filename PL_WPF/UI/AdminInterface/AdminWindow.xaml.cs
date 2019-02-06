@@ -21,9 +21,21 @@ namespace PL_WPF.UI.AdminInterface
     /// </summary>
     public partial class AdminWindow : Window
     {
+        BL.IBL bl = BL.Singleton.Instance;
+
         public AdminWindow()
         {
             InitializeComponent();
+        }
+
+        private void TraineesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Expertise_Selected(object sender, RoutedEventArgs e)
+        {
+            TestersDataGrid.ItemsSource = bl.TestersByExpertise(true);
         }
     }
 }
