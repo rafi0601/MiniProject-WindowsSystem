@@ -19,8 +19,7 @@ namespace BE
             if (id.Length > 9 || !uint.TryParse(id, out uint temp))
                 throw new ArgumentException("ID is not valid");
 
-            while (id.Length < 9) // Pading zeroes to the begining
-                id = "0" + id;
+            id = id.PadLeft(totalWidth: 9, paddingChar: '0');
 
             int counter = 0, incNum;
             for (int i = 0; i < 9; i++)

@@ -23,7 +23,7 @@ namespace PL_WPF.UI.TraineeInterface
     public partial class TraineeWindow : Window
     {
         Trainee trainee;
-        BL.IBL bl= BL.Singleton.Instance;
+        BL.IBL bl = BL.Singleton.Instance;
 
         public TraineeWindow(Trainee trainee)
         {
@@ -47,6 +47,8 @@ namespace PL_WPF.UI.TraineeInterface
             foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
                 if (trainee.VehicleTypeTraining.HasFlag(vehicle))
                     vehicleListBox.SelectedItems.Add(vehicle);
+
+            DadaGridOfDoneTests.SelectedItem = bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass != null);
             //iDTextBox.Text = trainee.ID;
             //birthdateDatePicker.Text = trainee.Birthdate.ToString();
             //phoneNumberTextBox.Text = trainee.PhoneNumber;
@@ -190,6 +192,22 @@ namespace PL_WPF.UI.TraineeInterface
             CheckDateButton.Visibility = Visibility.Visible;
             ChooseLabel.Visibility = Visibility.Visible;
             SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
+        }
+
+        private void Refrash_Button_Click(object sender, RoutedEventArgs e)
+        {
+            DadaGridOfDoneTests.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass != null);
+        }
+
+        private void DetailsOfMyTest_RefrashButtonClick(object sender, EventArgs e)
+        {
+            if (bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass == false).Any())
+            {
+                dateTimePicker.Visibility = Visibility.Visible;
+                CheckDateButton.Visibility = Visibility.Visible;
+                ChooseLabel.Visibility = Visibility.Visible;
+                DetailsOfMyTest.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

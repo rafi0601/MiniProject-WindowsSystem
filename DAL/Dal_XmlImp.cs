@@ -64,6 +64,7 @@ namespace DAL
         private MyStruct tests;// = new MyStruct(new XElement(nameof(Test) + s) /*,filesPath*/);
         private MyStruct testers;// = new MyStruct(new XElement(nameof(Tester) + s)/*, filesPath*/);
         private MyStruct trainees;// = new MyStruct(new XElement(nameof(Trainee) + s)/*, filesPath*/);
+        private MyStruct config;// = new MyStruct(new XElement(nameof(Trainee) + s)/*, filesPath*/);
 
         private const char s = 's';
         // private const string filesPath = @"\\DS\DS_Xml";
@@ -77,6 +78,7 @@ namespace DAL
             tests.FilePath = @"TestsXml.xml";
             testers.FilePath = @"TestersXml.xml";
             trainees.FilePath = @"TraineesXml.xml";
+            config.FilePath = @"ConfigXml.xml";
 
             //testsFile = new FileStream(tests.FilePath, FileMode.Create);
             //testersFile = new FileStream(testers.FilePath, FileMode.Create); //CHECK
@@ -92,6 +94,14 @@ namespace DAL
             else
                 TraineeloadData();
 
+            if (!File.Exists(config.FilePath))
+            {
+                config.Root = new XElement("configs");
+                config.Root.Add(new XElement("Code", checked(code).ToString().PadLeft(totalWidth: 8, paddingChar: '0')));
+                config.Root.Save(config.FilePath);
+            }
+            else
+                ConfigloadData();
         }
 
 
@@ -110,6 +120,19 @@ namespace DAL
             try
             {
                 trainees.Root = XElement.Load(trainees.FilePath);
+            }
+            catch
+            {
+                throw new Exception("Trainees File upload problem");
+            }
+        }
+
+        private void ConfigloadData()
+        {
+            try
+            {
+                config.Root = XElement.Load(config.FilePath);
+                code = uint.Parse(config.Root.Element("Code").Value);
             }
             catch
             {
@@ -154,8 +177,10 @@ namespace DAL
             if (!ExistingTraineeById(test.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database");
 
-            if (test.Code == null)
-                test.Code = checked(++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0'); // TODO: catch (System.OverflowException e)
+            test.Code = checked(++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0'); // TODO: catch (System.OverflowException e)
+
+            config.Root.Element("Code").Remove();
+            config.Root.Add(new XElement("Code", test.Code));
 
             try
             {

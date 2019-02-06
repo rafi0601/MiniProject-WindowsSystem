@@ -101,8 +101,9 @@ namespace PL_WPF
 
         private void Registeration_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question)
-)
+
+
+            switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question))
             {
                 case MessageBoxResult.Yes:
                     new UI.TesterInterface.TesterRegisteraionWindow().Show();
