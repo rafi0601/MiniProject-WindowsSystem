@@ -21,20 +21,21 @@ namespace PL_WPF
     /// </summary>
     public partial class RoleInput : Window
     {
-        string RoleName;
-        public RoleInput(ref string roleName)
+        public string RoleName;
+
+        public RoleInput()
         {
             InitializeComponent();
-            RoleName = roleName;
         }
 
         private void RoleListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RoleName = RoleListBox.SelectedItem.ToString();
+            //sender as ListBox).Selecte......
+            RoleName = (RoleListBox.SelectedItem as ListBoxItem).Content as string;
             Close();
         }
 
-        public event EventHandler SelectionChanged; // CHECK which args to use
+//        public event SelectionChangedEventHandler SelectionChanged;
 
     }
 }

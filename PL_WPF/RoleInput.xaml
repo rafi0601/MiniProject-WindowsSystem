@@ -7,13 +7,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF"
         mc:Ignorable="d"
-        Title="RoleInput" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="RoleInput" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" d:DesignWidth="202.071" d:DesignHeight="96.994">
     <WrapPanel Orientation="Vertical">
-        <Grid>
-
-        </Grid>
         <Label Content="Choose yore role" FontSize="25"/>
         <ListBox x:Name="RoleListBox" SelectionChanged="RoleListBox_SelectionChanged"  VerticalContentAlignment="Center" HorizontalAlignment="Center">
+            <!--<ListBox.Style>
+                <Style BasedOn="{x}"
+            </ListBox.Style>-->
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>

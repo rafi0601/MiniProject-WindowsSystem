@@ -101,11 +101,10 @@ namespace PL_WPF
 
         private void Registeration_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            string role ="";
-            new RoleInput(ref role).ShowDialog();
-            role = "Tester";
-            //switch (MessageBox.Show("Are you tester", "", MessageBoxButton.YesNo, MessageBoxImage.Question))
-            switch (role)
+            RoleInput roleInput = new RoleInput();
+            roleInput.ShowDialog();
+            //roleInput.RoleListBox = new ListBox(); //BUG how it is possible?
+            switch (roleInput.RoleName)
             {
                 case "Tester":
                     new UI.TesterInterface.TesterRegisteraionWindow().Show();
@@ -114,7 +113,7 @@ namespace PL_WPF
                     new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
                     break;
                 default:
-                    break;
+                    throw new Exception("");
             }
         }
 
