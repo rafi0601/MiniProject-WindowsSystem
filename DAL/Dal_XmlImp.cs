@@ -105,27 +105,16 @@ namespace DAL
         }
 
 
-        private void XmlFile_Changing(object sender, XObjectChangeEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        //private void XmlFile_Changing(object sender, XObjectChangeEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        //
+        //private void XmlFile_Changed(object sender, XObjectChangeEventArgs e)
+        //{
+        //    //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
+        //}
 
-        private void XmlFile_Changed(object sender, XObjectChangeEventArgs e)
-        {
-            //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
-        }
-
-        private void TraineeloadData()
-        {
-            try
-            {
-                trainees.Root = XElement.Load(trainees.FilePath);
-            }
-            catch
-            {
-                throw new Exception("Trainees File upload problem");
-            }
-        }
 
         private void ConfigloadData()
         {
@@ -157,7 +146,8 @@ namespace DAL
             return result;
         }
 
-        #region Test Fanc
+        #region Test Funcions
+
         public void AddTest(Test test)
         {
             Inspections.TestInspection(test);
@@ -174,10 +164,11 @@ namespace DAL
             if (tester == default(Tester)) //!ExistingTesterById(test.IDTester)
                 throw new ArgumentException("The tester doesn't exist in the database");
 
-            if (!ExistingTraineeById(test.TraineeID))
+
+            if (!GetTrainees().Exists(trainee => trainee.ID == test.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database");
 
-            test.Code = checked(++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0'); // TODO: catch (System.OverflowException e)
+            test.Code = (++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0');
 
             config.Root.Element("Code").Remove();
             config.Root.Add(new XElement("Code", test.Code));
@@ -195,7 +186,6 @@ namespace DAL
                 throw ex;
             }
         }
-
 
         public void UpdateTest(Test test)
         {
@@ -241,6 +231,8 @@ namespace DAL
 
         #endregion
 
+        #region Tester Functions
+
         public void AddTester(Tester tester)
         {
             Inspections.TesterInspection(tester);
@@ -265,7 +257,7 @@ namespace DAL
 
             try
             {
-                if(!File.Exists(testers.FilePath))
+                if (!File.Exists(testers.FilePath))
                     throw new ArgumentException("This tester doesn't exist in the database");
 
                 List<Tester> testersList = LoadFromXML<List<Tester>>(testers.FilePath);
@@ -316,6 +308,22 @@ namespace DAL
             return (from tester in testersList
                     where match != null ? match(tester) : true
                     select new Tester(tester)).ToList();
+        }
+
+        #endregion
+
+        #region Trainee Functions
+
+        private void TraineeloadData()
+        {
+            try
+            {
+                trainees.Root = XElement.Load(trainees.FilePath);
+            }
+            catch
+            {
+                throw new Exception("Trainees File upload problem");
+            }
         }
 
         public void AddTrainee(Trainee trainee)
@@ -417,15 +425,22 @@ namespace DAL
                 ).ToList();
         }
 
-        private bool ExistingTraineeById(string id)
-        {
-            List<Trainee> traineesList = GetTrainees();
-            return traineesList.Exists(trainee => trainee.ID == id);
-        }
+        #endregion
 
         private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey // TODO rename to equalitionOfKey
         {
             return t => item?.Key == t?.Key;
         }
+
+        private void SaveUsers()
+        {
+            new XElement("users", from u in users
+                                  select new XElement("user",
+                                    new XElement("name", u.Value.name),
+                                    new XElement("password", u.Value.password),
+                                    new XElement("role", u.Value.role.ToString()))).Save("usersXml.xml");
+        }
+
+        Dictionary<string, User> users = new Dictionary<string, User>();
     }
 }
