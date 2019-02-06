@@ -11,13 +11,19 @@
         xmlns:PL_WPF="clr-namespace:PL_WPF"
     xmlns:local1="clr-namespace:PL_WPF.UI.TesterInterface" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="660" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
+        WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="650" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
     <!--Description=interface of trainee-->
     <Window.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="FontFamily" Value="Global Sans Serif" />
+        </Style>
+        
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="18"/>
             <Setter Property="BorderBrush" Value="Beige"/>
+            <Setter Property="FontFamily" Value="Global Sans Serif" />
+
             <Setter Property="Height" Value="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
             <Setter Property="Margin" Value="-6,0,0,0"/>
@@ -121,7 +127,7 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
+        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Global Sans Serif"/>
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile">

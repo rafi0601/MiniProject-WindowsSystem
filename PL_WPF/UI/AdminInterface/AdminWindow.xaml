@@ -19,9 +19,12 @@
         </StackPanel>
     </Grid>-->
     <Window.Resources>
+        <!--<Style TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="{x:Null}"/>
+        </Style>-->
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
-            <Setter Property="TextBlock.FontSize" Value="18"/>
+            <Setter Property="TextBlock.FontSize" Value="40"/>
             <Setter Property="BorderBrush" Value="Beige"/>
             <Setter Property="Height" Value="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
@@ -121,12 +124,22 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
+        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="60" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
                 <WrapPanel Orientation="Vertical">
-                    <Label Content="Groping by" FontSize="40" HorizontalAlignment="Center"/>
+                    <Label Content="Gruping by" FontSize="50" HorizontalAlignment="Center"/>
+                   
+                    <ListBox HorizontalAlignment="Center">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBoxItem FontSize="40" Selected="Expertise_Selected">Expertise</ListBoxItem>
+                    </ListBox>
+                    
                     <DataGrid x:Name="TestersDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
@@ -149,7 +162,7 @@
                 </WrapPanel>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Trainees" >
-                <DataGrid x:Name="TraineesDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+                <DataGrid x:Name="TraineesDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" SelectionChanged="TraineesDataGrid_SelectionChanged">
                     <DataGrid.ColumnHeaderStyle>
                         <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
                             <Setter Property="FontSize" Value="20"/>

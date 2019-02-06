@@ -11,6 +11,10 @@
         WindowStartupLocation="CenterScreen" Title="TesterWindow" Height="850" Width="1200">
 
     <Window.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="FontFamily" Value="Global Sans Serif" />
+        </Style>
+        
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="18"/>
@@ -18,6 +22,7 @@
             <Setter Property="Height" Value="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
             <Setter Property="Margin" Value="-6,0,0,0"/>
+            <Setter Property="FontFamily" Value="Global Sans Serif" />
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="TextBlock.Foreground" Value="Black"/>
@@ -406,7 +411,7 @@
                     <local:Grading x:Name="GradingTest" Grid.Column="1" IsEnabled="False" SendClick="GradingTest_SendClick" />
                 </Grid>
             </TabItem>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Grade entry">
+           <!-- <TabItem Style="{DynamicResource Tab_Style}" Header="Grade entry">
                 <WrapPanel Orientation="Vertical">
                     <DataGrid x:Name="TestDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
                         <DataGrid.Columns>
@@ -430,7 +435,7 @@
                     </WrapPanel>
 
                 </WrapPanel>
-            </TabItem>
+            </TabItem>-->
             <TabItem Style="{DynamicResource Tab_Style}" Header="Setting">
                 <Grid>
                     <Grid.ColumnDefinitions>

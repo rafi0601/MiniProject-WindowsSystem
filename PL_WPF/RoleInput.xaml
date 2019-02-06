@@ -7,9 +7,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF"
         mc:Ignorable="d"
-        Title="RoleInput" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" d:DesignWidth="202.071" d:DesignHeight="96.994">
+        Title="RoleInput" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Width="202.071" Height="96.994" >
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color=" #FF2281D1"/>
+            <GradientStop Color=" #FF34268A" Offset="1"/>
+            <GradientStop Color=" #FF33288B" Offset="0.5"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <WrapPanel Orientation="Vertical">
-        <Label Content="Choose yore role" FontSize="25"/>
+        <Label Content="Choose yore role" FontSize="25" Foreground="White"/>
         <ListBox x:Name="RoleListBox" SelectionChanged="RoleListBox_SelectionChanged"  VerticalContentAlignment="Center" HorizontalAlignment="Center">
             <!--<ListBox.Style>
                 <Style BasedOn="{x}"
@@ -19,8 +26,8 @@
                     <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
-            <ListBoxItem FontSize="20">Tester</ListBoxItem>
-            <ListBoxItem FontSize="20">Trainee</ListBoxItem>
+            <ListBoxItem FontSize="20" Foreground="White" >Tester</ListBoxItem>
+            <ListBoxItem FontSize="20" Foreground="White">Trainee</ListBoxItem>
         </ListBox>
     </WrapPanel>
 </Window>
