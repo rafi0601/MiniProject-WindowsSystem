@@ -79,21 +79,28 @@ namespace PL_WPF
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            Person person = (Person)bl.GetTester(idTextBox.Text) ?? bl.GetTrainee(idTextBox.Text);
-            if (person is null || person.Password != passwordPasswordBox.Password)
-                throw new Exception("Not exist.");
-
-            switch (person)
+            try
             {
-                case Tester tester:
-                    new UI.TesterInterface.TesterWindow(tester).Show();
-                    break;
-                case Trainee trainee:
-                    new UI.TraineeInterface.TraineeWindow(trainee).Show();
-                    break;
-                default:
-                    new UI.AdminInterface.AdminWindow().Show();
-                    break;
+                Person person = (Person)bl.GetTester(idTextBox.Text) ?? bl.GetTrainee(idTextBox.Text);
+                if (person is null || person.Password != passwordPasswordBox.Password)
+                    throw new CustomException(true,new Exception("Not exist."));
+
+                switch (person)
+                {
+                    case Tester tester:
+                        new UI.TesterInterface.TesterWindow(tester).Show();
+                        break;
+                    case Trainee trainee:
+                        new UI.TraineeInterface.TraineeWindow(trainee).Show();
+                        break;
+                    default:
+                        new UI.AdminInterface.AdminWindow().Show();
+                        break;
+                }
+            }
+            catch (CustomException ex) when (ex.DisplayToUser)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             }
 
         }

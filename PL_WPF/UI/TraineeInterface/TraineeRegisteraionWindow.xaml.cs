@@ -46,6 +46,9 @@ namespace PL_WPF.UI.TraineeInterface
                 if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
                     throw new Exception("The authentication password not correct.");
 
+                if (bl.GetTrainee(iDTextBox.Text) != null)
+                    throw new Exception("Alredy exist");
+
                 trainee.Name = new Name { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 trainee.TeacherName = new Name { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
                 trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
