@@ -125,25 +125,28 @@
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
-                <DataGrid x:Name="TestersDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
-                            <Setter Property="FontSize" Value="20"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Birthdate" Binding="{Binding Birthdate}"/>
-                        <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
-                        <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}"/>
-                        <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                        <DataGridTextColumn Header="Years of experience" Binding="{Binding YearsOfExperience}" />
-                        <DataGridTextColumn Header="Max of tests per week" Binding="{Binding Address}" />
-                        <DataGridTextColumn Header="Vehicle type expertise" Binding="{Binding VehicleTypeExpertise}" />
-                        <DataGridTextColumn Header="Max distance from address" Binding="{Binding MaxDistanceFromAddress}" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <WrapPanel Orientation="Vertical">
+                    <Label Content="Groping by" FontSize="40" HorizontalAlignment="Center"/>
+                    <DataGrid x:Name="TestersDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                <Setter Property="FontSize" Value="20"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Birthdate" Binding="{Binding Birthdate}"/>
+                            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}"/>
+                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
+                            <DataGridTextColumn Header="Years of experience" Binding="{Binding YearsOfExperience}" />
+                            <DataGridTextColumn Header="Max of tests per week" Binding="{Binding Address}" />
+                            <DataGridTextColumn Header="Vehicle type expertise" Binding="{Binding VehicleTypeExpertise}" />
+                            <DataGridTextColumn Header="Max distance from address" Binding="{Binding MaxDistanceFromAddress}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </WrapPanel>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Trainees" >
                 <DataGrid x:Name="TraineesDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
