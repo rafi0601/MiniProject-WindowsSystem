@@ -9,7 +9,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <WrapPanel Orientation="Vertical">
-        <Label Content="The test was determined successfully!" FontSize="25" Margin="160,0,0,0"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="The test was determined successfully!" Grid.Column="1" FontSize="25"/>
+            <Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="3" Width="100" HorizontalAlignment="Right"/>
+        </Grid>
         <Label Height="25"/>
         <Label Content="The Test Details:" FontSize="25" RenderTransformOrigin="0.32,0.273"/>
         <DataGrid x:Name="MyTestDadaGrid" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">

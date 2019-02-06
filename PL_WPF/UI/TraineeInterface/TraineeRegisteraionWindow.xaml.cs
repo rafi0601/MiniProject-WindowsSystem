@@ -28,9 +28,15 @@ namespace PL_WPF.UI.TraineeInterface
         public TraineeRegisteraionWindow()
         {
             InitializeComponent();
-
-            trainee = new Trainee();
-            DataContext = trainee;
+            try
+            {
+                trainee = new Trainee();
+                DataContext = trainee;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)

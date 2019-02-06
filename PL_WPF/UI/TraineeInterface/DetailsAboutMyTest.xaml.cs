@@ -24,5 +24,12 @@ namespace PL_WPF.UI.TraineeInterface
         {
             InitializeComponent();
         }
+
+        public event EventHandler RefrashButtonClick; // CHECK which args to use
+
+        private void Refrash_Button_Click(object sender, RoutedEventArgs e)
+        {
+            RefrashButtonClick(this, new EventArgs());
+        }
     }
 }
