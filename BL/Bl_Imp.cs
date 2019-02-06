@@ -122,7 +122,7 @@ namespace BL
         private (uint distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
         {
             (uint, TimeSpan)? t = null;
-            Exception exception;
+            Exception exception = null;
 
             BackgroundWorker requester = new BackgroundWorker();
             requester.DoWork += Requester_DoWork;
@@ -134,6 +134,8 @@ namespace BL
 
             while (!t.HasValue)
                 requester.RunWorkerAsync(KEY);
+            if (exception != null)
+                throw exception;
             return t.Value;
 
             void Requester_DoWork(object sender, DoWorkEventArgs e)
