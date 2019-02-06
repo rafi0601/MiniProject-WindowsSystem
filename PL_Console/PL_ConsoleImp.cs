@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -27,7 +28,7 @@ namespace ConsoleApp1
             try
             {
                 MapReq(new Address(),new Address());
-
+                Debug.WriteLine("jvnrfvnjrkl");
 
 
                 Console.WriteLine("FrEf");

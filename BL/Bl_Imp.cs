@@ -122,6 +122,7 @@ namespace BL
         private (uint distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
         {
             (uint, TimeSpan)? t = null;
+            Exception exception;
 
             BackgroundWorker requester = new BackgroundWorker();
             requester.DoWork += Requester_DoWork;
@@ -194,9 +195,9 @@ namespace BL
                 if (e.Result is ValueTuple<uint, TimeSpan> vt)
                     t = vt;
                 else if (e.Result is Exception ex)
-                    throw ex;
+                    exception = ex;
                 else
-                    throw new Exception();
+                    t = (X, new TimeSpan());
             }
         }
 
