@@ -199,7 +199,7 @@ namespace PL_WPF.UI.TraineeInterface
             DadaGridOfDoneTests.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass != null);
         }
 
-        private void DetailsOfMyTest_RefrashButtonClick(object sender, EventArgs e)
+        private void DetailsOfMyTest_RefrashButtonClick(object sender, RoutedEventArgs e)
         {
             if (bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass == false).Any())
             {
