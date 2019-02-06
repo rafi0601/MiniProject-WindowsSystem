@@ -28,5 +28,7 @@ namespace BE
         public static readonly uint WORKING_HOURS_A_DAY = 7;
         public static readonly uint BEGINNING_OF_A_WORKING_DAY = 9;
         //public static readonly DateTime BEGINNING_OF_A_WORKING_DAY = new DateTime(hour: 9, minute: 0, second: 0);
+
+        public static readonly string KEY = @"PffGghfFGtzNFx1MqL9NLykkFHmpHkmc";
     }
 }

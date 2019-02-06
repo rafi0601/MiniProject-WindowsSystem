@@ -2,9 +2,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using BE;
 using static BE.Configuration;
 
@@ -62,7 +68,7 @@ namespace BL
                 throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database."));
 
             //if (tester.MyTests?.Any(test => test.IsPass != null) ?? false)
-            if (GetTests(test=>test.TesterID == tester.ID && test.IsPass == null).Any())
+            if (GetTests(test => test.TesterID == tester.ID && test.IsPass == null).Any())
                 throw new CustomException(true, new Exception("This tester have future tests."));
 
             try
@@ -108,9 +114,90 @@ namespace BL
         public List<Tester> TheTestersWhoLiveInTheDistance(Address address)
         {
             return (from tester in dal.GetTesters()
-                    where rand.Next(1, 40) < X
+                    where DistanceAndTime(tester.Address, address).distance < tester.MaxDistanceFromAddress
                     select tester)
                           .ToList();
+        }
+
+        private (uint distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
+        {
+            (uint, TimeSpan)? t = null;
+
+            BackgroundWorker requester = new BackgroundWorker();
+            requester.DoWork += Requester_DoWork;
+            requester.RunWorkerCompleted += Requester_RunWorkerCompleted;
+            //requester.WorkerReportsProgress = true;
+            requester.WorkerSupportsCancellation = true; //??
+
+            //requester.CreateObjRef(typeof((uint, TimeSpan))).
+
+            while (!t.HasValue)
+                requester.RunWorkerAsync(KEY);
+            return t.Value;
+
+            void Requester_DoWork(object sender, DoWorkEventArgs e)
+            {
+                //BackgroundWorker worker = sender as BackgroundWorker;
+                //string key = e.Argument as string;
+
+                string origin = address1.Street + address1.HouseNumber + address1.City;
+                string destination = address2.Street + address2.HouseNumber + address2.City;
+
+                string url = @"https://www.mapquestapi.com/directions/v2/route" +
+                    @"?key=" + KEY +
+                    @"&from=" + origin +
+                    @"&to=" + destination +
+                    @"&outFormat=xml" +
+                    @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
+                    @"&enhancedNarrative=false&avoidTimedConditions=false";
+
+                //request from MapQuest service the distance between the 2 addresses
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                WebResponse response = request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader sreader = new StreamReader(dataStream);
+                string responsereader = sreader.ReadToEnd();
+                response.Close();
+                //the response is given in an XML format 
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.LoadXml(responsereader);
+
+                if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
+                {     //display the returned distance
+                    XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                    double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
+                    Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                    //display the returned driving time   
+                    XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                    string fTime = formattedTime[0].ChildNodes[0].InnerText;
+                    Debug.WriteLine("Driving Time: " + fTime);
+
+                    e.Result = (distInMiles * 1.609344, fTime);
+                }
+                else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+                //we have an answer that an error occurred, one of the addresses is not found 
+                {
+                    //e.Cancel = true;
+                    e.Result = new Exception();
+                    Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
+                }
+                else //busy network or other error... 
+                {
+                    Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
+                    Thread.Sleep(2000);
+                }
+            }
+
+            void Requester_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+            {
+                if (e.Result is ValueTuple<uint, TimeSpan> vt)
+                    t = vt;
+                else if (e.Result is Exception ex)
+                    throw ex;
+                else
+                    throw new Exception();
+            }
         }
 
         public List<Tester> VacantTesters(DateTime dateAndTime) //BUG inputcheck IMPROVEMENT Vehicle
@@ -315,8 +402,7 @@ namespace BL
 
             try
             {
-                //TheTestersWhoLiveInTheDistance(departureAddress).Intersect(VacantTesters(testDate).Where(t => t.VehicleTypeExpertise.HasFlag(vehicle)))
-                Tester tester = VacantTesters(testDate).Where(t => t.VehicleTypeExpertise.HasFlag(vehicle)).FirstOrDefault(); //IMPROVEMENT rand index
+                Tester tester = VacantTesters(testDate).Where(t => t.VehicleTypeExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).FirstOrDefault(); //IMPROVEMENT rand index
 
                 if (tester != default)
                 {
