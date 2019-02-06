@@ -442,5 +442,10 @@ namespace DAL
         }
 
         Dictionary<string, User> users = new Dictionary<string, User>();
+
+
+        //Dictionary<PropertyInfo, string> traineePropertyNames;
+        //traineeRoot.ReplaceAttributes(trainee); // TODO check if it work
+
     }
 }
