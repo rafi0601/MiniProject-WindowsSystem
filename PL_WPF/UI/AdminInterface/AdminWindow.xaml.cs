@@ -29,11 +29,6 @@ namespace PL_WPF.UI.AdminInterface
             InitializeComponent();
 
             //List<Tester> res = instance.Get_testers_list_grouping_by_CarType(false).SelectMany(item => item).ToList();
-            lvUsers.ItemsSource = bl.GetTesters();
-
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvUsers.ItemsSource);
-            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Expertise");
-            view.GroupDescriptions.Add(groupDescription);
         }
 
         private void TraineesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -41,9 +36,32 @@ namespace PL_WPF.UI.AdminInterface
 
         }
 
-        private void Expertise_Selected(object sender, RoutedEventArgs e)
+        private void Testers_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TestersDataGrid.ItemsSource = bl.TestersByExpertise(true);
+            string groupBy = (Testers_ListBox.SelectedItem as ListBoxItem).Content as string;
+            groupBy = groupBy == "Expertise" ? "VehicleTypesExpertise" : groupBy == "Experience"? "YearsOfExperience" : "Gender";
+            Testers_ListView.ItemsSource = bl.GetTesters();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Testers_ListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription(groupBy);
+            view.GroupDescriptions.Add(groupDescription);
+        }
+
+        private void Trainees_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string groupBy = (Trainees_ListBox.SelectedItem as ListBoxItem).Content as string;
+            groupBy = groupBy == "Vehicle" ? "VehicleTypeTraining" : groupBy == "Gearbox" ? "GearboxTypeTraining" : groupBy == "Gender"? "Gender": groupBy == "Driving school" ? "DrivingSchool": "TeacherName";
+            Trainees_ListView.ItemsSource = bl.GetTrainees();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Trainees_ListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription(groupBy);
+            view.GroupDescriptions.Add(groupDescription);
+        }
+
+        private void Tests_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Trainees_ListView.ItemsSource = bl.GetTrainees();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Trainees_ListView.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Vehicle");
+            view.GroupDescriptions.Add(groupDescription);
         }
     }
 }

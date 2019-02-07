@@ -10,7 +10,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:PL_WPF="clr-namespace:PL_WPF"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="1500" Width="2100">
+        Title="AdminWindow" Height="660" Width="1000">
     <!-- <Grid>
         <StackPanel>
             <Button>Testers</Button>
@@ -24,7 +24,7 @@
         </Style>-->
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
-            <Setter Property="TextBlock.FontSize" Value="40"/>
+            <Setter Property="TextBlock.FontSize" Value="20"/>
             <Setter Property="BorderBrush" Value="Beige"/>
             <Setter Property="Height" Value="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
@@ -124,105 +124,132 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="60" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
+        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
-            <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
+            <TabItem Style="{DynamicResource Tab_Style}" Header="Testers">
                 <WrapPanel Orientation="Vertical">
-                    <Label Content="Gruping by" FontSize="50" HorizontalAlignment="Center"/>
-                   
-                    <ListBox HorizontalAlignment="Center">
+                    <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="Testers_ListBox" HorizontalAlignment="Center" SelectionChanged="Testers_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
-                        <ListBoxItem FontSize="40" Selected="Expertise_Selected">Expertise</ListBoxItem>
+                        <ListBoxItem FontSize="25">Expertise</ListBoxItem>
+                        <ListBoxItem FontSize="25">Experience</ListBoxItem>
+                        <ListBoxItem FontSize="25">Gender</ListBoxItem>
                     </ListBox>
-                    
-                    <DataGrid x:Name="TestersDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
-                        <DataGrid.ColumnHeaderStyle>
-                            <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
-                                <Setter Property="FontSize" Value="20"/>
-                            </Style>
-                        </DataGrid.ColumnHeaderStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Birthdate" Binding="{Binding Birthdate}"/>
-                            <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
-                            <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}"/>
-                            <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                            <DataGridTextColumn Header="Years of experience" Binding="{Binding YearsOfExperience}" />
-                            <DataGridTextColumn Header="Max of tests per week" Binding="{Binding Address}" />
-                            <DataGridTextColumn Header="Vehicle type expertise" Binding="{Binding VehicleTypeExpertise}" />
-                            <DataGridTextColumn Header="Max distance from address" Binding="{Binding MaxDistanceFromAddress}" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+
+                    <ListView Margin="10" Name="Testers_ListView">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" Width="120" DisplayMemberBinding="{Binding ID}" />
+                                <GridViewColumn Header="Last Name" Width="120" DisplayMemberBinding="{Binding Name.LastName}" />
+                                <GridViewColumn Header="First Name" Width="120" DisplayMemberBinding="{Binding Name.FirstName}" />
+                                <GridViewColumn Header="Gender" Width="50" DisplayMemberBinding="{Binding Gender}"/>
+                                <GridViewColumn Header="Birthdate" Width="150" DisplayMemberBinding="{Binding Birthdate}" />
+                                <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                                <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Header="Years of experience" DisplayMemberBinding="{Binding YearsOfExperience}" />
+                                <GridViewColumn Header="Max of tests per week" DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Header="Vehicle type expertise" DisplayMemberBinding="{Binding VehicleTypeExpertise}" />
+                                <GridViewColumn Header="Max distance from address" DisplayMemberBinding="{Binding MaxDistanceFromAddress}" />
+                            </GridView>
+                        </ListView.View>
+
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontWeight="Bold" FontSize="20" Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+                    </ListView>
                 </WrapPanel>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Trainees" >
-                <DataGrid x:Name="TraineesDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" SelectionChanged="TraineesDataGrid_SelectionChanged">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
-                            <Setter Property="FontSize" Value="20"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Birthdate" Binding="{Binding Birthdate}"/>
-                        <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
-                        <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}"/>
-                        <DataGridTextColumn Header="Address" Binding="{Binding Address}" />
-                        <DataGridTextColumn Header="Vehicle type training" Binding="{Binding VehicleTypeTraining}" />
-                        <DataGridTextColumn Header="Gearbox type training" Binding="{Binding GearboxTypeTraining}" />
-                        <DataGridTextColumn Header="Driving school" Binding="{Binding DrivingSchool}" />
-                        <DataGridTextColumn Header="Teacher name" Binding="{Binding TeacherName}" />
-                        <DataGridTextColumn Header="Teacher name" Binding="{Binding TeacherName}" />
-                        <DataGridTextColumn Header="Number of done lessons" Binding="{Binding NumberOfDoneLessons}" />
-                        <DataGridTextColumn Header="The last test" Binding="{Binding TheLastTest}" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <WrapPanel Orientation="Vertical">
+                    <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
+                    <ListBox x:Name="Trainees_ListBox" HorizontalAlignment="Center" SelectionChanged="Trainees_ListBox_SelectionChanged">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBoxItem FontSize="25">Vehicle</ListBoxItem>
+                        <ListBoxItem FontSize="25">Gearbox</ListBoxItem>
+                        <ListBoxItem FontSize="25">Driving school</ListBoxItem>
+                        <ListBoxItem FontSize="25">Teacher name</ListBoxItem>
+                        <ListBoxItem FontSize="25">Gender</ListBoxItem>
+                    </ListBox>
+
+                    <ListView Margin="10" Name="Trainees_ListView">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Birthdate" DisplayMemberBinding="{Binding Birthdate}"/>
+                                <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
+                                <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                                <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
+                                <GridViewColumn Header="Vehicle type training" DisplayMemberBinding="{Binding VehicleTypeTraining}" />
+                                <GridViewColumn Header="Gearbox type training" DisplayMemberBinding="{Binding GearboxTypeTraining}" />
+                                <GridViewColumn Header="Driving school" DisplayMemberBinding="{Binding DrivingSchool}" />
+                                <GridViewColumn Header="Teacher name" DisplayMemberBinding="{Binding TeacherName}" />
+                                <GridViewColumn Header="Number of done lessons" DisplayMemberBinding="{Binding NumberOfDoneLessons}" />
+                                <GridViewColumn Header="The last test" DisplayMemberBinding="{Binding TheLastTest}"/>
+                            </GridView>
+                        </ListView.View>
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontWeight="Bold" FontSize="20" Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+                    </ListView>
+                </WrapPanel>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Tests">
-                <DataGrid x:Name="TestsDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
-                            <Setter Property="FontSize" Value="20"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
-                        <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeID}"/>
-                        <DataGridTextColumn Header="Tester ID" Binding="{Binding TesterID}"/>
-                        <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
-                        <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>
-                        <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="TTT">
-                <ListView Margin="10" Name="lvUsers">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Last Name" Width="120" DisplayMemberBinding="{Binding Name.LastName}" />
-                            <GridViewColumn Header="First Name" Width="120" DisplayMemberBinding="{Binding Name.FirstName}" />
-                            <GridViewColumn Header="Gender" Width="50" DisplayMemberBinding="{Binding Gender}" />
-                            <GridViewColumn Header="Day Of Birth" Width="150" DisplayMemberBinding="{Binding Birthdate}" />
-                        </GridView>
-                    </ListView.View>
+                <WrapPanel Orientation="Vertical">
+                    <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center" Margin="160,0,0,0"/>
+                    <ListBox x:Name="Tests_ListBox" HorizontalAlignment="Center" SelectionChanged="Tests_ListBox_SelectionChanged">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBoxItem FontSize="25" Margin="95,0,0,0">Vehicle</ListBoxItem>
+                    </ListBox>
 
-                    <ListView.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate>
-                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding  Name}"/>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                        </GroupStyle>
-                    </ListView.GroupStyle>
-                </ListView>
+                    <ListView Name="Tests_ListView" Margin="160,0,0,0">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Code" DisplayMemberBinding="{Binding Code}"/>
+                                <GridViewColumn Header="Trainee ID" DisplayMemberBinding="{Binding TraineeID}"/>
+                                <GridViewColumn Header="Tester ID" DisplayMemberBinding="{Binding TesterID}"/>
+                                <GridViewColumn Header="Test Date" DisplayMemberBinding="{Binding Date}"/>
+                                <GridViewColumn Header="Departure Address" DisplayMemberBinding="{Binding DepartureAddress}"/>
+                                <GridViewColumn Header="Vehicle" DisplayMemberBinding="{Binding Vehicle}" />
+                            </GridView>
+                        </ListView.View>
+                        <ListView.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontWeight="Bold" FontSize="20" Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </GroupStyle.HeaderTemplate>
+                            </GroupStyle>
+                        </ListView.GroupStyle>
+                    </ListView>
+                </WrapPanel>
+
             </TabItem>
         </TabControl>
     </Grid>

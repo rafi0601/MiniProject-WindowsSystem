@@ -8,11 +8,11 @@
         xmlns:local="clr-namespace:PL_WPF"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Log_In" Height="500" Width="700" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="Log_In" Height="500" Width="900" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Rectangle Height="280" VerticalAlignment="Top">
@@ -71,7 +71,17 @@
                 </Button>
             </StackPanel>
             <!--<Button Content="Button" HorizontalAlignment="Left" Height="75" Margin="95,225,0,0" VerticalAlignment="Top" Width="152" Click="Button_Click"/>-->
-
         </Grid>
+
+        <RichTextBox Grid.Column="1">
+            <FlowDocument>
+                <Paragraph FontSize="30" TextAlignment="Center" FontFamily="Calibri">Welcome to the new system for conducting driving tests in Israel!</Paragraph>
+                <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="20">The innovative system provides many capabilities for a variety of functions. The system provides student capabilities such as registration, updating details, setting a test, and more.</Paragraph>
+                <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="20">In addition, the system provides the examiners with the possibility to register for tests, update details, indicate the tests made, and more.</Paragraph>
+                <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="20">The sophisticated system will be operational this year, 5779.</Paragraph>
+                <Paragraph FontStyle="Italic" TextAlignment="Center" FontSize="20">Successfully!</Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <Image Grid.Column="1"  Opacity="0.5" Source="Accessories/Images/shalechet4.jpg" />
     </Grid>
 </Window>

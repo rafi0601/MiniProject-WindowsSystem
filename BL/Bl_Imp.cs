@@ -491,8 +491,6 @@ namespace BL
 
         #endregion
 
-
-
         #region private functions
 
         private bool ExistingTesterById(string id)
