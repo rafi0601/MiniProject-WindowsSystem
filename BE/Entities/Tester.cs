@@ -57,16 +57,16 @@ namespace BE
 
         //public List<Test> MyTests = new List<Test>();
         [XmlIgnore]
-        public List<DateTime> MyTests = new List<DateTime>();
-        public string myTests
+        public List<DateTime> UnavailableDates = new List<DateTime>();
+        public string unavailableDates
         {
             get
             {
-                if (MyTests == null)
+                if (UnavailableDates == null)
                     return "";
 
                 string result = "";
-                foreach (var testDateTime in MyTests)
+                foreach (var testDateTime in UnavailableDates)
                     result +=  testDateTime.ToString() + ",";
 
                 return result;
@@ -78,13 +78,13 @@ namespace BE
                 {
                     string[] values = value.Split(',');
 
-                    MyTests = new List<DateTime>();
+                    UnavailableDates = new List<DateTime>();
 
                     for (int i = 0; i < values.Length-1; i++)
-                        MyTests.Add(DateTime.Parse(values[i]));
+                        UnavailableDates.Add(DateTime.Parse(values[i]));
                 }
                 else
-                    MyTests = new List<DateTime>();
+                    UnavailableDates = new List<DateTime>();
             }
         }
         //public SortedList<DateTime, DateTime> MyTests = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search

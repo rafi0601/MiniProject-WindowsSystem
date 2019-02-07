@@ -8,8 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using BE;
 using DS;
-//using static DS.DS_Lists;
-//using static BE.Inspections;
 using static BE.Configuration;
 
 
@@ -125,7 +123,7 @@ namespace DAL
             if (!Add(test, DS_Lists.TestList, Inspections.TestInspection))
                 throw new Exception();
 
-            tester.MyTests.Add(test.Date.Copy());
+            tester.UnavailableDates.Add(test.Date.Copy());
         }
 
         public void UpdateTest(Test test)
@@ -160,7 +158,7 @@ namespace DAL
 
         private Predicate<T> ComperisonOfKey<T>(T item) where T : class, IKey // TODO rename to equalitionOfKey
         {
-            return t => item?.Key == t.Key;
+            return t => item?.Key == t.Key; // CHECK t?.Key
         }
 
         private bool Add<T>(T item, List<T> list, Action<T> inspection) where T : class, IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם

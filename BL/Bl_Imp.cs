@@ -125,7 +125,7 @@ namespace BL
 
             BackgroundWorker requester = new BackgroundWorker();
             requester.DoWork += Requester_DoWork;
-            requester.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
+            void Requester_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
             {
                 if (e.Result is ValueTuple<uint, TimeSpan> vt)
                     t = vt;
@@ -133,7 +133,8 @@ namespace BL
                 //    exception = ex;
                 else
                     t = (DEFAULT_DISTANCE, new TimeSpan());
-            };
+            }
+            requester.RunWorkerCompleted += Requester_RunWorkerCompleted;
 
             while (t == null)//!t.HasValue)
                 if (!requester.IsBusy)
@@ -153,8 +154,8 @@ namespace BL
             BackgroundWorker worker = sender as BackgroundWorker;
             (Address address1, Address address2) = ((Address, Address))e.Argument;
 
-            string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City;
-            string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City;
+            string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City + " Israel";
+            string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City + " Israel";
 
             string url = @"https://www.mapquestapi.com/directions/v2/route" +
                 @"?key=" + KEY +
@@ -212,7 +213,7 @@ namespace BL
             bool WillAvailable(Tester tester)
             {
                 uint counterOfTheTestInTheWeek = 0;
-                foreach (DateTime testDateTime in tester.MyTests)
+                foreach (DateTime testDateTime in tester.UnavailableDates)
                 {
                     if (testDateTime == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
                         return false;
@@ -605,7 +606,7 @@ namespace BL
 
         public Tester FindsAnAlternativeTester(Test test)
         {
-            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.MyTests.All(t => t.Date != test.Date)).FirstOrDefault();
+            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
         }
     }
 }

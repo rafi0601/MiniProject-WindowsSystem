@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<trainees>
+  <Trainee>
+    <ID>212384507</ID>
+    <Name>
+      <LastName>katri</LastName>
+      <FirstName>Yael</FirstName>
+    </Name>
+    <Birthdate>1995-10-06T00:00:00</Birthdate>
+    <Gender>female</Gender>
+    <PhoneNumber>0541234567</PhoneNumber>
+    <Address>
+      <Street>HaPortsim</Street>
+      <HouseNumber>2</HouseNumber>
+      <City>Jerusalem</City>
+    </Address>
+    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
+    <GearboxTypeTraining>manual</GearboxTypeTraining>
+    <DrivingSchool>TheBest</DrivingSchool>
+    <TeacherName>
+      <LastName>Garber</LastName>
+      <FirstName>Shmuel</FirstName>
+    </TeacherName>
+    <NumberOfDoneLessons>34</NumberOfDoneLessons>
+    <Password>1234</Password>
+  </Trainee>
+</trainees>
