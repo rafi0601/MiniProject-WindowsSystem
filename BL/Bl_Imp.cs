@@ -21,7 +21,6 @@ namespace BL
 
         private readonly DAL.IDal dal = DAL.Singleton.Instance;
 
-
         #region Tester functions
 
         public void AddTester(Tester tester)
@@ -115,45 +114,39 @@ namespace BL
         public List<Tester> TheTestersWhoLiveInTheDistance(Address address)
         {
             return (from tester in dal.GetTesters()
-                    where DistanceAndTime(tester.Address, address).distance < tester.MaxDistanceFromAddress
+                    where DistanceAndTime(tester.Address, address ) < tester.MaxDistanceFromAddress
                     select tester)
                           .ToList();
         }
 
-        private (uint distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
+        private double DistanceAndTime(Address address1, Address address2)
         {
-            (uint, TimeSpan)? t = null;
-
-            BackgroundWorker requester = new BackgroundWorker();
-            requester.DoWork += Requester_DoWork;
-            void Requester_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-            {
-                if (e.Result is ValueTuple<uint, TimeSpan> vt)
-                    t = vt;
-                //else if (e.Result is Exception ex)
-                //    exception = ex;
-                else
-                    t = (DEFAULT_DISTANCE, new TimeSpan());
-            }
-            requester.RunWorkerCompleted += Requester_RunWorkerCompleted;
-
-            while (t == null)//!t.HasValue)
-                if (!requester.IsBusy)
-                    requester.RunWorkerAsync((address1, address2));
-
-            return t.Value;
-
-            //if (requester.WorkerSupportsCancellation)
-            //    requester.CancelAsync();
-            //requester.WorkerReportsProgress = true;
-            //requester.WorkerSupportsCancellation = true; //??
-            //requester.CreateObjRef(typeof((uint, TimeSpan))).
-        }
-
-        private void Requester_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = sender as BackgroundWorker;
-            (Address address1, Address address2) = ((Address, Address))e.Argument;
+            //   BackgroundWorker requester = new BackgroundWorker();
+            //   requester.DoWork += Requester_DoWork;
+            //   //requester.RunWorkerCompleted += Requester_RunWorkerCompleted;
+            //   requester.RunWorkerCompleted += delegate (object sender, RunWorkerCompletedEventArgs e)
+            //   {
+            //       if (e.Result is uint vt)
+            //           t = vt;
+            //       //else if (e.Result is Exception ex)
+            //       //    exception = ex;
+            //       else
+            //           t = DEFAULT_DISTANCE;
+            //   };
+            //
+            //
+            //   //    while (t == null)//!t.HasValue)
+            //   //    if (!requester.IsBusy)
+            //   requester.RunWorkerAsync(new Address[] { address1, address2 });
+            //
+            //   while (t == null) ;
+            //   return t.Value;
+            //
+            //   //if (requester.WorkerSupportsCancellation)
+            //   //    requester.CancelAsync();
+            //   //requester.WorkerReportsProgress = true;
+            //   //requester.WorkerSupportsCancellation = true; //??
+            //   //requester.CreateObjRef(typeof((uint, TimeSpan))).
 
             string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City + " Israel";
             string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City + " Israel";
@@ -188,7 +181,68 @@ namespace BL
                 string fTime = formattedTime[0].ChildNodes[0].InnerText;
                 Debug.WriteLine("Driving Time: " + fTime);
 
-                e.Result = (distInMiles * 1.609344, fTime);
+                return distInMiles * 1.609344;
+            }
+            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+            //we have an answer that an error occurred, one of the addresses is not found 
+            {
+                //e.Cancel = true;
+                Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
+                return DEFAULT_DISTANCE;
+            }
+            else //busy network or other error... 
+            {
+                Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
+                Thread.Sleep(2000);
+                return DEFAULT_DISTANCE;
+            }
+
+        }
+
+        //private void Requester_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        private void Requester_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //worker = sender as BackgroundWorker;
+            Address[] addresses = (Address[])e.Argument;
+
+            string origin = addresses[0].Street + " " + addresses[0].HouseNumber + " " + addresses[0].City + " Israel";
+            string destination = addresses[1].Street + " " + addresses[1].HouseNumber + " " + addresses[1].City + " Israel";
+
+            string url = @"https://www.mapquestapi.com/directions/v2/route" +
+                @"?key=" + KEY +
+                @"&from=" + origin +
+                @"&to=" + destination +
+                @"&outFormat=xml" +
+                @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
+                @"&enhancedNarrative=false&avoidTimedConditions=false";
+
+            //request from MapQuest service the distance between the 2 addresses
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader sreader = new StreamReader(dataStream);
+            string responsereader = sreader.ReadToEnd();
+            response.Close();
+            //the response is given in an XML format 
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(responsereader);
+
+            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
+            {     //display the returned distance
+                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
+                Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                //display the returned driving time   
+                XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                string fTime = formattedTime[0].ChildNodes[0].InnerText;
+                Debug.WriteLine("Driving Time: " + fTime);
+
+                e.Result = distInMiles * 1.609344;
             }
             else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
             //we have an answer that an error occurred, one of the addresses is not found 
@@ -200,7 +254,7 @@ namespace BL
             else //busy network or other error... 
             {
                 Console.WriteLine("We have'nt got an answer, maybe the net is busy...");
-                //Thread.Sleep(2000);
+                Thread.Sleep(2000);
                 e.Result = null;
             }
         }
@@ -611,9 +665,9 @@ namespace BL
         public IEnumerable<Person> GetPeople()
         {
             IEnumerable<Person> result1 = from p in dal.GetTrainees(null)
-                                           select p;
+                                          select p;
             IEnumerable<Person> result2 = from p in dal.GetTesters()
-                                           select p;
+                                          select p;
             return result1.Concat(result2);
 
             //List<Person> list = new List<Person>();

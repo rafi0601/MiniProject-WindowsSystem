@@ -28,7 +28,7 @@ namespace BE
                     hour < BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
                     return schedule[day, hour];
 
-                throw new IndexOutOfRangeException("");
+                throw new IndexOutOfRangeException(""); // UNDONE
             }
             set => schedule[day, hour] = value;
         }

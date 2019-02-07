@@ -88,14 +88,14 @@ namespace DAL
         {
             Tester tester = DS_Lists.TesterList.Find(tester_ => tester_.ID == test?.TesterID);
 
-            if (tester == default(Tester)) // TODO change to null
+            if (tester == null)
                 throw new ArgumentException("The tester doesn't exist in the database.");
 
             if (DS_Lists.TesterList.Exists(trainee => trainee.ID == test?.TraineeID))
                 throw new ArgumentException("The trainee doesn't exist in the database.");
 
             if (test.Code != null)
-                throw new ArgumentException("", nameof(test.Code)); // UNDONE 
+                throw new ArgumentException("It is not possible to order a test that has already been ordered", nameof(test.Code));
             if (code > MAX_VALUE_TO_CODE)
                 throw new OverflowException(""); //UNDONE
             test.Code = (++code).ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0');
