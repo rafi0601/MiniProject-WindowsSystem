@@ -11,7 +11,7 @@
         xmlns:PL_WPF="clr-namespace:PL_WPF"
     xmlns:local1="clr-namespace:PL_WPF.UI.TesterInterface" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="650" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
+        WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="640" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
     <!--Description=interface of trainee-->
     <Window.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
@@ -380,6 +380,13 @@
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test" >
+                <!--<TabItem.Header>-->
+                    <!--<StackPanel Orientation="Horizontal">-->
+                        
+                    <!--<materialDesign:PackIcon Kind="PlusCircle" Height="50" Width="40"/>-->
+                    <!--<Label Content="Add Test"/>-->
+                    <!--</StackPanel>-->
+                <!--</TabItem.Header>-->
                 <WrapPanel Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
                     <Label x:Name="ChooseLabel" FontSize="25" Margin="160,0,0,0">Choose a date that's convenient for you</Label>
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
@@ -398,12 +405,15 @@
                 <WrapPanel Orientation="Vertical" Margin="160,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <Label Content="The Test Details:" FontSize="25" Grid.Column="0" RenderTransformOrigin="0.32,0.273"/>
-                        <Button Content="Refrash" Click="Refrash_Button_Click"  Grid.Column="1" Width="100" HorizontalAlignment="Right"/>
+
+                        <Button Name="Refresh_Button" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Name="Refresh_Icon" Kind="Refresh" Foreground="#FF2196F3" Width="25" Height="25" Margin="0"/>
+                        </Button>
                     </Grid>
 
                     <Grid>
