@@ -41,9 +41,10 @@ namespace BL
             if (0 == tester.MaxOfTestsPerWeek)
                 throw new CustomException(true, new ArgumentOutOfRangeException("It is illegal for the teter to not test"));
 
-            if (tester.WorkingHours.GetLength(0) != WORKING_DAYS_A_WEEK
-                    || tester.WorkingHours.GetLength(1) != WORKING_HOURS_A_DAY)
-                throw new Exception("The schedule is not right");
+            if (tester.workingHours == null) throw new Exception();
+            //if (tester.WorkingHours.GetLength(0) != WORKING_DAYS_A_WEEK
+            //        || tester.WorkingHours.GetLength(1) != WORKING_HOURS_A_DAY)
+            //    throw new Exception("The schedule is not right");
 
             if (tester.MaxDistanceFromAddress == 0)
                 throw new ArgumentOutOfRangeException("Max Distance From Address can not get 0");
@@ -225,7 +226,7 @@ namespace BL
             }
 
 
-            return (from tester in dal.GetTesters(t => t.WorkingHours[(uint)theDayInTheWeek, dateAndTime.Hour - BEGINNING_OF_A_WORKING_DAY])
+            return (from tester in dal.GetTesters(t => t.WorkingHours[(int)theDayInTheWeek, (int)(dateAndTime.Hour - BEGINNING_OF_A_WORKING_DAY)])
                     where WillAvailable(tester)
                     select tester)
                     .ToList();
@@ -239,7 +240,7 @@ namespace BL
                 testers.Sort((tester1, tester2) => (int)tester1.YearsOfExperience - (int)tester2.YearsOfExperience);
 
             return (from tester in testers
-                    group tester by tester.VehicleTypeExpertise)
+                    group tester by tester.VehicleTypesExpertise)
                     .ToList();
         }
 
@@ -346,7 +347,7 @@ namespace BL
                     .ToList();
         }
 
-        public List<IGrouping<Name, Trainee>> TraineesByTeacher(bool toSort = false)
+        public List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false)
         {
             List<Trainee> trainees = dal.GetTrainees();
 
@@ -406,7 +407,7 @@ namespace BL
 
             try
             {
-                Tester tester = VacantTesters(testDate).Where(t => t.VehicleTypeExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).FirstOrDefault(); //IMPROVEMENT rand index
+                Tester tester = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).FirstOrDefault(); //IMPROVEMENT rand index
 
                 if (tester != default)
                 {
@@ -589,7 +590,7 @@ namespace BL
             {
                 while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
                 {
-                    Tester vacantTester = VacantTesters(dateTime).Where(t => t.VehicleTypeExpertise.HasFlag(vehicleTypeLearning)).FirstOrDefault();
+                    Tester vacantTester = VacantTesters(dateTime).Where(t => t.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)).FirstOrDefault();
                     if (vacantTester != default)
                         /*yield*/
                         return (dateTime, vacantTester);

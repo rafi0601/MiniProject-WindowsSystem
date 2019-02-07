@@ -10,7 +10,6 @@ namespace BE
 {
     public static class Inspections
     {
-
         public static void IdValidator(string id) //TODO StringBuilder
         {
             if (string.IsNullOrWhiteSpace(id))

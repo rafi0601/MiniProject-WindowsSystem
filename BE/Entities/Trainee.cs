@@ -14,15 +14,16 @@ namespace BE
         public Vehicle VehicleTypeTraining { get; set; }
         public Gearbox GearboxTypeTraining { get; set; }
         public string DrivingSchool { get; set; }
-        public Name TeacherName { get; set; } = new Name();
+        public PersonName TeacherName { get; set; }
         public uint NumberOfDoneLessons { get; set; }
         public DateTime TheLastTest { get; set; }
 
+
         public Trainee() { }
 
-        public Trainee(string id, Name name, DateTime birthdate, Gender gender,
+        public Trainee(string id, PersonName name, DateTime birthdate, Gender gender,
             string phoneNumber, Address address, string password, Vehicle vehicleTypeTraining, Gearbox gearboxTypeTraining,
-            string drivingSchool, Name teacherName, uint numberOfDoneLessons) //UNDONE DT theLastTest
+            string drivingSchool, PersonName teacherName, uint numberOfDoneLessons) //UNDONE DateTime theLastTest
             : base(id, name, birthdate, gender, phoneNumber, address, password)
         {
             VehicleTypeTraining = vehicleTypeTraining;

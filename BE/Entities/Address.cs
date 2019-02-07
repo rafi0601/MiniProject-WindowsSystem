@@ -11,6 +11,11 @@ namespace BE
     [Serializable]
     public struct Address
     {
+        public string Street { get; set; }
+        public uint HouseNumber { get; set; }
+        public string City { get; set; }
+
+
         public Address(string street, uint houseNumber, string city) : this()
         {
             Street = street;
@@ -18,10 +23,6 @@ namespace BE
             City = city;
         }
 
-        // TODO remove the properties
-        public string Street { get; set; }
-        public uint HouseNumber { get; set; }
-        public string City { get; set; }
 
         public override string ToString()
         {

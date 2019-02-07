@@ -12,7 +12,7 @@ namespace BE
     public interface IKey //IMPROVEMENT:ISerializable
                           //TODO : IEqualityComparer<Person>,
     {
-        //T Key { get; }
         string Key { get; }
+        //T Key { get; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿//BS"D
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -11,6 +13,7 @@ namespace BE
     public class ExistingInTheDatabaseException : Exception
     {
         bool IsExist { get; }
+
 
         public ExistingInTheDatabaseException(bool isExist)
         {
@@ -29,9 +32,10 @@ namespace BE
             IsExist = isExist;
         }
 
-        protected ExistingInTheDatabaseException(SerializationInfo info, StreamingContext context) 
+        protected ExistingInTheDatabaseException(bool isExist, SerializationInfo info, StreamingContext context) 
             : base(info, context)
         {
+            IsExist = isExist;
         }
     }
 }

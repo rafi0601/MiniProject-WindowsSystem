@@ -26,7 +26,7 @@ namespace BL
         uint NumberOfDoneTests(Trainee trainee);
         bool IsEntitledToLicense(Trainee trainee);
         List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false);
-        List<IGrouping<Name, Trainee>> TraineesByTeacher(bool toSort = false);
+        List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false);
         List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);
 
         DateTime? AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success

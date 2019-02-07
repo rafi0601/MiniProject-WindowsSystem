@@ -284,7 +284,7 @@ namespace DAL
                 let teacherNameXElement = trainee.Element(nameof(tmp.TeacherName))
                 select new Trainee(
                     id,
-                    new Name(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
+                    new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
                     DateTime.Parse(trainee.Element(nameof(tmp.Birthdate)).Value),
                     (Gender)Enum.Parse(typeof(Gender), trainee.Element(nameof(tmp.Gender)).Value),
                     trainee.Element(nameof(tmp.PhoneNumber)).Value,
@@ -293,7 +293,7 @@ namespace DAL
                     (Vehicle)Enum.Parse(typeof(Vehicle), trainee.Element(nameof(tmp.VehicleTypeTraining)).Value),
                     (Gearbox)Enum.Parse(typeof(Gearbox), trainee.Element(nameof(tmp.GearboxTypeTraining)).Value),
                     trainee.Element(nameof(tmp.DrivingSchool)).Value,
-                    new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
+                    new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
                     uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value)
                 )).FirstOrDefault();
         }

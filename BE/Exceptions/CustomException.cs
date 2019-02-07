@@ -1,4 +1,6 @@
-﻿using System;
+﻿//BS"D
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -13,19 +15,21 @@ namespace BE
         public bool DisplayToUser { get; }
         //public bool IsCritical { get; set; }
 
-        public CustomException(bool displayToUser, /*string message,*/ Exception innerException)
-            : base(/*message*/null, innerException)
+        public override string Message => InnerException.Message;
+
+
+        public CustomException(bool displayToUser, Exception innerException)
+            : base(message: null, innerException: innerException)
         {
             DisplayToUser = displayToUser;
             HelpLink = ""; //UNDONE link to our git hub?
         }
-        // TODO לעשות אווריד שדורס את ההודעה ומחזיר את ההודעה של החריגה הפנימית
+
         // עושים את מה שכתוב למעלה כשכותבים אוורייד ורואים מה חוזר
         //protected CustomizedExeption(SerializationInfo info, StreamingContext context) : base(info, context)
         //{
         //}
-
-        public override string Message => InnerException.Message;
+        
 
         public override string ToString()
         {

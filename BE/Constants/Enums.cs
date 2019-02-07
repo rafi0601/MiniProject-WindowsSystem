@@ -44,13 +44,13 @@ namespace BE
         manual
     }
 
-    public enum WorkingHours:uint
-    {
-        nine=9,
-        ten=10,
-        eleven=11,
-        twelve=12,
-    }
+    //public enum Hours:uint
+    //{
+    //    nine=9,
+    //    ten=10,
+    //    eleven=11,
+    //    twelve=12,
+    //}
 
     //public enum Criterion : uint
     //{

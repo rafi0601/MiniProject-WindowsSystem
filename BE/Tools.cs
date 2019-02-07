@@ -1,4 +1,6 @@
-﻿using System;
+﻿//BS"D
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +65,7 @@ namespace BE
             XElement teacherNameXElement = traineeXElement.Element(nameof(tmp.TeacherName));
             return new Trainee(
                 traineeXElement.Element(nameof(tmp.ID)).Value,
-                new Name(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
+                new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
                 DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
                 (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
                 traineeXElement.Element(nameof(tmp.PhoneNumber)).Value,
@@ -72,7 +74,7 @@ namespace BE
                 (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
                 (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
                 traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
-                new Name(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
+                new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
                 uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value));
         }
 

@@ -11,24 +11,6 @@ using System.Xml.Serialization;
 
 namespace BE
 {
-    [Serializable]
-    public struct Name // IMPROVEMENT insert into Person
-    {
-        public Name(string lastName, string firstName) : this()
-        {
-            LastName = lastName;
-            FirstName = firstName;
-        }
-
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-
-
-        public override string ToString()
-        {
-            return LastName + " " + FirstName;
-        }
-    }
 
     //public struct Id
     //{
@@ -37,22 +19,23 @@ namespace BE
 
     [Serializable]
     [DebuggerDisplay("ID={ID}, Name={Name}")]
-    public abstract class Person : IKey //: DependencyObject    
+    public abstract partial class Person : IKey //: DependencyObject    
     {
         string IKey.Key => ID;
 
         public string ID { get; /*private*/set; }
-        public Name Name { get; set; } = new Name();
-        public DateTime Birthdate { get; /*private*/set; }
+        public PersonName Name { get; set; } = new PersonName();
+        public DateTime Birthdate { get; /*private*/set; } = new DateTime();
         public Gender Gender { get; /*private*/ set; }
         public string PhoneNumber { get; set; }
         public Address Address { get; set; } = new Address();
         public string Password { get; set; }
 
+
         public Person()
         { }
 
-        public Person(string id, Name name, DateTime birthdate,
+        public Person(string id, PersonName name, DateTime birthdate,
             Gender gender, string phoneNumber, Address address, string password)
         {
             ID = id;
@@ -67,6 +50,7 @@ namespace BE
         public Person(Person person)
             : this(person.ID, person.Name, person.Birthdate, person.Gender, person.PhoneNumber, person.Address, person.Password)
         { }
+
 
         [XmlIgnore] //CHECK if need it since no setter
         public uint AgeInYears

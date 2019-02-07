@@ -9,17 +9,80 @@ using System.Xml.Serialization;
 
 namespace BE
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Serializable]
     public sealed class Tester : Person
     {
         public uint YearsOfExperience { get; set; }
         public uint MaxOfTestsPerWeek { get; set; }
-        public Vehicle VehicleTypeExpertise { get; set; } // TODO rename to VTypesE
+        public Vehicle VehicleTypesExpertise { get; set; }
         [XmlIgnore]
-        public bool[,] WorkingHours { get; set; } = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
+        public Schedule WorkingHours { get; set; } = new Schedule();
+        public uint MaxDistanceFromAddress { get; set; }
+        [XmlIgnore]
+        public List<DateTime> UnavailableDates = new List<DateTime>(); //IMPROVEMENT sorted list
+        //public SortedList<DateTime, DateTime> UnavailableDates = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
+
+
+        public Tester()
+        { }
+
+        public Tester(string id, PersonName name,
+            DateTime birthdate, Gender gender, string phoneNumber,
+            Address address, string password, uint yearsOfExperience,
+            uint maxOfTestsPerWeek, Vehicle vehicleTypeExpertise,
+            Schedule workingHours, uint maxDistanceFromAddress)
+            : base(id, name, birthdate, gender, phoneNumber, address, password)
+        {
+            YearsOfExperience = yearsOfExperience;
+            MaxOfTestsPerWeek = maxOfTestsPerWeek;
+            VehicleTypesExpertise = vehicleTypeExpertise;
+            WorkingHours = workingHours;
+            MaxDistanceFromAddress = maxDistanceFromAddress;
+        }
+
+        public Tester(Tester tester)
+             : this(tester.ID, tester.Name, tester.Birthdate, tester.Gender, tester.PhoneNumber,
+                   tester.Address, tester.Password, tester.YearsOfExperience, tester.MaxOfTestsPerWeek,
+                   tester.VehicleTypesExpertise, tester.WorkingHours, tester.MaxDistanceFromAddress)
+        { }
+
+
+        public override string ToString()
+        {
+            return base.ToString() + ", tester";
+            //return this.ToStringProperty();
+        }
+
+
+        public string unavailableDates
+        {
+            get
+            {
+                if (UnavailableDates == null)
+                    return "";
+
+                string result = "";
+                foreach (var testDateTime in UnavailableDates)
+                    result += testDateTime.ToString() + ",";
+
+                return result;
+            }
+
+            set
+            {
+                if (value != null && value.Length > 0)
+                {
+                    string[] values = value.Split(',');
+
+                    UnavailableDates = new List<DateTime>();
+
+                    for (int i = 0; i < values.Length - 1; i++)
+                        UnavailableDates.Add(DateTime.Parse(values[i]));
+                }
+                else
+                    UnavailableDates = new List<DateTime>();
+            }
+        }
         public string workingHours
         {
             get
@@ -44,95 +107,14 @@ namespace BE
                 {
                     string[] values = value.Split(',');
 
-                    WorkingHours = new bool[Configuration.WORKING_DAYS_A_WEEK, Configuration.WORKING_HOURS_A_DAY];
+                    WorkingHours = new Schedule();
 
                     int index = 0;
-                    for (int i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
-                        for (int j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
+                    for (ushort i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
+                        for (ushort j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
                             WorkingHours[i, j] = bool.Parse(values[index++]);
                 }
             }
-        }
-        public uint MaxDistanceFromAddress { get; set; }
-
-        //public List<Test> MyTests = new List<Test>();
-        [XmlIgnore]
-        public List<DateTime> UnavailableDates = new List<DateTime>();
-        public string unavailableDates
-        {
-            get
-            {
-                if (UnavailableDates == null)
-                    return "";
-
-                string result = "";
-                foreach (var testDateTime in UnavailableDates)
-                    result +=  testDateTime.ToString() + ",";
-
-                return result;
-            }
-
-            set
-            {
-                if (value != null && value.Length > 0)
-                {
-                    string[] values = value.Split(',');
-
-                    UnavailableDates = new List<DateTime>();
-
-                    for (int i = 0; i < values.Length-1; i++)
-                        UnavailableDates.Add(DateTime.Parse(values[i]));
-                }
-                else
-                    UnavailableDates = new List<DateTime>();
-            }
-        }
-        //public SortedList<DateTime, DateTime> MyTests = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
-
-        [System.Runtime.CompilerServices.IndexerName("WoHo")]
-        public bool this[DayOfWeek day, uint hour]
-        {
-            get
-            {
-                if (day > DayOfWeek.Thursday ||
-                    hour < Configuration.BEGINNING_OF_A_WORKING_DAY ||
-                    hour >= Configuration.BEGINNING_OF_A_WORKING_DAY + Configuration.WORKING_HOURS_A_DAY)
-                    throw new Exception();
-
-                return WorkingHours[(uint)day, (uint)hour];
-            }
-            private set => WorkingHours[(uint)day, (uint)hour] = value;
-        }
-
-
-        public Tester(string id, Name name,
-            DateTime birthdate, Gender gender, string phoneNumber,
-            Address address,string password, uint yearsOfExperience,
-            uint maxOfTestsPerWeek, Vehicle vehicleTypeExpertise,
-            bool[,] workingHours, uint maxDistanceFromAddress)
-            : base(id, name, birthdate, gender, phoneNumber, address,password)
-        {
-            YearsOfExperience = yearsOfExperience;
-            MaxOfTestsPerWeek = maxOfTestsPerWeek;
-            VehicleTypeExpertise = vehicleTypeExpertise;
-            WorkingHours = workingHours;
-            MaxDistanceFromAddress = maxDistanceFromAddress;
-        }
-
-        public Tester(Tester tester)
-             : this(tester.ID, tester.Name, tester.Birthdate, tester.Gender, tester.PhoneNumber,
-                   tester.Address,tester.Password, tester.YearsOfExperience, tester.MaxOfTestsPerWeek,
-                   tester.VehicleTypeExpertise, tester.WorkingHours, tester.MaxDistanceFromAddress)
-        { }
-
-        public Tester()
-        {
-        }
-
-        public override string ToString()
-        {
-            return base.ToString() + ", tester";
-            //return this.ToStringProperty();
         }
     }
 }
