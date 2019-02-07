@@ -1,5 +1,6 @@
 ﻿//BS"D
 
+using BE;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,13 @@ namespace PL_WPF.UI.AdminInterface
         public AdminWindow()
         {
             InitializeComponent();
+
+            //List<Tester> res = instance.Get_testers_list_grouping_by_CarType(false).SelectMany(item => item).ToList();
+            lvUsers.ItemsSource = bl.GetTesters();
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvUsers.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Expertise");
+            view.GroupDescriptions.Add(groupDescription);
         }
 
         private void TraineesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

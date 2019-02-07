@@ -10,6 +10,7 @@ using static BE.Configuration;
 
 namespace BE
 {
+    [Serializable]
     public class Schedule
     {
         [XmlElement]
@@ -17,7 +18,7 @@ namespace BE
 
 
         //[System.Runtime.CompilerServices.IndexerName("abc")]
-        public bool this[int day, int hour]
+        public bool this[int day, int hour] // TODO? [DAY,int]
         {
             get
             {

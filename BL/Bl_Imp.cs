@@ -609,5 +609,21 @@ namespace BL
         {
             return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
         }
+
+        public IEnumerable<Person> GetPeople()
+        {
+            IEnumerable<Person> result1 = from p in dal.GetTrainees(null)
+                                           select p;
+            IEnumerable<Person> result2 = from p in dal.GetTesters()
+                                           select p;
+            return result1.Concat(result2);
+
+            //List<Person> list = new List<Person>();
+
+            //list.AddRange(GetTrainees());
+            //list.AddRange(GetTesters());
+
+            //return list;
+        }
     }
 }

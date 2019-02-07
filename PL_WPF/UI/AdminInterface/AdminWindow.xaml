@@ -202,6 +202,28 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
+            <TabItem Style="{DynamicResource Tab_Style}" Header="TTT">
+                <ListView Margin="10" Name="lvUsers">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Last Name" Width="120" DisplayMemberBinding="{Binding Name.LastName}" />
+                            <GridViewColumn Header="First Name" Width="120" DisplayMemberBinding="{Binding Name.FirstName}" />
+                            <GridViewColumn Header="Gender" Width="50" DisplayMemberBinding="{Binding Gender}" />
+                            <GridViewColumn Header="Day Of Birth" Width="150" DisplayMemberBinding="{Binding Birthdate}" />
+                        </GridView>
+                    </ListView.View>
+
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding  Name}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
+                </ListView>
+            </TabItem>
         </TabControl>
     </Grid>
 

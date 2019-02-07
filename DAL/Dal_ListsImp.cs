@@ -48,16 +48,6 @@ namespace DAL
             return Get(DS_Lists.TesterList, match);
         }
 
-        private Tester FindingTesterById(string id)
-        {
-            return DS_Lists.TesterList.Find(tester => tester.ID == id);
-        }
-
-        private bool ExistingTesterById(string id)
-        {
-            return DS_Lists.TesterList.Exists(tester => tester.ID == id);
-        }
-
         #endregion
 
         #region Trainee functions
@@ -90,29 +80,19 @@ namespace DAL
             return Get(DS_Lists.TraineeList, match);
         }
 
-        private Trainee FindingTraineeById(string id)
-        {
-            return DS_Lists.TraineeList.Find(trainee => trainee.ID == id);
-        }
-
-        private bool ExistingTraineeById(string id)
-        {
-            return DS_Lists.TraineeList.Exists(trainee => trainee.ID == id);
-        }
-
         #endregion
 
         #region Test functions
 
         public void AddTest(Test test)
         {
-            Tester tester = FindingTesterById(test.TesterID);
+            Tester tester = DS_Lists.TesterList.Find(tester_ => tester_.ID == test?.TesterID);
 
-            if (tester == default(Tester)) //!ExistingTesterById(test.IDTester)
-                throw new ArgumentException("The tester doesn't exist in the database");
+            if (tester == default(Tester)) // TODO change to null
+                throw new ArgumentException("The tester doesn't exist in the database.");
 
-            if (!ExistingTraineeById(test.TraineeID))
-                throw new ArgumentException("The trainee doesn't exist in the database");
+            if (DS_Lists.TesterList.Exists(trainee => trainee.ID == test?.TraineeID))
+                throw new ArgumentException("The trainee doesn't exist in the database.");
 
             if (test.Code != null)
                 throw new ArgumentException("", nameof(test.Code)); // UNDONE 
@@ -140,16 +120,6 @@ namespace DAL
         public List<Test> GetTests(Predicate<Test> match = null)
         {
             return Get(DS_Lists.TestList, match);
-        }
-
-        private Test FindingTestByCode(string code)
-        {
-            return DS_Lists.TestList.Find(test => test.Code == code);
-        }
-
-        private bool ExistingTestByCode(string code)
-        {
-            return DS_Lists.TestList.Exists(test => test.Code == code);
         }
 
         #endregion

@@ -36,6 +36,7 @@ namespace PL_WPF
             //new UI.TesterInterface.TesterRegisteraionWindow().Show();
             try
             {
+                new UI.AdminInterface.AdminWindow().Show();
                 //bl.AddTester(new Tester("323947747", new Name { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "Hganenet", HouseNumber = 5, City = "Jerusalem" },"1234", 10, 30, Vehicle.tractor, new bool[,] { { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true } }, 100));
                 //bl.AddTester(new Tester("322680083", new Name { FirstName = "Refael", LastName = "Goldis" }, new DateTime(1949, 5, 12), Gender.male, "0556824870", new Address { Street = "HaShayarot", HouseNumber = 20, City = "Jerusalem" }, "1234", 6, 16, Vehicle.privateCar, new bool[,] { { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true } }, 16));
  
