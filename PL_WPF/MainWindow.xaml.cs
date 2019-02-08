@@ -30,7 +30,7 @@ namespace PL_WPF
         public MainWindow()
         {
             InitializeComponent();
-            //new LoginWindow().ShowDialog();
+            new LoginWindow().ShowDialog();
             //new UI.TraineeInterface.TraineeWindow(new BE.Trainee()).ShowDialog();
             //new UI.TraineeInterface.TraineeWindow(bl.GetTrainee("212384507")).Show();
             //new UI.TesterInterface.TesterRegisteraionWindow().Show();
