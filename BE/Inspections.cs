@@ -13,7 +13,7 @@ namespace BE
         public static void IdValidator(string id) //TODO StringBuilder
         {
             if (string.IsNullOrWhiteSpace(id))
-                throw new CustomException(true, new ArgumentNullException("ID mustn't be null or empty or consists only white spaces"));
+                throw new ArgumentNullException("ID mustn't be null or empty or consists only white spaces");
 
             if (id.Length > 9 || !uint.TryParse(id, out uint temp))
                 throw new ArgumentException("ID is not valid");
@@ -33,7 +33,7 @@ namespace BE
 
         public static void AddressValidator(Address address)
         {
-            //           if (person.Address == null)
+            //if address is class so null check 
 
             if (string.IsNullOrWhiteSpace(address.City))
                 throw new ArgumentNullException("City mustn't be null or empty or consists only white spaces");
@@ -45,35 +45,47 @@ namespace BE
                 throw new ArgumentOutOfRangeException("House number mustn't be zero");
         }
 
+        public static void PersonNameValidator(Person.PersonName personName)
+        {
+            //if address is class so null check 
+
+            if (string.IsNullOrWhiteSpace(personName.FirstName))
+                throw new ArgumentNullException("First name mustn't be null or empty or consists only white spaces");
+
+            if (string.IsNullOrWhiteSpace(personName.LastName))
+                throw new ArgumentNullException("Last name mustn't be null or empty or consists only white spaces");
+        }
+
         private static void PersonInspection(Person person)
         {
             if (person == null)
-                throw new ArgumentNullException(nameof(person), "Person mustn't be null");
+                throw new ArgumentNullException("Person mustn't be null");
 
             #region ID
             try
             {
                 IdValidator(person.ID);
             }
-            catch (Exception e)// when (e is ArgumentNullException)
+            catch (Exception e)
             {
-                throw new ArgumentException("ID is not valid", nameof(person.ID), e);
+                throw new ArgumentException("ID is not valid", e);
             }
             #endregion
 
             #region Name
-            // if(person.Name.))
-
-            if (string.IsNullOrWhiteSpace(person.Name.FirstName))
-                throw new ArgumentNullException("First name mustn't be null or empty or consists only white spaces", nameof(person.Name.FirstName));
-
-            if (string.IsNullOrWhiteSpace(person.Name.LastName))
-                throw new ArgumentNullException("Last name mustn't be null or empty or consists only white spaces", nameof(person.Name.LastName));
+            try
+            {
+                PersonNameValidator(person.Name);
+            }
+            catch (Exception e)
+            {
+                throw new ArgumentException("Name is not valid", e);
+            }
             #endregion
 
             #region Birthdate
             if (person.Birthdate > DateTime.Today || person.Birthdate.Year < DateTime.Today.Year - 120)
-                throw new ArgumentException("The Birthdate date is illogical", nameof(person.Birthdate));
+                throw new ArgumentException("The Birthdate date is illogical");
             #endregion
 
             #region Gender
@@ -81,12 +93,12 @@ namespace BE
 
             #region PhoneNumber // cellphone
             if (string.IsNullOrWhiteSpace(person.PhoneNumber))
-                throw new ArgumentNullException("Phone number mustn't be null or empty or consists only white spaces", nameof(person.PhoneNumber));
+                throw new ArgumentNullException("Phone number mustn't be null or empty or consists only white spaces");
 
             if (!(ulong.TryParse(person.PhoneNumber, out ulong tmp) &&
                 person.PhoneNumber.Length == 10 && person.PhoneNumber.StartsWith("05") ||
                 person.PhoneNumber.Length == 13 && person.PhoneNumber.StartsWith("+9725")))
-                throw new ArgumentException("The phone number is not valid", nameof(person.PhoneNumber));
+                throw new ArgumentException("The phone number is not valid");
             #endregion
 
             #region Address
@@ -96,8 +108,11 @@ namespace BE
             }
             catch (Exception e)
             {
-                throw new ArgumentException("This address is not valid", nameof(person.Address), e);
+                throw new ArgumentException("This address is not valid", e);
             }
+            #endregion
+
+            #region Password
             #endregion
         }
 
@@ -109,7 +124,7 @@ namespace BE
 
             #region YearsOfExperience
             if (tester.YearsOfExperience > tester.AgeInYears)
-                throw new ArgumentOutOfRangeException("Years  of experience is illogical", nameof(tester.YearsOfExperience));
+                throw new ArgumentOutOfRangeException("Years  of experience is illogical");
             #endregion
 
             #region MaxOfTestsPerWeek
@@ -117,7 +132,7 @@ namespace BE
                 throw new ArgumentOutOfRangeException();
             #endregion
 
-            #region VehicleTypeExpertise
+            #region VehicleTypesExpertise
             #endregion
 
             #region WorkingHours
@@ -127,6 +142,9 @@ namespace BE
 
             #region MaxDistanceFromAddress
             #endregion
+
+            #region UnavailableDates
+            #endregion
         }
 
         public static void TraineeInspection(Trainee trainee)
@@ -135,29 +153,22 @@ namespace BE
             PersonInspection(trainee);
             #endregion
 
-            #region Vehicle
-
+            #region VehicleTypeTraining
             #endregion
 
-            #region Gearbox
-
+            #region GearboxTypeTraining
             #endregion
 
             #region DrivingSchool
             if (string.IsNullOrWhiteSpace(trainee.DrivingSchool))
-                throw new ArgumentNullException("Driving's school name mustn't be null or empty or consists only white spaces", nameof(trainee.DrivingSchool));
+                throw new ArgumentNullException("Driving's school name mustn't be null or empty or consists only white spaces");
             #endregion
 
             #region TeacherName
-            if (string.IsNullOrWhiteSpace(trainee.TeacherName.FirstName))
-                throw new ArgumentNullException("Teacher first name mustn't be null or empty or consists only white spaces", nameof(trainee.Name.FirstName));
-
-            if (string.IsNullOrWhiteSpace(trainee.TeacherName.LastName))
-                throw new ArgumentNullException("Teacher last name mustn't be null or empty or consists only white spaces", nameof(trainee.Name.LastName));
+            PersonNameValidator(trainee.TeacherName);
             #endregion
 
             #region NumberOfDoneLessons
-
             #endregion
 
             #region TheLastTest
@@ -170,34 +181,41 @@ namespace BE
         public static void TestInspection(Test test)
         {
             if (test == null)
-                throw new ArgumentNullException(nameof(test), "Person mustn't be null");
+                throw new ArgumentNullException("Test mustn't be null");
 
+            #region Code
+            if (test.Code == null)
+                throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
 
-            #region IDTester
+            if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
+                throw new ArgumentException("Code is not valid");
+            #endregion
+
+            #region TesterID
             try
             {
                 IdValidator(test.TesterID);
             }
             catch (Exception e)// when (e is ArgumentNullException)
             {
-                new ArgumentException("ID is not valid", nameof(test.TesterID), e);
+                new ArgumentException("ID is not valid", e);
             }
             #endregion
 
-            #region IDTrainee
+            #region TraineeID
             try
             {
                 IdValidator(test.TraineeID);
             }
             catch (Exception e)// when (e is ArgumentNullException)
             {
-                new ArgumentException("ID is not valid", nameof(test.TraineeID), e);
+                new ArgumentException("ID is not valid", e);
             }
             #endregion
 
-            #region TestDate
+            #region Date
             if (test.Date == null)
-                throw new ArgumentNullException("The test's date musn't be null", nameof(test.Date));
+                throw new ArgumentNullException("The test's date musn't be null");
             //BUG
             //if (test.Date < DateTime.Now)
             //    throw new ArgumentException("The requested time has passed");
@@ -212,29 +230,26 @@ namespace BE
             }
             catch (Exception e)
             {
-                throw new ArgumentException("This address is not valid", nameof(test.DepartureAddress), e);
+                throw new ArgumentException("This address is not valid",  e);
             }
             #endregion
 
             #region Vehicle
             #endregion
 
-
-
-            /*
-            #region Code
-            if (test.Code == null)
-                throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
-
-            if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
-                throw new ArgumentException("Code is not valid");
+            #region CriteriasGrades
             #endregion
-            */
+
+            #region IsPass
+            #endregion
+
+            #region TesterNotes
+            #endregion
+
             /*
             #region Length
             if (test.Length == null)
-                throw new ArgumentNullException("The test's length musn't be null", nameof(test.Length));
-            //?????????????????
+                throw new ArgumentNullException("The test's length musn't be null");
             #endregion
             */
             //IsDone cant done before TestDate
@@ -246,7 +261,7 @@ namespace BE
         //public static void StringInspection(string str, string nameOfVariable)
         //{
         //    if (string.IsNullOrWhiteSpace(str))
-        //        throw new ArgumentNullException(nameOfVariable + "mustn't be null or empty or consists only white spaces", nameof(nameOfVariable));
+        //        throw new ArgumentNullException(nameOfVariable + "mustn't be null or empty or consists only white spaces", nameOfVariable);
         //}
         #endregion
     }

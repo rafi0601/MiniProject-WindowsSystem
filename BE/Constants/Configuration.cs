@@ -17,7 +17,7 @@ namespace BE
         public static readonly uint LENGTH_OF_CODE = 8;
         public static readonly TimeSpan LENGTH_OF_TEST = new TimeSpan(1, 0, 0);
         public static readonly TimeSpan MAX_AGE_OF_TESTER = new TimeSpan(365 * 90, 0, 0, 0); // TODO: search for better
-        public static readonly uint MAX_VALUE_TO_CODE = (uint)Math.Pow(10, 9) - 1;
+        public static readonly uint MAX_VALUE_TO_CODE = (uint)Math.Pow(10, LENGTH_OF_CODE) - 1;
         public static readonly TimeSpan MIN_AGE_OF_TESTER = new TimeSpan(365 * 40, 0, 0, 0);
         public static readonly TimeSpan MIN_AGE_OF_TRAINEE = new TimeSpan(365 * 18, 0, 0, 0);
         //public static readonly uint MIN_CRITERIONS_TO_PASS_TEST = 4; // 80%

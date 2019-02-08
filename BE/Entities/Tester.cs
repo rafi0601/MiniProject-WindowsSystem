@@ -19,7 +19,7 @@ namespace BE
         public Schedule WorkingHours { get; set; } = new Schedule();
         public uint MaxDistanceFromAddress { get; set; }
         [XmlIgnore]
-        public List<DateTime> UnavailableDates = new List<DateTime>(); //IMPROVEMENT sorted list
+        public List<DateTime> UnavailableDates { get; set; } = new List<DateTime>(); //IMPROVEMENT sorted list
         //public SortedList<DateTime, DateTime> UnavailableDates = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
 
 

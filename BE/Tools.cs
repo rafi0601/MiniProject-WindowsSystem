@@ -37,7 +37,7 @@ namespace BE
         public static T Copy<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
-                throw new CustomException(false, new ArgumentException("The type must be serializable.", nameof(source)));
+                throw new CustomException(false, new ArgumentException($"The type of {nameof(source)} must be serializable."));
             if (ReferenceEquals(source, null))
                 return default(T);
 
@@ -91,7 +91,7 @@ namespace BE
         public static UserDisplayAttribute GetUserDisplayAttribute(Enum item)
         {
             if (item == null)
-                throw new ArgumentNullException(nameof(item));
+                throw new ArgumentNullException();
 
             object[] arr = item.GetType().GetField(item.ToString()).GetCustomAttributes(false);
             if (arr.Length == 1)
@@ -101,7 +101,7 @@ namespace BE
         public static Enum GetEnum(Type enumType, string display)
         {
             if (enumType == null)
-                throw new ArgumentNullException(nameof(enumType));
+                throw new ArgumentNullException();
             if (!enumType.IsEnum)
                 throw new ArgumentException();
 

@@ -466,6 +466,10 @@ namespace BL
                 if (tester != default)
                 {
                     dal.AddTest(new Test(tester.ID, trainee.ID, testDate, departureAddress, vehicle));
+                    trainee.TheLastTest = testDate;
+                    tester.UnavailableDates.Add(testDate);
+                    dal.UpdateTrainee(trainee);
+                    dal.UpdateTester(tester);
                     return null;
                 }
 

@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <ArrayOfTester xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Tester>
-    <ID>323947747</ID>
+    <ID>322680083</ID>
     <Name>
-      <LastName>Garber</LastName>
-      <FirstName>Shmuel</FirstName>
+      <LastName>Goldis</LastName>
+      <FirstName>Refael</FirstName>
     </Name>
-    <Birthdate>1950-07-13T00:00:00</Birthdate>
+    <Birthdate>1949-05-12T00:00:00</Birthdate>
     <Gender>male</Gender>
-    <PhoneNumber>0547424870</PhoneNumber>
+    <PhoneNumber>0556824870</PhoneNumber>
     <Address>
-      <Street>Hganenet</Street>
-      <HouseNumber>5</HouseNumber>
+      <Street>HaShayarot</Street>
+      <HouseNumber>20</HouseNumber>
       <City>Jerusalem</City>
     </Address>
     <Password>1234</Password>
-    <YearsOfExperience>10</YearsOfExperience>
-    <MaxOfTestsPerWeek>30</MaxOfTestsPerWeek>
-    <VehicleTypeExpertise>tractor</VehicleTypeExpertise>
+    <YearsOfExperience>6</YearsOfExperience>
+    <MaxOfTestsPerWeek>16</MaxOfTestsPerWeek>
+    <VehicleTypesExpertise>privateCar</VehicleTypesExpertise>
+    <MaxDistanceFromAddress>16</MaxDistanceFromAddress>
+    <unavailableDates>07/02/2019 12:00:00,</unavailableDates>
     <workingHours>True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
-    <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
-    <myTests />
   </Tester>
 </ArrayOfTester>

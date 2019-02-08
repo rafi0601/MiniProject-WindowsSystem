@@ -86,9 +86,8 @@ namespace DAL
 
         public void AddTest(Test test)
         {
-            Tester tester = DS_Lists.TesterList.Find(tester_ => tester_.ID == test?.TesterID);
 
-            if (tester == null)
+            if (DS_Lists.TesterList.Exists(tester => tester.ID == test?.TesterID))
                 throw new ArgumentException("The tester doesn't exist in the database.");
 
             if (DS_Lists.TesterList.Exists(trainee => trainee.ID == test?.TraineeID))
@@ -103,7 +102,7 @@ namespace DAL
             if (!Add(test, DS_Lists.TestList, Inspections.TestInspection))
                 throw new Exception();
 
-            tester.UnavailableDates.Add(test.Date.Copy());
+            //tester.UnavailableDates.Add(test.Date.Copy());
         }
 
         public void UpdateTest(Test test)

@@ -90,6 +90,7 @@ namespace DAL
             if (!File.Exists(configs.FilePath))
             {
                 configs.Root.Add(new XElement(nameof(code), code.ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0')));
+                //Add(,0,) because it the first time
                 configs.Root.Save(configs.FilePath);
             }
             else
@@ -341,14 +342,14 @@ namespace DAL
             test.Code = (++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0');
 
             configs.Root.Element(nameof(code)).Remove();
-            configs.Root.Add(new XElement(nameof(code), test.Code));
+            configs.Root.Add(new XElement(nameof(code), code));
 
             try
             {
                 testsList.Add(test);
                 SaveToXmlFile(testsList, tests.FilePath);
 
-                tester.UnavailableDates.Add(test.Date.Copy());
+                //tester.UnavailableDates.Add(test.Date.Copy());
                 UpdateTester(tester);
             }
             catch (Exception ex)
@@ -406,11 +407,15 @@ namespace DAL
             try
             {
                 configs.Root = XElement.Load(configs.FilePath);
-                code = uint.Parse(configs.Root.Element(nameof(code)).Value);
+                XElement codeXElement = configs.Root.Element(nameof(code));
+                if (codeXElement == null)
+                    configs.Root.Add(new XElement(nameof(code), code = 0));
+                else
+                    code = uint.Parse(codeXElement.Value);
             }
             catch
             {
-                throw new Exception("Trainees File upload problem");
+                throw new Exception("Configs File upload problem");
             }
         }
 

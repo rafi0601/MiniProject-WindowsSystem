@@ -69,14 +69,8 @@ namespace BE
             //return this.ToStringProperty();
         }
 
-        //      public bool Equals(Person x, Person y)
-        //      {
-        //          return true;
-        //      }
-        //
-        //      public int GetHashCode(Person obj)
-        //      {
-        //          throw new NotImplementedException();
-        //      }
+        public override bool Equals(object obj) => this.ID==(obj as Person)?.ID;
+
+        public override int GetHashCode() => ID.GetHashCode();
     }
 }
