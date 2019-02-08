@@ -29,7 +29,7 @@ namespace BL
         List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false);
         List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);
 
-        DateTime? AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
+        Task<DateTime?> AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
         void UpdateTest(string code, Test.Criteria criteria, bool IsPass, string TesterNotes);
         Test GetTest(string code);
         List<Test> GetTests(Predicate<Test> match = null);

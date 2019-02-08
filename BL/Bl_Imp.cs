@@ -427,7 +427,7 @@ namespace BL
 
         #region Test functions
 
-        public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
+        public async Task<DateTime?> AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         { // return bool is success, and get out HATZAA
             if (!vehicle.IsFlag())
                 throw new Exception();

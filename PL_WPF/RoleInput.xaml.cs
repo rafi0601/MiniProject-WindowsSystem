@@ -35,7 +35,5 @@ namespace PL_WPF
             Close();
         }
 
-//        public event SelectionChangedEventHandler SelectionChanged;
-
     }
 }

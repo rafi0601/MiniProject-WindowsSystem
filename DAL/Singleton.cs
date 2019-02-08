@@ -10,7 +10,7 @@ namespace DAL
     {
         protected static IDal instance = null;
 
-        //protected Singleton() { }
+        protected Singleton() { }
 
         public static IDal Instance
         {

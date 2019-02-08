@@ -341,7 +341,7 @@ namespace DAL
                 throw new OverflowException();
             if (test.Code != null)
                 throw new ArgumentException();
-            test.Code = (++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0');
+            test.Code = (++code).ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0');
 
             configs.Root.Element(nameof(code)).Remove();
             configs.Root.Add(new XElement(nameof(code), code));

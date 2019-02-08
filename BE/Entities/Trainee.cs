@@ -31,12 +31,13 @@ namespace BE
             DrivingSchool = drivingSchool;
             TeacherName = teacherName;
             NumberOfDoneLessons = numberOfDoneLessons;
+            TheLastTest = theLastTest;
         }
 
         public Trainee(Trainee trainee)
             : this(trainee.ID, trainee.Name, trainee.Birthdate, trainee.Gender,
                   trainee.PhoneNumber, trainee.Address, trainee.Password, trainee.VehicleTypeTraining, trainee.GearboxTypeTraining,
-                  trainee.DrivingSchool, trainee.TeacherName, trainee.NumberOfDoneLessons)
+                  trainee.DrivingSchool, trainee.TeacherName, trainee.NumberOfDoneLessons, trainee.TheLastTest)
         { }
 
 
