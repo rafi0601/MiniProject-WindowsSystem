@@ -245,7 +245,8 @@ namespace DAL
                     new XElement(nameof(trainee.TeacherName),
                         new XElement(nameof(trainee.TeacherName.LastName), trainee.TeacherName.LastName),
                         new XElement(nameof(trainee.TeacherName.FirstName), trainee.TeacherName.FirstName)),
-                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons)
+                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons),
+                    new XElement(nameof(trainee.TheLastTest), trainee.TheLastTest)
                     ));
             trainees.Root.Save(trainees.FilePath);
         }
@@ -295,7 +296,8 @@ namespace DAL
                     (Gearbox)Enum.Parse(typeof(Gearbox), trainee.Element(nameof(tmp.GearboxTypeTraining)).Value),
                     trainee.Element(nameof(tmp.DrivingSchool)).Value,
                     new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                    uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value)
+                    uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value),
+                    DateTime.Parse(trainee.Element(nameof(tmp.TheLastTest)).Value)
                 )).FirstOrDefault();
         }
 
