@@ -34,7 +34,9 @@ namespace PL_WPF.UI.TesterInterface
             //DataContext = tester;
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
-            vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
+            //vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
+            vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
 
             firstNameTextBox.Text = tester.Name.FirstName;
             lastNameTextBox.Text = tester.Name.LastName;
@@ -44,7 +46,7 @@ namespace PL_WPF.UI.TesterInterface
 
             foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
                 if (tester.VehicleTypesExpertise.HasFlag(vehicle))
-                    vehicleTypeExpertiseListBox.SelectedItems.Add(vehicle);
+                    vehicleTypeExpertiseListBox.SelectedItems.Add(Tools.GetUserDisplayAttribute(vehicle)?.DisplayName);
 
             CheckBox11.IsChecked = tester.WorkingHours[0, 0];
             CheckBox12.IsChecked = tester.WorkingHours[1, 0];
@@ -100,6 +102,12 @@ namespace PL_WPF.UI.TesterInterface
                     { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
                     { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
                 });
+
+                tester.VehicleTypesExpertise = 0;
+                foreach (string expertise in vehicleTypeExpertiseListBox.SelectedItems)
+                    tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+
+
 
                 bl.UpdateTester(tester);
                 new UI.TesterInterface.TesterWindow(tester).Show();

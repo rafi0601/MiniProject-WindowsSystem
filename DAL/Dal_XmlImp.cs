@@ -295,7 +295,8 @@ namespace DAL
                     (Gearbox)Enum.Parse(typeof(Gearbox), trainee.Element(nameof(tmp.GearboxTypeTraining)).Value),
                     trainee.Element(nameof(tmp.DrivingSchool)).Value,
                     new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                    uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value)
+                    uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value),
+                    DateTime.Parse(trainee.Element(nameof(tmp.TheLastTest)).Value)
                 )).FirstOrDefault();
         }
 
@@ -339,7 +340,7 @@ namespace DAL
                 throw new OverflowException();
             if (test.Code != null)
                 throw new ArgumentException();
-            test.Code = (++code).ToString().PadLeft(totalWidth: 8, paddingChar: '0');
+            test.Code = (++code).ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0');
 
             configs.Root.Element(nameof(code)).Remove();
             configs.Root.Add(new XElement(nameof(code), code));

@@ -71,6 +71,6 @@ namespace BE
 
         public override bool Equals(object obj) => this.ID==(obj as Person)?.ID;
 
-        public override int GetHashCode() => ID.GetHashCode();
+        public override int GetHashCode() => base.GetHashCode();
     }
 }

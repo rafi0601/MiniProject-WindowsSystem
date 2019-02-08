@@ -75,7 +75,9 @@ namespace BE
                 (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
                 traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
                 new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value));
+                uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value),
+                DateTime.Parse(traineeXElement.Element(nameof(tmp.TheLastTest)).Value)
+                );
         }
 
         public static T AddFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type | (int)(object)value);
