@@ -1,6 +1,7 @@
 ﻿//BS"D
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -69,8 +70,20 @@ namespace BE
             //return this.ToStringProperty();
         }
 
-        public override bool Equals(object obj) => this.ID == (obj as Person)?.ID;
+        //public override bool Equals(object obj) => this.ID == (obj as Person)?.ID;
+        //
+        //public override int GetHashCode() => base.GetHashCode();
 
-        public override int GetHashCode() => base.GetHashCode();
+
     }
+
+    //public class PersonComparer : IEqualityComparer<Person>
+    //{
+    //    public bool Equals(Person x, Person y) 
+    //        => x is null && y is null ? true : x.ID == y.ID;
+    //
+    //    public int GetHashCode(Person obj)
+    //        => obj.GetHashCode();//return obj.ID.GetHashCode();
+    //
+    //}
 }

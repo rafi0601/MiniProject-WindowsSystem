@@ -41,6 +41,7 @@ namespace PL_WPF.UI.TesterInterface
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
                                                       select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -75,9 +76,15 @@ namespace PL_WPF.UI.TesterInterface
                 new TesterWindow(tester).Show();
                 Close();
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 

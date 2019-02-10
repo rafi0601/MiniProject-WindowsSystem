@@ -17,22 +17,18 @@ namespace DAL
 {
     internal class Dal_XmlImp : IDal
     {
-        private struct MyStruct
+        private struct HelpreBundle
         {
-            private static readonly string filesPath = Path.Combine(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName, nameof(DS), "DS_Xml"); //IMPROVEMENT change constant
-
             private XElement root; public XElement Root
             {
                 get => root;
-                /*private*/
                 set
                 {
-                    root = value; //BUG null check
-                    root.Changing += Root_Changing;
-                    root.Changed += Root_Changed;
+                    root = value ?? throw new ArgumentNullException();
                 }
             }
             public string FilePath { get; private set; }
+            public bool ByLinqToXml { get; set; }
 
             private void Root_Changing(object sender, XObjectChangeEventArgs e)
             {
@@ -41,51 +37,55 @@ namespace DAL
 
             private void Root_Changed(object sender, XObjectChangeEventArgs e)
             {
-                //Root.Save(FilePath);//, SaveOptions.None);
-
+                if (ByLinqToXml)
+                    Root.Save(FilePath);
+                else
+                    ;
                 //tests.root.close();
                 //e.ObjectChange;
 
                 //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
             }
 
-
-            public MyStruct(XElement root/*, string folderPath*/) : this()
+            public HelpreBundle(XElement root, string folderPath, bool byLinqToXml) : this() // CHECK need input check for path?
             {
                 Root = root ?? throw new ArgumentNullException(nameof(root));
+                root.Changing += Root_Changing;
+                root.Changed += Root_Changed;
                 FilePath = Path.Combine(filesPath, $@"{Root.Name}.xml)");
-                //FilePath = $@"{filesPath}\{root.Name}.xml" ?? throw new ArgumentNullException(nameof(folderPath));
+                ByLinqToXml = byLinqToXml;
+            }
+
+            public void LoadData()
+            {
+                try
+                {
+                    Root = XElement.Load(FilePath);
+                }
+                catch
+                {
+                    throw new FileLoadException("File upload problem"); // CHECK right exception?
+                }
             }
         }
 
-        private MyStruct tests = new MyStruct(new XElement(nameof(tests)));// = new MyStruct(new XElement(nameof(Test) + s) /*,filesPath*/); //nameof(tests)
-        private MyStruct testers = new MyStruct(new XElement(nameof(testers)));// = new MyStruct(new XElement(nameof(Tester) + s)/*, filesPath*/);
-        private MyStruct trainees = new MyStruct(new XElement(nameof(trainees)));// = new MyStruct(new XElement(nameof(Trainee) + s)/*, filesPath*/);
-        private MyStruct configs = new MyStruct(new XElement(nameof(configs)));// = new MyStruct(new XElement(nameof(Trainee) + s)/*, filesPath*/);
+        private static readonly string filesPath = Path.Combine(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName, nameof(DS), "DS_Xml"); //IMPROVEMENT change constant
 
-        //private const char s = 's';
-        //private readonly FileStream testsFile;
-        //private readonly FileStream testersFile;
+        private HelpreBundle tests = new HelpreBundle(new XElement(nameof(tests)), filesPath, false);
+        private HelpreBundle testers = new HelpreBundle(new XElement(nameof(testers)), filesPath, false);
+        private HelpreBundle trainees = new HelpreBundle(new XElement(nameof(trainees)), filesPath, true);
+        private HelpreBundle configs = new HelpreBundle(new XElement(nameof(configs)), filesPath, true);
+
+
 
         private static uint code;
 
         public Dal_XmlImp()
         {
-            //tests.FilePath = @"TestsXml.xml";
-            //testers.FilePath = @"TestersXml.xml";
-            //trainees.FilePath = @"TraineesXml.xml";
-            //config.FilePath = @"ConfigXml.xml";
-
-            //testsFile = new FileStream(tests.FilePath, FileMode.Create);
-            //testersFile = new FileStream(testers.FilePath, FileMode.Create); //CHECK
-
-            //testsFile.Close();
-            //testersFile.Close();
-
             if (!File.Exists(trainees.FilePath))
                 trainees.Root.Save(trainees.FilePath);
             else
-                TraineeloadData();
+                trainees.LoadData();
 
             if (!File.Exists(configs.FilePath))
             {
@@ -94,11 +94,11 @@ namespace DAL
                 configs.Root.Save(configs.FilePath);
             }
             else
-                ConfigloadData();
+                configs.LoadData();
         }
 
 
-        public static void SaveToXmlFile<T>(T source, string path)
+        private static void SaveToXmlFile<T>(T source, string path)
         {
             FileStream file = new FileStream(path, FileMode.Create);
             XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
@@ -106,7 +106,7 @@ namespace DAL
             file.Close();
         }
 
-        public static T LoadFromXmlFile<T>(string path)
+        private static T LoadFromXmlFile<T>(string path)
         {
             FileStream file = new FileStream(path, FileMode.Open);
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
@@ -198,17 +198,17 @@ namespace DAL
 
         #region Trainee Functions
 
-        private void TraineeloadData()
-        {
-            try
-            {
-                trainees.Root = XElement.Load(trainees.FilePath);
-            }
-            catch
-            {
-                throw new Exception("Trainees File upload problem");
-            }
-        }
+        //private void TraineeloadData()
+        //{
+        //    try
+        //    {
+        //        trainees.Root = XElement.Load(trainees.FilePath);
+        //    }
+        //    catch
+        //    {
+        //        throw new Exception("Trainees File upload problem");
+        //    }
+        //}
 
         public void AddTrainee(Trainee trainee)
         {
@@ -274,7 +274,7 @@ namespace DAL
 
         public Trainee GetTrainee(string id)
         {
-            TraineeloadData();
+            trainees.LoadData();
             //IMPROVEMENT to that with foreach until it find the id
             Trainee tmp = new Trainee();
 
@@ -303,7 +303,7 @@ namespace DAL
 
         public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
         {
-            TraineeloadData();
+            trainees.LoadData();
             Trainee tmp = new Trainee();
 
             return (

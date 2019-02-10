@@ -179,7 +179,7 @@
 
             <Label Content="        Working Hours:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
 
-            <Grid Margin="60,0,0,0">
+            <Grid x:Name="scheduleGrid" Margin="60,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

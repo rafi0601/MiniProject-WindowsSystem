@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using static BE.Configuration;
 
 namespace BE
 {
@@ -93,9 +94,9 @@ namespace BE
                 StringBuilder result = new StringBuilder();
                 if (WorkingHours != null)
                 {
-                    for (int i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
-                        for (int j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
-                            result.Append(WorkingHours[i, j] + ",");
+                    for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+                        for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                            result.Append(WorkingHours[i, (int)(j+BEGINNING_OF_A_WORKING_DAY)] + ",");
                 }
 
                 return result.ToString();
@@ -110,9 +111,9 @@ namespace BE
                     WorkingHours = new Schedule();
 
                     int index = 0;
-                    for (ushort i = 0; i < Configuration.WORKING_DAYS_A_WEEK; i++)
-                        for (ushort j = 0; j < Configuration.WORKING_HOURS_A_DAY; j++)
-                            WorkingHours[i, j] = bool.Parse(values[index++]);
+                    for (ushort i = 0; i < WORKING_DAYS_A_WEEK; i++)
+                        for (ushort j = 0; j < WORKING_HOURS_A_DAY; j++)
+                            WorkingHours[i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = bool.Parse(values[index++]);
                 }
             }
         }

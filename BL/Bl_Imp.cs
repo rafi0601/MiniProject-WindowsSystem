@@ -31,11 +31,11 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
 
             if (ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester already exists in the database."));
+                throw new CasingException(true, new ArgumentException("This tester already exists in the database."));
 
             TesterLogicsInspection(tester);
 
@@ -45,18 +45,18 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
         public void RemoveTester(Tester tester)
         {
             if (tester is null)
-                throw new CustomException(true, new ArgumentNullException("Cannot remove null."));
+                throw new CasingException(true, new ArgumentNullException("Cannot remove null."));
 
             //if (tester.UnavailableDates.Any(dt => dt > DateTime.Now))
             if (dal.GetTests(test => test.TesterID == tester.ID && test.IsPass == null).Any())
-                throw new CustomException(true, new Exception("The tester have future tests."));
+                throw new CasingException(true, new Exception("The tester have future tests."));
 
             try
             {
@@ -64,7 +64,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -76,11 +76,11 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
 
             if (!ExistingTesterById(tester.ID))
-                throw new CustomException(true, new ArgumentException("This tester doesn't exist in the database."));
+                throw new CasingException(true, new ArgumentException("This tester doesn't exist in the database."));
 
             TesterLogicsInspection(tester);
 
@@ -90,7 +90,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -112,7 +112,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
 
             return (from tester in dal.GetTesters()
@@ -159,11 +159,11 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
 
             if (ExistingTraineeById(trainee.ID))
-                throw new CustomException(true, new ArgumentException("This trainee already exists in the database.", nameof(trainee.ID)));
+                throw new CasingException(true, new ArgumentException("This trainee already exists in the database."));
 
             TraineeLogicsInspection(trainee);
 
@@ -173,7 +173,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -182,10 +182,10 @@ namespace BL
         public void RemoveTrainee(Trainee trainee)
         {
             if (trainee is null)
-                throw new CustomException(true, new ArgumentNullException("Cannot remove null."));
+                throw new CasingException(true, new ArgumentNullException("Cannot remove null."));
 
             if (dal.GetTests(test => test.TraineeID == trainee.ID && !test.IsDone()).Any())
-                throw new CustomException(true, new Exception("The trainee have future tests."));
+                throw new CasingException(true, new Exception("The trainee have future tests."));
 
             try
             {
@@ -193,7 +193,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -205,11 +205,11 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
 
             if (!ExistingTraineeById(trainee.ID))
-                throw new CustomException(true, new ArgumentException("This trainee doesn't exist in the database."));
+                throw new CasingException(true, new ArgumentException("This trainee doesn't exist in the database."));
 
             TraineeLogicsInspection(trainee);
 
@@ -219,7 +219,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -236,7 +236,7 @@ namespace BL
         public uint NumberOfDoneTests(Trainee trainee)
         {
             if (!ExistingTraineeById(trainee?.ID))
-                throw new CustomException(true, new ArgumentException("This trainee doesn't exist in the database"));
+                throw new CasingException(true, new ArgumentException("This trainee doesn't exist in the database"));
 
             return (uint)dal.GetTests(test => test.TraineeID == trainee.ID && test.IsDone()).Count;
         }
@@ -244,7 +244,7 @@ namespace BL
         public bool IsEntitledToLicense(Trainee trainee)
         {
             if (!ExistingTraineeById(trainee?.ID))
-                throw new CustomException(true, new ArgumentException("This trainee doesn't exist in the database"));
+                throw new CasingException(true, new ArgumentException("This trainee doesn't exist in the database"));
 
             return dal.GetTests(test => test.TraineeID == trainee.ID && test.IsPass == true).Count > 0; //==1
         }
@@ -276,15 +276,15 @@ namespace BL
                 //{
                 //    yield return alternativeDate;
                 //}
-                return FindingAnAlternativeDateForTest(testDate, vehicle)?.Item1 ?? throw new Exception();//TODO change it (it is not exception)
+                return FindingAnAlternativeDateForTest(testDate, departureAddress, vehicle)?.Item1 ?? throw new Exception();//TODO change it (it is not exception)
             }
             catch (OverflowException e)
             {
-                throw new CustomException(false, e);
+                throw new CasingException(false, e);
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -296,19 +296,19 @@ namespace BL
             //if (!dal.GetTest(test.Code).Exists(t => t.IDTrainee == trainee.ID && !t.IsDone()))
             Test theTest = dal.GetTest(code);
             if (theTest == null)
-                throw new CustomException(true, new ArgumentException("This test doesn't exist in the database"));
+                throw new CasingException(true, new ArgumentException("This test doesn't exist in the database"));
 
             if (theTest.Date > DateTime.Now)
-                throw new CustomException(true, new Exception());//UNDONE
+                throw new CasingException(true, new Exception());//UNDONE
 
             if (theTest.IsPass != null)
-                throw new CustomException(true, new Exception("Cannot update updated test"));
+                throw new CasingException(true, new Exception("Cannot update updated test"));
 
             if (isPass && criteria.PassGrades() < MIN_CRITERIONS_TO_PASS_TEST)
-                throw new CustomException(true, new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + MIN_CRITERIONS_TO_PASS_TEST + " Cartierians."));
+                throw new CasingException(true, new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + MIN_CRITERIONS_TO_PASS_TEST + " Cartierians."));
 
             if (string.IsNullOrWhiteSpace(testerNotes))
-                throw new CustomException(true, new ArgumentException("You must enter a test note"));
+                throw new CasingException(true, new ArgumentException("You must enter a test note"));
 
             theTest.CriteriasGrades = criteria;
             theTest.IsPass = isPass;
@@ -320,7 +320,7 @@ namespace BL
             }
             catch (Exception e)
             {
-                throw new CustomException(true, e);
+                throw new CasingException(true, e);
             }
         }
 
@@ -366,19 +366,24 @@ namespace BL
 
         private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle) // BUG input check
         {
-            List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
-            return optionalTesters[rand.Next(optionalTesters.Count)];
+            return (from vacantTester in VacantTesters(testDate)
+                    where vacantTester.VehicleTypesExpertise.HasFlag(vehicle)
+                    join testerInArea in TheTestersWhoLiveInTheDistance(departureAddress) on vacantTester.ID equals testerInArea.ID
+                    where testerInArea != null
+                    select vacantTester).FirstOrDefault();
+
+            // List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
+            // if (optionalTesters.Any())
+            //     return optionalTesters[rand.Next(optionalTesters.Count)];
+            // return null;
         }
 
 
-
-
-
         //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
-        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicleTypeLearning) // BUG input check of date
+        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
         {
             if (!vehicleTypeLearning.IsFlag())
-                throw new CustomException(true, new ArgumentException());
+                throw new CasingException(true, new ArgumentException());
 
             DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
                 aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
@@ -387,7 +392,7 @@ namespace BL
             {
                 while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
                 {
-                    Tester vacantTester = VacantTesters(dateTime).Where(t => t.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)).FirstOrDefault();
+                    Tester vacantTester = SearchForTester(dateTime, departureAddress, vehicleTypeLearning);
                     if (vacantTester != default)
                         /*yield*/
                         return (dateTime, vacantTester);
@@ -410,12 +415,12 @@ namespace BL
             IEnumerable<IGrouping<Vehicle, Tester>> groups;
 
             if (!toSort)
-                groups = from trainee in dal.GetTesters()
-                         group trainee by trainee.VehicleTypesExpertise;
+                groups = from tester in dal.GetTesters()
+                         group tester by tester.VehicleTypesExpertise;
             else
-                groups = from trainee in dal.GetTesters()
-                         orderby trainee.YearsOfExperience descending
-                         group trainee by trainee.VehicleTypesExpertise into @group
+                groups = from tester in dal.GetTesters()
+                         orderby tester.YearsOfExperience descending, tester.ID ascending
+                         group tester by tester.VehicleTypesExpertise into @group
                          orderby @group.Key
                          select @group;
 
@@ -429,7 +434,7 @@ namespace BL
                           group trainee by trainee.DrivingSchool
                         :
                           from trainee in dal.GetTrainees()
-                          orderby trainee.TeacherName
+                          orderby trainee.TeacherName, trainee.ID
                           group trainee by trainee.DrivingSchool into @group
                           orderby @group.Key
                           select @group
@@ -460,7 +465,7 @@ namespace BL
                          group trainee by trainee.TeacherName;
             else
                 groups = from trainee in dal.GetTrainees()
-                         orderby trainee.Name
+                         orderby trainee.Name, trainee.ID
                          group trainee by trainee.TeacherName into @group
                          orderby @group.Key
                          select @group;
@@ -477,7 +482,7 @@ namespace BL
                          group trainee by NumberOfDoneTests(trainee);
             else
                 groups = from trainee in dal.GetTrainees().AsParallel().AsOrdered()
-                         orderby trainee.DrivingSchool
+                         orderby trainee.DrivingSchool, trainee.ID
                          group trainee by NumberOfDoneTests(trainee) into @group
                          orderby @group.Key
                          select @group;
@@ -493,22 +498,22 @@ namespace BL
         {
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
-                throw new CustomException(true, new ArgumentOutOfRangeException("The tester's age is not appropriate."));
+                throw new CasingException(true, new ArgumentOutOfRangeException("The tester's age is not appropriate."));
 
             if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365))// CHECK minageoftrainee? (start to count years from learn or teach?)
-                throw new CustomException(true, new ArgumentException("Years of experience do not make sense according to age."));
+                throw new CasingException(true, new ArgumentException("Years of experience do not make sense according to age."));
 
             if (0 == tester.MaxOfTestsPerWeek)
-                throw new CustomException(true, new ArgumentOutOfRangeException("It is illegal for the teter to not test."));
+                throw new CasingException(true, new ArgumentOutOfRangeException("It is illegal for the teter to not test."));
 
             if (tester.MaxDistanceFromAddress == 0)
-                throw new CustomException(true, new ArgumentOutOfRangeException("Max Distance From Address can not get 0."));
+                throw new CasingException(true, new ArgumentOutOfRangeException("Max Distance From Address can not get 0."));
         }
 
         private void TraineeLogicsInspection(Trainee trainee)
         {
             if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
-                throw new CustomException(true, new ArgumentOutOfRangeException("This Trainee's age is not appropriate."));
+                throw new CasingException(true, new ArgumentOutOfRangeException("This Trainee's age is not appropriate."));
 
         }
 

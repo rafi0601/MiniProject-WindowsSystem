@@ -99,6 +99,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Functions.cs" />
     <Compile Include="RoleInput.xaml.cs">
       <DependentUpon>RoleInput.xaml</DependentUpon>
     </Compile>
@@ -138,7 +139,6 @@
     <Compile Include="UI\TraineeInterface\TraineeWindow.xaml.cs">
       <DependentUpon>TraineeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UsersManager.cs" />
     <Page Include="RoleInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

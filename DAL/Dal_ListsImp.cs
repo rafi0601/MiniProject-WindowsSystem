@@ -195,7 +195,7 @@ namespace DAL
                 //case null:
                 //    break;
                 default:
-                    throw new CustomException(false, new Exception());
+                    throw new CasingException(false, new Exception());
             }
 
             //List<T> list;

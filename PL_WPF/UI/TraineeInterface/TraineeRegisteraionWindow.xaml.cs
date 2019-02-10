@@ -33,9 +33,15 @@ namespace PL_WPF.UI.TraineeInterface
                 trainee = new Trainee();
                 DataContext = trainee;
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 
@@ -62,9 +68,15 @@ namespace PL_WPF.UI.TraineeInterface
                 new TraineeWindow(trainee).Show();
                 Close();
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 

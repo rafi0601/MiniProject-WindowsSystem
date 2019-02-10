@@ -188,11 +188,11 @@ namespace BE
                 throw new ArgumentNullException("Test mustn't be null");
 
             #region Code
-            if (test.Code == null)
-                throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
-
-            if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
-                throw new ArgumentException("Code is not valid");
+           // if (test.Code == null)
+           //     throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
+           //
+           // if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
+           //     throw new ArgumentException("Code is not valid");
             #endregion
 
             #region TesterID

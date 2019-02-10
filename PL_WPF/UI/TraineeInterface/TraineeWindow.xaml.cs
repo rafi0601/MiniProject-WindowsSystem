@@ -72,9 +72,15 @@ namespace PL_WPF.UI.TraineeInterface
                 new UI.TraineeInterface.TraineeWindow(trainee).Show();
                 Close();
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 
@@ -93,9 +99,15 @@ namespace PL_WPF.UI.TraineeInterface
                         break;
                 }
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 
@@ -226,11 +238,16 @@ namespace PL_WPF.UI.TraineeInterface
                     SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
                 }
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
-
         }
 
         private void SuggestAlternateDateOfTest_AcceptClick(object sender, RoutedEventArgs e)
@@ -242,9 +259,15 @@ namespace PL_WPF.UI.TraineeInterface
                 DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 

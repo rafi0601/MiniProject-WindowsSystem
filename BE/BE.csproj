@@ -69,10 +69,10 @@
     <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Entities\Test.Criteria.cs" />
     <Compile Include="Entities\TestDateTime.cs" />
-    <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Constants\Enums.cs" />
+    <Compile Include="Exceptions\CasingException.cs" />
     <Compile Include="Exceptions\ExistingInTheDatabaseException.cs" />
     <Compile Include="IKey.cs" />
     <Compile Include="Inspections.cs" />

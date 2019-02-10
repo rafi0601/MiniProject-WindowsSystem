@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Title="MainWindow">
     <Grid>
-        <!--<local:DateTimePicker HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="DateTimePicker_SelectionChanged"/>-->
 
     </Grid>
 </Window>

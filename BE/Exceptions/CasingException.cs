@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BE
 {
     [Serializable]
-    public class CustomException : Exception
+    public class CasingException : Exception
     {
         public bool DisplayToUser { get; }
         //public bool IsCritical { get; set; }
@@ -18,7 +18,7 @@ namespace BE
         public override string Message => InnerException.Message;
 
 
-        public CustomException(bool displayToUser, Exception innerException)
+        public CasingException(bool displayToUser, Exception innerException)
             : base(message: null, innerException: innerException)
         {
             DisplayToUser = displayToUser;
@@ -26,10 +26,7 @@ namespace BE
         }
 
         // עושים את מה שכתוב למעלה כשכותבים אוורייד ורואים מה חוזר
-        //protected CustomizedExeption(SerializationInfo info, StreamingContext context) : base(info, context)
-        //{
-        //}
-        
+
 
         public override string ToString()
         {

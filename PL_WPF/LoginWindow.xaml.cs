@@ -43,31 +43,19 @@ namespace PL_WPF
         //    else if (sender == Minimize_Button)
         //        WindowState = WindowState.Minimized;
         //}
-        //private void Controller_MouseEnter(object sender, RoutedEventArgs e)
-        //{
-        //    if (!(sender is Button button)) throw new Exception();
-        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-        //    packIcon.Foreground = Brushes.Black;
-        //
-        //
-        //    //     (sender as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
-        //}
-        //private void Controller_MouseLeave(object sender, MouseEventArgs e)
-        //{
-        //    if (!(sender is Button button)) throw new Exception();
-        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-        //    packIcon.Foreground = Brushes.WhiteSmoke;
-        //
-        //    //switch(sender)
-        //    //{
-        //    //    case Button but:
-        //    //        
-        //    //        break;
-        //    //}
-        //    // if (!(sender is Button)) throw new Exception();
-        //    // Shutdown_Icon.Foreground = Brushes.WhiteSmoke; //CHECK Shutdownd_Icon.ערך התחלתי
-        //    // (sender as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
-        //}
+
+        private void Controller_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (!(sender is Button button)) throw new Exception();
+            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+            packIcon.Foreground = Brushes.Black;
+        }
+        private void Controller_MouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!(sender is Button button)) throw new Exception();
+            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+            packIcon.Foreground = Brushes.WhiteSmoke;//CHECK Shutdownd_Icon.ערך התחלתי
+        }
 
 
         //private void Button_Click(object sender, RoutedEventArgs e)
@@ -83,7 +71,7 @@ namespace PL_WPF
             {
                 Person person = (Person)bl.GetTester(idTextBox.Text) ?? bl.GetTrainee(idTextBox.Text);
                 if (person is null || person.Password != passwordPasswordBox.Password)
-                    throw new CustomException(true,new Exception("Not exist."));
+                    throw new CasingException(true,new Exception("Not exist."));
 
                 switch (person)
                 {
@@ -98,11 +86,16 @@ namespace PL_WPF
                         break;
                 }
             }
-            catch (CustomException ex) when (ex.DisplayToUser)
+            catch (CasingException ex) when (ex.DisplayToUser)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                Functions.ShowMessageToUser(ex);
+                Close();
             }
-
+            catch (Exception ex)
+            {
+                Functions.SendMailToAdmin(ex);
+                Close();
+            }
         }
 
         private void Registeration_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -133,30 +126,9 @@ namespace PL_WPF
             }
         }
 
-        private void Shutdown_MouseEnter(object sender, MouseEventArgs e)
-        {
-            (Shutdown_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
-        }
-
-        private void Shutdown_MouseLeave(object sender, MouseEventArgs e)
-        {
-            (Shutdown_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
-        }
-
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
-
-        private void Minimize_MouseEnter(object sender, MouseEventArgs e)
-        {
-            (Minimize_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.Black;
-        }
-
-        private void Minimize_MouseLeave(object sender, MouseEventArgs e)
-        {
-            (Minimize_Button.Content as MaterialDesignThemes.Wpf.PackIcon).Foreground = Brushes.WhiteSmoke;
-        }
-
     }
 }

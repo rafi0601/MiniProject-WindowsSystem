@@ -48,41 +48,41 @@ namespace PL_WPF.UI.TesterInterface
                 if (tester.VehicleTypesExpertise.HasFlag(vehicle))
                     vehicleTypeExpertiseListBox.SelectedItems.Add(Tools.GetUserDisplayAttribute(vehicle)?.DisplayName);
 
-            CheckBox11.IsChecked = tester.WorkingHours[0, 0];
-            CheckBox12.IsChecked = tester.WorkingHours[1, 0];
-            CheckBox13.IsChecked = tester.WorkingHours[2, 0];
-            CheckBox14.IsChecked = tester.WorkingHours[3, 0];
-            CheckBox15.IsChecked = tester.WorkingHours[4, 0];
-            CheckBox21.IsChecked = tester.WorkingHours[0, 1];
-            CheckBox22.IsChecked = tester.WorkingHours[1, 1];
-            CheckBox23.IsChecked = tester.WorkingHours[2, 1];
-            CheckBox24.IsChecked = tester.WorkingHours[3, 1];
-            CheckBox25.IsChecked = tester.WorkingHours[4, 1];
-            CheckBox31.IsChecked = tester.WorkingHours[0, 2];
-            CheckBox32.IsChecked = tester.WorkingHours[1, 2];
-            CheckBox33.IsChecked = tester.WorkingHours[2, 2];
-            CheckBox34.IsChecked = tester.WorkingHours[3, 2];
-            CheckBox35.IsChecked = tester.WorkingHours[4, 2];
-            CheckBox41.IsChecked = tester.WorkingHours[0, 3];
-            CheckBox42.IsChecked = tester.WorkingHours[1, 3];
-            CheckBox43.IsChecked = tester.WorkingHours[2, 3];
-            CheckBox44.IsChecked = tester.WorkingHours[3, 3];
-            CheckBox45.IsChecked = tester.WorkingHours[4, 3];
-            CheckBox51.IsChecked = tester.WorkingHours[0, 4];
-            CheckBox52.IsChecked = tester.WorkingHours[1, 4];
-            CheckBox53.IsChecked = tester.WorkingHours[2, 4];
-            CheckBox54.IsChecked = tester.WorkingHours[3, 4];
-            CheckBox55.IsChecked = tester.WorkingHours[4, 4];
-            CheckBox61.IsChecked = tester.WorkingHours[0, 5];
-            CheckBox62.IsChecked = tester.WorkingHours[1, 5];
-            CheckBox63.IsChecked = tester.WorkingHours[2, 5];
-            CheckBox64.IsChecked = tester.WorkingHours[3, 5];
-            CheckBox65.IsChecked = tester.WorkingHours[4, 5];
-            CheckBox71.IsChecked = tester.WorkingHours[0, 6];
-            CheckBox72.IsChecked = tester.WorkingHours[1, 6];
-            CheckBox73.IsChecked = tester.WorkingHours[2, 6];
-            CheckBox74.IsChecked = tester.WorkingHours[3, 6];
-            CheckBox75.IsChecked = tester.WorkingHours[4, 6];
+            CheckBox11.IsChecked = tester.WorkingHours[0, 9];
+            CheckBox12.IsChecked = tester.WorkingHours[1, 9];
+            CheckBox13.IsChecked = tester.WorkingHours[2, 9];
+            CheckBox14.IsChecked = tester.WorkingHours[3, 9];
+            CheckBox15.IsChecked = tester.WorkingHours[4, 9];
+            CheckBox21.IsChecked = tester.WorkingHours[0, 10];
+            CheckBox22.IsChecked = tester.WorkingHours[1, 10];
+            CheckBox23.IsChecked = tester.WorkingHours[2, 10];
+            CheckBox24.IsChecked = tester.WorkingHours[3, 10];
+            CheckBox25.IsChecked = tester.WorkingHours[4, 10];
+            CheckBox31.IsChecked = tester.WorkingHours[0, 11];
+            CheckBox32.IsChecked = tester.WorkingHours[1, 11];
+            CheckBox33.IsChecked = tester.WorkingHours[2, 11];
+            CheckBox34.IsChecked = tester.WorkingHours[3, 11];
+            CheckBox35.IsChecked = tester.WorkingHours[4, 11];
+            CheckBox41.IsChecked = tester.WorkingHours[0, 12];
+            CheckBox42.IsChecked = tester.WorkingHours[1, 12];
+            CheckBox43.IsChecked = tester.WorkingHours[2, 12];
+            CheckBox44.IsChecked = tester.WorkingHours[3, 12];
+            CheckBox45.IsChecked = tester.WorkingHours[4, 12];
+            CheckBox51.IsChecked = tester.WorkingHours[0, 13];
+            CheckBox52.IsChecked = tester.WorkingHours[1, 13];
+            CheckBox53.IsChecked = tester.WorkingHours[2, 13];
+            CheckBox54.IsChecked = tester.WorkingHours[3, 13];
+            CheckBox55.IsChecked = tester.WorkingHours[4, 13];
+            CheckBox61.IsChecked = tester.WorkingHours[0, 14];
+            CheckBox62.IsChecked = tester.WorkingHours[1, 14];
+            CheckBox63.IsChecked = tester.WorkingHours[2, 14];
+            CheckBox64.IsChecked = tester.WorkingHours[3, 14];
+            CheckBox65.IsChecked = tester.WorkingHours[4, 14];
+            CheckBox71.IsChecked = tester.WorkingHours[0, 15];
+            CheckBox72.IsChecked = tester.WorkingHours[1, 15];
+            CheckBox73.IsChecked = tester.WorkingHours[2, 15];
+            CheckBox74.IsChecked = tester.WorkingHours[3, 15];
+            CheckBox75.IsChecked = tester.WorkingHours[4, 15];
 
             FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == false);
             TestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == true);
@@ -113,9 +113,15 @@ namespace PL_WPF.UI.TesterInterface
                 new UI.TesterInterface.TesterWindow(tester).Show();
                 Close();
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 
@@ -133,9 +139,15 @@ namespace PL_WPF.UI.TesterInterface
                         break;
                 }
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
 
@@ -173,9 +185,15 @@ namespace PL_WPF.UI.TesterInterface
                 bl.UpdateTest(test.Code, new Test.Criteria(GradingTest.KeepDistance.IsChecked, GradingTest.BackParking.IsChecked, GradingTest.UsingViewMirrors.IsChecked, GradingTest.Signaling.IsChecked, GradingTest.IntegrationIntoMovement.IsChecked, GradingTest.ObeyParkSigns.IsChecked), (bool)GradingTest.IsPass.IsChecked, GradingTest.Note.Text);
                 GradingTest.IsEnabled = false;
             }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+                Close();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+                Functions.SendMailToAdmin(ex);
+                Close();
             }
         }
     }

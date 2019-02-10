@@ -36,10 +36,10 @@ namespace BE
 
         public Schedule(bool[,] schedule)
         {
-            if (schedule.GetLength(0) != WORKING_DAYS_A_WEEK
+            if (schedule?.GetLength(0) != WORKING_DAYS_A_WEEK
                     || schedule.GetLength(1) != WORKING_HOURS_A_DAY)
                 throw new Exception("The schedule is not right");
-            this.schedule = schedule;
+            this.schedule = schedule.Copy(); //TODO to this in all ENTITIES
         }
     }
 }
