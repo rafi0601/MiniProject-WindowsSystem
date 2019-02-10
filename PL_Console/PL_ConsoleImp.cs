@@ -48,7 +48,7 @@ namespace ConsoleApp1
                 bl.UpdateTester(new Tester("323947747", new Person.PersonName { FirstName = "Samuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0566824871", new Address { Street = "Jorg", HouseNumber = 9, City = "Jerusalem" }, "1234", 10, 30, Vehicle.tractor, new Schedule(new bool[,] { { true, false, false, false, false, false, true, false }, { true, false, false, true, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false }, { true, false, false, false, false, false, false, false } }), 20));
                 bl.UpdateTrainee(new Trainee("212384507", new Person.PersonName { FirstName = "Yosepa", LastName = "katri" }, new DateTime(1995, 10, 6), Gender.female, "054124545", new Address { Street = "Franco", HouseNumber = 16, City = "KiriatShmona" }, "1234", Vehicle.tractor, Gearbox.manual, "TheBest", new Person.PersonName { FirstName = "Shmuel", LastName = "Garber" }, 34, default));
 
-                foreach (var test in bl.SortedFutureTests())
+                foreach (var test in bl.GetSortedFutureTests())
                 {
                     Console.WriteLine(test.ToString());
                 }
@@ -60,7 +60,7 @@ namespace ConsoleApp1
                 Console.WriteLine(bl.NumberOfDoneTests(bl.GetTrainee("212384507")));
                 Console.WriteLine("--------------------------------------------------");
 
-                foreach (var test in bl.FindAllInTests(t => t.IsPass ?? false))
+                foreach (var test in bl.GetTests(t => t.IsPass ?? false))
                 {
                     Console.WriteLine(test.ToString());
                 }

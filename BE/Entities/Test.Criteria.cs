@@ -1,6 +1,7 @@
 ﻿//Bs"d
 
 using System;
+using System.Collections;
 using System.Linq;
 
 namespace BE
@@ -8,7 +9,7 @@ namespace BE
     public sealed partial class Test
     {
         [Serializable]
-        public class Criteria
+        public class Criteria : IEnumerable 
         {
             public bool? KeepDistance { get; set; }
             public bool? BackParking { get; set; }
@@ -25,6 +26,10 @@ namespace BE
                 return (uint)GetType().GetProperties().Count(property => (bool?)property.GetValue(this) == true);
             }
 
+            public IEnumerator GetEnumerator()
+            {
+                throw new NotImplementedException();
+            }
 
             public Criteria() { }
 
@@ -38,36 +43,6 @@ namespace BE
                 ObeyParkSigns = obeyParkSigns;
             }
         }
-
-
-        //[Serializable]
-        //public class Criteria
-        //{
-        //    private readonly bool?[] grades = new bool?[NumberOfCriteria];
-        //
-        //    private static readonly string[] namesOfCriterial = (from criterionName in Enum.GetNames(typeof(Criterion))
-        //                                                         orderby criterionName
-        //                                                         select criterionName.SplitByUpperAndToLower()).ToArray();
-        //    public static readonly uint NumberOfCriteria = (uint)namesOfCriterial.Length;
-        //    public static string[] NamesOfCriterial() => namesOfCriterial; // NOTE: is by reference or value??? (value is bad)
-        //
-        //    // TODO: private or public?
-        //    Criteria() { }
-        //    Criteria(Criteria criteria) { }
-        //
-        //    public bool? this[Criterion e]
-        //    {
-        //        get => grades[(uint)e];
-        //        set => grades[(uint)e] = value;
-        //    }
-        //
-        //    public uint PassGrades()
-        //    {
-        //        return (uint)grades.Count(grade => grade == true);
-        //    }
-        //
-        //
-        //}
 
         ///       
         ///   //אין קונסטרקטור כי כמו שיוצרים את התיבות סימון בפוראיצ על כל קריטריון כך עושים סטטר על כל קריטריון ממה שיש בתיבות

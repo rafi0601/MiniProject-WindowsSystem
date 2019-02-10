@@ -154,6 +154,10 @@ namespace BE
             #endregion
 
             #region VehicleTypeTraining
+#if TraineeHasMultipleTypes
+            if (!trainee.VehicleTypeTraining.IsFlag())
+                throw new Exception();
+#endif
             #endregion
 
             #region GearboxTypeTraining
@@ -216,10 +220,6 @@ namespace BE
             #region Date
             if (test.Date == null)
                 throw new ArgumentNullException("The test's date musn't be null");
-            //BUG
-            //if (test.Date < DateTime.Now)
-            //    throw new ArgumentException("The requested time has passed");
-
             // check in  the bl that the date is good for the trainee age
             #endregion
 
@@ -230,31 +230,35 @@ namespace BE
             }
             catch (Exception e)
             {
-                throw new ArgumentException("This address is not valid",  e);
+                throw new ArgumentException("This address is not valid", e);
             }
             #endregion
 
             #region Vehicle
+            if (!test.Vehicle.IsFlag())
+                throw new Exception();
             #endregion
 
             #region CriteriasGrades
             #endregion
 
             #region IsPass
+            if (test.Date > DateTime.Now && test.IsPass != null)
+                throw new Exception();
             #endregion
 
-            #region TesterNotes
-            #endregion
+                #region TesterNotes
+                #endregion
 
-            /*
-            #region Length
-            if (test.Length == null)
-                throw new ArgumentNullException("The test's length musn't be null");
-            #endregion
-            */
-            //IsDone cant done before TestDate
-            //IsPass cant pass if most failed
-            //TesterNotes
+                /*
+                #region Length
+                if (test.Length == null)
+                    throw new ArgumentNullException("The test's length musn't be null");
+                #endregion
+                */
+                //IsDone cant done before TestDate
+                //IsPass cant pass if most failed
+                //TesterNotes
         }
 
         #region

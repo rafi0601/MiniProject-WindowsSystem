@@ -68,6 +68,7 @@
     <Compile Include="Entities\Person.PersonName.cs" />
     <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Entities\Test.Criteria.cs" />
+    <Compile Include="Entities\TestDateTime.cs" />
     <Compile Include="Exceptions\CustomException.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Constants\Configuration.cs" />

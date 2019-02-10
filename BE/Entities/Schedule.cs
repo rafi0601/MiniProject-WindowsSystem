@@ -22,11 +22,9 @@ namespace BE
         {
             get
             {
-                if (day < 0 || hour < 0 ||
-                    day < WORKING_DAYS_A_WEEK ||
-                    hour >= BEGINNING_OF_A_WORKING_DAY ||
-                    hour < BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
-                    return schedule[day, hour];
+                if (day >= 0 && day < WORKING_DAYS_A_WEEK &&
+                    hour >= BEGINNING_OF_A_WORKING_DAY && hour < BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
+                    return schedule[day, hour - BEGINNING_OF_A_WORKING_DAY];
 
                 throw new IndexOutOfRangeException(""); // UNDONE
             }

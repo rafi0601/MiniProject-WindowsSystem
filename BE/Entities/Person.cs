@@ -23,7 +23,7 @@ namespace BE
     {
         string IKey.Key => ID;
 
-        public string ID { get; /*private*/set; }
+        private string _iD; public string ID { get => _iD; /*private*/set => _iD = value.PadLeft(totalWidth: 9, paddingChar: '0'); }
         public PersonName Name { get; set; } = new PersonName();
         public DateTime Birthdate { get; /*private*/set; } = new DateTime();
         public Gender Gender { get; /*private*/ set; }
@@ -69,7 +69,7 @@ namespace BE
             //return this.ToStringProperty();
         }
 
-        public override bool Equals(object obj) => this.ID==(obj as Person)?.ID;
+        public override bool Equals(object obj) => this.ID == (obj as Person)?.ID;
 
         public override int GetHashCode() => base.GetHashCode();
     }

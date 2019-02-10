@@ -32,9 +32,8 @@ namespace BL
         Task<DateTime?> AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
         void UpdateTest(string code, Test.Criteria criteria, bool IsPass, string TesterNotes);
         Test GetTest(string code);
-        List<Test> GetTests(Predicate<Test> match = null);
-        List<Test> FindAllInTests(Predicate<Test> condition); // it is GetTests -> not neccery
-        List<Test> SortedFutureTests();
+        List<Test> GetTests(Predicate<Test> match = null);//FindAllInTests(Predicate<Test> condition)
+        List<Test> GetSortedFutureTests();
     }
 
     ///GetTestsOfTester

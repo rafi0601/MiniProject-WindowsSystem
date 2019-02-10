@@ -13,6 +13,7 @@ namespace BE
         public static readonly uint BEGINNING_OF_A_WORKING_DAY = 9;
         //public static readonly DateTime BEGINNING_OF_A_WORKING_DAY = new DateTime(hour: 9, minute: 0, second: 0);
         public static readonly uint DEFAULT_DISTANCE = 10;
+        public static readonly TimeSpan DEFAULT_TIME = new TimeSpan();
         public static readonly string KEY = @"PffGghfFGtzNFx1MqL9NLykkFHmpHkmc";
         public static readonly uint LENGTH_OF_CODE = 8;
         public static readonly TimeSpan LENGTH_OF_TEST = new TimeSpan(1, 0, 0);

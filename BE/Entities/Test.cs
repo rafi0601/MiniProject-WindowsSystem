@@ -1,5 +1,7 @@
 ﻿//Bs"d
 
+#define CalcLenthOfTest
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -102,22 +104,5 @@ namespace BE
                     CriteriasGrades = new Criteria();
             }
         }
-
-
-        //public struct TestDate
-        //{
-        //    DateTime dateAndTime;
-        //
-        //    //public static TestDate operator =(TestDate testDate, DateTime dateTime)
-        //    //{
-        //    //    testDate.dateAndTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, 0, 0);
-        //    //    return testDate;
-        //    //}
-        //
-        //    public static implicit operator DateTime(TestDate testDate)
-        //    {
-        //        return testDate.dateAndTime;
-        //    }
-        //}
     }
 }

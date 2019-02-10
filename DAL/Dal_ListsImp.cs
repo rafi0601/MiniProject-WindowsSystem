@@ -23,19 +23,19 @@ namespace DAL
         public void AddTester(Tester tester)
         {
             if (!Add(tester, DS_Lists.TesterList, Inspections.TesterInspection))
-                throw new ExistingInTheDatabaseException(true, "Tester with same ID already exists in the database");
+                throw new ExistingInTheDatabaseException(true, "A tester with same ID already exists in the database.");
         }
 
         public void RemoveTester(Tester tester)
         {
             if (!Remove(tester, DS_Lists.TesterList))
-                throw new ExistingInTheDatabaseException(false, "Tester with same ID doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "A tester with same ID doesn't exist in the database.");
         }
 
         public void UpdateTester(Tester tester)
         {
             if (!Update(tester, DS_Lists.TesterList, Inspections.TesterInspection))
-                throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "A tester with same ID doesn't exist in the database.");
         }
 
         public Tester GetTester(string id)
@@ -55,19 +55,19 @@ namespace DAL
         public void AddTrainee(Trainee trainee)
         {
             if (!Add(trainee, DS_Lists.TraineeList, Inspections.TraineeInspection))
-                throw new ExistingInTheDatabaseException(true, "Trainee with same ID already exists in the database");
+                throw new ExistingInTheDatabaseException(true, "A trainee with same ID already exists in the database.");
         }
 
         public void RemoveTrainee(Trainee trainee)
         {
             if (!Remove(trainee, DS_Lists.TraineeList))
-                throw new ExistingInTheDatabaseException(false, "Trainee with same ID doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "A trainee with same ID doesn't exist in the database.");
         }
 
         public void UpdateTrainee(Trainee trainee)
         {
             if (!Update(trainee, DS_Lists.TraineeList, Inspections.TraineeInspection))
-                throw new ExistingInTheDatabaseException(false, "This trainee doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "A trainee with same ID doesn't exist in the database.");
         }
 
         public Trainee GetTrainee(string id)
@@ -86,29 +86,36 @@ namespace DAL
 
         public void AddTest(Test test)
         {
+            //TODO null check
 
             if (DS_Lists.TesterList.Exists(tester => tester.ID == test?.TesterID))
-                throw new ArgumentException("The tester doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException(false, "The tester doesn't exist in the database.");
 
             if (DS_Lists.TesterList.Exists(trainee => trainee.ID == test?.TraineeID))
-                throw new ArgumentException("The trainee doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException(false, "The trainee doesn't exist in the database.");
 
             if (test.Code != null)
-                throw new ArgumentException("It is not possible to order a test that has already been ordered", nameof(test.Code));
+                throw new ArgumentException("It is impossible to order a test that already has a code.");
             if (code > MAX_VALUE_TO_CODE)
-                throw new OverflowException(""); //UNDONE
+                throw new OverflowException("No more available codes.");
             test.Code = (++code).ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0');
 
-            if (!Add(test, DS_Lists.TestList, Inspections.TestInspection))
-                throw new Exception();
-
-            //tester.UnavailableDates.Add(test.Date.Copy());
+            try
+            {
+                Add(test, DS_Lists.TestList, Inspections.TestInspection);
+            }
+            catch
+            {
+                code--;
+                test.Code = null;
+                throw;
+            }
         }
 
         public void UpdateTest(Test test)
         {
             if (!Update(test, DS_Lists.TestList, Inspections.TestInspection))
-                throw new ExistingInTheDatabaseException(false, "This test doesn't exist in the database");
+                throw new ExistingInTheDatabaseException(false, "A test with same code doesn't exist in the database.");
         }
 
         public Test GetTest(string code)
@@ -125,18 +132,15 @@ namespace DAL
 
         #region Execution functions
 
-        private Predicate<T> ComperisonOfKey<T>(T item) where T : class, IKey // TODO rename to equalitionOfKey
+        private Predicate<T> EqualityOfKeys<T>(T item) where T : class, IKey
         {
-            return t => item?.Key == t.Key; // CHECK t?.Key
+            return t => item?.Key == t.Key;
         }
 
-        private bool Add<T>(T item, List<T> list, Action<T> inspection) where T : class, IKey //IMPROVEMENT להחליף לויוד ולהמיר לפרטיאל וללמש שם
+        private bool Add<T>(T item, List<T> list, Action<T> inspection) where T : class, IKey
         {
-            //CHECK if we use inspec in prop so will check null here
-
-
             inspection?.Invoke(item);
-            if (list.Exists(ComperisonOfKey(item)))
+            if (list.Exists(EqualityOfKeys(item)))
                 return false;
             list.Add(item.Copy());
             return true;
@@ -146,13 +150,13 @@ namespace DAL
         {
             if (item is null)
                 throw new ArgumentNullException(nameof(item), "Cannot remove null");
-            return 0 == list.RemoveAll(ComperisonOfKey(item));
+            return 0 == list.RemoveAll(EqualityOfKeys(item));
         }
 
         private bool Update<T>(T item, List<T> list, Action<T> inspection) where T : class, IKey
         {
             inspection?.Invoke(item);
-            int index = list.FindIndex(ComperisonOfKey(item));
+            int index = list.FindIndex(EqualityOfKeys(item));
             if (-1 == index)
                 return false;
             list[index] = item.Copy();
@@ -178,7 +182,7 @@ namespace DAL
 
 
         [Obsolete("it is not safety", true)]
-        protected dynamic GetTheMatchingList<T>()
+        protected dynamic GetTheMatchingList<T>() //IMPROVEMENT להחליף לויוד ולעשות אאוט ולהמיר לפרטיאל וללמש שם
         {
             switch (typeof(T))
             {

@@ -7,7 +7,7 @@ namespace BE
     public abstract partial class Person
     {
         [Serializable]
-        public struct PersonName // IMPROVEMENT insert into Person
+        public struct PersonName:IComparable
         {
             public string LastName { get; set; }
             public string FirstName { get; set; }
@@ -21,6 +21,11 @@ namespace BE
             public override string ToString()
             {
                 return LastName + " " + FirstName;
+            }
+
+            public int CompareTo(object obj)
+            {
+                return ToString().CompareTo(obj.ToString()); //TODO inputcheck if obl==NAME
             }
         }
     }

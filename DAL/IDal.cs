@@ -20,11 +20,11 @@ namespace DAL
         /// <param name="tester">
         /// The tester to be added.
         /// </param>
-        /// <exception cref="Exception">
-        /// <paramref name="tester"/> is illegal. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
-        /// </exception>
         /// <exception cref="ExistingInTheDatabaseException">
         /// A tester with the same ID as <paramref name="tester"/> already exists in the database.
+        /// </exception>
+        /// <exception>
+        /// Additionally, if <paramref name="tester"/> is illegal, then an exception will be thrown. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
         /// </exception>
         void AddTester(Tester tester);
 
@@ -34,11 +34,13 @@ namespace DAL
         /// <param name="tester">
         /// The tester to remove.
         /// </param>
-        /// <exception cref="ExistingInTheDatabaseException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="tester"/> is null.
-        /// <para>A tester with the same ID as <paramref name="tester"/> doesn't exist in the database.</para>
         /// </exception>
-        void RemoveTester(Tester tester); // TODO bool RemoveTester(string id);
+        /// <exception cref="ExistingInTheDatabaseException">
+        /// A tester with the same ID as <paramref name="tester"/> doesn't exist in the database.
+        /// </exception>
+        void RemoveTester(Tester tester);
 
         /// <summary>
         /// Updates the occurrence of a specific tester in the database.
@@ -47,8 +49,10 @@ namespace DAL
         /// The tester to update.
         /// </param>
         /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="tester"/> is illegal. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
-        /// <para>A tester with the same ID as <paramref name="tester"/> doesn't exist in the database.</para>
+        /// A tester with the same ID as <paramref name="tester"/> already exists in the database.
+        /// </exception>
+        /// <exception>
+        /// Additionally, if <paramref name="tester"/> is illegal, then an exception will be thrown. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
         /// </exception>
         void UpdateTester(Tester tester);
 
@@ -61,10 +65,7 @@ namespace DAL
         /// <returns>
         /// The tester that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
-        /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="id"/> is null.
-        /// </exception>
-        Tester GetTester(string id); // UNDONE throw exception if null
+        Tester GetTester(string id);
 
         /// <summary>
         /// Retrieves all the testers that match the conditions defined by a specified predicate.
@@ -77,6 +78,7 @@ namespace DAL
         /// </returns>
         List<Tester> GetTesters(Predicate<Tester> match = null);
 
+
         /// <summary>
         /// Adds a trainee to the database.
         /// </summary>
@@ -84,8 +86,10 @@ namespace DAL
         /// The trainee to be added.
         /// </param>
         /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="trainee"/> is illegal. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
-        /// <para>A trainee with the same ID as <paramref name="trainee"/> already exists in the database.</para>
+        /// A trainee with the same ID as <paramref name="trainee"/> already exists in the database.
+        /// </exception>
+        /// <exception>
+        /// Additionally, if <paramref name="trainee"/> is illegal, then an exception will be thrown. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
         /// </exception>
         void AddTrainee(Trainee trainee);
 
@@ -95,9 +99,11 @@ namespace DAL
         /// <param name="trainee">
         /// The trainee to remove.
         /// </param>
-        /// <exception cref="ExistingInTheDatabaseException">
+        /// <exception cref="ArgumentNullException">
         /// <paramref name="trainee"/> is null.
-        /// <para>A trainee with the same ID as <paramref name="trainee"/> doesn't exist in the database.</para>
+        /// </exception>
+        /// <exception cref="ExistingInTheDatabaseException">
+        /// A trainee with the same ID as <paramref name="trainee"/> doesn't exist in the database.
         /// </exception>
         void RemoveTrainee(Trainee trainee);
 
@@ -108,8 +114,10 @@ namespace DAL
         /// The trainee to update.
         /// </param>
         /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="trainee"/> is illegal. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
-        /// <para>A trainee with the same ID as <paramref name="trainee"/> doesn't exist in the database.</para>
+        /// A trainee with the same ID as <paramref name="trainee"/> already exists in the database.
+        /// </exception>
+        /// <exception>
+        /// Additionally, if <paramref name="trainee"/> is illegal, then an exception will be thrown. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
         /// </exception>
         void UpdateTrainee(Trainee trainee);
 
@@ -122,9 +130,6 @@ namespace DAL
         /// <returns>
         /// The trainee that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
-        /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="id"/> is null.
-        /// </exception>
         Trainee GetTrainee(string id);
 
         /// <summary>
@@ -146,8 +151,17 @@ namespace DAL
         /// The test to be added.
         /// </param>
         /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="test"/> is illegal. <see cref="Inspections.TestInspection(Test)"/> for more information.
-        /// <para>A test with the same ID as <paramref name="test"/> already exists in the database.</para>
+        /// <para> A tester with the same ID as <paramref name="test.TesterId"/> doesn't exist in the database.</para>
+        /// <para> A trainee with the same ID as <paramref name="test.TraineeId"/> doesn't exist in the database.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="test.Code"/> is not null.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// There are no more available codes for tests.
+        /// </exception>
+        /// <exception>
+        /// Additionally, if <paramref name="test"/> is illegal, then an exception will be thrown. <see cref="Inspections.TestInspection(Test)"/> for more information.
         /// </exception>
         void AddTest(Test test);
 
@@ -158,8 +172,10 @@ namespace DAL
         /// The test to update.
         /// </param>
         /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="test"/> is illegal. <see cref="Inspections.TestInspection(Test)"/> for more information.
-        /// <para>A test with the same ID as <paramref name="test"/> doesn't exist in the database.</para>
+        /// A test with the same code as <paramref name="test"/> doesn't exist in the database.
+        /// </exception>
+        /// <exception>
+        /// Additionally, if <paramref name="test"/> is illegal, then an exception will be thrown. <see cref="Inspections.TestInspection(Test)"/> for more information.
         /// </exception>
         void UpdateTest(Test test); // TODO When is Done!!!
 
@@ -172,9 +188,6 @@ namespace DAL
         /// <returns>
         /// The test that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
-        /// <exception cref="ExistingInTheDatabaseException">
-        /// <paramref name="id"/> is null.
-        /// </exception>
         Test GetTest(string code);
 
         /// <summary>
