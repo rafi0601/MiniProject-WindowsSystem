@@ -245,7 +245,8 @@ namespace DAL
                     new XElement(nameof(trainee.TeacherName),
                         new XElement(nameof(trainee.TeacherName.LastName), trainee.TeacherName.LastName),
                         new XElement(nameof(trainee.TeacherName.FirstName), trainee.TeacherName.FirstName)),
-                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons)
+                    new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons),
+                    new XElement(nameof(trainee.TheLastTest), trainee.TheLastTest)
                     ));
             trainees.Root.Save(trainees.FilePath);
         }
