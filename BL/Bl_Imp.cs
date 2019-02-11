@@ -513,7 +513,7 @@ namespace BL
                 groups = from trainee in dal.GetTrainees().AsParallel()
                          group trainee by NumberOfDoneTests(trainee);
             else
-                groups = from trainee in dal.GetTrainees().AsParallel().AsOrdered()
+                groups = from trainee in dal.GetTrainees()//.AsParallel().AsOrdered()
                          orderby trainee.DrivingSchool, trainee.ID
                          group trainee by NumberOfDoneTests(trainee) into @group
                          orderby @group.Key
@@ -598,11 +598,9 @@ namespace BL
 
         public IEnumerable<Person> GetPeople()
         {
-            IEnumerable<Person> result1 = from p in dal.GetTrainees()
-                                          select p;
-            IEnumerable<Person> result2 = from p in dal.GetTesters()
-                                          select p;
-            return result1.Concat(result2);
+            return (from p in dal.GetTrainees()
+                    select p).Concat((IEnumerable<Person>)(from p in dal.GetTesters()
+                                                           select p));
 
             //List<Person> list = new List<Person>();
 

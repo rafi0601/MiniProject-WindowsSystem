@@ -68,24 +68,36 @@ namespace BL
         List<Tester> GetTesters(Predicate<Tester> match = null);
 
         /// <summary>
-        /// 
+        /// Get all testers whose address is in MaxDistanceFromAdrress from <paramref name="address"/>.
         /// </summary>
-        /// <param name="address"></param>
-        /// <returns></returns>
+        /// <param name="address">
+        /// The address from which the distance is calculated.
+        /// </param>
+        /// <returns>
+        /// A list of all the found testers.
+        /// </returns>
         List<Tester> TheTestersWhoLiveInTheDistance(Address address);
 
         /// <summary>
-        /// 
+        /// Get all testers who vacant on <paramref name="dateAndTime"/>.
         /// </summary>
-        /// <param name="dateAndTime"></param>
-        /// <returns></returns>
+        /// <param name="dateAndTime">
+        /// The date being checked.
+        /// </param>
+        /// <returns>
+        /// A list of all the found testers.
+        /// </returns>
         List<Tester> VacantTesters(DateTime dateAndTime);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="toSort"></param>
-        /// <returns></returns>
+        /// <param name="toSort">
+        /// 
+        /// </param>
+        /// <returns>
+        /// 
+        /// </returns>
         List<IGrouping<Vehicle, Tester>> TestersByExpertise(bool toSort = false);
 
 
@@ -222,9 +234,11 @@ namespace BL
         List<Test> GetTests(Predicate<Test> match = null);//FindAllInTests(Predicate<Test> condition)
 
         /// <summary>
-        /// 
+        /// Get all future tests sorted by date.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>
+        /// A list of all future tests sorted by date.
+        /// </returns>
         List<Test> GetSortedFutureTests();
     }
 
