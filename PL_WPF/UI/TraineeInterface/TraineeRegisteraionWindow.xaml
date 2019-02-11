@@ -13,7 +13,7 @@
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="FontFamily" Value="Global Sans Serif" />
         </Style>
-        
+
         <Style x:Key="ComboBox_Style" TargetType="ComboBox">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="18"/>
@@ -22,6 +22,15 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.Resources>
+            <Style TargetType="GroupBox">
+                <Setter Property="Background" Value="{x:Null}"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </Grid.Resources>
         <WrapPanel Orientation="Vertical" >
             <WrapPanel.Resources>
                 <Style x:Name="GridStyle" TargetType="Grid">
@@ -31,14 +40,8 @@
                 <Label Content="Personal details" FontSize="25" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
             </Grid>
 
-            <Label Content="    Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-
-            <GroupBox Header="Name" Background="{x:Null}">
-                <GroupBox.Style>
-                    <Style/>
-                </GroupBox.Style>
+            <GroupBox Header="Name">
                 <StackPanel>
-
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -174,7 +177,7 @@
                 <!--<xctk:WatermarkComboBox Watermark="Choose vehicle" x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeTraining,  Mode=TwoWay}" Margin="3" />-->
                 <xctk:DropDownButton Content="Choose vehicles"  Grid.Column="1">
                     <xctk:DropDownButton.DropDownContent>
-                        <ListBox x:Name="vehicleListBox" SelectionMode="Multiple" SelectedItem ="{Binding VehicleTypeTraining,  Mode=TwoWay}" Margin="3" Width="150" HorizontalAlignment="Left"/>
+                        <ListBox x:Name="vehicleListBox" SelectionMode="Single" SelectedItem ="{Binding VehicleTypeTraining,  Mode=TwoWay}" Margin="3" Width="150" HorizontalAlignment="Left"/>
                     </xctk:DropDownButton.DropDownContent>
                 </xctk:DropDownButton>
             </Grid>

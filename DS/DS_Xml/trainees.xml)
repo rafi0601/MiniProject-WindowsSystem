@@ -23,6 +23,6 @@
       <FirstName>Shmuel</FirstName>
     </TeacherName>
     <NumberOfDoneLessons>34</NumberOfDoneLessons>
-    <TheLastTest>2019-02-10T11:00:00</TheLastTest>
+    <TheLastTest>0001-01-01T00:00:00</TheLastTest>
   </Trainee>
 </trainees>

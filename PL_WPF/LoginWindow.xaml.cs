@@ -69,9 +69,15 @@ namespace PL_WPF
         {
             try
             {
+                if (idTextBox.Text.CompareTo("Admin") == 0 && passwordPasswordBox.Password.CompareTo("Admin") == 0)
+                {
+                    new UI.AdminInterface.AdminWindow().Show();
+                    return;
+                }
+
                 Person person = (Person)bl.GetTester(idTextBox.Text) ?? bl.GetTrainee(idTextBox.Text);
                 if (person is null || person.Password != passwordPasswordBox.Password)
-                    throw new CasingException(true,new Exception("Not exist."));
+                    throw new CasingException(true, new Exception("Not exist."));
 
                 switch (person)
                 {
@@ -89,7 +95,6 @@ namespace PL_WPF
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {

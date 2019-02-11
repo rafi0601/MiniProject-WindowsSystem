@@ -35,8 +35,16 @@ namespace PL_WPF.UI.TesterInterface
 
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
             //vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
-            vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
+            //vehicleTypeExpertiseListBox.ItemsSource = (from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+            //                                          where tester.VehicleTypesExpertise.HasFlag(vehicle)
+            //                                          select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString()).ToArray();
+            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
+                if (tester.VehicleTypesExpertise.HasFlag(vehicle))
+                    vehicleTypeExpertiseListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
+            vehicleTypeExpertiseListBox.SelectAll();
+            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
+                if (!tester.VehicleTypesExpertise.HasFlag(vehicle))
+                    vehicleTypeExpertiseListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
 
             firstNameTextBox.Text = tester.Name.FirstName;
             lastNameTextBox.Text = tester.Name.LastName;
@@ -44,9 +52,6 @@ namespace PL_WPF.UI.TesterInterface
             HouseNumber.Text = tester.Address.HouseNumber.ToString();
             City.Text = tester.Address.City;
 
-            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
-                if (tester.VehicleTypesExpertise.HasFlag(vehicle))
-                    vehicleTypeExpertiseListBox.SelectedItems.Add(Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString());
 
             CheckBox11.IsChecked = tester.WorkingHours[0, 9];
             CheckBox12.IsChecked = tester.WorkingHours[1, 9];
