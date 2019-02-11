@@ -430,7 +430,7 @@
                             </DataGrid.Columns>
                         </DataGrid>
                         <!--<CheckBox x:Name="IsPassCheckBox" Content="Is Pass" Grid.Column="1"/>-->
-                        <local1:Grading x:Name="Grading" Grid.Column="1"/>
+                        <local1:Grading x:Name="Grading" Grid.Column="1" IsEnabled="False"/>
                     </Grid>
 
                 </WrapPanel>

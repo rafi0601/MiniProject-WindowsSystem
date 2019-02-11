@@ -151,16 +151,16 @@ namespace DAL
 
         public Tester GetTester(string id)
         {
-            //if (!File.Exists(testers.FilePath))
-            //    return null;
+            if (!File.Exists(testers.FilePath))
+                return null;
 
             return LoadFromXmlFile<List<Tester>>(testers.FilePath).Find(t => t.ID == id);
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
-            //if (!File.Exists(testers.FilePath))
-            //    return new List<Tester>();
+            if (!File.Exists(testers.FilePath))
+                return new List<Tester>();
 
             List<Tester> testersList = LoadFromXmlFile<List<Tester>>(testers.FilePath);
 

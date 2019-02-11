@@ -4,15 +4,15 @@
     <Code>00000001</Code>
     <TesterID>322680083</TesterID>
     <TraineeID>212384507</TraineeID>
-    <Date>2019-02-07T12:00:00</Date>
+    <Date>2019-02-10T11:00:00</Date>
     <DepartureAddress>
       <Street>HaPortsim</Street>
       <HouseNumber>2</HouseNumber>
       <City>Jerusalem</City>
     </DepartureAddress>
     <Vehicle>privateCar</Vehicle>
-    <IsPass>true</IsPass>
-    <TesterNotes>hhjj</TesterNotes>
-    <criteriasGrades>True,True,True,True,True,False,</criteriasGrades>
+    <IsPass>false</IsPass>
+    <TesterNotes>b</TesterNotes>
+    <criteriasGrades>True,False,False,False,False,False,</criteriasGrades>
   </Test>
 </ArrayOfTest>

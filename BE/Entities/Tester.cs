@@ -55,7 +55,6 @@ namespace BE
         }
 
 
-        [Obsolete("For xml files only",false)]
         public string unavailableDates
         {
             get
@@ -85,7 +84,6 @@ namespace BE
                     UnavailableDates = new List<DateTime>();
             }
         }
-        [Obsolete("For xml files only", false)]
         public string workingHours
         {
             get

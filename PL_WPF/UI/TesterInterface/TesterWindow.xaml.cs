@@ -121,7 +121,6 @@ namespace PL_WPF.UI.TesterInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {
@@ -147,7 +146,6 @@ namespace PL_WPF.UI.TesterInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {
@@ -188,12 +186,13 @@ namespace PL_WPF.UI.TesterInterface
             try
             {
                 bl.UpdateTest(test.Code, new Test.Criteria(GradingTest.KeepDistance.IsChecked, GradingTest.BackParking.IsChecked, GradingTest.UsingViewMirrors.IsChecked, GradingTest.Signaling.IsChecked, GradingTest.IntegrationIntoMovement.IsChecked, GradingTest.ObeyParkSigns.IsChecked), (bool)GradingTest.IsPass.IsChecked, GradingTest.Note.Text);
+                GradingTest.KeepDistance.IsChecked = GradingTest.BackParking.IsChecked = GradingTest.UsingViewMirrors.IsChecked = GradingTest.Signaling.IsChecked = GradingTest.IntegrationIntoMovement.IsChecked = GradingTest.ObeyParkSigns.IsChecked = GradingTest.IsPass.IsChecked = false;
+                GradingTest.Note.Text = "";
                 GradingTest.IsEnabled = false;
             }
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {

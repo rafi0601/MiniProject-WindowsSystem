@@ -11,13 +11,11 @@
     <WrapPanel Orientation="Vertical">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="550"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="The test was determined successfully!" Grid.Column="1" FontSize="25"/>
-            <Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="3" Width="100" HorizontalAlignment="Right"/>
+            <Label Content="The test was determined successfully!" Grid.Column="0" FontSize="25" HorizontalAlignment="Left"/>
+            <Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="2" Width="100" HorizontalAlignment="Right"/>
         </Grid>
         <Label Height="25"/>
         <Label Content="The Test Details:" FontSize="25" RenderTransformOrigin="0.32,0.273"/>

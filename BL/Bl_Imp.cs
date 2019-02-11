@@ -300,7 +300,7 @@ namespace BL
                 //{
                 //    yield return alternativeDate;
                 //}
-                return FindingAnAlternativeDateForTest(testDate, departureAddress, vehicle)?.Item1 ?? throw new Exception();//TODO change it (it is not exception)
+                return FindingAnAlternativeDateForTest(testDate, departureAddress, vehicle)?.Item1 ?? throw new Exception("There are no available tests in the near future");//TODO change it (it is not exception)
             }
             catch (OverflowException e)
             {
@@ -404,6 +404,11 @@ namespace BL
                     where testerInArea != null
                     select vacantTester).FirstOrDefault();
 
+            //return (from vacantTester in VacantTesters(testDate)
+            //            from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
+            //                where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
+            //                select vacantTester).ToList().FirstOrDefault();
+
             // List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
             // if (optionalTesters.Any())
             //     return optionalTesters[rand.Next(optionalTesters.Count)];
@@ -426,7 +431,6 @@ namespace BL
                 {
                     Tester vacantTester = SearchForTester(dateTime, departureAddress, vehicleTypeLearning);
                     if (vacantTester != default)
-                        /*yield*/
                         return (dateTime, vacantTester);
                     dateTime = dateTime.AddHours(1);
                 }
@@ -554,31 +558,31 @@ namespace BL
             //if(testDate<DateTime.Now&&testDate<DateTime.Now.AddDays(7))
 
             if (!vehicle.IsFlag())
-                throw new Exception();
+                throw new CasingException(false, new Exception());
 
             if (!ExistingTraineeById(trainee.ID))
-                throw new ArgumentException("This Trainee doesn't exist in the database");
+                throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
 
             if (DateTime.Now - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
-                throw new ArgumentException("It is illegal to access to test less than 7 days after the last one");
+                throw new CasingException(true, new ArgumentException("It is illegal to access to test less than 7 days after the last one"));
 
             if (trainee.NumberOfDoneLessons < MIN_LESSONS)
-                throw new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons");
+                throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons"));
 
             if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Date == testDate).Any() == true)
-                throw new ArgumentException("It is illegal to set for a trainee two tests at the same time");
+                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
 
             if (IsEntitledToLicense(trainee))
-                throw new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more");
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
 
             if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle.HasFlag(vehicle) && t.IsDone() == false).Any() == true)
-                throw new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first");
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
 
             if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
-                throw new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive");
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive"));
 
             if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
-                throw new ArgumentException("The requested time exceeds the working hours of the testers");
+                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers"));
             //BUG
             //if (testDate < DateTime.Now)
             //    throw new ArgumentException("The requested time has passed");
