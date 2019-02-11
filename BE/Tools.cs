@@ -20,12 +20,6 @@ namespace BE
             return new Regex(@"(?<=[A-Z])(?=[A-Z][a-z]) | (?<=[^A-Z])(?=[A-Z]) | (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace).Replace(str, " ").ToLower();
         }
 
-        //  public static Array SplitByUpperAndLower(this Array array) 
-        //  {
-        //      var v= from str in array select str.SplitByUpperAndToLower();
-        //      Array.ForEach(array, item => (item as string).SplitByUpperAndToLower());
-        //  }
-
         internal static string ToStringProperty<T>(this T t)
         {
             StringBuilder str = new StringBuilder();
@@ -56,29 +50,7 @@ namespace BE
             return list?.Any() ?? true;
         }
 
-        public static Trainee FromXElement(XElement traineeXElement)//BUG input check
-        {
-            Trainee tmp = new Trainee();
-
-            XElement nameXElement = traineeXElement.Element(nameof(tmp.Name)); //BUG might be null
-            XElement addressXElement = traineeXElement.Element(nameof(tmp.Address));
-            XElement teacherNameXElement = traineeXElement.Element(nameof(tmp.TeacherName));
-            return new Trainee(
-                traineeXElement.Element(nameof(tmp.ID)).Value,
-                new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
-                DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
-                (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
-                traineeXElement.Element(nameof(tmp.PhoneNumber)).Value,
-                new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
-                traineeXElement.Element(nameof(tmp.Password)).Value,
-                (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
-                (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
-                traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
-                new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value),
-                DateTime.Parse(traineeXElement.Element(nameof(tmp.TheLastTest)).Value)
-                );
-        }
+        
 
         public static T AddFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type | (int)(object)value);
 

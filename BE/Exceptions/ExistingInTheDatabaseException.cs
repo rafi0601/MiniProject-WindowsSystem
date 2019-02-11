@@ -12,30 +12,19 @@ namespace BE
     [Serializable]
     public class ExistingInTheDatabaseException : Exception
     {
-        bool IsExist { get; }
+        public ExistingInTheDatabaseException()
+        { }
 
-
-        public ExistingInTheDatabaseException(bool isExist)
-        {
-            IsExist = isExist;
-        }
-
-        public ExistingInTheDatabaseException(bool isExist, string message)
+        public ExistingInTheDatabaseException(string message)
             : base(message)
-        {
-            IsExist = isExist;
-        }
+        { }
 
-        public ExistingInTheDatabaseException(bool isExist, string message, Exception innerException)
+        public ExistingInTheDatabaseException(string message, Exception innerException)
             : base(message, innerException)
-        {
-            IsExist = isExist;
-        }
+        { }
 
-        protected ExistingInTheDatabaseException(bool isExist, SerializationInfo info, StreamingContext context) 
+        protected ExistingInTheDatabaseException(SerializationInfo info, StreamingContext context)
             : base(info, context)
-        {
-            IsExist = isExist;
-        }
+        { }
     }
 }

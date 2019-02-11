@@ -10,7 +10,7 @@ namespace BE
 {
     public static class Inspections
     {
-        public static void IdValidator(string id) //TODO StringBuilder
+        public static void IdValidator(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 throw new ArgumentNullException("ID mustn't be null or empty or consists only white spaces");
@@ -33,8 +33,6 @@ namespace BE
 
         public static void AddressValidator(Address address)
         {
-            //if address is class so null check 
-
             if (string.IsNullOrWhiteSpace(address.City))
                 throw new ArgumentNullException("City mustn't be null or empty or consists only white spaces");
 
@@ -47,8 +45,6 @@ namespace BE
 
         public static void PersonNameValidator(Person.PersonName personName)
         {
-            //if address is class so null check 
-
             if (string.IsNullOrWhiteSpace(personName.FirstName))
                 throw new ArgumentNullException("First name mustn't be null or empty or consists only white spaces");
 

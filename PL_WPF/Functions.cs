@@ -18,7 +18,7 @@ namespace PL_WPF
         public static bool SendMailToAdmin(Exception ex)
         {
             return false;
-            MailMessage mail = new MailMessage(from: "goldis@g.jct.ac.il", to: "goldis@g.jct.ac.il")
+            MailMessage mail = new MailMessage(from: "?????@g.jct.ac.il", to: "??????@g.jct.ac.il")
             {
                 Subject = "Error in mini project",
                 Body = ex.ToString(),
@@ -27,7 +27,7 @@ namespace PL_WPF
             SmtpClient smtp = new SmtpClient
             {
                 Host = "smtp.gmail.com",
-                Credentials = new System.Net.NetworkCredential("rafig0601@gmail.com", "rrrrrr"),
+                Credentials = new System.Net.NetworkCredential("????????@gmail.com", "????????"),
                 EnableSsl = true
             };
             try
@@ -36,6 +36,7 @@ namespace PL_WPF
             }
             catch
             {
+                return false;
                 //Close();
             }
 

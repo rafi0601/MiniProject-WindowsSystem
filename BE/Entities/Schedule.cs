@@ -13,7 +13,7 @@ namespace BE
     [Serializable]
     public class Schedule
     {
-        [XmlElement]
+        [XmlElement] //CHECK what is this attribute
         private protected bool[,] schedule = new bool[WORKING_DAYS_A_WEEK, WORKING_HOURS_A_DAY];
 
 
@@ -28,7 +28,7 @@ namespace BE
 
                 throw new IndexOutOfRangeException(""); // UNDONE
             }
-            set => schedule[day, hour] = value;
+            set => schedule[day, hour - BEGINNING_OF_A_WORKING_DAY] = value;
         }
 
 

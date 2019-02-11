@@ -87,6 +87,11 @@ namespace PL_WPF.UI.TesterInterface
             FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == false);
             TestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == true);
             //TestsDataGrid.ItemsSource = tester.MyTests;
+
+            TesterDetails testerDetails = new TesterDetails();
+            frame.Content = testerDetails;
+            testerDetails.iDTextBox.IsEnabled = false;
+
         }
 
         private void UpdateButtonClick(object sender, RoutedEventArgs e)

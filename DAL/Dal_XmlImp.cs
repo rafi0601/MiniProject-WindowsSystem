@@ -17,41 +17,36 @@ namespace DAL
 {
     internal class Dal_XmlImp : IDal
     {
-        private struct HelpreBundle
+
+        private static uint code;
+
+
+        #region Bundles
+
+        private protected struct HelpreBundle
         {
             private XElement root; public XElement Root
             {
                 get => root;
                 set
                 {
-                    root = value ?? throw new ArgumentNullException();
+                    root = value ?? throw new ArgumentNullException("Root cannot be null");
                 }
             }
             public string FilePath { get; private set; }
             public bool ByLinqToXml { get; set; }
 
-            private void Root_Changing(object sender, XObjectChangeEventArgs e)
-            {
-                //throw new NotImplementedException();
-            }
 
-            private void Root_Changed(object sender, XObjectChangeEventArgs e)
+            private void Root_Changed(object sender, XObjectChangeEventArgs e) // CHECK why it's not work...
             {
                 if (ByLinqToXml)
                     Root.Save(FilePath);
-                else
-                    ;
-                //tests.root.close();
-                //e.ObjectChange;
-
-                //(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
             }
 
             public HelpreBundle(XElement root, string folderPath, bool byLinqToXml) : this() // CHECK need input check for path?
             {
-                Root = root ?? throw new ArgumentNullException(nameof(root));
-                root.Changing += Root_Changing;
-                root.Changed += Root_Changed;
+                Root = root;
+                Root.Changed += Root_Changed;
                 FilePath = Path.Combine(filesPath, $@"{Root.Name}.xml)");
                 ByLinqToXml = byLinqToXml;
             }
@@ -64,21 +59,25 @@ namespace DAL
                 }
                 catch
                 {
-                    throw new FileLoadException("File upload problem"); // CHECK right exception?
+                    throw new IOException("File upload problem");
                 }
             }
-        }
 
-        private static readonly string filesPath = Path.Combine(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName, nameof(DS), "DS_Xml"); //IMPROVEMENT change constant
+            public void Save()
+            {
+                // UNDONE
+            }
+        }
 
         private HelpreBundle tests = new HelpreBundle(new XElement(nameof(tests)), filesPath, false);
         private HelpreBundle testers = new HelpreBundle(new XElement(nameof(testers)), filesPath, false);
         private HelpreBundle trainees = new HelpreBundle(new XElement(nameof(trainees)), filesPath, true);
         private HelpreBundle configs = new HelpreBundle(new XElement(nameof(configs)), filesPath, true);
 
+        private static readonly string filesPath = Path.Combine(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName, nameof(DS), $"{nameof(DS)}_Xml");
 
+        #endregion
 
-        private static uint code;
 
         public Dal_XmlImp()
         {
@@ -89,30 +88,14 @@ namespace DAL
 
             if (!File.Exists(configs.FilePath))
             {
-                configs.Root.Add(new XElement(nameof(code), code.ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0')));
-                //Add(,0,) because it the first time
+                configs.Root.Add(new XElement(nameof(code), /* because code==0 :) */ 0.ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0')));
                 configs.Root.Save(configs.FilePath);
             }
             else
-                configs.LoadData();
-        }
-
-
-        private static void SaveToXmlFile<T>(T source, string path)
-        {
-            FileStream file = new FileStream(path, FileMode.Create);
-            XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
-            xmlSerializer.Serialize(file, source);
-            file.Close();
-        }
-
-        private static T LoadFromXmlFile<T>(string path)
-        {
-            FileStream file = new FileStream(path, FileMode.Open);
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            T result = (T)xmlSerializer.Deserialize(file);
-            file.Close();
-            return result;
+            {
+                ConfigloadData();
+                //configs.LoadData();
+            }
         }
 
 
@@ -128,8 +111,8 @@ namespace DAL
             else
                 testersList = new List<Tester>();
 
-            if (testersList.Exists(ComperisonOfKey(tester)))
-                throw new ExistingInTheDatabaseException(true, "Tester with same ID already exists in the database");
+            if (testersList.Exists(EqualityOfKeys(tester)))
+                throw new ExistingInTheDatabaseException("A tester with same ID already exists in the database.");
 
             testersList.Add(tester);
             SaveToXmlFile(testersList, testers.FilePath);
@@ -139,24 +122,17 @@ namespace DAL
         {
             Inspections.TesterInspection(tester);
 
-            try
-            {
-                if (!File.Exists(testers.FilePath))
-                    throw new ArgumentException("This tester doesn't exist in the database"); //TODO change the message
+            //if (!File.Exists(testers.FilePath))
+            //    throw new ExistingInTheDatabaseException("A tester with same ID doesn't exist in the database.");
 
-                List<Tester> testersList = LoadFromXmlFile<List<Tester>>(testers.FilePath);
+            List<Tester> testersList = LoadFromXmlFile<List<Tester>>(testers.FilePath);
 
-                int index = testersList.FindIndex(ComperisonOfKey(tester));
-                if (-1 == index)
-                    throw new ArgumentException("This tester doesn't exist in the database");
+            int index = testersList.FindIndex(EqualityOfKeys(tester));
+            if (-1 == index)
+                throw new ExistingInTheDatabaseException("A tester with same ID doesn't exist in the database.");
 
-                testersList[index] = tester.Copy();
-                SaveToXmlFile(testersList, testers.FilePath);
-            }
-            catch
-            {
-                throw;
-            }
+            testersList[index] = tester;
+            SaveToXmlFile(testersList, testers.FilePath);
         }
 
         public void RemoveTester(Tester tester)
@@ -164,10 +140,10 @@ namespace DAL
             List<Tester> testersList = LoadFromXmlFile<List<Tester>>(testers.FilePath);
 
             if (tester is null)
-                throw new ArgumentNullException(nameof(tester), "Cannot remove null");
+                throw new ArgumentNullException("Cannot remove null");
 
-            if (testersList.RemoveAll(ComperisonOfKey(tester)) == 0)
-                throw new ExistingInTheDatabaseException(false, "This tester doesn't exist in the database");
+            if (0 == testersList.RemoveAll(EqualityOfKeys(tester)))
+                throw new ExistingInTheDatabaseException("A tester with same ID doesn't exist in the database.");
 
             testersList.Remove(tester);
             SaveToXmlFile(testersList, testers.FilePath);
@@ -175,57 +151,119 @@ namespace DAL
 
         public Tester GetTester(string id)
         {
-            if (!File.Exists(testers.FilePath))
-                return null;
+            //if (!File.Exists(testers.FilePath))
+            //    return null;
 
-            List<Tester> testersList = LoadFromXmlFile<List<Tester>>(testers.FilePath);
-            return testersList.Find(t => t.ID == id)?.Copy();
+            return LoadFromXmlFile<List<Tester>>(testers.FilePath).Find(t => t.ID == id);
         }
 
         public List<Tester> GetTesters(Predicate<Tester> match = null)
         {
-            if (!File.Exists(testers.FilePath))
-                return new List<Tester>();
+            //if (!File.Exists(testers.FilePath))
+            //    return new List<Tester>();
 
             List<Tester> testersList = LoadFromXmlFile<List<Tester>>(testers.FilePath);
 
             return (from tester in testersList
                     where match != null ? match(tester) : true
-                    select new Tester(tester)).ToList();
+                    select tester).ToList();
         }
 
         #endregion
 
         #region Trainee Functions
 
-        //private void TraineeloadData()
-        //{
-        //    try
-        //    {
-        //        trainees.Root = XElement.Load(trainees.FilePath);
-        //    }
-        //    catch
-        //    {
-        //        throw new Exception("Trainees File upload problem");
-        //    }
-        //}
-
         public void AddTrainee(Trainee trainee)
         {
-            //trainees.root.Add(
-            //    from fieldInfo in trainee.GetType().GetFields()
-            //    where fieldInfo.IsPublic
-            //    join 
-            //    select new XElement(fieldInfo.Name, fieldInfo.GetValue(fieldInfo)));
-
-            List<Trainee> traineesList = GetTrainees();
-
             Inspections.TraineeInspection(trainee);
 
-            if (traineesList.Exists(ComperisonOfKey(trainee)))
-                throw new ArgumentException("This trainee already exists in the database");
+            if (GetTrainees().Exists(EqualityOfKeys(trainee)))
+                throw new ExistingInTheDatabaseException("A trainee with same ID already exists in the database.");
 
-            trainees.Root.Add(
+            trainees.Root.Add(ToXElement(trainee));
+            trainees.Root.Save(trainees.FilePath);
+        }
+
+        public void UpdateTrainee(Trainee trainee)
+        {
+            RemoveTrainee(GetTrainee(trainee.ID));
+
+            AddTrainee(trainee);
+
+            trainees.Root.Save(trainees.FilePath);
+        }
+
+        public void RemoveTrainee(Trainee trainee)
+        {
+            trainees.LoadData();
+
+            if (trainee is null)
+                throw new ArgumentNullException("Cannot remove null");
+
+            XElement theTrainee = (from traineeXElement in trainees.Root.Elements()
+                                   where traineeXElement.Element(nameof(trainee.ID)).Value == trainee.ID
+                                   select traineeXElement).FirstOrDefault();
+            if (theTrainee is null)
+                throw new ExistingInTheDatabaseException("A trainee with same ID doesn't exist in the database.");
+
+            theTrainee.Remove();
+            trainees.Root.Save(trainees.FilePath);
+        }
+
+        public Trainee GetTrainee(string id)
+        {
+            trainees.LoadData();
+
+            return (
+                from trainee in trainees.Root.Elements()
+                where trainee.Element(nameof(tmp.ID)).Value == id
+                let nameXElement = trainee.Element(nameof(tmp.Name))
+                let addressXElement = trainee.Element(nameof(tmp.Address))
+                let teacherNameXElement = trainee.Element(nameof(tmp.TeacherName))
+                select FromXElement(trainee)
+                ).FirstOrDefault();
+        }
+
+        public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
+        {
+            trainees.LoadData();
+
+            return (
+                from traineeXElement in trainees.Root.Elements()
+                let trainee = FromXElement(traineeXElement)
+                where match != null ? match(trainee) : true
+                select trainee
+                ).ToList();
+        }
+
+
+        protected static readonly Trainee tmp = new Trainee();
+
+        private static Trainee FromXElement(XElement traineeXElement)//BUG input check
+        {
+            XElement nameXElement = traineeXElement.Element(nameof(tmp.Name)); //BUG might be null
+            XElement addressXElement = traineeXElement.Element(nameof(tmp.Address));
+            XElement teacherNameXElement = traineeXElement.Element(nameof(tmp.TeacherName));
+            return new Trainee(
+                traineeXElement.Element(nameof(tmp.ID)).Value,
+                new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
+                DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
+                (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
+                traineeXElement.Element(nameof(tmp.PhoneNumber)).Value,
+                new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
+                traineeXElement.Element(nameof(tmp.Password)).Value,
+                (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
+                (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
+                traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
+                new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
+                uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value),
+                DateTime.Parse(traineeXElement.Element(nameof(tmp.TheLastTest)).Value)
+                );
+        }
+
+        private static XElement ToXElement(Trainee trainee)
+        {
+            return
                 new XElement(nameof(Trainee),
                     new XElement(nameof(trainee.ID), trainee.ID),
                     new XElement(nameof(trainee.Name),
@@ -247,71 +285,7 @@ namespace DAL
                         new XElement(nameof(trainee.TeacherName.FirstName), trainee.TeacherName.FirstName)),
                     new XElement(nameof(trainee.NumberOfDoneLessons), trainee.NumberOfDoneLessons),
                     new XElement(nameof(trainee.TheLastTest), trainee.TheLastTest)
-                    ));
-            trainees.Root.Save(trainees.FilePath);
-        }
-
-        public void UpdateTrainee(Trainee trainee)
-        {
-            RemoveTrainee(GetTrainee(trainee.ID));
-
-            AddTrainee(trainee);
-
-            trainees.Root.Save(trainees.FilePath);
-        }
-
-        public void RemoveTrainee(Trainee trainee)
-        {
-            XElement traineeXElement =
-                (from tra in trainees.Root.Elements()
-                 where tra.Element(nameof(trainee.ID)).Value == trainee.ID
-                 select tra)
-                 .FirstOrDefault(); //TODO ?.
-
-            traineeXElement.Remove();
-            trainees.Root.Save(trainees.FilePath);
-        }
-
-        public Trainee GetTrainee(string id)
-        {
-            trainees.LoadData();
-            //IMPROVEMENT to that with foreach until it find the id
-            Trainee tmp = new Trainee();
-
-            return (
-                from trainee in trainees.Root.Elements()
-                where trainee.Element(nameof(tmp.ID)).Value == id
-                let nameXElement = trainee.Element(nameof(tmp.Name))
-                let addressXElement = trainee.Element(nameof(tmp.Address))
-                let teacherNameXElement = trainee.Element(nameof(tmp.TeacherName))
-                select new Trainee(
-                    id,
-                    new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
-                    DateTime.Parse(trainee.Element(nameof(tmp.Birthdate)).Value),
-                    (Gender)Enum.Parse(typeof(Gender), trainee.Element(nameof(tmp.Gender)).Value),
-                    trainee.Element(nameof(tmp.PhoneNumber)).Value,
-                    new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
-                    trainee.Element(nameof(tmp.Password)).Value,
-                    (Vehicle)Enum.Parse(typeof(Vehicle), trainee.Element(nameof(tmp.VehicleTypeTraining)).Value),
-                    (Gearbox)Enum.Parse(typeof(Gearbox), trainee.Element(nameof(tmp.GearboxTypeTraining)).Value),
-                    trainee.Element(nameof(tmp.DrivingSchool)).Value,
-                    new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                    uint.Parse(trainee.Element(nameof(tmp.NumberOfDoneLessons)).Value),
-                    DateTime.Parse(trainee.Element(nameof(tmp.TheLastTest)).Value)
-                )).FirstOrDefault();
-        }
-
-        public List<Trainee> GetTrainees(Predicate<Trainee> match = null)
-        {
-            trainees.LoadData();
-            Trainee tmp = new Trainee();
-
-            return (
-                from traineeXElement in trainees.Root.Elements()
-                let trainee = Tools.FromXElement(traineeXElement)
-                where match != null ? match(trainee) : true
-                select trainee
-                ).ToList();
+                    );
         }
 
         #endregion
@@ -329,34 +303,36 @@ namespace DAL
             else
                 testsList = new List<Test>();
 
-            Tester tester = GetTester(test.TesterID);
 
-            if (tester == default(Tester)) //!ExistingTesterById(test.IDTester)
-                throw new ArgumentException("The tester doesn't exist in the database");
+            if (GetTester(test.TesterID) == null)
+                throw new ExistingInTheDatabaseException("The tester doesn't exist in the database.");
 
-            if (!GetTrainees(trainee => trainee.ID == test.TraineeID).Any())
-                throw new ArgumentException("The trainee doesn't exist in the database");
+            if (GetTrainee(test.TraineeID) == null)
+                throw new ExistingInTheDatabaseException("The trainee doesn't exist in the database.");
 
-            if (code > MAX_VALUE_TO_CODE)
-                throw new OverflowException();
             if (test.Code != null)
-                throw new ArgumentException();
+                throw new ArgumentException("It is impossible to order a test that already has a code.");
+            if (code > MAX_VALUE_TO_CODE)
+                throw new OverflowException("No more available codes.");
             test.Code = (++code).ToString().PadLeft(totalWidth: (int)LENGTH_OF_CODE, paddingChar: '0');
 
-            configs.Root.Element(nameof(code)).Remove();
-            configs.Root.Add(new XElement(nameof(code), code));
 
             try
             {
                 testsList.Add(test);
                 SaveToXmlFile(testsList, tests.FilePath);
-
-                //tester.UnavailableDates.Add(test.Date.Copy());
-                UpdateTester(tester);
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                code--;
+                test.Code = null;
+                throw;
+            }
+            finally
+            {
+                configs.Root.Element(nameof(code)).Remove();
+                configs.Root.Add(new XElement(nameof(code), code));
+                configs.Root.Save(configs.FilePath);
             }
         }
 
@@ -364,21 +340,14 @@ namespace DAL
         {
             Inspections.TestInspection(test);
 
-            try
-            {
-                List<Test> testsList = LoadFromXmlFile<List<Test>>(tests.FilePath);
+            List<Test> testsList = LoadFromXmlFile<List<Test>>(tests.FilePath);
 
-                int index = testsList.FindIndex(ComperisonOfKey(test));
-                if (-1 == index)
-                    throw new ArgumentException("This test doesn't exist in the database");
+            int index = testsList.FindIndex(EqualityOfKeys(test));
+            if (-1 == index)
+                throw new ExistingInTheDatabaseException("A test with same code doesn't exist in the database.");
 
-                testsList[index] = test.Copy();
-                SaveToXmlFile(testsList, tests.FilePath);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            testsList[index] = test;
+            SaveToXmlFile(testsList, tests.FilePath);
         }
 
         public Test GetTest(string code)
@@ -386,8 +355,7 @@ namespace DAL
             if (!File.Exists(testers.FilePath))
                 return null;
 
-            List<Test> testsList = LoadFromXmlFile<List<Test>>(tests.FilePath);
-            return testsList.Find(t => t.Code == code)?.Copy();
+            return LoadFromXmlFile<List<Test>>(tests.FilePath).Find(t => t.Code == code);
         }
 
         public List<Test> GetTests(Predicate<Test> match = null)
@@ -399,47 +367,69 @@ namespace DAL
 
             return (from test in testsList
                     where match != null ? match(test) : true
-                    select new Test(test)).ToList();
+                    select test).ToList();
         }
 
         #endregion
 
+        #region Config Functions
+
         private void ConfigloadData()
         {
-            try
-            {
-                configs.Root = XElement.Load(configs.FilePath);
-                XElement codeXElement = configs.Root.Element(nameof(code));
-                if (codeXElement == null)
-                    configs.Root.Add(new XElement(nameof(code), code = 0));
-                else
-                    code = uint.Parse(codeXElement.Value);
-            }
-            catch
-            {
-                throw new Exception("Configs File upload problem");
-            }
+            configs.LoadData();
+
+            XElement codeXElement = configs.Root.Element(nameof(code));
+            if (codeXElement == null)
+                configs.Root.Add(new XElement(nameof(code), code = 0));
+            else
+                code = uint.Parse(codeXElement.Value);
         }
 
-        private Predicate<T> ComperisonOfKey<T>(T item) where T : IKey // TODO rename to equalitionOfKey
+        #endregion
+
+        #region Helpers Functions
+
+        private Predicate<T> EqualityOfKeys<T>(T item) where T : IKey // TODO rename to equalitionOfKey
         {
             return t => item?.Key == t?.Key;
         }
 
-        //private void SaveUsers()
-        //{
-        //    new XElement("users", from u in users
-        //                          select new XElement("user",
-        //                            new XElement("name", u.Value.name),
-        //                            new XElement("password", u.Value.password),
-        //                            new XElement("role", u.Value.role.ToString()))).Save("usersXml.xml");
-        //}
-        //
-        //Dictionary<string, User> users = new Dictionary<string, User>();
+        protected static void SaveToXmlFile<T>(T source, string path)
+        {
+            FileStream file = new FileStream(path, FileMode.Create);
+            XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
+            xmlSerializer.Serialize(file, source);
+            file.Close();
+        }
+
+        protected static T LoadFromXmlFile<T>(string path)
+        {
+            FileStream file = new FileStream(path, FileMode.Open);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+            T result = (T)xmlSerializer.Deserialize(file);
+            file.Close();
+            return result;
+        }
+
+        #endregion
 
 
-        //Dictionary<PropertyInfo, string> traineePropertyNames;
-        //traineeRoot.ReplaceAttributes(trainee); // TODO check if it work
+        #region notes
 
+        ///private void Root_Changed(object sender, XObjectChangeEventArgs e)
+        ///tests.root.close();
+        ///e.ObjectChange;
+        ///(sender as XElement).Save(filesPath, SaveOptions.None); // TODO switch case
+
+        ///Dictionary<PropertyInfo, string> traineePropertyNames;
+        ///traineeRoot.ReplaceAttributes(trainee); // TODO check if it work
+
+        ///trainees.root.Add(
+        ///    from fieldInfo in trainee.GetType().GetFields()
+        ///    where fieldInfo.IsPublic
+        ///    join 
+        ///    select new XElement(fieldInfo.Name, fieldInfo.GetValue(fieldInfo)));
+
+        #endregion
     }
 }

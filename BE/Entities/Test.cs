@@ -75,6 +75,7 @@ namespace BE
         }
 
 
+        [Obsolete("For xml files only", false)]
         public string criteriasGrades
         {
             get

@@ -15,7 +15,7 @@
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="FontFamily" Value="Global Sans Serif" />
         </Style>
-        
+
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="18"/>
@@ -415,7 +415,7 @@
                     <local:Grading x:Name="GradingTest" Grid.Column="1" IsEnabled="False" SendClick="GradingTest_SendClick" />
                 </Grid>
             </TabItem>
-           <!-- <TabItem Style="{DynamicResource Tab_Style}" Header="Grade entry">
+            <!-- <TabItem Style="{DynamicResource Tab_Style}" Header="Grade entry">
                 <WrapPanel Orientation="Vertical">
                     <DataGrid x:Name="TestDataGrid" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18" >
                         <DataGrid.Columns>
@@ -465,6 +465,10 @@
                     </xctk:SplitButton>
                 </Grid>
             </TabItem>
+            <TabItem Style="{DynamicResource Tab_Style}" Header="Profile">
+                <Frame x:Name="frame" Margin="0,0,0,-205.333" Width="905" Content=""/>
+            </TabItem>
+
         </TabControl>
     </Grid>
 </Window>

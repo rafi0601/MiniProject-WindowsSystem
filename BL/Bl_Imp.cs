@@ -43,6 +43,10 @@ namespace BL
             {
                 dal.AddTester(tester);
             }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
+            }
             catch (Exception e)
             {
                 throw new CasingException(true, e);
@@ -61,6 +65,10 @@ namespace BL
             try
             {
                 dal.RemoveTester(tester);
+            }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
             }
             catch (Exception e)
             {
@@ -87,6 +95,10 @@ namespace BL
             try
             {
                 dal.UpdateTester(tester);
+            }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
             }
             catch (Exception e)
             {
@@ -171,6 +183,10 @@ namespace BL
             {
                 dal.AddTrainee(trainee);
             }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
+            }
             catch (Exception e)
             {
                 throw new CasingException(true, e);
@@ -190,6 +206,10 @@ namespace BL
             try
             {
                 dal.RemoveTrainee(trainee);
+            }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
             }
             catch (Exception e)
             {
@@ -216,6 +236,10 @@ namespace BL
             try
             {
                 dal.UpdateTrainee(trainee);
+            }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
             }
             catch (Exception e)
             {
@@ -282,6 +306,10 @@ namespace BL
             {
                 throw new CasingException(false, e);
             }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
+            }
             catch (Exception e)
             {
                 throw new CasingException(true, e);
@@ -317,6 +345,10 @@ namespace BL
             try
             {
                 dal.UpdateTest(theTest);
+            }
+            catch (IOException e)
+            {
+                throw new CasingException(false, e);
             }
             catch (Exception e)
             {

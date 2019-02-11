@@ -11,7 +11,8 @@
       <City>Jerusalem</City>
     </DepartureAddress>
     <Vehicle>privateCar</Vehicle>
-    <IsPass xsi:nil="true" />
-    <criteriasGrades />
+    <IsPass>true</IsPass>
+    <TesterNotes>hhjj</TesterNotes>
+    <criteriasGrades>True,True,True,True,True,False,</criteriasGrades>
   </Test>
 </ArrayOfTest>

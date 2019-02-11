@@ -103,6 +103,9 @@
     <Compile Include="RoleInput.xaml.cs">
       <DependentUpon>RoleInput.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\TesterInterface\TesterDetails.xaml.cs">
+      <DependentUpon>TesterDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\TraineeInterface\DateTimePicker.xaml.cs">
       <DependentUpon>DateTimePicker.xaml</DependentUpon>
     </Compile>
@@ -140,6 +143,10 @@
       <DependentUpon>TraineeWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="RoleInput.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\TesterInterface\TesterDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

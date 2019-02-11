@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,9 @@ namespace DAL
         /// <exception>
         /// Additionally, if <paramref name="tester"/> is illegal, then an exception will be thrown. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
         /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         void AddTester(Tester tester);
 
         /// <summary>
@@ -39,6 +43,9 @@ namespace DAL
         /// </exception>
         /// <exception cref="ExistingInTheDatabaseException">
         /// A tester with the same ID as <paramref name="tester"/> doesn't exist in the database.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
         /// </exception>
         void RemoveTester(Tester tester);
 
@@ -54,6 +61,9 @@ namespace DAL
         /// <exception>
         /// Additionally, if <paramref name="tester"/> is illegal, then an exception will be thrown. <see cref="Inspections.TesterInspection(Tester)"/> for more information.
         /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         void UpdateTester(Tester tester);
 
         /// <summary>
@@ -65,6 +75,9 @@ namespace DAL
         /// <returns>
         /// The tester that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         Tester GetTester(string id);
 
         /// <summary>
@@ -76,6 +89,9 @@ namespace DAL
         /// <returns>
         /// A list containing all the testers that match the conditions defined by <paramref name="match"/>, if found; otherwise, an empty list.
         /// </returns>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         List<Tester> GetTesters(Predicate<Tester> match = null);
 
 
@@ -91,6 +107,9 @@ namespace DAL
         /// <exception>
         /// Additionally, if <paramref name="trainee"/> is illegal, then an exception will be thrown. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
         /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         void AddTrainee(Trainee trainee);
 
         /// <summary>
@@ -104,6 +123,9 @@ namespace DAL
         /// </exception>
         /// <exception cref="ExistingInTheDatabaseException">
         /// A trainee with the same ID as <paramref name="trainee"/> doesn't exist in the database.
+        /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
         /// </exception>
         void RemoveTrainee(Trainee trainee);
 
@@ -119,6 +141,9 @@ namespace DAL
         /// <exception>
         /// Additionally, if <paramref name="trainee"/> is illegal, then an exception will be thrown. <see cref="Inspections.TraineeInspection(Trainee)"/> for more information.
         /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         void UpdateTrainee(Trainee trainee);
 
         /// <summary>
@@ -130,6 +155,9 @@ namespace DAL
         /// <returns>
         /// The trainee that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
         /// </returns>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         Trainee GetTrainee(string id);
 
         /// <summary>
@@ -141,6 +169,9 @@ namespace DAL
         /// <returns>
         /// A list containing all the trainees that match the conditions defined by <paramref name="match"/>, if found; otherwise, an empty list.
         /// </returns>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         List<Trainee> GetTrainees(Predicate<Trainee> match = null);
 
 
@@ -163,6 +194,9 @@ namespace DAL
         /// <exception>
         /// Additionally, if <paramref name="test"/> is illegal, then an exception will be thrown. <see cref="Inspections.TestInspection(Test)"/> for more information.
         /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         void AddTest(Test test);
 
         /// <summary>
@@ -177,17 +211,23 @@ namespace DAL
         /// <exception>
         /// Additionally, if <paramref name="test"/> is illegal, then an exception will be thrown. <see cref="Inspections.TestInspection(Test)"/> for more information.
         /// </exception>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         void UpdateTest(Test test); // TODO When is Done!!!
 
         /// <summary>
-        /// Retrieves the occurrence of a test with a specific ID.
+        /// Retrieves the occurrence of a test with a specific code.
         /// </summary>
-        /// <param name="id">
-        /// The ID of the required test.
+        /// <param name="code">
+        /// The code of the required test.
         /// </param>
         /// <returns>
-        /// The test that his ID matches the specified <paramref name="id"/>, if found; otherwise, null.
+        /// The test that his code matches the specified <paramref name="code"/>, if found; otherwise, null.
         /// </returns>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         Test GetTest(string code);
 
         /// <summary>
@@ -199,6 +239,9 @@ namespace DAL
         /// <returns>
         /// A list containing all the tests that match the conditions defined by <paramref name="match"/>, if found; otherwise, an empty list.
         /// </returns>
+        /// <exception cref="IOException">
+        /// Problems with the database.
+        /// </exception>
         List<Test> GetTests(Predicate<Test> match = null);
     }
 }

@@ -23,19 +23,19 @@ namespace DAL
         public void AddTester(Tester tester)
         {
             if (!Add(tester, DS_Lists.TesterList, Inspections.TesterInspection))
-                throw new ExistingInTheDatabaseException(true, "A tester with same ID already exists in the database.");
+                throw new ExistingInTheDatabaseException("A tester with same ID already exists in the database.");
         }
 
         public void RemoveTester(Tester tester)
         {
             if (!Remove(tester, DS_Lists.TesterList))
-                throw new ExistingInTheDatabaseException(false, "A tester with same ID doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException("A tester with same ID doesn't exist in the database.");
         }
 
         public void UpdateTester(Tester tester)
         {
             if (!Update(tester, DS_Lists.TesterList, Inspections.TesterInspection))
-                throw new ExistingInTheDatabaseException(false, "A tester with same ID doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException("A tester with same ID doesn't exist in the database.");
         }
 
         public Tester GetTester(string id)
@@ -55,19 +55,19 @@ namespace DAL
         public void AddTrainee(Trainee trainee)
         {
             if (!Add(trainee, DS_Lists.TraineeList, Inspections.TraineeInspection))
-                throw new ExistingInTheDatabaseException(true, "A trainee with same ID already exists in the database.");
+                throw new ExistingInTheDatabaseException("A trainee with same ID already exists in the database.");
         }
 
         public void RemoveTrainee(Trainee trainee)
         {
             if (!Remove(trainee, DS_Lists.TraineeList))
-                throw new ExistingInTheDatabaseException(false, "A trainee with same ID doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException("A trainee with same ID doesn't exist in the database.");
         }
 
         public void UpdateTrainee(Trainee trainee)
         {
             if (!Update(trainee, DS_Lists.TraineeList, Inspections.TraineeInspection))
-                throw new ExistingInTheDatabaseException(false, "A trainee with same ID doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException("A trainee with same ID doesn't exist in the database.");
         }
 
         public Trainee GetTrainee(string id)
@@ -86,13 +86,13 @@ namespace DAL
 
         public void AddTest(Test test)
         {
-            //TODO null check
+            //TODO null check before all (now is implicit in the next line)
 
             if (DS_Lists.TesterList.Exists(tester => tester.ID == test?.TesterID))
-                throw new ExistingInTheDatabaseException(false, "The tester doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException("The tester doesn't exist in the database.");
 
-            if (DS_Lists.TesterList.Exists(trainee => trainee.ID == test?.TraineeID))
-                throw new ExistingInTheDatabaseException(false, "The trainee doesn't exist in the database.");
+            if (DS_Lists.TesterList.Exists(trainee => trainee.ID == test.TraineeID))
+                throw new ExistingInTheDatabaseException("The trainee doesn't exist in the database.");
 
             if (test.Code != null)
                 throw new ArgumentException("It is impossible to order a test that already has a code.");
@@ -115,7 +115,7 @@ namespace DAL
         public void UpdateTest(Test test)
         {
             if (!Update(test, DS_Lists.TestList, Inspections.TestInspection))
-                throw new ExistingInTheDatabaseException(false, "A test with same code doesn't exist in the database.");
+                throw new ExistingInTheDatabaseException("A test with same code doesn't exist in the database.");
         }
 
         public Test GetTest(string code)
@@ -149,7 +149,7 @@ namespace DAL
         private bool Remove<T>(T item, List<T> list) where T : class, IKey
         {
             if (item is null)
-                throw new ArgumentNullException(nameof(item), "Cannot remove null");
+                throw new ArgumentNullException("Cannot remove null");
             return 0 == list.RemoveAll(EqualityOfKeys(item));
         }
 
@@ -172,7 +172,7 @@ namespace DAL
 
         private List<T> Get<T>(List<T> list, Predicate<T> match = null) where T : class, IKey
         {
-            return (List<T>)(match is null ? list : list.Where(t => match(t))).Select(t => t.Copy());
+            return (match is null ? list : list.Where(t => match(t))).Select(t => t.Copy()).ToList();
 
             //return (from tester in DS_Lists.TesterList
             //        where match != null ? match(tester) : true
