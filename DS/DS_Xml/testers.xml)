@@ -19,7 +19,7 @@
     <MaxOfTestsPerWeek>16</MaxOfTestsPerWeek>
     <VehicleTypesExpertise>privateCar</VehicleTypesExpertise>
     <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
-    <unavailableDates>07/02/2019 12:00:00,</unavailableDates>
-    <workingHours>True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
+    <unavailableDates>10/02/2019 11:00:00,</unavailableDates>
+    <workingHours>False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
   </Tester>
 </ArrayOfTester>

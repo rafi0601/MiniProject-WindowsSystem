@@ -17,6 +17,7 @@ namespace PL_WPF
 
         public static bool SendMailToAdmin(Exception ex)
         {
+            MessageBox.Show("There is a problem with the system that is not connected to you", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
             return false;
             MailMessage mail = new MailMessage(from: "?????@g.jct.ac.il", to: "??????@g.jct.ac.il")
             {
