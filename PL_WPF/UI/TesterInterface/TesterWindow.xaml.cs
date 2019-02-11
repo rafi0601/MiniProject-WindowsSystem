@@ -89,7 +89,6 @@ namespace PL_WPF.UI.TesterInterface
             //TestsDataGrid.ItemsSource = tester.MyTests;
 
             TesterDetails testerDetails = new TesterDetails();
-            frame.Content = testerDetails;
             testerDetails.iDTextBox.IsEnabled = false;
 
         }
@@ -189,6 +188,29 @@ namespace PL_WPF.UI.TesterInterface
                 GradingTest.KeepDistance.IsChecked = GradingTest.BackParking.IsChecked = GradingTest.UsingViewMirrors.IsChecked = GradingTest.Signaling.IsChecked = GradingTest.IntegrationIntoMovement.IsChecked = GradingTest.ObeyParkSigns.IsChecked = GradingTest.IsPass.IsChecked = false;
                 GradingTest.Note.Text = "";
                 GradingTest.IsEnabled = false;
+            }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+            }
+            catch (Exception ex)
+            {
+                Functions.SendMailToAdmin(ex);
+                Close();
+            }
+        }
+
+        private void UpdatePasswordButtonClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
+                    throw new CasingException(true, new ArgumentException("Password authentication is not equivalent to the password"));
+
+                tester.Password = passwordBoxNew.Password;
+                bl.UpdateTester(tester);
+                new TesterWindow(tester).Show();
+                Close();
             }
             catch (CasingException ex) when (ex.DisplayToUser)
             {

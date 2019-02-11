@@ -89,7 +89,6 @@ namespace PL_WPF
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {

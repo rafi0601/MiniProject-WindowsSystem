@@ -243,6 +243,7 @@ namespace PL_WPF.UI.TraineeInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
+                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -286,10 +287,14 @@ namespace PL_WPF.UI.TraineeInterface
 
         private void DetailsOfMyTest_RefrashButtonClick(object sender, RoutedEventArgs e)
         {
-            if (bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass == false).Any())
+            if (bl.GetTests(t => t.TraineeID == trainee.ID).TrueForAll(t => t.IsPass == false))
             {
                 DetailsOfMyTest.Visibility = Visibility.Collapsed;
                 dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
             }
         }
 
@@ -300,7 +305,8 @@ namespace PL_WPF.UI.TraineeInterface
             if (test == null)
                 return;
 
-            Grading.IsEnabled = false;
+            Grading.Note.IsEnabled = Grading.BackParking.IsEnabled = Grading.IntegrationIntoMovement.IsEnabled = Grading.IsPass.IsEnabled = Grading.KeepDistance.IsEnabled = Grading.ObeyParkSigns.IsEnabled = Grading.Signaling.IsEnabled = Grading.UsingViewMirrors.IsEnabled = false;
+
             Grading.BackParking.IsChecked = test.CriteriasGrades.BackParking;
             Grading.IntegrationIntoMovement.IsChecked = test.CriteriasGrades.IntegrationIntoMovement;
             Grading.IsPass.IsChecked = test.IsPass;
@@ -309,6 +315,29 @@ namespace PL_WPF.UI.TraineeInterface
             Grading.ObeyParkSigns.IsChecked = test.CriteriasGrades.ObeyParkSigns;
             Grading.Signaling.IsChecked = test.CriteriasGrades.Signaling;
             Grading.UsingViewMirrors.IsChecked = test.CriteriasGrades.UsingViewMirrors;
+        }
+
+        private void UpdatePasswordButtonClick(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
+                    throw new CasingException(true, new ArgumentException("Password authentication is not equivalent to the password"));
+
+                trainee.Password = passwordBoxNew.Password;
+                bl.UpdateTrainee(trainee);
+                new TraineeWindow(trainee).Show();
+                Close();
+            }
+            catch (CasingException ex) when (ex.DisplayToUser)
+            {
+                Functions.ShowMessageToUser(ex);
+            }
+            catch (Exception ex)
+            {
+                Functions.SendMailToAdmin(ex);
+                Close();
+            }
         }
     }
 }

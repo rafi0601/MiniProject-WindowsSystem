@@ -567,7 +567,7 @@ namespace BL
             if (!ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
 
-            if (DateTime.Now - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
+            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
                 throw new CasingException(true, new ArgumentException("It is illegal to access to test less than 7 days after the last one"));
 
             if (trainee.NumberOfDoneLessons < MIN_LESSONS)
