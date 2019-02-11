@@ -51,9 +51,9 @@ namespace PL_WPF
                 //bl.AddTest(trainee2, new DateTime(2019, 2, 6, 11, 0, 0), trainee2.Address, trainee2.VehicleTypeTraining);
 
                 //new UI.TesterInterface.TesterWindow(bl.GetTester("323947747")).Show();
-                new UI.TesterInterface.TesterWindow(bl.GetTester("322680083")).Show();
+                //new UI.TesterInterface.TesterWindow(bl.GetTester("322680083")).Show();
 
-                new UI.TraineeInterface.TraineeWindow(bl.GetTrainee("212384507")).Show();
+                //new UI.TraineeInterface.TraineeWindow(bl.GetTrainee("212384507")).Show();
                 //new UI.TraineeInterface.TraineeWindow(bl.GetTrainee("323947739")).Show();
 
                 //new UI.TesterInterface.TesterRegisteraionWindow().Show();

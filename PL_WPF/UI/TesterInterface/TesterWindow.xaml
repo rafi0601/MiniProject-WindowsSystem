@@ -478,16 +478,15 @@
                     <Label Content="        Password:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
                     <PasswordBox x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
                     <Label Content="        Password verification:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                    <xctk:SplitButton Grid.Row="3">
+                    <Button Content="Update" FontSize="25" Click="UpdatePasswordButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Grid.Row="3"/>
+                    <!--<xctk:SplitButton Grid.Row="4">
                         <xctk:SplitButton.DropDownContent>
                             <xctk:ColorCanvas/>
                         </xctk:SplitButton.DropDownContent>
-                    </xctk:SplitButton>
+                    </xctk:SplitButton>-->
                 </Grid>
             </TabItem>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Profile">
-                <Frame x:Name="frame" Margin="0,0,0,-205.333" Width="905" Content=""/>
-            </TabItem>
+
 
         </TabControl>
     </Grid>
