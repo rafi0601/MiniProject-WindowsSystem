@@ -35,7 +35,9 @@ namespace BL
             }
 
             if (ExistingTesterById(tester.ID))
-                throw new CasingException(true, new ArgumentException("This tester already exists in the database."));
+                throw new CasingException(true, new Exception("This tester already exists in the database."));
+            if (ExistingTraineeById(tester.ID))
+                throw new CasingException(true, new Exception("A trainee cannot be a tester."));
 
             TesterLogicsInspection(tester);
 
@@ -176,6 +178,8 @@ namespace BL
 
             if (ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This trainee already exists in the database."));
+            if (ExistingTesterById(trainee.ID))
+                throw new CasingException(true, new Exception("A tester cannot be a trainee."));
 
             TraineeLogicsInspection(trainee);
 

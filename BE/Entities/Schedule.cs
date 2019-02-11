@@ -22,13 +22,20 @@ namespace BE
         {
             get
             {
-                if (day >= 0 && day < WORKING_DAYS_A_WEEK &&
-                    hour >= BEGINNING_OF_A_WORKING_DAY && hour < BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
-                    return schedule[day, hour - BEGINNING_OF_A_WORKING_DAY];
+                if (day < 0 && day >= WORKING_DAYS_A_WEEK &&
+                    hour < BEGINNING_OF_A_WORKING_DAY && hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
+                    throw new IndexOutOfRangeException("The day or time exceeds the schedule");
 
-                throw new IndexOutOfRangeException(""); // UNDONE
+                return schedule[day, hour - BEGINNING_OF_A_WORKING_DAY];
             }
-            set => schedule[day, hour - BEGINNING_OF_A_WORKING_DAY] = value;
+            set
+            {
+                if (day < 0 && day >= WORKING_DAYS_A_WEEK &&
+                    hour < BEGINNING_OF_A_WORKING_DAY && hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
+                    throw new IndexOutOfRangeException("The day or time exceeds the schedule");
+
+                schedule[day, hour - BEGINNING_OF_A_WORKING_DAY] = value;
+            }
         }
 
 
@@ -38,7 +45,7 @@ namespace BE
         {
             if (schedule?.GetLength(0) != WORKING_DAYS_A_WEEK
                     || schedule.GetLength(1) != WORKING_HOURS_A_DAY)
-                throw new Exception("The schedule is not right");
+                throw new Exception("The schedule is not correct dimensions");
             this.schedule = schedule.Copy(); //TODO to this in all ENTITIES
         }
     }

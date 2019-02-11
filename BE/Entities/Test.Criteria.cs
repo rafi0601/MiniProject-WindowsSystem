@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BE
@@ -9,7 +10,7 @@ namespace BE
     public sealed partial class Test
     {
         [Serializable]
-        public class Criteria : IEnumerable 
+        public class Criteria : IEnumerable
         {
             public bool? KeepDistance { get; set; }
             public bool? BackParking { get; set; }
@@ -26,10 +27,15 @@ namespace BE
                 return (uint)GetType().GetProperties().Count(property => (bool?)property.GetValue(this) == true);
             }
 
+
             public IEnumerator GetEnumerator()
             {
-                throw new NotImplementedException();
+                foreach (System.Reflection.PropertyInfo criterion in GetType().GetProperties())
+                {
+                    yield return criterion;
+                }
             }
+
 
             public Criteria() { }
 

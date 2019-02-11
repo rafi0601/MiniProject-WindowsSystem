@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:PL_WPF"
              mc:Ignorable="d" >
 
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
         <local:DateTimeToDateString_Converter x:Key="con"/>
-    </UserControl.Resources>-->
+    </UserControl.Resources>
     <WrapPanel Orientation="Vertical">
         <Calendar HorizontalAlignment="Center" x:Name="calendar" SelectionMode="SingleDate" SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
         <ListBox x:Name="hoursListBox" IsEnabled="False" SelectionChanged="HoursListBox_SelectionChanged" VerticalContentAlignment="Center">
