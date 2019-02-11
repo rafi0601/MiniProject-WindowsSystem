@@ -181,11 +181,11 @@ namespace BE
                 throw new ArgumentNullException("Test mustn't be null");
 
             #region Code
-           // if (test.Code == null)
-           //     throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
-           //
-           // if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
-           //     throw new ArgumentException("Code is not valid");
+            // if (test.Code == null)
+            //     throw new ArgumentNullException("Code mustn't be null or empty or consists only white spaces");
+            //
+            // if (test.Code.Length != 8 || !uint.TryParse(test.Code, out uint temp))
+            //     throw new ArgumentException("Code is not valid");
             #endregion
 
             #region TesterID
@@ -240,18 +240,20 @@ namespace BE
                 throw new Exception();
             #endregion
 
-                #region TesterNotes
-                #endregion
+            #region TesterNotes
+            if (string.IsNullOrWhiteSpace(test.TesterNotes))
+                throw new ArgumentException("The tester must enter notes.");
+            #endregion
 
-                /*
-                #region Length
-                if (test.Length == null)
-                    throw new ArgumentNullException("The test's length musn't be null");
-                #endregion
-                */
-                //IsDone cant done before TestDate
-                //IsPass cant pass if most failed
-                //TesterNotes
+            /*
+            #region Length
+            if (test.Length == null)
+                throw new ArgumentNullException("The test's length musn't be null");
+            #endregion
+            */
+            //IsDone cant done before TestDate
+            //IsPass cant pass if most failed
+            //TesterNotes
         }
 
         #region
