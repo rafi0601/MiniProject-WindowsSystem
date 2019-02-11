@@ -75,9 +75,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DS_Xml\configs.xml%29" />
-    <None Include="DS_Xml\testers.xml%29" />
+    <None Include="DS_Xml\testers.xml%29">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DS_Xml\tests.xml%29" />
-    <None Include="DS_Xml\trainees.xml%29" />
+    <None Include="DS_Xml\trainees.xml%29">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

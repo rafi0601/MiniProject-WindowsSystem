@@ -414,6 +414,7 @@
                         <Button Name="Refresh_Button" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
                             <materialDesign:PackIcon Name="Refresh_Icon" Kind="Refresh" Foreground="#FF2196F3" Width="25" Height="25" Margin="0"/>
                         </Button>
+                        
                     </Grid>
 
                     <Grid>
