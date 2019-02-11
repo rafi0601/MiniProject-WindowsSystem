@@ -84,17 +84,18 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="15.6*"/>
-            <RowDefinition Height="84.6*" x:Name="TabControlRow"/>
+            <RowDefinition Height="128*"/>
+            <RowDefinition Height="129*" x:Name="TabControlRow"/>
+            <RowDefinition Height="564*"/>
         </Grid.RowDefinitions>
 
-        <Label x:Name="MainGrid_Col1" Grid.Column="1"/>
+        <Label x:Name="MainGrid_Col1" Grid.ColumnSpan="2" Margin="149,0,0.333,0"/>
         <!--<Grid x:Name="AB" Height="125" Background="Orange" Width="125" Grid.Column="1" Margin="111,246.2,633.6,110.4" Grid.Row="1"/>
         <Rectangle x:Name="aba" Fill="DeepPink" HorizontalAlignment="Left" Height="60" Margin="5,181.2,-5.4,0" Grid.Row="1" VerticalAlignment="Top" Width="{Binding ElementName=MainGrid, Path=Width,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>-->
         <!--not neccary-->
-        <Label x:Name="MainGrid_Row1" Grid.Row="1"/>
+        <Label x:Name="MainGrid_Row1" Grid.Row="1" Margin="0,0,0.333,-0.333" Grid.RowSpan="2"/>
 
-        <Grid x:Name="MenuGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
+        <Grid x:Name="MenuGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="0,0,0.333,-0.333">
             <Grid.Effect>
                 <DropShadowEffect/>
             </Grid.Effect>
@@ -115,7 +116,7 @@
             <Image Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Accessories/Images/profile.png"/>
         </Grid>
 
-        <Rectangle x:Name="RectangleTop" Grid.Row="0" Grid.Column="1" >
+        <Rectangle x:Name="RectangleTop" Grid.Row="0" Grid.ColumnSpan="2" Margin="149,0,0.333,0" >
             <Rectangle.Effect>
                 <DropShadowEffect/>
             </Rectangle.Effect>
@@ -126,8 +127,8 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
-        <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
+        <Label x:Name="headlineLable" Grid.Row="0" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI" Grid.ColumnSpan="2" Margin="149,36,0,36"/>
+        <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}" Grid.RowSpan="2">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile" VerticalAlignment="Top">
                 <Grid>
@@ -381,7 +382,26 @@
 
                             <Label Content="Future tests" FontSize="35" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
                             <!--<Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="1" Width="100" HorizontalAlignment="Right"/>-->
-                            <Button Name="Refresh_Button" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                            <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                                <Button.RenderTransform>
+                                    <RotateTransform Angle="0"/>
+                                </Button.RenderTransform>
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="Refresh_Button" Duration="0:0:0.300" Storyboard.TargetProperty="RenderTransform.Angle" By="90" To="180" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="Refresh_Button" Duration="0:0:0.600" Storyboard.TargetProperty="RenderTransform.Angle" To="0" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                                 <materialDesign:PackIcon Name="Refresh_Icon" Kind="Refresh" Foreground="#FF2196F3" Width="40" Height="40"/>
                             </Button>
                         </Grid>

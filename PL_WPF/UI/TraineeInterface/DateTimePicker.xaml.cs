@@ -50,25 +50,23 @@ namespace PL_WPF
 
         private void HoursListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            //SelectionChanged?.Invoke(this, new EventArgs());
-            SelectionChanged(this, new EventArgs());
+            SelectionChanged?.Invoke(this, new EventArgs());
         }
 
         public event EventHandler SelectionChanged; // CHECK which args to use
     }
 
-    //public class DateTimeToDateString_Converter : IValueConverter
-    //{
-    //    object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        if (!(value is DateTime date)) throw new Exception();
-    //        return date.ToShortTimeString();
-    //    }
+    public class DateTimeToDateString_Converter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is DateTime date)) throw new Exception();
+            return date.ToShortTimeString();
+        }
 
-    //    object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

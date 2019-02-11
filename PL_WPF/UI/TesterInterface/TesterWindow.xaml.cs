@@ -36,7 +36,7 @@ namespace PL_WPF.UI.TesterInterface
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
             //vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
             vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
 
             firstNameTextBox.Text = tester.Name.FirstName;
             lastNameTextBox.Text = tester.Name.LastName;
@@ -46,7 +46,7 @@ namespace PL_WPF.UI.TesterInterface
 
             foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)))
                 if (tester.VehicleTypesExpertise.HasFlag(vehicle))
-                    vehicleTypeExpertiseListBox.SelectedItems.Add(Tools.GetUserDisplayAttribute(vehicle)?.DisplayName);
+                    vehicleTypeExpertiseListBox.SelectedItems.Add(Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString());
 
             CheckBox11.IsChecked = tester.WorkingHours[0, 9];
             CheckBox12.IsChecked = tester.WorkingHours[1, 9];
