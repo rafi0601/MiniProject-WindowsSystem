@@ -1,2 +1,69 @@
 <?xml version="1.0"?>
-<ArrayOfTester xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<ArrayOfTester xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Tester>
+    <ID>323947747</ID>
+    <Name>
+      <LastName>Garber</LastName>
+      <FirstName>Shmuel</FirstName>
+    </Name>
+    <Birthdate>1950-07-13T00:00:00</Birthdate>
+    <Gender>male</Gender>
+    <MobileNumber>0547424870</MobileNumber>
+    <Address>
+      <Street>Hganenet</Street>
+      <HouseNumber>5</HouseNumber>
+      <City>Jerusalem</City>
+    </Address>
+    <Password>1234</Password>
+    <YearsOfExperience>10</YearsOfExperience>
+    <MaxOfTestsPerWeek>30</MaxOfTestsPerWeek>
+    <VehicleTypesExpertise>tractor</VehicleTypesExpertise>
+    <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
+    <unavailableDates />
+    <workingHours>True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
+  </Tester>
+  <Tester>
+    <ID>322680083</ID>
+    <Name>
+      <LastName>Goldis</LastName>
+      <FirstName>Refael</FirstName>
+    </Name>
+    <Birthdate>1949-05-12T00:00:00</Birthdate>
+    <Gender>male</Gender>
+    <MobileNumber>0556824870</MobileNumber>
+    <Address>
+      <Street>HaShayarot</Street>
+      <HouseNumber>24</HouseNumber>
+      <City>Jerusalem</City>
+    </Address>
+    <Password>1234</Password>
+    <YearsOfExperience>6</YearsOfExperience>
+    <MaxOfTestsPerWeek>16</MaxOfTestsPerWeek>
+    <VehicleTypesExpertise>privateCar</VehicleTypesExpertise>
+    <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
+    <unavailableDates />
+    <workingHours>False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
+  </Tester>
+  <Tester>
+    <ID>040004467</ID>
+    <Name>
+      <LastName>R</LastName>
+      <FirstName>G</FirstName>
+    </Name>
+    <Birthdate>1970-01-01T00:00:00</Birthdate>
+    <Gender>male</Gender>
+    <MobileNumber>0524267195</MobileNumber>
+    <Address>
+      <Street>a</Street>
+      <HouseNumber>2</HouseNumber>
+      <City>j</City>
+    </Address>
+    <Password>1234</Password>
+    <YearsOfExperience>3</YearsOfExperience>
+    <MaxOfTestsPerWeek>3</MaxOfTestsPerWeek>
+    <VehicleTypesExpertise>privateCar twoWheeledVehicle</VehicleTypesExpertise>
+    <MaxDistanceFromAddress>3</MaxDistanceFromAddress>
+    <unavailableDates />
+    <workingHours>True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
+  </Tester>
+</ArrayOfTester>

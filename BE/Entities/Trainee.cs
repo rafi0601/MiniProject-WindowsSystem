@@ -24,9 +24,9 @@ namespace BE
         public Trainee() { }
 
         public Trainee(string id, PersonName name, DateTime birthdate, Gender gender,
-            string phoneNumber, Address address, string password, Vehicle vehicleTypeTraining, Gearbox gearboxTypeTraining,
+            string mobileNumber, Address address, string password, Vehicle vehicleTypeTraining, Gearbox gearboxTypeTraining,
             string drivingSchool, PersonName teacherName, uint numberOfDoneLessons, DateTime theLastTest = default) //UNDONE DateTime theLastTest
-            : base(id, name, birthdate, gender, phoneNumber, address, password)
+            : base(id, name, birthdate, gender, mobileNumber, address, password)
         {
             VehicleTypeTraining = vehicleTypeTraining;
             GearboxTypeTraining = gearboxTypeTraining;
@@ -38,7 +38,7 @@ namespace BE
 
         public Trainee(Trainee trainee)
             : this(trainee.ID, trainee.Name, trainee.Birthdate, trainee.Gender,
-                  trainee.PhoneNumber, trainee.Address, trainee.Password, trainee.VehicleTypeTraining, trainee.GearboxTypeTraining,
+                  trainee.MobileNumber, trainee.Address, trainee.Password, trainee.VehicleTypeTraining, trainee.GearboxTypeTraining,
                   trainee.DrivingSchool, trainee.TeacherName, trainee.NumberOfDoneLessons, trainee.TheLastTest)
         { }
 

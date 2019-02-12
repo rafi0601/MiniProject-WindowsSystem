@@ -54,10 +54,19 @@ namespace PL_WPF.UI.TraineeInterface
                 if (bl.GetTrainee(iDTextBox.Text) != null)
                     throw new CasingException(true, new Exception("This id already exists in the system"));
 
-                trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
-                trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
-                trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
-                trainee.Password = passwordBoxNew.Password;
+                try
+                {
+
+                    trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
+                    trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
+                    trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+                    trainee.Password = passwordBoxNew.Password;
+                }
+                catch (Exception ex)
+                {
+                    throw new CasingException(true, ex);
+                }
+
 
                 foreach (string expertise in vehicleListBox.SelectedItems)
                     trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
@@ -83,7 +92,7 @@ namespace PL_WPF.UI.TraineeInterface
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                          select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
             //vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
         }
     }

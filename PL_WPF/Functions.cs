@@ -5,6 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using BE;
 using static BE.Configuration;
 
@@ -43,6 +44,17 @@ namespace PL_WPF
 
             return true;
         }
+
+
+        internal static List<string> errorMessages = new List<string>();
+        private static void Input_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+                errorMessages.Add(e.Error.Exception.Message);
+            else
+                errorMessages.Remove(e.Error.Exception.Message);
+        }
+
     }
     
 }

@@ -16,7 +16,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="The test was determined successfully!" Grid.Column="0" FontSize="25" HorizontalAlignment="Left"/>
-            <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+            <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refrash_Button_Click" Grid.Column="2" Width="Auto" Height="Auto" HorizontalAlignment="Right">
                 <Button.RenderTransform>
                     <RotateTransform Angle="0"/>
                 </Button.RenderTransform>

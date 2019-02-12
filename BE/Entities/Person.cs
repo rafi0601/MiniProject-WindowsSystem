@@ -24,12 +24,12 @@ namespace BE
     {
         string IKey.Key => ID;
 
-        private string _iD; public string ID { get => _iD; /*private*/set => _iD = value.PadLeft(totalWidth: 9, paddingChar: '0'); }
-        public PersonName Name { get; set; } = new PersonName();
-        public DateTime Birthdate { get; /*private*/set; } = new DateTime();
-        public Gender Gender { get; /*private*/ set; }
-        public string PhoneNumber { get; set; }
-        public Address Address { get; set; } = new Address();
+        private string _iD; public string ID { get => _iD; set => _iD = value.PadLeft(totalWidth: 9, paddingChar: '0'); }
+        public PersonName Name { get; set; }
+        public DateTime Birthdate { get; set; }
+        public Gender Gender { get; set; }
+        public string MobileNumber { get; set; }
+        public Address Address { get; set; }
         public string Password { get; set; }
 
 
@@ -37,19 +37,19 @@ namespace BE
         { }
 
         public Person(string id, PersonName name, DateTime birthdate,
-            Gender gender, string phoneNumber, Address address, string password)
+            Gender gender, string mobileNumber, Address address, string password)
         {
             ID = id;
             Name = name;
             Birthdate = birthdate;
             Gender = gender;
-            PhoneNumber = phoneNumber;
+            MobileNumber = mobileNumber;
             Address = address;
             Password = password;
         }
 
         public Person(Person person)
-            : this(person.ID, person.Name, person.Birthdate, person.Gender, person.PhoneNumber, person.Address, person.Password)
+            : this(person.ID, person.Name, person.Birthdate, person.Gender, person.MobileNumber, person.Address, person.Password)
         { }
 
 

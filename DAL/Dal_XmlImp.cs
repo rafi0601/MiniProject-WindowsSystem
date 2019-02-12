@@ -217,9 +217,6 @@ namespace DAL
             return (
                 from trainee in trainees.Root.Elements()
                 where trainee.Element(nameof(tmp.ID)).Value == id
-                let nameXElement = trainee.Element(nameof(tmp.Name))
-                let addressXElement = trainee.Element(nameof(tmp.Address))
-                let teacherNameXElement = trainee.Element(nameof(tmp.TeacherName))
                 select FromXElement(trainee)
                 ).FirstOrDefault();
         }
@@ -249,7 +246,7 @@ namespace DAL
                 new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
                 DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
                 (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
-                traineeXElement.Element(nameof(tmp.PhoneNumber)).Value,
+                traineeXElement.Element(nameof(tmp.MobileNumber)).Value,
                 new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
                 traineeXElement.Element(nameof(tmp.Password)).Value,
                 (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
@@ -271,7 +268,7 @@ namespace DAL
                         new XElement(nameof(trainee.Name.FirstName), trainee.Name.FirstName)),
                     new XElement(nameof(trainee.Birthdate), trainee.Birthdate),
                     new XElement(nameof(trainee.Gender), trainee.Gender),
-                    new XElement(nameof(trainee.PhoneNumber), trainee.PhoneNumber),
+                    new XElement(nameof(trainee.MobileNumber), trainee.MobileNumber),
                     new XElement(nameof(trainee.Address),
                         new XElement(nameof(trainee.Address.Street), trainee.Address.Street),
                         new XElement(nameof(trainee.Address.HouseNumber), trainee.Address.HouseNumber),

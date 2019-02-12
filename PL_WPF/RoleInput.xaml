@@ -7,7 +7,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF"
         mc:Ignorable="d"
-        Title="RoleInput" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Width="202.071" Height="96.994" >
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Width="202.071" Height="96.994" 
+        Style="{StaticResource ResourceKey=WindowsStyle}">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color=" #FF2281D1"/>

@@ -38,7 +38,8 @@ namespace PL_WPF.UI.TesterInterface
         {
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName??vehicle.ToString();
+
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -49,7 +50,10 @@ namespace PL_WPF.UI.TesterInterface
                     throw new CasingException(true, new Exception("The authentication password not correct."));
 
                 if (bl.GetTrainee(iDTextBox.Text) != null)
-                    throw new CasingException(true, new Exception("This id already exists in the system"));
+                    throw new CasingException(true, new Exception("Alredy exist"));
+
+                try
+                {
 
                 tester.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
@@ -61,6 +65,11 @@ namespace PL_WPF.UI.TesterInterface
                     { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
                     { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
                 });
+                }
+                catch(Exception ex)
+                {
+                    throw new CasingException(true, ex);
+                }
 
                 foreach (string expertise in vehicleTypeExpertiseListBox.SelectedItems)
                     tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);

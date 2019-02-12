@@ -19,27 +19,18 @@ namespace BL
     public partial class Bl_imp : IBL
     {
 
-        private readonly DAL.IDal dal = DAL.Singleton.Instance;
+        private protected readonly DAL.IDal dal = DAL.Singleton.Instance;
 
         #region Tester functions
 
         public void AddTester(Tester tester)
         {
-            try
-            {
-                Inspections.TesterInspection(tester);
-            }
-            catch (Exception e)
-            {
-                throw new CasingException(true, e);
-            }
+            TesterLogicsInspection(tester);
 
             if (ExistingTesterById(tester.ID))
                 throw new CasingException(true, new Exception("This tester already exists in the database."));
             if (ExistingTraineeById(tester.ID))
                 throw new CasingException(true, new Exception("A trainee cannot be a tester."));
-
-            TesterLogicsInspection(tester);
 
             try
             {
@@ -60,7 +51,6 @@ namespace BL
             if (tester is null)
                 throw new CasingException(true, new ArgumentNullException("Cannot remove null."));
 
-            //if (tester.UnavailableDates.Any(dt => dt > DateTime.Now))
             if (dal.GetTests(test => test.TesterID == tester.ID && test.IsPass == null).Any())
                 throw new CasingException(true, new Exception("The tester have future tests."));
 
@@ -80,19 +70,10 @@ namespace BL
 
         public void UpdateTester(Tester tester)
         {
-            try
-            {
-                Inspections.TesterInspection(tester);
-            }
-            catch (Exception e)
-            {
-                throw new CasingException(true, e);
-            }
+            TesterLogicsInspection(tester);
 
             if (!ExistingTesterById(tester.ID))
                 throw new CasingException(true, new ArgumentException("This tester doesn't exist in the database."));
-
-            TesterLogicsInspection(tester);
 
             try
             {
@@ -135,23 +116,27 @@ namespace BL
                           .ToList();
         }
 
-        public List<Tester> VacantTesters(DateTime dateAndTime) //BUG inputcheck
+        public List<Tester> VacantTesters(DateTime dateAndTime)
         {
             bool WillAvailable(Tester tester)
             {
                 DateTime theFirstDayInTheWeek = dateAndTime.Date.AddDays(-1 * (int)dateAndTime.DayOfWeek);
 
                 uint counterOfTheTestInTheWeek = 0;
-                foreach (DateTime testDateTime in tester.UnavailableDates)
+                foreach (DateTime unavailableDate in tester.UnavailableDates)
                 {
-                    if (testDateTime == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
+                    if (unavailableDate == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
                         return false;
 
-                    if (theFirstDayInTheWeek == testDateTime.AddDays(-1 * (int)testDateTime.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (theFirstDayInTheWeek == unavailableDate.AddDays(-1 * (int)unavailableDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
                 }
                 return counterOfTheTestInTheWeek < tester.MaxOfTestsPerWeek;
             }
+
+            if ((int)dateAndTime.DayOfWeek >= WORKING_DAYS_A_WEEK ||
+                dateAndTime.Hour < BEGINNING_OF_A_WORKING_DAY || dateAndTime.Hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
+                throw new ArgumentOutOfRangeException("The date is not in the working hours");
 
             return (from tester in dal.GetTesters(t => t.WorkingHours[(int)dateAndTime.DayOfWeek, (int)dateAndTime.Hour])
                     where WillAvailable(tester)
@@ -159,29 +144,18 @@ namespace BL
                     .ToList();
         }
 
-
-
         #endregion
 
         #region Trainee functions
 
         public void AddTrainee(Trainee trainee)
         {
-            try
-            {
-                Inspections.TraineeInspection(trainee);
-            }
-            catch (Exception e)
-            {
-                throw new CasingException(true, e);
-            }
+            TraineeLogicsInspection(trainee);
 
             if (ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This trainee already exists in the database."));
             if (ExistingTesterById(trainee.ID))
                 throw new CasingException(true, new Exception("A tester cannot be a trainee."));
-
-            TraineeLogicsInspection(trainee);
 
             try
             {
@@ -196,8 +170,6 @@ namespace BL
                 throw new CasingException(true, e);
             }
         }
-
-
 
         public void RemoveTrainee(Trainee trainee)
         {
@@ -223,19 +195,10 @@ namespace BL
 
         public void UpdateTrainee(Trainee trainee)
         {
-            try
-            {
-                Inspections.TraineeInspection(trainee);
-            }
-            catch (Exception e)
-            {
-                throw new CasingException(true, e);
-            }
+            TraineeLogicsInspection(trainee);
 
             if (!ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This trainee doesn't exist in the database."));
-
-            TraineeLogicsInspection(trainee);
 
             try
             {
@@ -281,10 +244,38 @@ namespace BL
 
         #region Test functions
 
-        public async Task<DateTime?> AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
+        public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         { // TODO return bool is success, and get out HATZAA
+            if (!vehicle.IsFlag())
+                throw new CasingException(false, new Exception("Test can be only on one vehicle."));
 
-            TestLogicsInspections(trainee, testDate, departureAddress, vehicle);
+            if (!ExistingTraineeById(trainee.ID))
+                throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
+
+            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
+                throw new CasingException(true, new ArgumentException("It is illegal to access to test less than 7 days after the last one"));
+
+            if (trainee.NumberOfDoneLessons < MIN_LESSONS)
+                throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons"));
+
+            if (dal.GetTests(test => test.TraineeID == trainee.ID && test.Date == testDate).Any() == true)
+                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
+
+            if (IsEntitledToLicense(trainee))
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
+
+            if (dal.GetTests(test => test.TraineeID == trainee.ID && test.IsDone() == false).Any() == true)
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
+
+            if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive"));
+
+            if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
+                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers"));
+            //BUG
+            //if (testDate < DateTime.Now)
+            //    throw new ArgumentException("The requested time has passed");
+
 
             try
             {
@@ -304,7 +295,7 @@ namespace BL
                 //{
                 //    yield return alternativeDate;
                 //}
-                return FindingAnAlternativeDateForTest(testDate, departureAddress, vehicle)?.Item1 ?? throw new Exception("There are no available tests in the near future");//TODO change it (it is not exception)
+                return FindingAnAlternativeDateForTest(testDate, departureAddress, vehicle)?.Item1 ?? throw new Exception("There is no test available in the near future from the chosen date");
             }
             catch (OverflowException e)
             {
@@ -320,18 +311,15 @@ namespace BL
             }
         }
 
-
-
-
         public void UpdateTest(string code, Test.Criteria criteria, bool isPass, string testerNotes)
         {
-            //if (!dal.GetTest(test.Code).Exists(t => t.IDTrainee == trainee.ID && !t.IsDone()))
             Test theTest = dal.GetTest(code);
+
             if (theTest == null)
                 throw new CasingException(true, new ArgumentException("This test doesn't exist in the database"));
 
-            if (theTest.Date > DateTime.Now)
-                throw new CasingException(true, new Exception());//UNDONE
+            if (!theTest.IsDone())
+                throw new CasingException(true, new Exception("Cannot give grade for future test"));
 
             if (theTest.IsPass != null)
                 throw new CasingException(true, new Exception("Cannot update updated test"));
@@ -340,7 +328,7 @@ namespace BL
                 throw new CasingException(true, new ArgumentException("It is illegal to pass a test if the trainee does not pass through more than " + MIN_CRITERIONS_TO_PASS_TEST + " Cartierians."));
 
             if (string.IsNullOrWhiteSpace(testerNotes))
-                throw new CasingException(true, new ArgumentException("You must enter a test note"));
+                throw new CasingException(true, new ArgumentException("A tester must enter a test note"));
 
             theTest.CriteriasGrades = criteria;
             theTest.IsPass = isPass;
@@ -370,7 +358,6 @@ namespace BL
             return dal.GetTests(match);
         }
 
-
         public List<Test> GetSortedFutureTests()
         {
             return (from test in dal.GetTests()
@@ -381,72 +368,6 @@ namespace BL
         }
 
         #endregion
-
-        #region private functions
-
-        private bool ExistingTesterById(string id)
-        {
-            return dal.GetTester(id) != null;
-        }
-
-        private bool ExistingTraineeById(string id)
-        {
-            return dal.GetTrainee(id) != null;
-        }
-
-        private bool ExistingTestByCode(string code)
-        {
-            return dal.GetTest(code) != null;
-        }
-
-
-        private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle) // BUG input check
-        {
-            return (from vacantTester in VacantTesters(testDate)
-                    where vacantTester.VehicleTypesExpertise.HasFlag(vehicle)
-                    join testerInArea in TheTestersWhoLiveInTheDistance(departureAddress) on vacantTester.ID equals testerInArea.ID
-                    where testerInArea != null
-                    select vacantTester).FirstOrDefault();
-
-            //return (from vacantTester in VacantTesters(testDate)
-            //            from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
-            //                where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
-            //                select vacantTester).ToList().FirstOrDefault();
-
-            // List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
-            // if (optionalTesters.Any())
-            //     return optionalTesters[rand.Next(optionalTesters.Count)];
-            // return null;
-        }
-
-
-        //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
-        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
-        {
-            if (!vehicleTypeLearning.IsFlag())
-                throw new CasingException(true, new ArgumentException());
-
-            DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
-                aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
-
-            while (dateTime < aPeriodFromToday)
-            {
-                while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
-                {
-                    Tester vacantTester = SearchForTester(dateTime, departureAddress, vehicleTypeLearning);
-                    if (vacantTester != default)
-                        return (dateTime, vacantTester);
-                    dateTime = dateTime.AddHours(1);
-                }
-
-                dateTime = dateTime.AddHours(-WORKING_HOURS_A_DAY);
-                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Thursday ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
-            }
-
-            return null;
-        }
-        #endregion
-
 
         #region Grouping
 
@@ -534,8 +455,17 @@ namespace BL
 
         #region Logics Inspections
 
-        private void TesterLogicsInspection(Tester tester)
+        private protected void TesterLogicsInspection(Tester tester)
         {
+            try
+            {
+                Inspections.TesterInspection(tester);
+            }
+            catch (Exception e)
+            {
+                throw new CasingException(true, e);
+            }
+
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
                 throw new CasingException(true, new ArgumentException("The tester's age is not appropriate."));
@@ -550,72 +480,95 @@ namespace BL
                 throw new CasingException(true, new ArgumentException("Max Distance From Address can not get 0."));
         }
 
-        private void TraineeLogicsInspection(Trainee trainee)
+        private protected void TraineeLogicsInspection(Trainee trainee)
         {
-            if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
-                throw new CasingException(true, new ArgumentException("This Trainee's age is not appropriate."));
+            try
+            {
+                Inspections.TraineeInspection(trainee);
+            }
+            catch (Exception e)
+            {
+                throw new CasingException(true, e);
+            }
 
+            if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
+                throw new CasingException(true, new ArgumentOutOfRangeException("This Trainee's age is not appropriate."));
         }
 
-        private void TestLogicsInspections(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
+        private protected void TestLogicsInspections(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         {
-            //if(testDate<DateTime.Now&&testDate<DateTime.Now.AddDays(7))
 
-            if (!vehicle.IsFlag())
-                throw new CasingException(false, new Exception());
-
-            if (!ExistingTraineeById(trainee.ID))
-                throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
-
-            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
-                throw new CasingException(true, new ArgumentException("It is illegal to access to test less than 7 days after the last one"));
-
-            if (trainee.NumberOfDoneLessons < MIN_LESSONS)
-                throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons"));
-
-            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Date == testDate).Any() == true)
-                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
-
-            if (IsEntitledToLicense(trainee))
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
-
-            if (dal.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle.HasFlag(vehicle) && t.IsDone() == false).Any() == true)
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
-
-            if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive"));
-
-            if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
-                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers"));
-            //BUG
-            //if (testDate < DateTime.Now)
-            //    throw new ArgumentException("The requested time has passed");
         }
 
         #endregion
 
-        public Tester FindsAnAlternativeTester(Test test)
+        #region private functions
+
+        private bool ExistingTesterById(string id)
+        {
+            return dal.GetTester(id) != null;
+        }
+
+        private bool ExistingTraineeById(string id)
+        {
+            return dal.GetTrainee(id) != null;
+        }
+
+        private bool ExistingTestByCode(string code)
+        {
+            return dal.GetTest(code) != null;
+        }
+
+
+        private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle) // BUG input check
+        {
+            return (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)//.AsParallel()
+                    where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
+                    join vacantTester in VacantTesters(testDate)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
+                    where vacantTester != null
+                    select testerInArea).FirstOrDefault();
+
+
+            //return (from vacantTester in VacantTesters(testDate)
+            //            from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
+            //                where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
+            //                select vacantTester).ToList().FirstOrDefault();
+
+            // List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
+            // if (optionalTesters.Any())
+            //     return optionalTesters[rand.Next(optionalTesters.Count)];
+            // return null;
+        }
+
+        private Tester FindsAnAlternativeTester(Test test)
         {
             return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
         }
 
-        public bool TakeVacations(Tester tester, params DateTime[] dateTimes)
+        //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
+        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
         {
-            return true;
-        }
+            if (!vehicleTypeLearning.IsFlag())
+                throw new CasingException(true, new ArgumentException());
 
-        public IEnumerable<Person> GetPeople()
-        {
-            return (from p in dal.GetTrainees()
-                    select p).Concat((IEnumerable<Person>)(from p in dal.GetTesters()
-                                                           select p));
+            DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
+                aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
 
-            //List<Person> list = new List<Person>();
+            while (dateTime < aPeriodFromToday)
+            {
+                while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
+                {
+                    Tester vacantTester = SearchForTester(dateTime, departureAddress, vehicleTypeLearning);
+                    if (vacantTester != default)
+                        return (dateTime, vacantTester);
+                    dateTime = dateTime.AddHours(1);
+                }
 
-            //list.AddRange(GetTrainees());
-            //list.AddRange(GetTesters());
+                dateTime = dateTime.AddHours(-WORKING_HOURS_A_DAY);
+                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Thursday ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
+            }
 
-            //return list;
+            return null;
         }
 
         private (double distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
@@ -758,6 +711,40 @@ namespace BL
             ///}
 
         }
+
+        #endregion
+
+        #region Not Used In UI
+
+        public void TakeVacations(Tester tester, params DateTime[] dateTimes)
+        {
+            foreach (DateTime dateTime in dateTimes)
+            {
+                // CHECK that the date is work time
+                if (tester.UnavailableDates.Exists(dt => dt == dateTime))
+                    throw new CasingException(true, new Exception("You can't take a vacation on " + dateTime)); //TODO check if it is already vacation
+                tester.UnavailableDates.Add(dateTime);
+                UpdateTester(tester);
+            }
+        }
+
+        [Obsolete("Undone",true)]
+        public IEnumerable<Person> GetPeople()
+        {
+            // it wont work until Person:IEquatable
+            return (from p in dal.GetTrainees()
+                    select p).Concat((IEnumerable<Person>)(from p in dal.GetTesters()
+                                                           select p));
+
+            //List<Person> list = new List<Person>();
+
+            //list.AddRange(GetTrainees());
+            //list.AddRange(GetTesters());
+
+            //return list;
+        }
+
+        #endregion
 
     }
 }

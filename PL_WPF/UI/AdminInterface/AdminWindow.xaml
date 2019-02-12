@@ -10,7 +10,8 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:PL_WPF="clr-namespace:PL_WPF"
         mc:Ignorable="d"
-        Title="AdminWindow" Height="660" Width="1000">
+        Height="660" Width="1000"
+        Style="{StaticResource WindowsStyle}">
     <!-- <Grid>
         <StackPanel>
             <Button>Testers</Button>
@@ -127,7 +128,7 @@
         <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Testers">
+            <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
                 <WrapPanel Orientation="Vertical">
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
                     <ListBox x:Name="Testers_ListBox" HorizontalAlignment="Center" SelectionChanged="Testers_ListBox_SelectionChanged">
@@ -149,7 +150,7 @@
                                 <GridViewColumn Header="First Name" Width="120" DisplayMemberBinding="{Binding Name.FirstName}" />
                                 <GridViewColumn Header="Gender" Width="50" DisplayMemberBinding="{Binding Gender}"/>
                                 <GridViewColumn Header="Birthdate" Width="150" DisplayMemberBinding="{Binding Birthdate}" />
-                                <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                                <GridViewColumn Header="Mobile Number" DisplayMemberBinding="{Binding MobileNumber}"/>
                                 <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                                 <GridViewColumn Header="Years of experience" DisplayMemberBinding="{Binding YearsOfExperience}" />
                                 <GridViewColumn Header="Max of tests per week" DisplayMemberBinding="{Binding Address}" />
@@ -193,7 +194,7 @@
                                 <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"/>
                                 <GridViewColumn Header="Birthdate" DisplayMemberBinding="{Binding Birthdate}"/>
                                 <GridViewColumn Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
-                                <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                                <GridViewColumn Header="Mobile Number" DisplayMemberBinding="{Binding MobileNumber}"/>
                                 <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                                 <GridViewColumn Header="Vehicle type training" DisplayMemberBinding="{Binding VehicleTypeTraining}" />
                                 <GridViewColumn Header="Gearbox type training" DisplayMemberBinding="{Binding GearboxTypeTraining}" />

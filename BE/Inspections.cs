@@ -87,14 +87,14 @@ namespace BE
             #region Gender
             #endregion
 
-            #region PhoneNumber // cellphone
-            if (string.IsNullOrWhiteSpace(person.PhoneNumber))
-                throw new ArgumentNullException("Phone number mustn't be null or empty or consists only white spaces");
+            #region MobileNumber // cellphone
+            if (string.IsNullOrWhiteSpace(person.MobileNumber))
+                throw new ArgumentNullException("Mobile Number mustn't be null or empty or consists only white spaces");
 
-            if (!(ulong.TryParse(person.PhoneNumber, out ulong tmp) &&
-                person.PhoneNumber.Length == 10 && person.PhoneNumber.StartsWith("05") ||
-                person.PhoneNumber.Length == 13 && person.PhoneNumber.StartsWith("+9725")))
-                throw new ArgumentException("The phone number is not valid");
+            if (!(ulong.TryParse(person.MobileNumber, out ulong tmp) &&
+                person.MobileNumber.Length == 10 && person.MobileNumber.StartsWith("05") ||
+                person.MobileNumber.Length == 13 && person.MobileNumber.StartsWith("+9725")))
+                throw new ArgumentException("The mobile number is not valid");
             #endregion
 
             #region Address
@@ -109,6 +109,8 @@ namespace BE
             #endregion
 
             #region Password
+            if (string.IsNullOrEmpty(person.Password))
+                throw new ArgumentNullException("Password must have value.");
             #endregion
         }
 
@@ -120,23 +122,27 @@ namespace BE
 
             #region YearsOfExperience
             if (tester.YearsOfExperience > tester.AgeInYears)
-                throw new ArgumentOutOfRangeException("Years  of experience is illogical");
+                throw new ArgumentException("Years of experience is illogical");// ArgumentOutOfRangeException
             #endregion
 
             #region MaxOfTestsPerWeek
             if (tester.MaxOfTestsPerWeek > Configuration.WORKING_DAYS_A_WEEK * Configuration.WORKING_HOURS_A_DAY)
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentException("The maximum number of working hours is greater than the hours allowed in the schedule");
             #endregion
 
             #region VehicleTypesExpertise
+            if (tester.VehicleTypesExpertise == 0)
+                throw new ArgumentException("Tester must not have no experties.");
             #endregion
 
             #region WorkingHours
             if (tester.WorkingHours == null)
-                throw new ArgumentNullException("");
+                throw new ArgumentNullException("Schedule cannot be null");
             #endregion
 
             #region MaxDistanceFromAddress
+            if (tester.MaxDistanceFromAddress == 0)
+                throw new ArgumentException("Max distance from address cannot be zero.");
             #endregion
 
             #region UnavailableDates
@@ -154,6 +160,8 @@ namespace BE
             if (!trainee.VehicleTypeTraining.IsFlag())
                 throw new Exception();
 #endif
+            if (trainee.VehicleTypeTraining == 0)
+                throw new ArgumentException("Trainee must not have no vehicle type training.");
             #endregion
 
             #region GearboxTypeTraining
@@ -204,7 +212,7 @@ namespace BE
             {
                 IdValidator(test.TraineeID);
             }
-            catch (Exception e)// when (e is ArgumentNullException)
+            catch (Exception e)
             {
                 new ArgumentException("ID is not valid", e);
             }
@@ -230,6 +238,7 @@ namespace BE
             #region Vehicle
             if (!test.Vehicle.IsFlag())
                 throw new Exception();
+            //if is zero
             #endregion
 
             #region CriteriasGrades
@@ -241,8 +250,8 @@ namespace BE
             #endregion
 
             #region TesterNotes
-            if (string.IsNullOrWhiteSpace(test.TesterNotes))
-                throw new ArgumentException("The tester must enter notes.");
+            //if (string.IsNullOrWhiteSpace(test.TesterNotes))
+            //    throw new ArgumentException("The tester must enter notes.");
             #endregion
 
             /*

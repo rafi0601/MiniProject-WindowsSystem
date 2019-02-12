@@ -29,31 +29,54 @@ namespace PL_WPF.UI.TraineeInterface
 
         public TraineeWindow(Trainee trainee)
         {
+            if (trainee == null)
+                throw new CasingException(false, new ArgumentNullException("Cannot show null"));
+
             InitializeComponent();
+
+            //this.Closing += (sender, e) => Environment.Exit(Environment.ExitCode);
 
             DataContext = this.trainee = trainee;
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));//.SplitByUpperAndLower();
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
+            //vehicleListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
 
-            vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                         where trainee.VehicleTypeTraining.HasFlag(vehicle)
-                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
+            ////vehicleCheckListBox.SelectAll();
+            //List<object> list = new List<object>();
+            //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
+            //    if (trainee.VehicleTypeTraining.HasFlag(vehicle))
+            //        list.Add(vehicle);
+            //vehicleListBox.SelectedItems.Add = list;
+
+
+            //vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+            //                             where trainee.VehicleTypeTraining.HasFlag(vehicle)
+            //                             select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
             foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
                 if (trainee.VehicleTypeTraining.HasFlag(vehicle))
+                {
                     vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
-            vehicleListBox.SelectAll();
+                    vehicleListBox.SelectedItem = vehicleListBox.Items[0];
+                    break;
+                }
+            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
+                if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
+                    vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
+
+
 
             //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
             //    if (trainee.VehicleTypeTraining.HasFlag(vehicle))
             //    {
-            //        ListBoxItem newItem = new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() };
+            //        ListBoxItem newItem = new ListBoxItem() { Content = vehicle };
+            //        newItem.IsSelected = true;
             //        vehicleListBox.Items.Add(newItem);
-            //        vehicleListBox.SelectedItem = newItem;
+            //        //vehicleListBox.SelectedItem = newItem;
             //    }
             //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
             //    if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
-            //        vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
+            //        vehicleListBox.Items.Add(new ListBoxItem() { Content = vehicle });
 
             firstNameTextBox.Text = trainee.Name.FirstName;
             lastNameTextBox.Text = trainee.Name.LastName;
@@ -76,17 +99,29 @@ namespace PL_WPF.UI.TraineeInterface
             Grading.sendButton.Visibility = Visibility.Collapsed;
         }
 
+
+
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
-                trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
-                trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
 
-                trainee.VehicleTypeTraining = 0;
-                foreach (string expertise in vehicleListBox.SelectedItems)
-                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                try
+                {
+
+                    trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
+                    trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
+                    trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+
+
+                    trainee.VehicleTypeTraining = 0;
+                    foreach (ListBoxItem itemExpertise in vehicleListBox.SelectedItems)
+                        trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                }
+                catch (Exception ex)
+                {
+                    throw new CasingException(true, ex);
+                }
 
 
                 bl.UpdateTrainee(trainee);
@@ -230,19 +265,39 @@ namespace PL_WPF.UI.TraineeInterface
         //}
 
         //BackgroundWorker worker;
-        private DateTime? AlternateDate;
+        private DateTime? alternateDate;
 
         private async void CheckDateButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
+                busyIndicator.Visibility = Visibility.Visible;
+                //new Thread(() => Dispatcher.BeginInvoke((Action)(() => busyIndicator.Visibility = Visibility.Visible))).Start();
+
+                DateTime dt = dateTimePicker.DateTime;
+                Exception exception = null;
+
+                await Task.Run(new Action(() =>
+                {
+                    try
+                    {
+                        alternateDate = bl.AddTest(trainee, dt, trainee.Address, trainee.VehicleTypeTraining);
+                    }
+                    catch (Exception ex)
+                    {
+                        exception = ex;
+                    }
+                }));
+
+                busyIndicator.Visibility = Visibility.Collapsed;
+
+                if (exception != null)
+                    throw exception;
+
                 //Thread thread = new Thread(delegate () { AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining); });
 
-                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
-
-                Task<DateTime?> Foo() { return bl.AddTest(trainee, dateTimePicker.DateTime, trainee.Address, trainee.VehicleTypeTraining); }
-                AlternateDate = await Foo();
-                if (AlternateDate == null)
+                if (alternateDate == null)
                 {
                     DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
                     DetailsOfMyTest.Visibility = Visibility.Visible;
@@ -250,7 +305,7 @@ namespace PL_WPF.UI.TraineeInterface
                 }
                 else
                 {
-                    SuggestAlternateDateOfTest.Date.Text = AlternateDate.ToString();
+                    SuggestAlternateDateOfTest.Date.Text = alternateDate.ToString();
                     SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
                 }
             }
@@ -270,7 +325,7 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                bl.AddTest(trainee, (DateTime)AlternateDate, trainee.Address, trainee.VehicleTypeTraining);
+                bl.AddTest(trainee, (DateTime)alternateDate, trainee.Address, trainee.VehicleTypeTraining);
                 SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
                 DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
                 DetailsOfMyTest.Visibility = Visibility.Visible;

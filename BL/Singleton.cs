@@ -9,6 +9,7 @@ namespace BL
     public class Singleton
     {
         protected static IBL instance = null;
+        private static readonly object padlock = new object();
 
         protected Singleton() { }
 
@@ -17,7 +18,14 @@ namespace BL
             get
             {
                 if (instance == null)
-                    instance = new Bl_imp();
+                {
+                    lock (padlock)
+                    {
+                        if (instance == null)
+                            instance = new Bl_imp();
+                    }
+                }
+
                 return instance;
             }
         }
