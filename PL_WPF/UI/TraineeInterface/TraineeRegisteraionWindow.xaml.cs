@@ -50,10 +50,10 @@ namespace PL_WPF.UI.TraineeInterface
             try
             {
                 if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
-                    throw new Exception("The authentication password not correct.");
+                    throw new CasingException(true, new Exception("The authentication password not correct."));
 
                 if (bl.GetTrainee(iDTextBox.Text) != null)
-                    throw new Exception("Alredy exist");
+                    throw new CasingException(true, new Exception("Alredy exist"));
 
                 trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
@@ -85,7 +85,7 @@ namespace PL_WPF.UI.TraineeInterface
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                          select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName??vehicle.ToString();
             //vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
         }
     }

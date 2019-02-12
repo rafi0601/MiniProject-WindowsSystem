@@ -40,7 +40,7 @@ namespace PL_WPF.UI.TesterInterface
         {
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
+                                                      select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName??vehicle.ToString();
 
         }
 
@@ -49,10 +49,10 @@ namespace PL_WPF.UI.TesterInterface
             try
             {
                 if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
-                    throw new Exception("The authentication password not correct.");
+                    throw new CasingException(true, new Exception("The authentication password not correct."));
 
                 if (bl.GetTrainee(iDTextBox.Text) != null)
-                    throw new Exception("Alredy exist");
+                    throw new CasingException(true, new Exception("Alredy exist"));
 
                 tester.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };

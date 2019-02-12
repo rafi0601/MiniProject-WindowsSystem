@@ -60,8 +60,8 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <TextBlock Text="Forgot password?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50" Foreground="Gray" Cursor="Hand"/>
-            <TextBlock Text="Don't have a user?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20" Foreground="Gray" Cursor="Hand" MouseLeftButtonDown="Registeration_MouseLeftButtonDown" />
+            <!--<TextBlock Text="Forgot password?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20" Foreground="Gray" Cursor="Hand"/>-->
+            <TextBlock Text="Don't have a user?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50" Foreground="Gray" Cursor="Hand" MouseLeftButtonDown="Registeration_MouseLeftButtonDown" />
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <Button Name="Minimize_Button" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Minimize_Click" MouseEnter="Controller_MouseEnter" MouseLeave="Controller_MouseLeave">
                     <materialDesign:PackIcon Name="Minimize_Icon" Kind="WindowMinimize" Foreground="WhiteSmoke" Width="25" Height="25" Margin="0"/>

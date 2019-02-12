@@ -69,7 +69,7 @@ namespace PL_WPF
         {
             try
             {
-                if (idTextBox.Text.CompareTo("Admin") == 0 && passwordPasswordBox.Password.CompareTo("Admin") == 0)
+                if (idTextBox.Text.ToUpper().CompareTo("ADMIN") == 0 && passwordPasswordBox.Password.ToUpper().CompareTo("ADMIN") == 0)
                 {
                     new UI.AdminInterface.AdminWindow().Show();
                     return;

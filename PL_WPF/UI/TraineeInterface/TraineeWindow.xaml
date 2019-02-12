@@ -17,7 +17,7 @@
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="FontFamily" Value="Global Sans Serif" />
         </Style>
-        
+
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="18"/>
@@ -316,17 +316,17 @@
 
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="195*"/>
-                                <ColumnDefinition Width="53*"/>
-                                <ColumnDefinition Width="142*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,3" VerticalAlignment="Center" FontSize="18"/>
                             <!--<ComboBox x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeTraining}" Margin="2.8,3,3.4,3" Grid.ColumnSpan="2" />-->
-                            <xctk:DropDownButton Content="Choose vehicles"  Grid.Column="1">
+                            <xctk:DropDownButton Content="Choose vehicle"  Grid.Column="1">
                                 <xctk:DropDownButton.DropDownContent>
-                                    <ListBox x:Name="vehicleListBox" SelectionMode="Single" SelectedItem ="{Binding VehicleTypeTraining,  Mode=TwoWay}" Margin="3" HorizontalAlignment="Left"/>
+                                    <ListBox x:Name="vehicleListBox" SelectionMode="Single" Margin="3" Width="150" HorizontalAlignment="Left"/>
                                 </xctk:DropDownButton.DropDownContent>
                             </xctk:DropDownButton>
+                            <!--<xctk:CheckComboBox Grid.Column="1" x:Name="vehicleCheckListBox"/>-->
                         </Grid>
 
                         <Grid>
@@ -380,15 +380,17 @@
                 </Grid>
             </TabItem>
             <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test" >
+
                 <!--<TabItem.Header>-->
-                    <!--<StackPanel Orientation="Horizontal">-->
-                        
-                    <!--<materialDesign:PackIcon Kind="PlusCircle" Height="50" Width="40"/>-->
-                    <!--<Label Content="Add Test"/>-->
-                    <!--</StackPanel>-->
+                <!--<StackPanel Orientation="Horizontal">-->
+
+                <!--<materialDesign:PackIcon Kind="PlusCircle" Height="50" Width="40"/>-->
+                <!--<Label Content="Add Test"/>-->
+                <!--</StackPanel>-->
                 <!--</TabItem.Header>-->
                 <WrapPanel Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
                     <Label x:Name="ChooseLabel" FontSize="25" Margin="160,0,0,0">Choose a date that's convenient for you</Label>
+                    <xctk:BusyIndicator x:Name="busyIndicator" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="60" IsBusy="True" BusyContent="Please wait when we check your date"/>
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
                     <Label Height="15"/>
                     <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click"/>
@@ -396,6 +398,8 @@
                     <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
                     <!--<WindowsFormHost/>-->
                     <!--<xctk:DateTimePicker x:Name="addTestDateTimePicker" TimePickerAllowSpin="False" TimePickerShowButtonSpinner="False" AutoCloseCalendar="False" ValueChanged="DateTimePicker_ValueChanged" ShowButtonSpinner="False"  IsOpen="True" AllowTextInput="False" Height="103" Width="730"/>-->
+
+
                 </WrapPanel>
                 <!--<xctk:DateTimePicker TimePickerAllowSpin="False" AllowSpin="False" TimePickerShowButtonSpinner="False" ShowButtonSpinner="False" UpdateValueOnEnterKey="True" Format="FullDateTime"/>-->
                 <!--BUG minimun={Today}-->

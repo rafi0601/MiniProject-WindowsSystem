@@ -281,7 +281,7 @@ namespace BL
 
         #region Test functions
 
-        public async Task<DateTime?> AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
+        public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         { // TODO return bool is success, and get out HATZAA
 
             TestLogicsInspections(trainee, testDate, departureAddress, vehicle);

@@ -250,7 +250,7 @@
                             <!--<xctk:WatermarkComboBox Watermark="Choose vehicle" x:Name="vehicleTypeExpertiseComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeExpertise,  Mode=TwoWay}" Margin="3" />-->
                             <xctk:DropDownButton Content="Choose vehicles"  Grid.Column="1">
                                 <xctk:DropDownButton.DropDownContent>
-                                    <ListBox x:Name="vehicleTypeExpertiseListBox" SelectionMode="Multiple" SelectedItem ="{Binding VehicleTypeExpertise,  Mode=TwoWay}" Margin="3" Width="150" HorizontalAlignment="Left"/>
+                                    <ListBox x:Name="vehicleTypeExpertiseListBox" SelectionMode="Multiple" Margin="3" Width="150" HorizontalAlignment="Left"/>
                                 </xctk:DropDownButton.DropDownContent>
                             </xctk:DropDownButton>
                         </Grid>

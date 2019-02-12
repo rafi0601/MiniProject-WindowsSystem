@@ -28,6 +28,9 @@ namespace PL_WPF.UI.TesterInterface
 
         public TesterWindow(Tester tester)
         {
+            if (tester == null)
+                throw new CasingException(false, new ArgumentNullException("Cannot show null"));
+
             InitializeComponent();
 
             DataContext = this.tester = tester ?? throw new ArgumentException("Ther is no tester");
@@ -113,8 +116,8 @@ namespace PL_WPF.UI.TesterInterface
                 });
 
                 tester.VehicleTypesExpertise = 0;
-                foreach (string expertise in vehicleTypeExpertiseListBox.SelectedItems)
-                    tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                foreach (ListBoxItem itemExpertise in vehicleTypeExpertiseListBox.SelectedItems)
+                    tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
 
 

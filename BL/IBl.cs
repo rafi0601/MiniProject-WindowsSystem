@@ -200,7 +200,7 @@ namespace BL
         /// <param name="DepartureAddress"></param>
         /// <param name="Vehicle"></param>
         /// <returns></returns>
-        Task<DateTime?> AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
+        DateTime? AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
 
         /// <summary>
         /// 
