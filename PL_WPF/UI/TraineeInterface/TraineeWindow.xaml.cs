@@ -105,13 +105,23 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
-                trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
-                trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
 
-                trainee.VehicleTypeTraining = 0;
-                foreach (ListBoxItem itemExpertise in vehicleListBox.SelectedItems)
-                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                try
+                {
+
+                    trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
+                    trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
+                    trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+
+
+                    trainee.VehicleTypeTraining = 0;
+                    foreach (ListBoxItem itemExpertise in vehicleListBox.SelectedItems)
+                        trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                }
+                catch (Exception ex)
+                {
+                    throw new CasingException(true, ex);
+                }
 
 
                 bl.UpdateTrainee(trainee);
@@ -262,10 +272,11 @@ namespace PL_WPF.UI.TraineeInterface
             try
             {
                 dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
-                new Thread(() => Dispatcher.BeginInvoke((Action)(() => busyIndicator.Visibility = Visibility.Visible))).Start();
+                busyIndicator.Visibility = Visibility.Visible;
+                //new Thread(() => Dispatcher.BeginInvoke((Action)(() => busyIndicator.Visibility = Visibility.Visible))).Start();
 
                 DateTime dt = dateTimePicker.DateTime;
-                Exception exception=null;
+                Exception exception = null;
 
                 await Task.Run(new Action(() =>
                 {
@@ -273,7 +284,7 @@ namespace PL_WPF.UI.TraineeInterface
                     {
                         alternateDate = bl.AddTest(trainee, dt, trainee.Address, trainee.VehicleTypeTraining);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         exception = ex;
                     }

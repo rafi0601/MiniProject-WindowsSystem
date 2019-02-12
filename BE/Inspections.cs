@@ -87,14 +87,14 @@ namespace BE
             #region Gender
             #endregion
 
-            #region PhoneNumber // cellphone
-            if (string.IsNullOrWhiteSpace(person.PhoneNumber))
-                throw new ArgumentNullException("Phone number mustn't be null or empty or consists only white spaces");
+            #region MobileNumber // cellphone
+            if (string.IsNullOrWhiteSpace(person.MobileNumber))
+                throw new ArgumentNullException("Mobile Number mustn't be null or empty or consists only white spaces");
 
-            if (!(ulong.TryParse(person.PhoneNumber, out ulong tmp) &&
-                person.PhoneNumber.Length == 10 && person.PhoneNumber.StartsWith("05") ||
-                person.PhoneNumber.Length == 13 && person.PhoneNumber.StartsWith("+9725")))
-                throw new ArgumentException("The phone number is not valid");
+            if (!(ulong.TryParse(person.MobileNumber, out ulong tmp) &&
+                person.MobileNumber.Length == 10 && person.MobileNumber.StartsWith("05") ||
+                person.MobileNumber.Length == 13 && person.MobileNumber.StartsWith("+9725")))
+                throw new ArgumentException("The mobile number is not valid");
             #endregion
 
             #region Address

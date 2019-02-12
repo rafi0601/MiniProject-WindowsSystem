@@ -22,16 +22,16 @@ namespace BE
         {
             get
             {
-                if (day < 0 && day >= WORKING_DAYS_A_WEEK &&
-                    hour < BEGINNING_OF_A_WORKING_DAY && hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
+                if (day < 0 || day >= WORKING_DAYS_A_WEEK ||
+                    hour < BEGINNING_OF_A_WORKING_DAY || hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
                     throw new IndexOutOfRangeException("The day or time exceeds the schedule");
 
                 return schedule[day, hour - BEGINNING_OF_A_WORKING_DAY];
             }
             set
             {
-                if (day < 0 && day >= WORKING_DAYS_A_WEEK &&
-                    hour < BEGINNING_OF_A_WORKING_DAY && hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
+                if (day < 0 || day >= WORKING_DAYS_A_WEEK ||
+                    hour < BEGINNING_OF_A_WORKING_DAY || hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
                     throw new IndexOutOfRangeException("The day or time exceeds the schedule");
 
                 schedule[day, hour - BEGINNING_OF_A_WORKING_DAY] = value;

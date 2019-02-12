@@ -22,7 +22,7 @@ namespace BE
     }
 
     [Flags]
-    public enum Vehicle
+    public enum Vehicle : uint
     {
         [UserDisplay(nameof(privateCar))]
         privateCar = 0b1,
@@ -52,15 +52,6 @@ namespace BE
     //    twelve=12,
     //}
 
-    //public enum Criterion : uint
-    //{
-    //    KeepDistance,
-    //    BackParking,
-    //    UsingViewMirrors,
-    //    Signaling,
-    //    IntegrationIntoMovement,
-    //    ObeyParkSigns,
-    //}
 
     //public enum Grade : short
     //{

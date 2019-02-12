@@ -54,6 +54,9 @@ namespace PL_WPF.UI.TesterInterface
                 if (bl.GetTrainee(iDTextBox.Text) != null)
                     throw new CasingException(true, new Exception("Alredy exist"));
 
+                try
+                {
+
                 tester.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
                 tester.Password = passwordBoxNew.Password;
@@ -64,6 +67,11 @@ namespace PL_WPF.UI.TesterInterface
                     { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
                     { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
                 });
+                }
+                catch(Exception ex)
+                {
+                    throw new CasingException(true, ex);
+                }
 
                 foreach (string expertise in vehicleTypeExpertiseListBox.SelectedItems)
                     tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);

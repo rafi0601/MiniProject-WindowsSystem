@@ -15,6 +15,8 @@ namespace BE
 {
     public static class Tools
     {
+        #region strings
+
         internal static string SplitByUpperAndToLower(this string str)
         {
             return new Regex(@"(?<=[A-Z])(?=[A-Z][a-z]) | (?<=[^A-Z])(?=[A-Z]) | (?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace).Replace(str, " ").ToLower();
@@ -25,13 +27,58 @@ namespace BE
             StringBuilder str = new StringBuilder();
             foreach (PropertyInfo property in t.GetType().GetProperties(BindingFlags.Public))
                 str.Append(property.Name + ": " + property.GetValue(t, null) + "\n"); //BUG if property is indexer
-            return str.ToString(); // CHECK if is work
+            return str.ToString();
         }
+
+        #endregion
+
+        #region Flags
+
+        public static T AddFlag<T>(this Enum type, T value) => (T)(object)((uint)(object)type | (uint)(object)value);
+
+        public static T RemoveFlag<T>(this Enum type, T value) => (T)(object)((uint)(object)type & ~(uint)(object)value);
+
+        public static bool IsFlag(this Enum type) => Convert.ToString((uint)(object)type, 2).Count(bit => bit == '1') == 1;
+
+        #endregion
+
+        #region UserDisplayAttribute
+
+        public static UserDisplayAttribute GetUserDisplayAttribute(Enum item)
+        {
+            if (item == null)
+                throw new ArgumentNullException("No attributes for null");
+
+            object[] arr = item.GetType().GetField(item.ToString()).GetCustomAttributes(false);
+            if (arr.Length == 1)
+                return (UserDisplayAttribute)arr[0];
+            return null;
+        }
+
+        public static Enum GetEnum(Type enumType, string display)
+        {
+            if (enumType == null)
+                throw new ArgumentNullException("No enum for null");
+            if (!enumType.IsEnum)
+                throw new ArgumentException("No enum for non enum");
+
+            foreach (Enum field in Enum.GetValues(enumType))
+            {
+                UserDisplayAttribute attribute = GetUserDisplayAttribute(field);
+                if (attribute?.DisplayName == display)
+                    return field;
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region All
 
         public static T Copy<T>(this T source)
         {
             if (!typeof(T).IsSerializable)
-                throw new CasingException(false, new ArgumentException($"The type of {nameof(source)} must be serializable."));
+                throw new ArgumentException($"The type of {nameof(source)} must be serializable.");
             if (ReferenceEquals(source, null))
                 return default(T);
 
@@ -44,48 +91,15 @@ namespace BE
             }
         }
 
+        #endregion
+
+        #region Various
+
         public static bool IsNullOrEmpty<T>(this List<T> list)
         {
-            //return list is null ? true : (0 == list.Count); // count==0
             return list?.Any() ?? true;
         }
 
-        
-
-        public static T AddFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type | (int)(object)value);
-
-        public static T RemoveFlag<T>(this Enum type, T value) => (T)(object)((int)(object)type & ~(int)(object)value);
-
-        [Obsolete("undone", false)]//undone
-        public static bool IsFlag(this Enum type)
-        {
-            return true;
-        }
-
-        public static UserDisplayAttribute GetUserDisplayAttribute(Enum item)
-        {
-            if (item == null)
-                throw new ArgumentNullException();
-
-            object[] arr = item.GetType().GetField(item.ToString()).GetCustomAttributes(false);
-            if (arr.Length == 1)
-                return (UserDisplayAttribute)arr[0];
-            return null;
-        }
-        public static Enum GetEnum(Type enumType, string display)
-        {
-            if (enumType == null)
-                throw new ArgumentNullException();
-            if (!enumType.IsEnum)
-                throw new ArgumentException();
-
-            foreach (Enum field in Enum.GetValues(enumType))
-            {
-                UserDisplayAttribute attribute = GetUserDisplayAttribute(field);
-                if (attribute?.DisplayName == display)
-                    return field;
-            }
-            return null;
-        }
+        #endregion
     }
 }

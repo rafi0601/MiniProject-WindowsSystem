@@ -76,6 +76,9 @@ namespace BL
         /// <returns>
         /// A list of all the found testers.
         /// </returns>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
         List<Tester> TheTestersWhoLiveInTheDistance(Address address);
 
         /// <summary>
@@ -87,18 +90,24 @@ namespace BL
         /// <returns>
         /// A list of all the found testers.
         /// </returns>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
         List<Tester> VacantTesters(DateTime dateAndTime);
 
         /// <summary>
-        /// 
+        /// Give to <paramref name="tester"/> vacations.
         /// </summary>
-        /// <param name="toSort">
-        /// 
+        /// <param name="tester">
+        /// The tester who wants vacation.
         /// </param>
-        /// <returns>
-        /// 
-        /// </returns>
-        List<IGrouping<Vehicle, Tester>> TestersByExpertise(bool toSort = false);
+        /// <param name="dateTimes">
+        /// The dates that <paramref name="tester"/> wants vacation.
+        /// </param>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
+        void TakeVacations(Tester tester, params DateTime[] dateTimes);
 
 
         /// <summary>
@@ -157,59 +166,78 @@ namespace BL
         List<Trainee> GetTrainees(Predicate<Trainee> match = null);
 
         /// <summary>
-        /// 
+        /// Get the number tests that <paramref name="trainee"/> has done.
         /// </summary>
-        /// <param name="trainee"></param>
-        /// <returns></returns>
+        /// <param name="trainee">
+        /// The trainee.
+        /// </param>
+        /// <returns>
+        /// How many tests <paramref name="trainee"/> has done.
+        /// </returns>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
         uint NumberOfDoneTests(Trainee trainee);
 
         /// <summary>
-        /// 
+        /// Get whether <paramref name="trainee"/> entitled to a license or not.
         /// </summary>
-        /// <param name="trainee"></param>
-        /// <returns></returns>
+        /// <param name="trainee">
+        /// The trainee.
+        /// </param>
+        /// <returns>
+        /// True if <paramref name="trainee"/> has passed a test.
+        /// False if <paramref name="trainee"/> hasn't passed a test.
+        /// </returns>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
         bool IsEntitledToLicense(Trainee trainee);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="toSort"></param>
-        /// <returns></returns>
-        List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false);
 
         /// <summary>
-        /// 
+        /// Order a test.
         /// </summary>
-        /// <param name="toSort"></param>
-        /// <returns></returns>
-        List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false);
+        /// <param name="trainee">
+        /// The trainee who wants test.
+        /// </param>
+        /// <param name="testDate">
+        /// The date for the test.
+        /// </param>
+        /// <param name="departureAddress">
+        /// The departure address of the test.
+        /// </param>
+        /// <param name="vehicle">
+        /// The vehicle type of the test.
+        /// </param>
+        /// <returns>
+        /// If the test was successfully added then null.
+        /// If not, an offer of an alternate date
+        /// </returns>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
+        DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle);
 
         /// <summary>
-        /// 
+        /// Giving a test score after it has finished.
         /// </summary>
-        /// <param name="toSort"></param>
-        /// <returns></returns>
-        List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="trainee"></param>
-        /// <param name="TestDate"></param>
-        /// <param name="DepartureAddress"></param>
-        /// <param name="Vehicle"></param>
-        /// <returns></returns>
-        DateTime? AddTest(Trainee trainee, DateTime TestDate, /*DateTime length,*/ Address DepartureAddress, Vehicle Vehicle);//TODO out to the date and return bool for success
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="criteria"></param>
-        /// <param name="IsPass"></param>
-        /// <param name="TesterNotes"></param>
-        void UpdateTest(string code, Test.Criteria criteria, bool IsPass, string TesterNotes);
+        /// <param name="code">
+        /// The code of the completed test.
+        /// </param>
+        /// <param name="criteria">
+        /// Criteria and grades.
+        /// </param>
+        /// <param name="isPass">
+        /// If the trainee passed or not.
+        /// </param>
+        /// <param name="testerNotes">
+        /// The notes of the tester.
+        /// </param>
+        /// <exception cref="CasingException">
+        /// The operation could not be performed.
+        /// </exception>
+        void UpdateTest(string code, Test.Criteria criteria, bool isPass, string testerNotes);
 
         /// <summary>
         /// Retrieves the occurrence of a test with a specific code.
@@ -240,8 +268,50 @@ namespace BL
         /// A list of all future tests sorted by date.
         /// </returns>
         List<Test> GetSortedFutureTests();
-    }
 
-    ///GetTestsOfTester
-    ///GetTestsOfTrainee
+
+        /// <summary>
+        /// Group all the testers in the system by expertises, sorted if requested.
+        /// </summary>
+        /// <param name="toSort">
+        /// Will sort them by years of experience or not.
+        /// </param>
+        /// <returns>
+        /// A list of groups of all the testers by expertises, sorted by expertise's years if <paramref name="toSort"/> is true. 
+        /// </returns>
+        List<IGrouping<Vehicle, Tester>> TestersByExpertise(bool toSort = false);
+
+        /// <summary>
+        /// Group all the trainees in the system by drivings school, sorted if requested.
+        /// </summary>
+        /// <param name="toSort">
+        /// Will sort them by teachers or not.
+        /// </param>
+        /// <returns>
+        /// A list of groups of all the trainees by drivings school, sorted by teachers if <paramref name="toSort"/> is true. 
+        /// </returns>
+        List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false);
+
+        /// <summary>
+        /// Group all the trainees in the system by teachers, sorted if requested.
+        /// </summary>
+        /// <param name="toSort">
+        /// Will sort them by names or not.
+        /// </param>
+        /// <returns>
+        /// A list of groups of all the trainees by teachers, sorted by names if <paramref name="toSort"/> is true. 
+        /// </returns>
+        List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false);
+
+        /// <summary>
+        /// Group all the trainees in the system by numbers of tests, sorted if requested.
+        /// </summary>
+        /// <param name="toSort">
+        /// Will sort them by drivings school or not.
+        /// </param>
+        /// <returns>
+        /// A list of groups of all the trainees by numbers of tests, sorted by drivings school if <paramref name="toSort"/> is true. 
+        /// </returns>
+        List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false);
+    }
 }
