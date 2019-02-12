@@ -58,10 +58,15 @@ namespace PL_WPF.UI.AdminInterface
 
         private void Tests_ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Trainees_ListView.ItemsSource = bl.GetTrainees();
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Trainees_ListView.ItemsSource);
+            Tests_ListView.ItemsSource = bl.GetTests();
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Tests_ListView.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Vehicle");
             view.GroupDescriptions.Add(groupDescription);
+        }
+
+        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

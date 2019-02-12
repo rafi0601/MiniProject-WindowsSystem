@@ -36,8 +36,6 @@ namespace PL_WPF.UI.TesterInterface
 
 
             this.Loaded += TesterRegisteraionWindow_Loaded;
-
-
         }
 
         private void TesterRegisteraionWindow_Loaded(object sender, RoutedEventArgs e)
@@ -82,7 +80,6 @@ namespace PL_WPF.UI.TesterInterface
 
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 
-
                 bl.AddTester(tester);
 
                 new TesterWindow(tester).Show();
@@ -91,7 +88,6 @@ namespace PL_WPF.UI.TesterInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {

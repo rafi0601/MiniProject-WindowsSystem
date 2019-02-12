@@ -417,8 +417,27 @@
 
                         <Label Content="The Test Details:" FontSize="25" Grid.Column="0" RenderTransformOrigin="0.32,0.273"/>
 
-                        <Button Name="Refresh_Button" Grid.Column="1" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Name="Refresh_Icon" Kind="Refresh" Foreground="#FF2196F3" Width="25" Height="25" Margin="0"/>
+                        <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                            <Button.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Button.RenderTransform>
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Refresh_Button" Duration="0:0:0.300" Storyboard.TargetProperty="RenderTransform.Angle" By="90" To="180" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Refresh_Button" Duration="0:0:0.600" Storyboard.TargetProperty="RenderTransform.Angle" To="0" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                            <materialDesign:PackIcon Name="Refresh_Icon" Kind="Refresh" Foreground="#FF2196F3" Width="40" Height="40"/>
                         </Button>
 
                     </Grid>
