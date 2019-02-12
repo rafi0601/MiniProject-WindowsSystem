@@ -390,7 +390,7 @@
                 <!--</TabItem.Header>-->
                 <WrapPanel Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
                     <Label x:Name="ChooseLabel" FontSize="25" Margin="160,0,0,0">Choose a date that's convenient for you</Label>
-                    <xctk:BusyIndicator x:Name="busyIndicator" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="60" IsBusy="True" BusyContent="Please wait when we check your date"/>
+                    <xctk:BusyIndicator Margin="0,0,-150,0" x:Name="busyIndicator" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="60" IsBusy="True" BusyContent="Please wait when we check your date"/>
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
                     <Label Height="15"/>
                     <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click"/>
