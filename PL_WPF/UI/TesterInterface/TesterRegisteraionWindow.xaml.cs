@@ -29,7 +29,11 @@ namespace PL_WPF.UI.TesterInterface
         {
             InitializeComponent();
 
+            tester.Birthdate = new DateTime(1900, 1, 1);
+
+
             DataContext = tester;
+
 
             this.Loaded += TesterRegisteraionWindow_Loaded;
 

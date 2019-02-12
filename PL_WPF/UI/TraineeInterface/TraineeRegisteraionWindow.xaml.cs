@@ -22,27 +22,17 @@ namespace PL_WPF.UI.TraineeInterface
     /// </summary>
     public partial class TraineeRegisteraionWindow : Window
     {
-        Trainee trainee;
+        Trainee trainee = new Trainee();
         BL.IBL bl = BL.Singleton.Instance;
 
         public TraineeRegisteraionWindow()
         {
             InitializeComponent();
-            try
-            {
-                trainee = new Trainee();
-                DataContext = trainee;
-            }
-            catch (CasingException ex) when (ex.DisplayToUser)
-            {
-                Functions.ShowMessageToUser(ex);
-                Close();
-            }
-            catch (Exception ex)
-            {
-                Functions.SendMailToAdmin(ex);
-                Close();
-            }
+
+            trainee.Birthdate = new DateTime(1900, 1, 1);
+
+            DataContext = trainee;
+
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)

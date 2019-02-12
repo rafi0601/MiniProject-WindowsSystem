@@ -75,6 +75,7 @@
 
         <RichTextBox Grid.Column="1">
             <FlowDocument>
+                <Paragraph FontSize="1" TextAlignment="Center" FontFamily="Calibri"></Paragraph>
                 <Paragraph FontSize="30" TextAlignment="Center" FontFamily="Calibri">Welcome to the new system for conducting driving tests in Israel!</Paragraph>
                 <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="20">The innovative system provides many capabilities for a variety of functions. The system provides student capabilities such as registration, updating details, setting a test, and more.</Paragraph>
                 <Paragraph FontStyle="Italic" TextAlignment="Left" FontSize="20">In addition, the system provides the examiners with the possibility to register for tests, update details, indicate the tests made, and more.</Paragraph>
