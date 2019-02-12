@@ -32,8 +32,6 @@ namespace PL_WPF.UI.TesterInterface
             DataContext = tester;
 
             this.Loaded += TesterRegisteraionWindow_Loaded;
-
-
         }
 
         private void TesterRegisteraionWindow_Loaded(object sender, RoutedEventArgs e)
@@ -41,7 +39,6 @@ namespace PL_WPF.UI.TesterInterface
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleTypeExpertiseListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
                                                       select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName;
-
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -49,10 +46,10 @@ namespace PL_WPF.UI.TesterInterface
             try
             {
                 if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
-                    throw new Exception("The authentication password not correct.");
+                    throw new CasingException(true, new Exception("The authentication password not correct."));
 
                 if (bl.GetTrainee(iDTextBox.Text) != null)
-                    throw new Exception("Alredy exist");
+                    throw new CasingException(true, new Exception("This id already exists in the system"));
 
                 tester.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
@@ -70,7 +67,6 @@ namespace PL_WPF.UI.TesterInterface
 
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 
-
                 bl.AddTester(tester);
 
                 new TesterWindow(tester).Show();
@@ -79,7 +75,6 @@ namespace PL_WPF.UI.TesterInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {

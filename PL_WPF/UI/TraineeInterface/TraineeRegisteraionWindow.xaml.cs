@@ -36,7 +36,6 @@ namespace PL_WPF.UI.TraineeInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {
@@ -50,10 +49,10 @@ namespace PL_WPF.UI.TraineeInterface
             try
             {
                 if (passwordBoxNew.Password != passwordBoxAuthentication.Password)
-                    throw new Exception("The authentication password not correct.");
+                    throw new CasingException(true, new Exception("The authentication password not correct."));
 
                 if (bl.GetTrainee(iDTextBox.Text) != null)
-                    throw new Exception("Alredy exist");
+                    throw new CasingException(true, new Exception("This id already exists in the system"));
 
                 trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                 trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
@@ -71,7 +70,6 @@ namespace PL_WPF.UI.TraineeInterface
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                Close();
             }
             catch (Exception ex)
             {

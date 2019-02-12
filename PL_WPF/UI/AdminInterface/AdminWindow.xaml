@@ -224,7 +224,7 @@
                                 <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
-                        <ListBoxItem FontSize="25" Margin="95,0,0,0">Vehicle</ListBoxItem>
+                        <ListBoxItem FontSize="25" Margin="95,0,0,0" Selected="ListBoxItem_Selected">Vehicle</ListBoxItem>
                     </ListBox>
 
                     <ListView Name="Tests_ListView" Margin="160,0,0,0">

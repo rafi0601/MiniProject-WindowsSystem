@@ -36,24 +36,24 @@ namespace PL_WPF.UI.TraineeInterface
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));//.SplitByUpperAndLower();
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
 
-            //vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-            //                             where trainee.VehicleTypeTraining.HasFlag(vehicle)
-            //                             select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
-            //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
-            //    if (trainee.VehicleTypeTraining.HasFlag(vehicle))
-            //        vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
-            //vehicleListBox.SelectAll();
-
+            vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                                         where trainee.VehicleTypeTraining.HasFlag(vehicle)
+                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
             foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
                 if (trainee.VehicleTypeTraining.HasFlag(vehicle))
-                {
-                    ListBoxItem newItem = new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() };
-                    vehicleListBox.Items.Add(newItem);
-                    vehicleListBox.SelectedItem = newItem;
-                }
-            foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
-                if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
                     vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
+            vehicleListBox.SelectAll();
+
+            //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
+            //    if (trainee.VehicleTypeTraining.HasFlag(vehicle))
+            //    {
+            //        ListBoxItem newItem = new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() };
+            //        vehicleListBox.Items.Add(newItem);
+            //        vehicleListBox.SelectedItem = newItem;
+            //    }
+            //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
+            //    if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
+            //        vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
 
             firstNameTextBox.Text = trainee.Name.FirstName;
             lastNameTextBox.Text = trainee.Name.LastName;

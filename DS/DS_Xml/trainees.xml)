@@ -1,28 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<trainees>
-  <Trainee>
-    <ID>322680083</ID>
-    <Name>
-      <LastName>R</LastName>
-      <FirstName>G</FirstName>
-    </Name>
-    <Birthdate>1955-01-01T00:00:00</Birthdate>
-    <Gender>female</Gender>
-    <PhoneNumber>0547424870</PhoneNumber>
-    <Address>
-      <Street>יפו</Street>
-      <HouseNumber>20</HouseNumber>
-      <City>ירושלים</City>
-    </Address>
-    <Password>123</Password>
-    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
-    <GearboxTypeTraining>manual</GearboxTypeTraining>
-    <DrivingSchool>TB</DrivingSchool>
-    <TeacherName>
-      <LastName>S</LastName>
-      <FirstName>G</FirstName>
-    </TeacherName>
-    <NumberOfDoneLessons>32</NumberOfDoneLessons>
-    <TheLastTest>2019-02-12T11:00:00</TheLastTest>
-  </Trainee>
-</trainees>
+<trainees />

@@ -538,22 +538,22 @@ namespace BL
         {
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
-                throw new CasingException(true, new ArgumentOutOfRangeException("The tester's age is not appropriate."));
+                throw new CasingException(true, new ArgumentException("The tester's age is not appropriate."));
 
             if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365))// CHECK minageoftrainee? (start to count years from learn or teach?)
                 throw new CasingException(true, new ArgumentException("Years of experience do not make sense according to age."));
 
             if (0 == tester.MaxOfTestsPerWeek)
-                throw new CasingException(true, new ArgumentOutOfRangeException("It is illegal for the teter to not test."));
+                throw new CasingException(true, new ArgumentException("It is illegal for the teter to not test."));
 
             if (tester.MaxDistanceFromAddress == 0)
-                throw new CasingException(true, new ArgumentOutOfRangeException("Max Distance From Address can not get 0."));
+                throw new CasingException(true, new ArgumentException("Max Distance From Address can not get 0."));
         }
 
         private void TraineeLogicsInspection(Trainee trainee)
         {
             if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
-                throw new CasingException(true, new ArgumentOutOfRangeException("This Trainee's age is not appropriate."));
+                throw new CasingException(true, new ArgumentException("This Trainee's age is not appropriate."));
 
         }
 
