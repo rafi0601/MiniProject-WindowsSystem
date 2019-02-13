@@ -20,7 +20,7 @@
     <VehicleTypesExpertise>tractor</VehicleTypesExpertise>
     <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
     <unavailableDates />
-    <workingHours>True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
+    <workingHours>False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
   </Tester>
   <Tester>
     <ID>322680083</ID>
@@ -41,7 +41,7 @@
     <MaxOfTestsPerWeek>16</MaxOfTestsPerWeek>
     <VehicleTypesExpertise>privateCar</VehicleTypesExpertise>
     <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
-    <unavailableDates />
+    <unavailableDates>10/02/2019 11:00:00,</unavailableDates>
     <workingHours>False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
   </Tester>
 </ArrayOfTester>

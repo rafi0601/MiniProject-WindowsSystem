@@ -526,7 +526,7 @@ namespace BL
                     where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
                     join vacantTester in VacantTesters(testDate)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
                     where vacantTester != null
-                    select testerInArea).FirstOrDefault();
+                    select testerInArea).FirstOrDefault(); // IMPROVEMENT random
 
 
             //return (from vacantTester in VacantTesters(testDate)
@@ -549,7 +549,9 @@ namespace BL
         private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
         {
             if (!vehicleTypeLearning.IsFlag())
-                throw new CasingException(true, new ArgumentException());
+                throw new CasingException(true, new ArgumentException("A test can be only on one type of vehicle."));
+
+            List<Tester> theTestersWhoLiveInTheDistance = TheTestersWhoLiveInTheDistance(departureAddress);
 
             DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
                 aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
@@ -558,9 +560,14 @@ namespace BL
             {
                 while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
                 {
-                    Tester vacantTester = SearchForTester(dateTime, departureAddress, vehicleTypeLearning);
-                    if (vacantTester != default)
-                        return (dateTime, vacantTester);
+                    Tester tester = (from testerInArea in theTestersWhoLiveInTheDistance//.AsParallel()
+                                     where testerInArea.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)
+                                     join vacantTester in VacantTesters(dateTime)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
+                                     where vacantTester != null
+                                     select testerInArea).FirstOrDefault();
+
+                    if (tester != default)
+                        return (dateTime, tester);
                     dateTime = dateTime.AddHours(1);
                 }
 
@@ -728,7 +735,7 @@ namespace BL
             }
         }
 
-        [Obsolete("Undone",true)]
+        [Obsolete("Undone", true)]
         public IEnumerable<Person> GetPeople()
         {
             // it wont work until Person:IEquatable
