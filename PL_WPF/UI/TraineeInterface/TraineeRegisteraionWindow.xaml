@@ -133,12 +133,11 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="179*"/>
-                    <ColumnDefinition Width="38*"/>
-                    <ColumnDefinition Width="141*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,3.333" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3.333,6,0,6.333"  VerticalAlignment="Center" Width="120" Grid.ColumnSpan="2"/>
+                <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
+                <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3"  VerticalAlignment="Center" Width="120"/>
                 <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
             </Grid>
 
