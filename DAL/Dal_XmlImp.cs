@@ -47,7 +47,7 @@ namespace DAL
             {
                 Root = root;
                 Root.Changed += Root_Changed;
-                FilePath = Path.Combine(filesPath, $@"{Root.Name}.xml)");
+                FilePath = Path.Combine(folderPath, $@"{Root.Name}.xml)");
                 ByLinqToXml = byLinqToXml;
             }
 

@@ -28,11 +28,11 @@ namespace BE
         { }
 
         public Tester(string id, PersonName name,
-            DateTime birthdate, Gender gender, string MobileNumber,
+            DateTime birthdate, Gender gender, string mobileNumber,
             Address address, string password, uint yearsOfExperience,
             uint maxOfTestsPerWeek, Vehicle vehicleTypeExpertise,
             Schedule workingHours, uint maxDistanceFromAddress)
-            : base(id, name, birthdate, gender, MobileNumber, address, password)
+            : base(id, name, birthdate, gender, mobileNumber, address, password)
         {
             YearsOfExperience = yearsOfExperience;
             MaxOfTestsPerWeek = maxOfTestsPerWeek;

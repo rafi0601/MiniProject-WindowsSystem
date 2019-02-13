@@ -33,10 +33,9 @@ namespace PL_WPF.UI.TesterInterface
 
             InitializeComponent();
 
-            DataContext = this.tester = tester ?? throw new ArgumentException("Ther is no tester");
-            //DataContext = tester;
+            DataContext = this.tester = tester;
+            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
 
-            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
             //vehicleTypeExpertiseListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));//.SplitByUpperAndLower();
             //vehicleTypeExpertiseListBox.ItemsSource = (from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
             //                                          where tester.VehicleTypesExpertise.HasFlag(vehicle)
@@ -49,11 +48,6 @@ namespace PL_WPF.UI.TesterInterface
                 if (!tester.VehicleTypesExpertise.HasFlag(vehicle))
                     vehicleTypeExpertiseListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
 
-            firstNameTextBox.Text = tester.Name.FirstName;
-            lastNameTextBox.Text = tester.Name.LastName;
-            Street.Text = tester.Address.Street;
-            HouseNumber.Text = tester.Address.HouseNumber.ToString();
-            City.Text = tester.Address.City;
 
 
             CheckBox11.IsChecked = tester.WorkingHours[0, 9];
@@ -94,7 +88,6 @@ namespace PL_WPF.UI.TesterInterface
 
             FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == false);
             TestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == true);
-            //TestsDataGrid.ItemsSource = tester.MyTests;
 
             TesterDetails testerDetails = new TesterDetails();
             testerDetails.iDTextBox.IsEnabled = false;
@@ -176,9 +169,8 @@ namespace PL_WPF.UI.TesterInterface
 
         private void TestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var test = TestsDataGrid.SelectedItem as Test;
 
-            if (test == null)
+            if (!(TestsDataGrid.SelectedItem is Test test))
                 return;
 
             if (test.IsPass == null)

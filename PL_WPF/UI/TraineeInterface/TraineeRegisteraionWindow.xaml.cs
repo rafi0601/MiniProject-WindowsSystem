@@ -22,26 +22,22 @@ namespace PL_WPF.UI.TraineeInterface
     /// </summary>
     public partial class TraineeRegisteraionWindow : Window
     {
-        Trainee trainee;
+        Trainee trainee = new Trainee();
         BL.IBL bl = BL.Singleton.Instance;
 
         public TraineeRegisteraionWindow()
         {
             InitializeComponent();
-            try
-            {
-                trainee = new Trainee();
-                DataContext = trainee;
-            }
-            catch (CasingException ex) when (ex.DisplayToUser)
-            {
-                Functions.ShowMessageToUser(ex);
-            }
-            catch (Exception ex)
-            {
-                Functions.SendMailToAdmin(ex);
-                Close();
-            }
+
+            trainee.Birthdate = new DateTime(1900, 1, 1);
+
+            gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
+            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
+            vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
+
+
+            DataContext = trainee;
         }
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
@@ -89,11 +85,7 @@ namespace PL_WPF.UI.TraineeInterface
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
-            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
-            //vehicleComboBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
+
         }
     }
 }

@@ -13,7 +13,7 @@
     xmlns:local1="clr-namespace:PL_WPF.UI.TesterInterface" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="640" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
-    <!--Description=interface of trainee-->
+
     <Window.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="FontFamily" Value="Global Sans Serif" />
@@ -83,7 +83,6 @@
             <ColumnDefinition Width="12.5*"/>
             <ColumnDefinition Width="87.5*"/>
         </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="15.6*"/>
             <RowDefinition Height="84.6*" x:Name="TabControlRow"/>
@@ -129,89 +128,21 @@
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Global Sans Serif"/>
+       
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}" d:DataContext="{d:DesignInstance Type=BE:Trainee}">
-            <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
-            <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile">
-                <!--<Grid Width="{Binding ActualWidth, ElementName=MainGrid_Col1}" Height="{Binding ActualHeight, ElementName=MainGrid_Row1}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Personal details" Grid.Row="0" FontSize="25" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        <Label Content="    Name" Grid.Row="1" FontSize="20" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        <Label Content="        Last name:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        <TextBox x:Name="lastNameTextBox" Grid.Row="2" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="        First name:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="firstNameTextBox" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="        ID:"  Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="iDTextBox" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding ID, Mode=OneWay}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="        Gender:" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="genderComboBox" Grid.Row="5" Grid.Column="1" Margin="3" Foreground="Black"/>
-                        <Label Content="        Birthdate:" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <DatePicker x:Name="birthdateDatePicker" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center" Margin="3" SelectedDate="{Binding Birthdate, Mode=OneWay}" VerticalAlignment="Center" TextBlock.Foreground="Black" IsEnabled="False"/>
-                        <Label Content="        Mobile Number:" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="MobileNumberTextBox" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="    Address" Grid.Row="8" FontSize="20" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        <Label Content="        Street:" Grid.Row="9" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="Street" Grid.Row="9" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="        House Number:" Grid.Row="10" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="HouseNumber"  Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="        City:" Grid.Row="11" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="City" Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                    </Grid>
 
-                    <Grid Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Car details" Grid.Row="0" FontSize="25" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
-                        <Label Content="        Gearbox:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="gearboxComboBox" Grid.Row="1" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Gearbox}" Margin="3" />
-                        <Label Content="        Vehicle:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <ComboBox x:Name="vehicleComboBox"  Grid.Row="2" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding Vehicle}" Margin="3" />
-                        <Label Content="        Number Of Done Lessons:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <xctk:ByteUpDown x:Name="numberOfDoneLessonsByteUpDown" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding NumberOfDoneLessons, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
-                        <Label Content="        Driving School:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                        <TextBox x:Name="drivingSchoolTextBox"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding DrivingSchool, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
-                        <Label Content="Account Update" Grid.Row="5" FontSize="25" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="3"  VerticalAlignment="Center"/>
-                        <Button Content="Update" Grid.Row="6" FontSize="25" Click="UpdateButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center"/>
-                    </Grid>
-                    <Button Content="Remove" Background="Red" FontSize="25" Click="RemoveButtonClick" Grid.Column="1" HorizontalAlignment="Left" Height="45" Margin="137.8,424,0,-41" VerticalAlignment="Top" Width="132"/>
-                </Grid>-->
+            <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
+            
+            <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile">
                 <Grid>
                     <WrapPanel Orientation="Vertical" >
                         <WrapPanel.Resources>
-                            <Style x:Name="GridStyle" TargetType="{x:Type Grid}"/>
+                            <Style x:Name="GridStyle" TargetType="{x:Type Grid}">
+                                
+                            </Style>
+                            <!--<StaticResource />-->
                         </WrapPanel.Resources>
+                        
                         <Label Content="Personal details" FontSize="25" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
                         <Label Content="    Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -222,7 +153,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" Text="{Binding Name.LastName}" VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
@@ -232,7 +163,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Name.FirstName}" VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
@@ -269,7 +200,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Mobile Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <xctk:MaskedTextBox BorderBrush="{x:Null}" Mask="000-000-0000" x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                         </Grid>
 
                         <Label Content="    Address" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -280,7 +211,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.HouseNumber}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.Street}" VerticalAlignment="Center" Width="120"/>
                             <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
                         </Grid>
 
@@ -291,7 +222,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <!--<TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>-->
-                            <xctk:IntegerUpDown x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                            <xctk:IntegerUpDown Minimum="0" Watermark="" UpdateValueOnEnterKey="True" x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.HouseNumber}" VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
@@ -301,11 +232,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding Address.City}" VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
-                        <Label Content="Car details" FontSize="25" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
+                        <Label Content="Training details" FontSize="25" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -323,7 +254,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,3" VerticalAlignment="Center" FontSize="18"/>
                             <!--<ComboBox x:Name="vehicleComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1" SelectedItem ="{Binding VehicleTypeTraining}" Margin="2.8,3,3.4,3" Grid.ColumnSpan="2" />-->
-                            <xctk:DropDownButton Content="Choose vehicle"  Grid.Column="1">
+                            <xctk:DropDownButton FontSize="17" Content="Choose vehicle"  Grid.Column="1">
                                 <xctk:DropDownButton.DropDownContent>
                                     <ListBox x:Name="vehicleListBox" SelectionMode="Single" Margin="3" Width="150" HorizontalAlignment="Left"/>
                                 </xctk:DropDownButton.DropDownContent>
@@ -356,7 +287,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="TeacherLastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="TeacherLastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" Text="{Binding TeacherName.LastName}"  VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
                         </Grid>
 
@@ -366,7 +297,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="TeacherFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="TeacherFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding TeacherName.FirstName}" VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
@@ -381,6 +312,7 @@
                     </WrapPanel>
                 </Grid>
             </TabItem>
+            
             <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test" >
 
                 <!--<TabItem.Header>-->
@@ -407,6 +339,7 @@
                 <!--BUG minimun={Today}-->
 
             </TabItem>
+            
             <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
                 <WrapPanel Orientation="Vertical" Margin="160,0,0,0">
                     <Grid>
@@ -480,6 +413,7 @@
                     <Grid colu/>
                 </WrapPanel>-->
             </TabItem>
+            
             <TabItem Style="{DynamicResource Tab_Style}" Header="Setting">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -506,8 +440,8 @@
                     </xctk:SplitButton>-->
                 </Grid>
             </TabItem>
+        
         </TabControl>
     </Grid>
 </Window>
 
-<!--<Button Content="Button" Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="174.8,143,0,0" VerticalAlignment="Top" Width="185" Click="Button"/>-->

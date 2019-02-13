@@ -25,12 +25,12 @@ namespace BE
             HelpLink = ""; //UNDONE link to our git hub?
         }
 
-        // עושים את מה שכתוב למעלה כשכותבים אוורייד ורואים מה חוזר
+        // TODO more ovverides
 
 
         public override string ToString()
         {
-            return base.ToString();
+            return InnerException.ToString();
         }
     }
 }

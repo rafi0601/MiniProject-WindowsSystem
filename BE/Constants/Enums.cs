@@ -40,8 +40,10 @@ namespace BE
 
     public enum Gearbox
     {
-        automatic,
+        automatic = 1,
         manual
+
+        /// In this way, the user must select a vehicle type
     }
 
     //public enum Hours:uint

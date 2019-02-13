@@ -25,7 +25,7 @@ namespace BE
 
         public Trainee(string id, PersonName name, DateTime birthdate, Gender gender,
             string mobileNumber, Address address, string password, Vehicle vehicleTypeTraining, Gearbox gearboxTypeTraining,
-            string drivingSchool, PersonName teacherName, uint numberOfDoneLessons, DateTime theLastTest = default) //UNDONE DateTime theLastTest
+            string drivingSchool, PersonName teacherName, uint numberOfDoneLessons, DateTime theLastTest = default)
             : base(id, name, birthdate, gender, mobileNumber, address, password)
         {
             VehicleTypeTraining = vehicleTypeTraining;

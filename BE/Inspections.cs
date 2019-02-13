@@ -1,5 +1,7 @@
 ﻿//Bs"d
 
+#define TraineeHasOneTypes
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,11 +87,17 @@ namespace BE
             #endregion
 
             #region Gender
+            if (person.Gender == 0)
+                throw new ArgumentException("A person must have a gender");
             #endregion
 
-            #region MobileNumber // cellphone
+            #region MobileNumber
             if (string.IsNullOrWhiteSpace(person.MobileNumber))
                 throw new ArgumentNullException("Mobile Number mustn't be null or empty or consists only white spaces");
+
+            List<char> digits = person.MobileNumber.ToList();
+            digits.RemoveAll(d=>d=='-');
+            person.MobileNumber = new string(digits.ToArray());
 
             if (!(ulong.TryParse(person.MobileNumber, out ulong tmp) &&
                 person.MobileNumber.Length == 10 && person.MobileNumber.StartsWith("05") ||
@@ -156,15 +164,17 @@ namespace BE
             #endregion
 
             #region VehicleTypeTraining
-#if TraineeHasMultipleTypes
+#if TraineeHasOneTypes
             if (!trainee.VehicleTypeTraining.IsFlag())
-                throw new Exception();
+                throw new Exception("A trainee not allowed to learn two types of vehicles simultaneously");
 #endif
             if (trainee.VehicleTypeTraining == 0)
                 throw new ArgumentException("Trainee must not have no vehicle type training.");
             #endregion
 
             #region GearboxTypeTraining
+            if (trainee.GearboxTypeTraining == 0)
+                throw new ArgumentException("A trainee must have gearbox training.");
             #endregion
 
             #region DrivingSchool
@@ -237,7 +247,7 @@ namespace BE
 
             #region Vehicle
             if (!test.Vehicle.IsFlag())
-                throw new Exception();
+                throw new Exception("A test can be only on one type of vehicle.");
             //if is zero
             #endregion
 
@@ -245,6 +255,7 @@ namespace BE
             #endregion
 
             #region IsPass
+            //BUG change it
             if (test.Date > DateTime.Now && test.IsPass != null)
                 throw new Exception();
             #endregion

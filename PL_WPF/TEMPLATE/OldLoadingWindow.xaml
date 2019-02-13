@@ -21,6 +21,7 @@
                 </Grid>
             </WrapPanel.Resources>
 
+            <Path Data="M10,100 C 100,0 200,200 300,100 z" Fill="#CCCCFF" Stroke="Black" StrokeThickness="3"/>
         </WrapPanel>
         <StackPanel>
 

@@ -14,12 +14,13 @@ namespace PL_WPF
     internal static class Functions
     {
        public static MessageBoxResult ShowMessageToUser(Exception ex) 
-            => MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+            => MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
 
         public static bool SendMailToAdmin(Exception ex)
         {
-            MessageBox.Show("There is a problem with the system that is not connected to you", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-            return false;
+            MessageBox.Show("There is a problem with the system that is not connected to you. \n A mail was sent to the developers.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(ex.Message, "For inits", MessageBoxButton.OK, MessageBoxImage.Error);
+            return true;
             MailMessage mail = new MailMessage(from: "?????@g.jct.ac.il", to: "??????@g.jct.ac.il")
             {
                 Subject = "Error in mini project",
