@@ -1,31 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <trainees>
   <Trainee>
-    <ID>323947739</ID>
-    <Name>
-      <LastName>Levi</LastName>
-      <FirstName>Asaf</FirstName>
-    </Name>
-    <Birthdate>1948-10-06T00:00:00</Birthdate>
-    <Gender>female</Gender>
-    <MobileNumber>0541234567</MobileNumber>
-    <Address>
-      <Street>Hatmarim</Street>
-      <HouseNumber>17</HouseNumber>
-      <City>Eilat</City>
-    </Address>
-    <Password>1234</Password>
-    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
-    <GearboxTypeTraining>manual</GearboxTypeTraining>
-    <DrivingSchool>TheBest</DrivingSchool>
-    <TeacherName>
-      <LastName>Garber</LastName>
-      <FirstName>Shmuel</FirstName>
-    </TeacherName>
-    <NumberOfDoneLessons>30</NumberOfDoneLessons>
-    <TheLastTest>0001-01-01T00:00:00</TheLastTest>
-  </Trainee>
-  <Trainee>
     <ID>212384507</ID>
     <Name>
       <LastName>katri</LastName>
@@ -73,6 +48,31 @@
       <FirstName>dfghj</FirstName>
     </TeacherName>
     <NumberOfDoneLessons>4</NumberOfDoneLessons>
+    <TheLastTest>0001-01-01T00:00:00</TheLastTest>
+  </Trainee>
+  <Trainee>
+    <ID>323947739</ID>
+    <Name>
+      <LastName>Levi</LastName>
+      <FirstName>Asaf</FirstName>
+    </Name>
+    <Birthdate>1948-10-06T00:00:00</Birthdate>
+    <Gender>female</Gender>
+    <MobileNumber>0541234567</MobileNumber>
+    <Address>
+      <Street>Hatmarim</Street>
+      <HouseNumber>17</HouseNumber>
+      <City>Eilat</City>
+    </Address>
+    <Password>1234</Password>
+    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
+    <GearboxTypeTraining>manual</GearboxTypeTraining>
+    <DrivingSchool>TheBest</DrivingSchool>
+    <TeacherName>
+      <LastName>Garber</LastName>
+      <FirstName>Shmuel</FirstName>
+    </TeacherName>
+    <NumberOfDoneLessons>30</NumberOfDoneLessons>
     <TheLastTest>0001-01-01T00:00:00</TheLastTest>
   </Trainee>
 </trainees>

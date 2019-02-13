@@ -540,10 +540,6 @@ namespace BL
             // return null;
         }
 
-        private Tester FindsAnAlternativeTester(Test test)
-        {
-            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
-        }
 
         //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
         private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
@@ -721,7 +717,7 @@ namespace BL
 
         #endregion
 
-        #region Not Used In UI
+        #region Not Used
 
         public void TakeVacations(Tester tester, params DateTime[] dateTimes)
         {
@@ -733,6 +729,11 @@ namespace BL
                 tester.UnavailableDates.Add(dateTime);
                 UpdateTester(tester);
             }
+        }
+
+        private Tester FindsAnAlternativeTester(Test test)
+        {
+            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
         }
 
         [Obsolete("Undone", true)]
