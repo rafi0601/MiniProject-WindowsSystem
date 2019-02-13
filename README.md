@@ -1,4 +1,4 @@
-# MiniProject-WindowsSystem
-Mini project in windows system - 5779
+# Mini Project in Windows System
+Rafi Goldis & Shmuel Garber - 5779
 
 The Tests Sysyem
