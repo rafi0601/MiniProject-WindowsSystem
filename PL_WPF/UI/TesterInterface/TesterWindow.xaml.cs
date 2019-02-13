@@ -48,7 +48,11 @@ namespace PL_WPF.UI.TesterInterface
                 if (!tester.VehicleTypesExpertise.HasFlag(vehicle))
                     vehicleTypeExpertiseListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
 
-
+            firstNameTextBox.Text = tester.Name.FirstName;
+            lastNameTextBox.Text = tester.Name.LastName;
+            City.Text = tester.Address.City;
+            HouseNumber.Text = tester.Address.HouseNumber.ToString();
+            Street.Text = tester.Address.Street;
 
             CheckBox11.IsChecked = tester.WorkingHours[0, 9];
             CheckBox12.IsChecked = tester.WorkingHours[1, 9];
