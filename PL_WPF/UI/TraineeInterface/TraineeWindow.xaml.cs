@@ -41,6 +41,14 @@ namespace PL_WPF.UI.TraineeInterface
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
 
+            firstNameTextBox.Text = trainee.Name.FirstName;
+            lastNameTextBox.Text = trainee.Name.LastName;
+            TeacherFirstNameTextBox.Text = trainee.TeacherName.FirstName;
+            TeacherLastNameTextBox.Text = trainee.TeacherName.LastName;
+            City.Text = trainee.Address.City;
+            HouseNumber.Text = trainee.Address.HouseNumber.ToString();
+            Street.Text = trainee.Address.Street;
+
             ////vehicleCheckListBox.SelectAll();
             //List<object> list = new List<object>();
             //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
@@ -90,7 +98,6 @@ namespace PL_WPF.UI.TraineeInterface
                     trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                     trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
                     trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
-
 
                     trainee.VehicleTypeTraining = 0;
                     foreach (ListBoxItem itemExpertise in vehicleListBox.SelectedItems)
