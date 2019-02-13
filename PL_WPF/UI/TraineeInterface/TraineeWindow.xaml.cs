@@ -34,13 +34,12 @@ namespace PL_WPF.UI.TraineeInterface
 
             InitializeComponent();
 
+            DataContext = this.trainee = trainee;
             //this.Closing += (sender, e) => Environment.Exit(Environment.ExitCode);
 
-            DataContext = this.trainee = trainee;
 
-            gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));//.SplitByUpperAndLower();
-            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));//.SplitByUpperAndLower();
-            //vehicleListBox.ItemsSource = Enum.GetValues(typeof(Vehicle));
+            gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
+            genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
 
             ////vehicleCheckListBox.SelectAll();
             //List<object> list = new List<object>();
@@ -64,27 +63,6 @@ namespace PL_WPF.UI.TraineeInterface
                 if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
                     vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
 
-
-
-            //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
-            //    if (trainee.VehicleTypeTraining.HasFlag(vehicle))
-            //    {
-            //        ListBoxItem newItem = new ListBoxItem() { Content = vehicle };
-            //        newItem.IsSelected = true;
-            //        vehicleListBox.Items.Add(newItem);
-            //        //vehicleListBox.SelectedItem = newItem;
-            //    }
-            //foreach (Vehicle vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>())
-            //    if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
-            //        vehicleListBox.Items.Add(new ListBoxItem() { Content = vehicle });
-
-            firstNameTextBox.Text = trainee.Name.FirstName;
-            lastNameTextBox.Text = trainee.Name.LastName;
-            Street.Text = trainee.Address.Street;
-            HouseNumber.Text = trainee.Address.HouseNumber.ToString();
-            City.Text = trainee.Address.City;
-            TeacherFirstNameTextBox.Text = trainee.TeacherName.FirstName;
-            TeacherLastNameTextBox.Text = trainee.TeacherName.LastName;
 
 
             DadaGridOfDoneTests.SelectedItem = bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass != null);
@@ -369,9 +347,8 @@ namespace PL_WPF.UI.TraineeInterface
 
         private void DadaGridOfDoneTests_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var test = DadaGridOfDoneTests.SelectedItem as Test;
 
-            if (test == null)
+            if (!(DadaGridOfDoneTests.SelectedItem is Test test))
                 return;
 
             Grading.Note.IsEnabled = Grading.BackParking.IsEnabled = Grading.IntegrationIntoMovement.IsEnabled = Grading.IsPass.IsEnabled = Grading.KeepDistance.IsEnabled = Grading.ObeyParkSigns.IsEnabled = Grading.Signaling.IsEnabled = Grading.UsingViewMirrors.IsEnabled = false;

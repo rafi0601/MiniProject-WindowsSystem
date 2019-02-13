@@ -272,7 +272,7 @@ namespace BL
 
             if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
                 throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers"));
-            //BUG
+            //BUG only for inits
             //if (testDate < DateTime.Now)
             //    throw new ArgumentException("The requested time has passed");
 

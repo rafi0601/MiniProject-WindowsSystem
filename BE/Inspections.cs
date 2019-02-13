@@ -91,6 +91,10 @@ namespace BE
             if (string.IsNullOrWhiteSpace(person.MobileNumber))
                 throw new ArgumentNullException("Mobile Number mustn't be null or empty or consists only white spaces");
 
+            List<char> digits = person.MobileNumber.ToList();
+            digits.RemoveAll(d=>d=='-');
+            person.MobileNumber = new string(digits.ToArray());
+
             if (!(ulong.TryParse(person.MobileNumber, out ulong tmp) &&
                 person.MobileNumber.Length == 10 && person.MobileNumber.StartsWith("05") ||
                 person.MobileNumber.Length == 13 && person.MobileNumber.StartsWith("+9725")))
