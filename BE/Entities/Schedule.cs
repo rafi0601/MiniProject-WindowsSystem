@@ -13,12 +13,11 @@ namespace BE
     [Serializable]
     public class Schedule
     {
-        [XmlElement] //CHECK what is this attribute
         private protected bool[,] schedule = new bool[WORKING_DAYS_A_WEEK, WORKING_HOURS_A_DAY];
 
 
         //[System.Runtime.CompilerServices.IndexerName("abc")]
-        public bool this[int day, int hour] // TODO? [DAY,int]
+        public bool this[int day, int hour] // TODO? [DAY,int] or [Day,Hour]
         {
             get
             {
@@ -46,7 +45,7 @@ namespace BE
             if (schedule?.GetLength(0) != WORKING_DAYS_A_WEEK
                     || schedule.GetLength(1) != WORKING_HOURS_A_DAY)
                 throw new Exception("The schedule is not correct dimensions");
-            this.schedule = schedule.Copy(); //TODO to this in all ENTITIES
+            this.schedule = schedule.Copy();
         }
     }
 }

@@ -101,7 +101,7 @@ namespace PL_WPF.UI.TraineeInterface
 
                     trainee.VehicleTypeTraining = 0;
                     foreach (ListBoxItem itemExpertise in vehicleListBox.SelectedItems)
-                        trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                        trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
                 }
                 catch (Exception ex)
                 {
@@ -290,7 +290,7 @@ namespace PL_WPF.UI.TraineeInterface
                 }
                 else
                 {
-                    SuggestAlternateDateOfTest.Date.Text = alternateDate.ToString();
+                    SuggestAlternateDateOfTest.Date.Text = alternateDate.Value.ToString("g");
                     SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
                 }
             }
@@ -306,12 +306,20 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
-        private void SuggestAlternateDateOfTest_AcceptClick(object sender, RoutedEventArgs e)
+        private async void SuggestAlternateDateOfTest_AcceptClick(object sender, RoutedEventArgs e)
         {
             try
             {
-                bl.AddTest(trainee, (DateTime)alternateDate, trainee.Address, trainee.VehicleTypeTraining);
                 SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
+                busyIndicator.Visibility = Visibility.Visible;
+
+                await Task.Run(new Action(() =>
+                {
+                    bl.AddTest(trainee, (DateTime)alternateDate, trainee.Address, trainee.VehicleTypeTraining);
+                }));
+
+                busyIndicator.Visibility = Visibility.Collapsed;
+
                 DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }

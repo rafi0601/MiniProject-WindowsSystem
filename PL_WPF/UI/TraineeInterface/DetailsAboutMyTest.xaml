@@ -42,6 +42,11 @@
         <Label Height="25"/>
         <Label Content="The Test Details:" FontSize="25" RenderTransformOrigin="0.32,0.273"/>
         <DataGrid x:Name="MyTestDadaGrid" HorizontalAlignment="Left" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                    <Setter Property="FontSize" Value="20"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Test Date" Binding="{Binding Date}"/>
                 <DataGridTextColumn Header="Departure Address" Binding="{Binding DepartureAddress}"/>

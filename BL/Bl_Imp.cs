@@ -245,7 +245,7 @@ namespace BL
         #region Test functions
 
         public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
-        { // TODO return bool is success, and get out HATZAA
+        {
             if (!vehicle.IsFlag())
                 throw new CasingException(false, new Exception("Test can be only on one vehicle."));
 
@@ -497,7 +497,7 @@ namespace BL
 
         private protected void TestLogicsInspections(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         {
-
+            // In AddTest and UpdateTest
         }
 
         #endregion
@@ -520,50 +520,49 @@ namespace BL
         }
 
 
-        private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle) // BUG input check
+        private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle)
+        // This is a private function so all the input check were done before the call to the function
         {
-            return (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)//.AsParallel()
-                    where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
-                    join vacantTester in VacantTesters(testDate)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
-                    where vacantTester != null
-                    select testerInArea).FirstOrDefault(); // IMPROVEMENT random
+            List<Tester> optionalTesters = (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)//.AsParallel()
+                                            where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
+                                            join vacantTester in VacantTesters(testDate)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
+                                            where vacantTester != null
+                                            select testerInArea).ToList(); // Intersect between the lists.
+            if (optionalTesters.Any())
+                return optionalTesters[rand.Next(optionalTesters.Count)];
+            return null;
 
-
-            //return (from vacantTester in VacantTesters(testDate)
-            //            from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
-            //                where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
-            //                select vacantTester).ToList().FirstOrDefault();
-
-            // List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
-            // if (optionalTesters.Any())
-            //     return optionalTesters[rand.Next(optionalTesters.Count)];
-            // return null;
+            //return (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
+            //        from vacantTester in VacantTesters(testDate)
+            //        where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
+            //        select vacantTester).ToList().FirstOrDefault();
         }
 
 
         //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
-        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
+        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning)
+        // This is a private function so all the input check were done before the call to the function
         {
             if (!vehicleTypeLearning.IsFlag())
                 throw new CasingException(true, new ArgumentException("A test can be only on one type of vehicle."));
 
             List<Tester> theTestersWhoLiveInTheDistance = TheTestersWhoLiveInTheDistance(departureAddress);
 
-            DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
-                aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
+            DateTime dateTime = startDate.Date.AddHours(BEGINNING_OF_A_WORKING_DAY),
+                aPeriodFromToday = dateTime + SPAN_FROM_TODAY_TO_SEARCH_TEST;
 
             while (dateTime < aPeriodFromToday)
             {
                 while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
                 {
-                    Tester tester = (from testerInArea in theTestersWhoLiveInTheDistance//.AsParallel()
-                                     where testerInArea.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)
-                                     join vacantTester in VacantTesters(dateTime)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
-                                     where vacantTester != null
-                                     select testerInArea).FirstOrDefault();
+                    List<Tester> optionalTesters = (from testerInArea in theTestersWhoLiveInTheDistance//.AsParallel()
+                                                    where testerInArea.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)
+                                                    join vacantTester in VacantTesters(dateTime)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
+                                                    where vacantTester != null
+                                                    select testerInArea).ToList();
 
-                    if (tester != default)
-                        return (dateTime, tester);
+                    if (optionalTesters.Any())
+                        return (dateTime, optionalTesters[rand.Next(optionalTesters.Count)]);
                     dateTime = dateTime.AddHours(1);
                 }
 
@@ -575,6 +574,7 @@ namespace BL
         }
 
         private (double distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
+        // This is a private function so all the input check were done before the call to the function
         {
             string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City + " Israel";
             string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City + " Israel";
@@ -587,43 +587,50 @@ namespace BL
                 @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
                 @"&enhancedNarrative=false&avoidTimedConditions=false";
 
-            //request from MapQuest service the distance between the 2 addresses
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader sreader = new StreamReader(dataStream);
-            string responsereader = sreader.ReadToEnd();
-            response.Close();
-            //the response is given in an XML format 
-            XmlDocument xmldoc = new XmlDocument();
-            xmldoc.LoadXml(responsereader);
-
-            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
-            {     //display the returned distance
-                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
-                double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
-                Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
-
-                //display the returned driving time   
-                XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
-                TimeSpan fTime = TimeSpan.Parse(formattedTime[0].ChildNodes[0].InnerText);
-                Debug.WriteLine("Driving Time: " + fTime);
-
-                return (distInMiles * 1.609344, fTime);
-            }
-            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
-            //we have an answer that an error occurred, one of the addresses is not found 
+            try
             {
-                //e.Cancel = true;
-                Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
-                return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                //request from MapQuest service the distance between the 2 addresses
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                WebResponse response = request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader sreader = new StreamReader(dataStream);
+                string responsereader = sreader.ReadToEnd();
+                response.Close();
+                //the response is given in an XML format 
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.LoadXml(responsereader);
+
+                if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
+                {     //display the returned distance
+                    XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                    double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
+                    Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                    //display the returned driving time   
+                    XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                    TimeSpan fTime = TimeSpan.Parse(formattedTime[0].ChildNodes[0].InnerText);
+                    Debug.WriteLine("Driving Time: " + fTime);
+
+                    return (distInMiles * 1.609344, fTime);
+                }
+                else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+                //we have an answer that an error occurred, one of the addresses is not found 
+                {
+                    //e.Cancel = true;
+                    Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
+                    return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                }
+                else //busy network or other error... 
+                {
+                    Debug.WriteLine("We have'nt got an answer, maybe the net is busy...");
+                    Thread.Sleep(2000);
+                    //return DistanceAndTime(address1, address2);
+                    return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                }
             }
-            else //busy network or other error... 
+            catch (Exception ex)
             {
-                Debug.WriteLine("We have'nt got an answer, maybe the net is busy...");
-                Thread.Sleep(2000);
-                //return DistanceAndTime(address1, address2);
-                return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                throw new CasingException(false, new WebException("A broblem from Map Request. Look in the inner exception.", ex));
             }
 
 

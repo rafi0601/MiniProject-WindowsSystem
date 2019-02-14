@@ -236,26 +236,33 @@ namespace DAL
 
         protected static readonly Trainee tmp = new Trainee();
 
-        private static Trainee FromXElement(XElement traineeXElement)//BUG input check
+        private static Trainee FromXElement(XElement traineeXElement)
         {
-            XElement nameXElement = traineeXElement.Element(nameof(tmp.Name)); //BUG might be null
-            XElement addressXElement = traineeXElement.Element(nameof(tmp.Address));
-            XElement teacherNameXElement = traineeXElement.Element(nameof(tmp.TeacherName));
-            return new Trainee(
-                traineeXElement.Element(nameof(tmp.ID)).Value,
-                new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
-                DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
-                (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
-                traineeXElement.Element(nameof(tmp.MobileNumber)).Value,
-                new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
-                traineeXElement.Element(nameof(tmp.Password)).Value,
-                (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
-                (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
-                traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
-                new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
-                uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value),
-                DateTime.Parse(traineeXElement.Element(nameof(tmp.TheLastTest)).Value)
-                );
+            try
+            {
+                XElement nameXElement = traineeXElement.Element(nameof(tmp.Name));
+                XElement addressXElement = traineeXElement.Element(nameof(tmp.Address));
+                XElement teacherNameXElement = traineeXElement.Element(nameof(tmp.TeacherName));
+                return new Trainee(
+                    traineeXElement.Element(nameof(tmp.ID)).Value,
+                    new Person.PersonName(nameXElement.Element(nameof(tmp.Name.LastName)).Value, nameXElement.Element(nameof(tmp.Name.FirstName)).Value),
+                    DateTime.Parse(traineeXElement.Element(nameof(tmp.Birthdate)).Value),
+                    (Gender)Enum.Parse(typeof(Gender), traineeXElement.Element(nameof(tmp.Gender)).Value),
+                    traineeXElement.Element(nameof(tmp.MobileNumber)).Value,
+                    new Address(addressXElement.Element(nameof(tmp.Address.Street)).Value, uint.Parse(addressXElement.Element(nameof(tmp.Address.HouseNumber)).Value), addressXElement.Element(nameof(tmp.Address.City)).Value),
+                    traineeXElement.Element(nameof(tmp.Password)).Value,
+                    (Vehicle)Enum.Parse(typeof(Vehicle), traineeXElement.Element(nameof(tmp.VehicleTypeTraining)).Value),
+                    (Gearbox)Enum.Parse(typeof(Gearbox), traineeXElement.Element(nameof(tmp.GearboxTypeTraining)).Value),
+                    traineeXElement.Element(nameof(tmp.DrivingSchool)).Value,
+                    new Person.PersonName(teacherNameXElement.Element(nameof(tmp.TeacherName.LastName)).Value, teacherNameXElement.Element(nameof(tmp.TeacherName.FirstName)).Value),
+                    uint.Parse(traineeXElement.Element(nameof(tmp.NumberOfDoneLessons)).Value),
+                    DateTime.Parse(traineeXElement.Element(nameof(tmp.TheLastTest)).Value)
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new IOException("Trainee file not illegal", ex);
+            }
         }
 
         private static XElement ToXElement(Trainee trainee)
@@ -386,26 +393,40 @@ namespace DAL
 
         #region Helpers Functions
 
-        private Predicate<T> EqualityOfKeys<T>(T item) where T : IKey // TODO rename to equalitionOfKey
+        private Predicate<T> EqualityOfKeys<T>(T item) where T : IKey
         {
             return t => item?.Key == t?.Key;
         }
 
         protected static void SaveToXmlFile<T>(T source, string path)
         {
-            FileStream file = new FileStream(path, FileMode.Create);
-            XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
-            xmlSerializer.Serialize(file, source);
-            file.Close();
+            try
+            {
+                FileStream file = new FileStream(path, FileMode.Create);
+                XmlSerializer xmlSerializer = new XmlSerializer(source.GetType());
+                xmlSerializer.Serialize(file, source);
+                file.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new IOException("File serialize problem", ex);
+            }
         }
 
         protected static T LoadFromXmlFile<T>(string path)
         {
-            FileStream file = new FileStream(path, FileMode.Open);
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-            T result = (T)xmlSerializer.Deserialize(file);
-            file.Close();
-            return result;
+            try
+            {
+                FileStream file = new FileStream(path, FileMode.Open);
+                XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+                T result = (T)xmlSerializer.Deserialize(file);
+                file.Close();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new IOException("Deserializer problem.", ex);
+            }
         }
 
         #endregion

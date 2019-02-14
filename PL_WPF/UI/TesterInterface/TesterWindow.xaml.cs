@@ -90,8 +90,7 @@ namespace PL_WPF.UI.TesterInterface
             CheckBox74.IsChecked = tester.WorkingHours[3, 15];
             CheckBox75.IsChecked = tester.WorkingHours[4, 15];
 
-            FutureTestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == false);
-            TestsDataGrid.ItemsSource = bl.GetTests(t => t.TesterID == tester.ID && t.IsDone() == true);
+            Refrash_Button_Click(Refresh_Button, new RoutedEventArgs());
 
             TesterDetails testerDetails = new TesterDetails();
             testerDetails.iDTextBox.IsEnabled = false;
@@ -116,7 +115,7 @@ namespace PL_WPF.UI.TesterInterface
 
                     tester.VehicleTypesExpertise = 0;
                     foreach (ListBoxItem itemExpertise in vehicleTypeExpertiseListBox.SelectedItems)
-                        tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                        tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
                 }
                 catch (Exception ex)
                 {

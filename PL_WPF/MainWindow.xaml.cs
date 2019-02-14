@@ -31,9 +31,7 @@ namespace PL_WPF
         {
             InitializeComponent();
             new LoginWindow().ShowDialog();
-            //new UI.TraineeInterface.TraineeWindow(new BE.Trainee()).ShowDialog();
-            //new UI.TraineeInterface.TraineeWindow(bl.GetTrainee("212384507")).Show();
-            //new UI.TesterInterface.TesterRegisteraionWindow().Show();
+
             try
             {
                 //bl.AddTester(new Tester("323947747", new Person.PersonName { FirstName = "Shmuel", LastName = "Garber" }, new DateTime(1950, 7, 13), Gender.male, "0547424870", new Address { Street = "יפו", HouseNumber = 5, City = "ירושלים" }, "1", 10, 30, Vehicle.tractor, new Schedule(new bool[,] { { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true }, { true, true, true, true, true, true, true } }), 100));

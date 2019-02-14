@@ -4,19 +4,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace BE
 {
     public sealed partial class Test
     {
         [Serializable]
-        public class Criteria : IEnumerable
+        public class Criteria : IEnumerable<PropertyInfo>
         {
+            [UserDisplay("Keep Distance")]
             public bool? KeepDistance { get; set; }
+
+            [UserDisplay("Back Parking")]
             public bool? BackParking { get; set; }
+
+            [UserDisplay("UsingViewMirrors")]
             public bool? UsingViewMirrors { get; set; }
+
+            [UserDisplay("Signaling")]
             public bool? Signaling { get; set; }
+
+            [UserDisplay("Integration Into Movement")]
             public bool? IntegrationIntoMovement { get; set; }
+
+            [UserDisplay("Obey Park Signs")]
             public bool? ObeyParkSigns { get; set; }
 
 
@@ -28,12 +40,17 @@ namespace BE
             }
 
 
-            public IEnumerator GetEnumerator()
+            public IEnumerator<PropertyInfo> GetEnumerator()
             {
-                foreach (System.Reflection.PropertyInfo criterion in GetType().GetProperties())
+                foreach (PropertyInfo criterion in GetType().GetProperties())
                 {
                     yield return criterion;
                 }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new NotImplementedException();
             }
 
 

@@ -19,23 +19,29 @@ namespace BE
         /// and 
         /// female, male 
         ///     is forbidden because the female before the male
+        /// :)
     }
 
     [Flags]
     public enum Vehicle : uint
     {
-        [UserDisplay(nameof(privateCar))]
-        privateCar = 0b1,
-        [UserDisplay(nameof(twoWheeledVehicle))]
+        [UserDisplay("Private car")]
+        privateCar = 0b1, //1<<0,
+
+        [UserDisplay("Two wheeled")]
         twoWheeledVehicle = 0b10, //1<<1
-        [UserDisplay(nameof(mediumTruck))]
-        mediumTruck = 0b100,//1<<2
-        [UserDisplay(nameof(heavyTruck))]
-        heavyTruck = 0b1_000,
-        [UserDisplay(nameof(publicVehicle))]
-        publicVehicle = 0b10_000,
-        [UserDisplay(nameof(tractor))]
-        tractor = 0b100_000
+
+        [UserDisplay("Medium truck")]
+        mediumTruck = 0b100,//1<<2,
+
+        [UserDisplay("Heavy truck")]
+        heavyTruck = 0b1_000, //1<<3,
+
+        [UserDisplay("Public vehicle")]
+        publicVehicle = 0b10_000, //1<<4,
+
+        [UserDisplay("Tractor")]
+        tractor = 0b100_000 //1<<5,
     }
 
     public enum Gearbox

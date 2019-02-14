@@ -73,7 +73,7 @@ namespace PL_WPF.UI.TesterInterface
                 });
 
                 foreach (string expertise in vehicleTypeExpertiseListBox.SelectedItems)
-                    tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                    tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 iDTextBox.GetBindingExpression(Xceed.Wpf.Toolkit.MaskedTextBox.TextProperty).UpdateSource();
 

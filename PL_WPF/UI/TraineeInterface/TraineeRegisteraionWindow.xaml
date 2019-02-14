@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" 
-        WindowStartupLocation="CenterScreen" Height="680" Width="770" Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen" Height="630" Width="790" Loaded="Window_Loaded"
         Style="{StaticResource WindowsStyle}">
     <Window.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
@@ -127,7 +127,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <!--<TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3"  VerticalAlignment="Center" Width="120"/>-->
-                <xctk:IntegerUpDown Minimum="0" Watermark="" UpdateValueOnEnterKey="True" x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120" />
+                <xctk:IntegerUpDown Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120" />
                 <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
             </Grid>
 
@@ -169,8 +169,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Gearbox:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:WatermarkComboBox Watermark="Choose gearbox" x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1"  Margin="3" />
-                <!--SelectedItem ="{Binding GearboxTypeTraining, Mode=TwoWay}"-->
+                <xctk:WatermarkComboBox Watermark="Choose gearbox" x:Name="gearboxComboBox" Style="{StaticResource ComboBox_Style}" Grid.Column="1"  Margin="3" SelectedItem ="{Binding GearboxTypeTraining, Mode=TwoWay}"/>
             </Grid>
 
             <Grid>
@@ -193,7 +192,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Number Of Done Lessons:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:ByteUpDown x:Name="numberOfDoneLessonsByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding NumberOfDoneLessons, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                <xctk:ByteUpDown x:Name="numberOfDoneLessonsByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding NumberOfDoneLessons, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" />
             </Grid>
 
             <Grid>

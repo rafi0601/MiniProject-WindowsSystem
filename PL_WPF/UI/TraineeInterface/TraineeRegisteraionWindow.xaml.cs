@@ -65,7 +65,7 @@ namespace PL_WPF.UI.TraineeInterface
 
 
                 foreach (string expertise in vehicleListBox.SelectedItems)
-                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 bl.AddTrainee(trainee);
 

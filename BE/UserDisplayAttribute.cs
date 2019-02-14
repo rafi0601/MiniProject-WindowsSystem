@@ -13,7 +13,7 @@ namespace BE
 
         public UserDisplayAttribute(/*[CallerMemberName]*/ string displayName = null)
         {
-            DisplayName = displayName.SplitByUpperAndToLower();
+            DisplayName = displayName;
         }
     }
 }
