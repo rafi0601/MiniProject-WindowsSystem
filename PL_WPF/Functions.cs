@@ -15,13 +15,13 @@ namespace PL_WPF
 {
     internal static class Functions
     {
-       public static MessageBoxResult ShowMessageToUser(Exception ex) 
-            => MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+        public static MessageBoxResult ShowMessageToUser(Exception ex)
+             => MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
 
         public static bool SendMailToAdmin(Exception ex)
         {
             MessageBox.Show("There is a problem with the system (that is not connected to you). \n A mail was sent to the developers.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            MessageBox.Show(ex.Message, "For inits", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("The exception is: \n" + ex.Message, "For inspections", MessageBoxButton.OK, MessageBoxImage.Error);
             return true;
 
             // צריך להכניס במקום סימני השאלה מיילים אמיתיים ואז להוריד את השורה הקודמת
@@ -61,7 +61,7 @@ namespace PL_WPF
                 errorMessages.Remove(e.Error.Exception.Message);
         }
 
-        public class DateTimeToDateString_Converter : IValueConverter
+        public class VehicleToString_Converter : IValueConverter
         {
             public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
             {
@@ -76,5 +76,5 @@ namespace PL_WPF
         }
 
     }
-    
+
 }

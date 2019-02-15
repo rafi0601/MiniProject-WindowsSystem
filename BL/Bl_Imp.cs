@@ -237,7 +237,7 @@ namespace BL
             if (!ExistingTraineeById(trainee?.ID))
                 throw new CasingException(true, new ArgumentException("This trainee doesn't exist in the database"));
 
-            return dal.GetTests(test => test.TraineeID == trainee.ID && test.IsPass == true).Count > 0; //==1
+            return dal.GetTests(test => test.TraineeID == trainee.ID && test.IsPass == true).Any();
         }
 
         #endregion
@@ -246,35 +246,40 @@ namespace BL
 
         public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         {
-            if (!vehicle.IsFlag())
-                throw new CasingException(false, new Exception("Test can be only on one vehicle."));
+            //TODO if !trainee.Equal(dal.GetTrainee())
 
             if (!ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
 
-            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
-                throw new CasingException(true, new ArgumentException("It is illegal to access to test less than 7 days after the last one"));
-
             if (trainee.NumberOfDoneLessons < MIN_LESSONS)
                 throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons"));
 
-            if (dal.GetTests(test => test.TraineeID == trainee.ID && test.Date == testDate).Any() == true)
-                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
+            if (!vehicle.IsFlag())
+                throw new CasingException(false, new Exception("Test can be only on one vehicle."));
 
-            if (IsEntitledToLicense(trainee))
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
+            //BUG only for debugging
+            //if (testDate < DateTime.Now)
+            //    throw new ArgumentException("The requested time has passed");
 
-            if (dal.GetTests(test => test.TraineeID == trainee.ID && test.IsDone() == false).Any() == true)
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
+            if (testDate.DayOfWeek > DayOfWeek.Thursday || testDate.Hour > END_OF_A_WORKING_DAY || testDate.Hour < BEGINNING_OF_A_WORKING_DAY)
+                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers" + $"{(DayOfWeek)BEGINNING_OF_A_WORKING_WEEK}-{(DayOfWeek)END_OF_A_WORKING_WEEK}, {BEGINNING_OF_A_WORKING_DAY}-{END_OF_A_WORKING_DAY}"));
 
             if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
                 throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive"));
 
-            if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
-                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers"));
-            //BUG only for inits
-            //if (testDate < DateTime.Now)
-            //    throw new ArgumentException("The requested time has passed");
+            List<Test> testsOfTheTrainee = dal.GetTests(test => test.TraineeID == trainee.ID);
+
+            if (testsOfTheTrainee.Any(test => !test.IsDone())) // CHECK maybe not necccary (in IsEntitled)
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
+
+            if (IsEntitledToLicense(trainee))
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
+
+            if (testsOfTheTrainee.Any(test => test.Date == testDate)) // CHECK maybe not neccary (in the next one)
+                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
+
+            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
+                throw new CasingException(true, new ArgumentException($"It is illegal to access to test less than {TIME_RANGE_BETWEEN_TESTS} after the last one"));
 
 
             try
@@ -468,10 +473,10 @@ namespace BL
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
-                throw new CasingException(true, new ArgumentException("The tester's age is not appropriate."));
+                throw new CasingException(true, new ArgumentException($"The tester's age is not appropriate ({(int)(MIN_AGE_OF_TESTER.Days / 365.25)} - {(int)(MAX_AGE_OF_TESTER.Days / 365.25)})."));
 
-            if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365))// CHECK minageoftrainee? (start to count years from learn or teach?)
-                throw new CasingException(true, new ArgumentException("Years of experience do not make sense according to age."));
+            if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365.25))// CHECK minageoftrainee? (start to count years from learn or teach?)
+                throw new CasingException(true, new ArgumentException($"Years of experience do not make sense according to age."));
 
             if (0 == tester.MaxOfTestsPerWeek)
                 throw new CasingException(true, new ArgumentException("It is illegal for the teter to not test."));
@@ -492,7 +497,7 @@ namespace BL
             }
 
             if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
-                throw new CasingException(true, new ArgumentOutOfRangeException("This Trainee's age is not appropriate."));
+                throw new CasingException(true, new ArgumentOutOfRangeException($"This Trainee's age is not appropriate (at least {(int)(MIN_AGE_OF_TRAINEE.Days / 365.25)})."));
         }
 
         private protected void TestLogicsInspections(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
@@ -503,6 +508,8 @@ namespace BL
         #endregion
 
         #region private functions
+        // These are private function so all the input check were done before the call to the functions
+
 
         private bool ExistingTesterById(string id)
         {
@@ -521,7 +528,6 @@ namespace BL
 
 
         private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle)
-        // This is a private function so all the input check were done before the call to the function
         {
             List<Tester> optionalTesters = (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)//.AsParallel()
                                             where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
@@ -541,7 +547,6 @@ namespace BL
 
         //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
         private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning)
-        // This is a private function so all the input check were done before the call to the function
         {
             if (!vehicleTypeLearning.IsFlag())
                 throw new CasingException(true, new ArgumentException("A test can be only on one type of vehicle."));
@@ -574,7 +579,6 @@ namespace BL
         }
 
         private (double distance, TimeSpan time) DistanceAndTime(Address address1, Address address2)
-        // This is a private function so all the input check were done before the call to the function
         {
             string origin = address1.Street + " " + address1.HouseNumber + " " + address1.City + " Israel";
             string destination = address2.Street + " " + address2.HouseNumber + " " + address2.City + " Israel";

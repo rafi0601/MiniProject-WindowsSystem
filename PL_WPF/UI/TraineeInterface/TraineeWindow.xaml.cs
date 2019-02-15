@@ -78,7 +78,7 @@ namespace PL_WPF.UI.TraineeInterface
             if (bl.GetTests(t => t.TraineeID == trainee.ID).Any())
             {
                 dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }
 
@@ -284,13 +284,14 @@ namespace PL_WPF.UI.TraineeInterface
 
                 if (alternateDate == null)
                 {
-                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
+                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
                     DetailsOfMyTest.Visibility = Visibility.Visible;
                     return;
                 }
                 else
                 {
-                    SuggestAlternateDateOfTest.Date.Text = alternateDate.Value.ToString("g");
+                    //SuggestAlternateDateOfTest.Date.Text = alternateDate.Value.ToString("g");
+                    SuggestAlternateDateOfTest.calendar.SelectedDate = alternateDate;
                     SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
                 }
             }
@@ -320,7 +321,8 @@ namespace PL_WPF.UI.TraineeInterface
 
                 busyIndicator.Visibility = Visibility.Collapsed;
 
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
+                //בהנחה שאין בתוכנית תהליכונים אז זה יקבע בטוח
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining&&t.IsPass==null);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }
             catch (CasingException ex) when (ex.DisplayToUser)

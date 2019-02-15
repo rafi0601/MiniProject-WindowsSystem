@@ -11,12 +11,13 @@ using System.Text.RegularExpressions;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
 using System.Xml.Serialization;
+using static BE.Configuration;
 
 namespace BE
 {
     [Serializable]
     [DebuggerDisplay("Code: {Code}; tester's ID: {IdTester}, trainee's ID: {IdTrainee}")]
-    public sealed partial class Test : IKey
+    public partial class Test : IKey
     {
         string IKey.Key => Code;
 
@@ -35,7 +36,7 @@ namespace BE
         public string TesterNotes { get; set; }
 
 
-        public bool IsDone() => DateTime.Now > Date + Configuration.LENGTH_OF_TEST;
+        public bool IsDone() => DateTime.Now > Date + LENGTH_OF_TEST;
 
 
         public Test() { }
@@ -74,7 +75,7 @@ namespace BE
             //return this.ToStringProperty();
         }
 
-
+        
         public string criteriasGrades
         {
             get

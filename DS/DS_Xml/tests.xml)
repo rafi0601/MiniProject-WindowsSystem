@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ArrayOfTest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Test>
+    <Code>00000001</Code>
+    <TesterID>322680083</TesterID>
+    <TraineeID>323947739</TraineeID>
+    <Date>2019-02-10T12:00:00</Date>
+    <DepartureAddress>
+      <Street>יפו</Street>
+      <HouseNumber>17</HouseNumber>
+      <City>ירושלים</City>
+    </DepartureAddress>
+    <Vehicle>privateCar</Vehicle>
+    <IsPass xsi:nil="true" />
+    <criteriasGrades>null,null,null,null,null,null,</criteriasGrades>
+  </Test>
+  <Test>
+    <Code>00000002</Code>
+    <TesterID>322680083</TesterID>
+    <TraineeID>212384507</TraineeID>
+    <Date>2019-02-10T11:00:00</Date>
+    <DepartureAddress>
+      <Street>יפו</Street>
+      <HouseNumber>2</HouseNumber>
+      <City>ירושלים</City>
+    </DepartureAddress>
+    <Vehicle>privateCar</Vehicle>
+    <IsPass xsi:nil="true" />
+    <criteriasGrades />
+  </Test>
+</ArrayOfTest>
