@@ -33,7 +33,7 @@ namespace PL_WPF
             InitializeComponent();
 
             //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("he-IL");
-            new TEMPLATE.OldLoginWindow().ShowDialog();
+            //new TEMPLATE.OldLoginWindow().ShowDialog();
 
 
             new LoginWindow().ShowDialog();

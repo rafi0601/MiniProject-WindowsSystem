@@ -65,7 +65,7 @@ namespace BE
                 StringBuilder result = new StringBuilder();
                 for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
                     for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
-                        result.Append(WorkingHours[i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] + ",");
+                        result.Append(WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] + ",");
 
                 return result.ToString();
             }
@@ -81,7 +81,7 @@ namespace BE
                     int index = 0;
                     for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
                         for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
-                            WorkingHours[i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = bool.Parse(values[index++]);
+                            WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = bool.Parse(values[index++]);
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace BE
                 {
                     result[i] = new bool[WORKING_HOURS_A_DAY];
                     for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
-                        result[i][j] = WorkingHours[i, (int)(j + BEGINNING_OF_A_WORKING_DAY)];
+                        result[i][j] = WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)];
                 }
 
                 return result;
@@ -114,7 +114,7 @@ namespace BE
                     {
                         if (value[1].GetLength(0) == WORKING_HOURS_A_DAY)
                             for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
-                                WorkingHours[i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = value[i][j];
+                                WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = value[i][j];
                     }
                 }
             }

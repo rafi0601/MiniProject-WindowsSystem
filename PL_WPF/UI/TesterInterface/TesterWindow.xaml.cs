@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static BE.Configuration;
 
 namespace PL_WPF.UI.TesterInterface
 {
@@ -54,41 +55,66 @@ namespace PL_WPF.UI.TesterInterface
             HouseNumber.Text = tester.Address.HouseNumber.ToString();
             Street.Text = tester.Address.Street;
 
-            CheckBox11.IsChecked = tester.WorkingHours[0, 9];
-            CheckBox12.IsChecked = tester.WorkingHours[1, 9];
-            CheckBox13.IsChecked = tester.WorkingHours[2, 9];
-            CheckBox14.IsChecked = tester.WorkingHours[3, 9];
-            CheckBox15.IsChecked = tester.WorkingHours[4, 9];
-            CheckBox21.IsChecked = tester.WorkingHours[0, 10];
-            CheckBox22.IsChecked = tester.WorkingHours[1, 10];
-            CheckBox23.IsChecked = tester.WorkingHours[2, 10];
-            CheckBox24.IsChecked = tester.WorkingHours[3, 10];
-            CheckBox25.IsChecked = tester.WorkingHours[4, 10];
-            CheckBox31.IsChecked = tester.WorkingHours[0, 11];
-            CheckBox32.IsChecked = tester.WorkingHours[1, 11];
-            CheckBox33.IsChecked = tester.WorkingHours[2, 11];
-            CheckBox34.IsChecked = tester.WorkingHours[3, 11];
-            CheckBox35.IsChecked = tester.WorkingHours[4, 11];
-            CheckBox41.IsChecked = tester.WorkingHours[0, 12];
-            CheckBox42.IsChecked = tester.WorkingHours[1, 12];
-            CheckBox43.IsChecked = tester.WorkingHours[2, 12];
-            CheckBox44.IsChecked = tester.WorkingHours[3, 12];
-            CheckBox45.IsChecked = tester.WorkingHours[4, 12];
-            CheckBox51.IsChecked = tester.WorkingHours[0, 13];
-            CheckBox52.IsChecked = tester.WorkingHours[1, 13];
-            CheckBox53.IsChecked = tester.WorkingHours[2, 13];
-            CheckBox54.IsChecked = tester.WorkingHours[3, 13];
-            CheckBox55.IsChecked = tester.WorkingHours[4, 13];
-            CheckBox61.IsChecked = tester.WorkingHours[0, 14];
-            CheckBox62.IsChecked = tester.WorkingHours[1, 14];
-            CheckBox63.IsChecked = tester.WorkingHours[2, 14];
-            CheckBox64.IsChecked = tester.WorkingHours[3, 14];
-            CheckBox65.IsChecked = tester.WorkingHours[4, 14];
-            CheckBox71.IsChecked = tester.WorkingHours[0, 15];
-            CheckBox72.IsChecked = tester.WorkingHours[1, 15];
-            CheckBox73.IsChecked = tester.WorkingHours[2, 15];
-            CheckBox74.IsChecked = tester.WorkingHours[3, 15];
-            CheckBox75.IsChecked = tester.WorkingHours[4, 15];
+            for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+            {
+                for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                {
+                    CheckBox checkBox = new CheckBox
+                    {
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        IsChecked = tester.WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)]
+                    };
+                    //checkBox.SetBinding(CheckBox.IsCheckedProperty,
+                    //    new Binding("IsChecked")
+                    //    {
+                    //        Source = markAllCheckBox,
+                    //        Mode = BindingMode.OneWay
+                    //    });
+
+                    Grid.SetColumn(checkBox, i + 1);
+                    Grid.SetRow(checkBox, j + 1);
+
+                    scheduleGrid.Children.Add(checkBox);
+                }
+            }
+
+
+            //CheckBox11.IsChecked = tester.WorkingHours[(DayOfWeek)0, 9];
+            //CheckBox12.IsChecked = tester.WorkingHours[(DayOfWeek)1, 9];
+            //CheckBox13.IsChecked = tester.WorkingHours[(DayOfWeek)2, 9];
+            //CheckBox14.IsChecked = tester.WorkingHours[(DayOfWeek)3, 9];
+            //CheckBox15.IsChecked = tester.WorkingHours[(DayOfWeek)4, 9];
+            //CheckBox21.IsChecked = tester.WorkingHours[(DayOfWeek)0, 10];
+            //CheckBox22.IsChecked = tester.WorkingHours[(DayOfWeek)1, 10];
+            //CheckBox23.IsChecked = tester.WorkingHours[(DayOfWeek)2, 10];
+            //CheckBox24.IsChecked = tester.WorkingHours[(DayOfWeek)3, 10];
+            //CheckBox25.IsChecked = tester.WorkingHours[(DayOfWeek)4, 10];
+            //CheckBox31.IsChecked = tester.WorkingHours[(DayOfWeek)0, 11];
+            //CheckBox32.IsChecked = tester.WorkingHours[(DayOfWeek)1, 11];
+            //CheckBox33.IsChecked = tester.WorkingHours[(DayOfWeek)2, 11];
+            //CheckBox34.IsChecked = tester.WorkingHours[(DayOfWeek)3, 11];
+            //CheckBox35.IsChecked = tester.WorkingHours[(DayOfWeek)4, 11];
+            //CheckBox41.IsChecked = tester.WorkingHours[(DayOfWeek)0, 12];
+            //CheckBox42.IsChecked = tester.WorkingHours[(DayOfWeek)1, 12];
+            //CheckBox43.IsChecked = tester.WorkingHours[(DayOfWeek)2, 12];
+            //CheckBox44.IsChecked = tester.WorkingHours[(DayOfWeek)3, 12];
+            //CheckBox45.IsChecked = tester.WorkingHours[(DayOfWeek)4, 12];
+            //CheckBox51.IsChecked = tester.WorkingHours[(DayOfWeek)0, 13];
+            //CheckBox52.IsChecked = tester.WorkingHours[(DayOfWeek)1, 13];
+            //CheckBox53.IsChecked = tester.WorkingHours[(DayOfWeek)2, 13];
+            //CheckBox54.IsChecked = tester.WorkingHours[(DayOfWeek)3, 13];
+            //CheckBox55.IsChecked = tester.WorkingHours[(DayOfWeek)4, 13];
+            //CheckBox61.IsChecked = tester.WorkingHours[(DayOfWeek)0, 14];
+            //CheckBox62.IsChecked = tester.WorkingHours[(DayOfWeek)1, 14];
+            //CheckBox63.IsChecked = tester.WorkingHours[(DayOfWeek)2, 14];
+            //CheckBox64.IsChecked = tester.WorkingHours[(DayOfWeek)3, 14];
+            //CheckBox65.IsChecked = tester.WorkingHours[(DayOfWeek)4, 14];
+            //CheckBox71.IsChecked = tester.WorkingHours[(DayOfWeek)0, 15];
+            //CheckBox72.IsChecked = tester.WorkingHours[(DayOfWeek)1, 15];
+            //CheckBox73.IsChecked = tester.WorkingHours[(DayOfWeek)2, 15];
+            //CheckBox74.IsChecked = tester.WorkingHours[(DayOfWeek)3, 15];
+            //CheckBox75.IsChecked = tester.WorkingHours[(DayOfWeek)4, 15];
 
             Refrash_Button_Click(Refresh_Button, new RoutedEventArgs());
 
@@ -105,13 +131,18 @@ namespace PL_WPF.UI.TesterInterface
                 {
                     tester.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                     tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
-                    tester.WorkingHours = new Schedule(new bool[,] {
-                    { (bool)CheckBox11.IsChecked, (bool)CheckBox21.IsChecked, (bool)CheckBox31.IsChecked, (bool)CheckBox41.IsChecked, (bool)CheckBox51.IsChecked, (bool)CheckBox61.IsChecked, (bool)CheckBox71.IsChecked },
-                    { (bool)CheckBox12.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox52.IsChecked, (bool)CheckBox62.IsChecked, (bool)CheckBox72.IsChecked },
-                    { (bool)CheckBox13.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox53.IsChecked, (bool)CheckBox63.IsChecked, (bool)CheckBox73.IsChecked },
-                    { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
-                    { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
-                });
+                    //tester.WorkingHours = new Schedule(new bool[,] {
+                    //{ (bool)CheckBox11.IsChecked, (bool)CheckBox21.IsChecked, (bool)CheckBox31.IsChecked, (bool)CheckBox41.IsChecked, (bool)CheckBox51.IsChecked, (bool)CheckBox61.IsChecked, (bool)CheckBox71.IsChecked },
+                    //{ (bool)CheckBox12.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox52.IsChecked, (bool)CheckBox62.IsChecked, (bool)CheckBox72.IsChecked },
+                    //{ (bool)CheckBox13.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox53.IsChecked, (bool)CheckBox63.IsChecked, (bool)CheckBox73.IsChecked },
+                    //{ (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
+                    //{ (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
+                    //});
+
+                    foreach (var item in scheduleGrid.Children)
+                        if (item is CheckBox checkBox/* && checkBox != markAllCheckBox*/)
+                            tester.WorkingHours[(DayOfWeek)(Grid.GetColumn(checkBox) - 1), (int)(Grid.GetRow(checkBox) - 1 + BEGINNING_OF_A_WORKING_DAY)] = (bool)checkBox.IsChecked;
+
 
                     tester.VehicleTypesExpertise = 0;
                     foreach (ListBoxItem itemExpertise in vehicleTypeExpertiseListBox.SelectedItems)

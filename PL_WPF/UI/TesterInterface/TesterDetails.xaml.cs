@@ -52,8 +52,8 @@ namespace PL_WPF.UI.TesterInterface
                             Mode = BindingMode.OneWay
                         });
 
-                    Grid.SetRow(checkBox, i + 1);
-                    Grid.SetColumn(checkBox, j + 1);
+                    Grid.SetColumn(checkBox, i + 1);
+                    Grid.SetRow(checkBox, j + 1);
 
                     scheduleGrid.Children.Add(checkBox);
                 }
@@ -92,7 +92,7 @@ namespace PL_WPF.UI.TesterInterface
 
                 foreach (var item in scheduleGrid.Children)
                     if (item is CheckBox checkBox)
-                        tester.WorkingHours[Grid.GetRow(checkBox) - 1, Grid.GetColumn(checkBox) - 1] = (bool)checkBox.IsChecked;
+                        tester.WorkingHours[(DayOfWeek)(Grid.GetColumn(checkBox) - 1), Grid.GetRow(checkBox) - 1+9] = (bool)checkBox.IsChecked;
 
                 foreach (string expertise in vehicleTypeExpertiseListBox.SelectedItems)
                     tester.VehicleTypesExpertise |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);

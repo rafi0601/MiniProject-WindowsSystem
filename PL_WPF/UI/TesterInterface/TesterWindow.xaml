@@ -273,7 +273,7 @@
                             <GroupBox.Style>
                                 <Style/>
                             </GroupBox.Style>
-                            <Grid>
+                            <Grid x:Name="scheduleGrid">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -307,6 +307,7 @@
                                 <Label Grid.Column="0" Grid.Row="6" Content="14:00"/>
                                 <Label Grid.Column="0" Grid.Row="7" Content="15:00"/>
 
+                                <!--
                                 <CheckBox x:Name="CheckBox11" Grid.Row="1" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox12" Grid.Row="1" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox13" Grid.Row="1" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -342,8 +343,8 @@
                                 <CheckBox x:Name="CheckBox73" Grid.Row="7" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox74" Grid.Row="7" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox75" Grid.Row="7" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                                <!-- <CheckBox x:Name="markAllCheckBox" Grid.Column="2" Grid.Row="8" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                                -->
+                                 <!--<CheckBox Visibility="Collapsed" x:Name="markAllCheckBox" Grid.Column="2" Grid.Row="8" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                             </Grid>
                         </GroupBox>
 

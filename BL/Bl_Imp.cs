@@ -138,7 +138,7 @@ namespace BL
                 dateAndTime.Hour < BEGINNING_OF_A_WORKING_DAY || dateAndTime.Hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
                 throw new ArgumentOutOfRangeException("The date is not in the working hours");
 
-            return (from tester in dal.GetTesters(t => t.WorkingHours[(int)dateAndTime.DayOfWeek, (int)dateAndTime.Hour])
+            return (from tester in dal.GetTesters(t => t.WorkingHours[dateAndTime.DayOfWeek, (int)dateAndTime.Hour])
                     where WillAvailable(tester)
                     select tester)
                     .ToList();

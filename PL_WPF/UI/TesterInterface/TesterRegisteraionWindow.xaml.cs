@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static BE.Configuration;
 
 namespace PL_WPF.UI.TesterInterface
 {
@@ -39,7 +40,34 @@ namespace PL_WPF.UI.TesterInterface
             DataContext = tester;
 
 
+
             //this.Loaded += TesterRegisteraionWindow_Loaded;
+
+
+
+            for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+            {
+                for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                {
+                    CheckBox checkBox = new CheckBox
+                    {
+                        VerticalAlignment = VerticalAlignment.Center,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                    };
+                    checkBox.SetBinding(CheckBox.IsCheckedProperty,
+                        new Binding("IsChecked")
+                        {
+                            Source = markAllCheckBox,
+                            Mode = BindingMode.OneWay
+                        });
+
+                    Grid.SetColumn(checkBox, i + 1);
+                    Grid.SetRow(checkBox, j + 1);
+
+                    scheduleGrid.Children.Add(checkBox);
+                }
+            }
+
         }
 
         private void TesterRegisteraionWindow_Loaded(object sender, RoutedEventArgs e)
@@ -64,13 +92,17 @@ namespace PL_WPF.UI.TesterInterface
                     tester.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
                     tester.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
                     tester.Password = passwordBoxNew.Password;
-                    tester.WorkingHours = new Schedule(new bool[,] {
-                    { (bool)CheckBox11.IsChecked, (bool)CheckBox21.IsChecked, (bool)CheckBox31.IsChecked, (bool)CheckBox41.IsChecked, (bool)CheckBox51.IsChecked, (bool)CheckBox61.IsChecked, (bool)CheckBox71.IsChecked },
-                    { (bool)CheckBox12.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox52.IsChecked, (bool)CheckBox62.IsChecked, (bool)CheckBox72.IsChecked },
-                    { (bool)CheckBox13.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox53.IsChecked, (bool)CheckBox63.IsChecked, (bool)CheckBox73.IsChecked },
-                    { (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
-                    { (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
-                });
+                    //tester.WorkingHours = new Schedule(new bool[,] {
+                    //{ (bool)CheckBox11.IsChecked, (bool)CheckBox21.IsChecked, (bool)CheckBox31.IsChecked, (bool)CheckBox41.IsChecked, (bool)CheckBox51.IsChecked, (bool)CheckBox61.IsChecked, (bool)CheckBox71.IsChecked },
+                    //{ (bool)CheckBox12.IsChecked, (bool)CheckBox22.IsChecked, (bool)CheckBox32.IsChecked, (bool)CheckBox42.IsChecked, (bool)CheckBox52.IsChecked, (bool)CheckBox62.IsChecked, (bool)CheckBox72.IsChecked },
+                    //{ (bool)CheckBox13.IsChecked, (bool)CheckBox23.IsChecked, (bool)CheckBox33.IsChecked, (bool)CheckBox43.IsChecked, (bool)CheckBox53.IsChecked, (bool)CheckBox63.IsChecked, (bool)CheckBox73.IsChecked },
+                    //{ (bool)CheckBox14.IsChecked, (bool)CheckBox24.IsChecked, (bool)CheckBox34.IsChecked, (bool)CheckBox44.IsChecked, (bool)CheckBox54.IsChecked, (bool)CheckBox64.IsChecked, (bool)CheckBox74.IsChecked },
+                    //{ (bool)CheckBox15.IsChecked, (bool)CheckBox25.IsChecked, (bool)CheckBox35.IsChecked, (bool)CheckBox45.IsChecked, (bool)CheckBox55.IsChecked, (bool)CheckBox65.IsChecked, (bool)CheckBox75.IsChecked },
+                    //});
+
+                    foreach (var item in scheduleGrid.Children)
+                        if (item is CheckBox checkBox && checkBox != markAllCheckBox)
+                            tester.WorkingHours[(DayOfWeek)(Grid.GetColumn(checkBox) - 1), (int)(Grid.GetRow(checkBox) - 1+BEGINNING_OF_A_WORKING_DAY)] = (bool)checkBox.IsChecked;
                 }
                 catch (Exception ex)
                 {
