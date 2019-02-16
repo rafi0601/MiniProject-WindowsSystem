@@ -23,7 +23,7 @@ namespace PL_WPF.UI.TraineeInterface
     public partial class TraineeRegisteraionWindow : Window
     {
         Trainee trainee = new Trainee();
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public TraineeRegisteraionWindow()
         {

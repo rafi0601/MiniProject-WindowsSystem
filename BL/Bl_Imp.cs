@@ -19,7 +19,7 @@ namespace BL
     public partial class Bl_imp : IBL
     {
 
-        private protected readonly DAL.IDal dal = DAL.Singleton.Instance;
+        private protected readonly DAL.IDal dal = DAL.FactorySingleton.Instance;
 
         #region Tester functions
 

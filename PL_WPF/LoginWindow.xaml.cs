@@ -22,7 +22,7 @@ namespace PL_WPF
     /// </summary>
     public partial class LoginWindow : Window
     {
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public LoginWindow()
         {

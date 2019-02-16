@@ -26,7 +26,7 @@ namespace PL_WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BL.IBL bl = BL.Singleton.Instance;
+        private BL.IBL bl = BL.FactorySingleton.Instance;
 
         public MainWindow()
         {

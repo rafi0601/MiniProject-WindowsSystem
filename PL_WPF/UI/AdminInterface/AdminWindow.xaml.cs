@@ -22,7 +22,7 @@ namespace PL_WPF.UI.AdminInterface
     /// </summary>
     public partial class AdminWindow : Window
     {
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public AdminWindow()
         {

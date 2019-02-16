@@ -19,7 +19,7 @@ namespace ConsoleApp1
 {
     class PL_ConsoleImp
     {
-        public static BL.IBL bl = BL.Singleton.Instance;
+        public static BL.IBL bl = BL.FactorySingleton.Instance;
 
 
 

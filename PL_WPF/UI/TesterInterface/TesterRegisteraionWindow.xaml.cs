@@ -23,7 +23,7 @@ namespace PL_WPF.UI.TesterInterface
     public partial class TesterRegisteraionWindow : Window
     {
         Tester tester = new Tester();
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public TesterRegisteraionWindow()
         {

@@ -24,7 +24,7 @@ namespace PL_WPF.UI.TesterInterface
     public partial class TesterWindow : Window
     {
         Tester tester;
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public TesterWindow(Tester tester)
         {
