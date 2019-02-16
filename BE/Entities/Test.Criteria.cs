@@ -13,22 +13,22 @@ namespace BE
         [Serializable]
         public class Criteria : IEnumerable<PropertyInfo>
         {
-            [UserDisplay("Keep Distance")]
+            [UserDisplay("Keep distance")]
             public bool? KeepDistance { get; set; }
 
-            [UserDisplay("Back Parking")]
+            [UserDisplay("Back parking")]
             public bool? BackParking { get; set; }
 
-            [UserDisplay("UsingViewMirrors")]
+            [UserDisplay("Using view mirrors")]
             public bool? UsingViewMirrors { get; set; }
 
             [UserDisplay("Signaling")]
             public bool? Signaling { get; set; }
 
-            [UserDisplay("Integration Into Movement")]
+            [UserDisplay("Integration into movement")]
             public bool? IntegrationIntoMovement { get; set; }
 
-            [UserDisplay("Obey Park Signs")]
+            [UserDisplay("Obey park signs")]
             public bool? ObeyParkSigns { get; set; }
 
 
@@ -68,7 +68,7 @@ namespace BE
         }
 
         ///       
-        ///   //אין קונסטרקטור כי כמו שיוצרים את התיבות סימון בפוראיצ על כל קריטריון כך עושים סטטר על כל קריטריון ממה שיש בתיבות
+        ///   //אין קונסטרקטור כי כמו שיוצרים את התיבות סימון בפוראיצ על כל קריטריון כך עושים סטר על כל קריטריון ממה שיש בתיבות
         ///   //להגדיר קבוע שאומר כמה תיבות צריך למלא במינימום (לא וי ולא איקס אלא ריק) ע
         ///   // לעשות איוונט של מה קורה שסיימו להזין ציונים ובתוכו פונקציה שעושה יילד רטורן של זוג סדור 
         ///

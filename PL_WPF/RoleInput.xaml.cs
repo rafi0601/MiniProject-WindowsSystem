@@ -32,6 +32,7 @@ namespace PL_WPF
         {
             //sender as ListBox).Selecte......
             RoleName = (RoleListBox.SelectedItem as ListBoxItem).Content as string;
+            //DialogResult = true;
             Close();
         }
 

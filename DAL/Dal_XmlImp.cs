@@ -81,6 +81,9 @@ namespace DAL
 
         public Dal_XmlImp()
         {
+            if (!Directory.Exists(filesPath))
+                Directory.CreateDirectory(filesPath);
+
             if (!File.Exists(trainees.FilePath))
                 trainees.Root.Save(trainees.FilePath);
             else
@@ -425,7 +428,7 @@ namespace DAL
             }
             catch (Exception ex)
             {
-                throw new IOException("Deserializer problem.", ex);
+                throw new IOException("File deserializer problem.", ex);
             }
         }
 

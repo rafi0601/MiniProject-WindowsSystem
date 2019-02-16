@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public /*static*/ abstract class FactorySingleton
+    public /*static abstract*/ class FactorySingleton
     {
         protected static IDal instance = null;
         private static readonly object padlock = new object();

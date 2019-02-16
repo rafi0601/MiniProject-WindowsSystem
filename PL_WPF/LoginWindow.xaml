@@ -6,6 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="The Tests System" Icon="/Accessories/Images/logo3.png" Height="500" Width="907" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
@@ -14,7 +15,46 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="350"/>
         </Grid.ColumnDefinitions>
+
         <Grid Grid.Column="1">
+
+            <Grid.Resources>
+                <Style x:Key="Controller_Style" TargetType="Button" BasedOn="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                    <Setter Property="Background" Value="{x:Null}"/>
+                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                    <!--<EventSetter Event="MouseEnter" Handler="Controller_MouseEnter"/>-->
+                    <!--<EventSetter Event="MouseLeave" Handler="Controller_MouseLeave"/>-->
+
+                    <!--<Setter Property="Content">
+                        <Setter.Value>
+                            <Style TargetType="materialDesign:PackIcon">
+                                <Setter Property="Foreground" Value="WhiteSmoke"/>
+                                <Setter Property="Width" Value="25"/>
+                                <Setter Property="Height" Value="25"/>
+                                <Setter Property="Margin" Value="0"/>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>-->
+                    <Style.Resources>
+                        <Style TargetType="materialDesign:PackIcon">
+                            <Setter Property="Foreground" Value="WhiteSmoke"/>
+                            <Setter Property="Width" Value="25"/>
+                            <Setter Property="Height" Value="25"/>
+                            <Setter Property="Margin" Value="0"/>
+
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button, AncestorLevel=1},Path=IsMouseOver}" Value="True">
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+
+                <local:HelperPassword x:Key="helperPassword" x:Name="helperPassword" Password="{Binding ElementName=passwordPasswordBox, Path=Password, Mode=OneWay}"/>
+            
+            </Grid.Resources>
+
             <Rectangle Height="280" VerticalAlignment="Top">
                 <Rectangle.Fill>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -24,53 +64,64 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
+
             <Image Source="/Accessories/Images/carSymbol.png" Width="100" Height="100" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="20"/>
+
             <Rectangle Width="280" Height="240" Fill="White" VerticalAlignment="Bottom" Margin="0,100" RadiusY="12.811" RadiusX="12.811" >
                 <Rectangle.Effect>
                     <DropShadowEffect Color="#FFBBBBBB" Direction="0" BlurRadius="15" RenderingBias="Quality" ShadowDepth="1"/>
                 </Rectangle.Effect>
             </Rectangle>
+
             <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
                 <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" />
                 <StackPanel VerticalAlignment="Center" Margin="10">
                     <TextBox x:Name="idTextBox" materialDesign:HintAssist.Hint="ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
-                    <PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
+                    <PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="8"/>
+                    <!--<PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="8" local:PasswordHelper.Attach="True" local:PasswordHelper.Password="{Binding ElementName=passwordPasswordBox, Path=Password, Mode=TwoWay}"/>-->
                 </StackPanel>
             </Grid>
+
             <Button VerticalAlignment="Bottom" Margin="0,85" Width="150" Content="LOG IN" Click="Login_Click">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                        <!--<Style.Triggers>
-                        <DataTrigger Binding="{Binding ElementName=idTextBox, Path=Text}" Value="">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding ElementName=passwordPasswordBox, Path=Password}" Value="">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>-->
-                        <!--the first is the good-->
-                        <!--<MultiDataTrigger>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=idTextBox, Path=Text}" Value="{x:Static System:String.Empty}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <!--<DataTrigger Binding="{Binding Source={StaticResource helperPassword}, Path=Password}" Value="{x:Static System:String.Empty}">-->
+                            <DataTrigger Binding="{Binding ElementName=helperPassword, Path=Password}" Value="{x:Static System:String.Empty}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            <!--<MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding ElementName=idTextBox, Path=Text}" Value=""/>
                                 <Condition Binding="{Binding ElementName=passwordPasswordBox, Path=Password}" Value=""/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Button.IsEnabled" Value="False"/>
                         </MultiDataTrigger>-->
-                        <!--</Style.Triggers>-->
+                        </Style.Triggers>
                         <!--<Setter Property="IsEnabled" Value="True"/>-->
                     </Style>
                 </Button.Style>
             </Button>
+
             <!--<TextBlock Text="Forgot password?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="20" Foreground="Gray" Cursor="Hand"/>-->
             <TextBlock Text="Don't have a user?" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="50" Foreground="Gray" Cursor="Hand" MouseLeftButtonDown="Registeration_MouseLeftButtonDown" />
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <Button Name="Minimize_Button" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Minimize_Click" MouseEnter="Controller_MouseEnter" MouseLeave="Controller_MouseLeave">
-                    <materialDesign:PackIcon Name="Minimize_Icon" Kind="WindowMinimize" Foreground="WhiteSmoke" Width="25" Height="25" Margin="0"/>
+                <Button Name="Minimize_Button" Click="Minimize_Click" Style="{StaticResource Controller_Style}">
+                    <materialDesign:PackIcon Name="Minimize_Icon" Kind="WindowMinimize"/>
                 </Button>
-                <Button Name="Shutdown_Button" Background="{x:Null}" BorderBrush="{x:Null}" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="Shutdown_Click" MouseEnter="Controller_MouseEnter" MouseLeave="Controller_MouseLeave">
-                    <materialDesign:PackIcon Name="Shutdown_Icon" Kind="Power" Foreground="WhiteSmoke" Width="25" Height="25" Margin="0"/>
+                <Button Name="Shutdown_Button" Click="Shutdown_Click" Style="{StaticResource Controller_Style}">
+                    <materialDesign:PackIcon Name="Shutdown_Icon" Kind="Power"/>
                 </Button>
             </StackPanel>
-            <!--<Button Content="Button" HorizontalAlignment="Left" Height="75" Margin="95,225,0,0" VerticalAlignment="Top" Width="152" Click="Button_Click"/>-->
+            <StackPanel Visibility="Hidden" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button Name="Languages_Button" Click="Languages_Click" Style="{StaticResource Controller_Style}">
+                    <materialDesign:PackIcon Name="Languages_Icon" Kind="Globe"/>
+                </Button>
+            </StackPanel>
         </Grid>
 
         <RichTextBox Grid.Column="0">
