@@ -25,16 +25,12 @@ namespace PL_WPF
         {
             InitializeComponent();
 
-            SelectionChanged += DateTextBlock_SelectionChanged;
+            SelectionChanged += (sender, e) => dateTextBlock.Text = DateTime.ToString(); ; // TODO another to string
         }
 
 
         public event SelectionChangedEventHandler SelectionChanged;
 
-        private void DateTextBlock_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            dateTextBlock.Text = DateTime.ToString(); // TODO another to string
-        }
 
 
         public DateTime DateTime

@@ -23,6 +23,7 @@
         <!--<Style TargetType="{x:Type Label}">
             <Setter Property="FontFamily" Value="{x:Null}"/>
         </Style>-->
+        
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="20"/>
@@ -93,6 +94,7 @@
         <Label x:Name="MainGrid_Col1" Grid.Column="1"/>
         <Label x:Name="MainGrid_Col1Row1" Grid.Column="1" Grid.Row="1"/>
         <Label x:Name="MainGrid_Row1" Grid.Row="1"/>
+        
         <Grid x:Name="MenuGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
             <Grid.Effect>
                 <DropShadowEffect/>
@@ -110,6 +112,7 @@
                     <GradientStop Color="#FF484545" Offset="0.86"/>
                 </LinearGradientBrush>
             </Grid.Background>
+            
             <Label x:Name="MenuGrid_Row1" Grid.Row="1"/>
             <Image Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Accessories/Images/profile.png"/>
         </Grid>
@@ -125,12 +128,18 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
+        
         <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
+        
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
+            
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
+            
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
                 <WrapPanel Orientation="Vertical">
+                    
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
+                    
                     <ListBox x:Name="Testers_ListBox" HorizontalAlignment="Center" SelectionChanged="Testers_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -171,9 +180,12 @@
                     </ListView>
                 </WrapPanel>
             </TabItem>
+            
             <TabItem Style="{DynamicResource Tab_Style}" Header="Trainees" >
                 <WrapPanel Orientation="Vertical">
+                    
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
+                    
                     <ListBox x:Name="Trainees_ListBox" HorizontalAlignment="Center" SelectionChanged="Trainees_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -204,6 +216,7 @@
                                 <GridViewColumn Header="The last test" DisplayMemberBinding="{Binding TheLastTest}"/>
                             </GridView>
                         </ListView.View>
+                        
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
@@ -216,9 +229,12 @@
                     </ListView>
                 </WrapPanel>
             </TabItem>
+            
             <TabItem Style="{DynamicResource Tab_Style}" Header="Tests">
                 <WrapPanel Orientation="Vertical">
+                    
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center" Margin="160,0,0,0"/>
+                    
                     <ListBox x:Name="Tests_ListBox" HorizontalAlignment="Center" SelectionChanged="Tests_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -239,6 +255,7 @@
                                 <GridViewColumn Header="Vehicle" DisplayMemberBinding="{Binding Vehicle}" />
                             </GridView>
                         </ListView.View>
+                        
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
@@ -248,10 +265,12 @@
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
                         </ListView.GroupStyle>
+                        
                     </ListView>
                 </WrapPanel>
 
             </TabItem>
+        
         </TabControl>
     </Grid>
 

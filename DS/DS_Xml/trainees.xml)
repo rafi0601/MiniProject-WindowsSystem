@@ -1,31 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <trainees>
   <Trainee>
-    <ID>323947739</ID>
-    <Name>
-      <LastName>Levi</LastName>
-      <FirstName>Asaf</FirstName>
-    </Name>
-    <Birthdate>1948-10-06T00:00:00</Birthdate>
-    <Gender>female</Gender>
-    <MobileNumber>0541234567</MobileNumber>
-    <Address>
-      <Street>יפו</Street>
-      <HouseNumber>17</HouseNumber>
-      <City>ירושלים</City>
-    </Address>
-    <Password>1</Password>
-    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
-    <GearboxTypeTraining>manual</GearboxTypeTraining>
-    <DrivingSchool>TheBest</DrivingSchool>
-    <TeacherName>
-      <LastName>Garber</LastName>
-      <FirstName>Shmuel</FirstName>
-    </TeacherName>
-    <NumberOfDoneLessons>30</NumberOfDoneLessons>
-    <TheLastTest>2019-02-10T12:00:00</TheLastTest>
-  </Trainee>
-  <Trainee>
     <ID>212384507</ID>
     <Name>
       <LastName>katri</LastName>
@@ -49,5 +24,30 @@
     </TeacherName>
     <NumberOfDoneLessons>34</NumberOfDoneLessons>
     <TheLastTest>2019-02-10T11:00:00</TheLastTest>
+  </Trainee>
+  <Trainee>
+    <ID>323947739</ID>
+    <Name>
+      <LastName>Levi</LastName>
+      <FirstName>Asaf</FirstName>
+    </Name>
+    <Birthdate>1948-10-06T00:00:00</Birthdate>
+    <Gender>female</Gender>
+    <MobileNumber>0541234567</MobileNumber>
+    <Address>
+      <Street>יפו</Street>
+      <HouseNumber>17</HouseNumber>
+      <City>ירושלים</City>
+    </Address>
+    <Password>1</Password>
+    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
+    <GearboxTypeTraining>manual</GearboxTypeTraining>
+    <DrivingSchool>TheBest</DrivingSchool>
+    <TeacherName>
+      <LastName>Garber</LastName>
+      <FirstName>Shmuel</FirstName>
+    </TeacherName>
+    <NumberOfDoneLessons>30</NumberOfDoneLessons>
+    <TheLastTest>2019-02-17T15:00:00</TheLastTest>
   </Trainee>
 </trainees>

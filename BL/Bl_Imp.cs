@@ -258,11 +258,11 @@ namespace BL
                 throw new CasingException(false, new Exception("Test can be only on one vehicle."));
 
             //BUG only for debugging
-            //if (testDate < DateTime.Now)
+            //if (testDate < DateTime.Now)//Now+LengthOfTest
             //    throw new ArgumentException("The requested time has passed");
 
-            if (testDate.DayOfWeek > DayOfWeek.Thursday || testDate.Hour > END_OF_A_WORKING_DAY || testDate.Hour < BEGINNING_OF_A_WORKING_DAY)
-                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers" + $"{(DayOfWeek)BEGINNING_OF_A_WORKING_WEEK}-{(DayOfWeek)END_OF_A_WORKING_WEEK}, {BEGINNING_OF_A_WORKING_DAY}-{END_OF_A_WORKING_DAY}"));
+            if (testDate.DayOfWeek < BEGINNING_OF_A_WORKING_WEEK || testDate.DayOfWeek > END_OF_A_WORKING_WEEK || testDate.Hour > END_OF_A_WORKING_DAY || testDate.Hour < BEGINNING_OF_A_WORKING_DAY)
+                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers: " + $"{BEGINNING_OF_A_WORKING_WEEK}-{END_OF_A_WORKING_WEEK}, {BEGINNING_OF_A_WORKING_DAY}-{END_OF_A_WORKING_DAY}"));
 
             if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
                 throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive"));

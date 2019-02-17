@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d" 
-        WindowStartupLocation="CenterScreen" Height="630" Width="790" Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen" Height="630" Width="790" 
         Style="{StaticResource WindowsStyle}">
     <Window.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
@@ -127,7 +127,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <!--<TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3"  VerticalAlignment="Center" Width="120"/>-->
-                <xctk:IntegerUpDown Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120" />
+                <xctk:IntegerUpDown BorderBrush="{x:Null}" ShowButtonSpinner="False" Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120" />
                 <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
             </Grid>
 

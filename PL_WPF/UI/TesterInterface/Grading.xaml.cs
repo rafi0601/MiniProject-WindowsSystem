@@ -21,7 +21,7 @@ namespace PL_WPF.UI.TesterInterface
     /// </summary>
     public partial class Grading : UserControl
     {
-        public Grading()
+        public Grading() // TODO (Criteria ctiteria)
         {
             InitializeComponent();
             //Note.Width=this.child.max

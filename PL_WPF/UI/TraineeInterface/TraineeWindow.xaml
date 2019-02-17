@@ -222,7 +222,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <!--<TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>-->
-                            <xctk:IntegerUpDown Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <xctk:IntegerUpDown BorderBrush="{x:Null}" ShowButtonSpinner="False" Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
                             <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
                         </Grid>
 
@@ -327,9 +327,10 @@
                     <xctk:BusyIndicator Margin="0,0,-150,0" x:Name="busyIndicator" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="60" IsBusy="True" BusyContent="Please wait when we check your date"/>
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
                     <Label Height="15"/>
-                    <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click"/>
-                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed" RefreshButtonClick="DetailsOfMyTest_RefrashButtonClick" Margin="160,0,0,0"/>
-                    <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
+                    <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click_Async"/>
+                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed"  Margin="160,0,0,0"/>
+                    <!--RefreshButtonClick="DetailsOfMyTest_RefreshButtonClick"-->
+                    <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick_Async" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
                     <!--<WindowsFormHost/>-->
                     <!--<xctk:DateTimePicker x:Name="addTestDateTimePicker" TimePickerAllowSpin="False" TimePickerShowButtonSpinner="False" AutoCloseCalendar="False" ValueChanged="DateTimePicker_ValueChanged" ShowButtonSpinner="False"  IsOpen="True" AllowTextInput="False" Height="103" Width="730"/>-->
 
@@ -350,7 +351,7 @@
 
                         <Label Content="The Test Details:" FontSize="25" Grid.Column="0" RenderTransformOrigin="0.32,0.273"/>
 
-                        <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                        <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refresh_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
                             <Button.RenderTransform>
                                 <RotateTransform Angle="0"/>
                             </Button.RenderTransform>
