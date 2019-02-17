@@ -29,41 +29,6 @@ namespace PL_WPF
             InitializeComponent();
         }
 
-        //private void Controller_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (!(sender is Button)) throw new Exception();
-        //
-        //    if (sender == Shutdown_Button)
-        //        switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
-        //        {
-        //            case MessageBoxResult.Yes:
-        //                Close();
-        //                break;
-        //        }
-        //    else if (sender == Minimize_Button)
-        //        WindowState = WindowState.Minimized;
-        //}
-
-        private void Controller_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (!(sender is Button button)) throw new Exception();
-            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-            packIcon.Foreground = Brushes.Black;
-        }
-        private void Controller_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (!(sender is Button button)) throw new Exception();
-            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-            packIcon.Foreground = Brushes.WhiteSmoke;//CHECK Shutdownd_Icon.ערך התחלתי
-        }
-
-
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
-        //    Close();
-        //
-        //}
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
@@ -121,6 +86,7 @@ namespace PL_WPF
             }
         }
 
+
         private void Shutdown_Click(object sender, RoutedEventArgs e)
         {
             switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
@@ -140,6 +106,36 @@ namespace PL_WPF
         {
 
         }
+
+
+        //private void Controller_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    if (!(sender is Button button)) throw new Exception();
+        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+        //    packIcon.Foreground = Brushes.Black;
+        //}
+        //
+        //private void Controller_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    if (!(sender is Button button)) throw new Exception();
+        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+        //    packIcon.Foreground = Brushes.WhiteSmoke;//CHECK Shutdownd_Icon.ערך התחלתי
+        //}
+
+        //private void Controller_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (!(sender is Button)) throw new Exception();
+        //
+        //    if (sender == Shutdown_Button)
+        //        switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
+        //        {
+        //            case MessageBoxResult.Yes:
+        //                Close();
+        //                break;
+        //        }
+        //    else if (sender == Minimize_Button)
+        //        WindowState = WindowState.Minimized;
+        //}
 
     }
 
@@ -208,7 +204,7 @@ namespace PL_WPF
             PasswordBox passwordBox = sender as PasswordBox;
             passwordBox.PasswordChanged -= PasswordChanged;
 
-            if (!(bool)GetIsUpdating(passwordBox))
+            if (!GetIsUpdating(passwordBox))
             {
                 passwordBox.Password = (string)e.NewValue;
             }
@@ -218,9 +214,7 @@ namespace PL_WPF
         private static void Attach(DependencyObject sender,
             DependencyPropertyChangedEventArgs e)
         {
-            PasswordBox passwordBox = sender as PasswordBox;
-
-            if (passwordBox == null)
+            if (!(sender is PasswordBox passwordBox))
                 return;
 
             if ((bool)e.OldValue)

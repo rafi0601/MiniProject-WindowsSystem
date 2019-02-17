@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BE;
 
 namespace PL_WPF.UI.TesterInterface
 {
@@ -23,7 +24,22 @@ namespace PL_WPF.UI.TesterInterface
         public Grading()
         {
             InitializeComponent();
+            //Note.Width=this.child.max
         }
+
+
+        public void Refresh()
+        {
+            KeepDistance.IsChecked =
+                ObeyParkSigns.IsChecked =
+                IntegrationIntoMovement.IsChecked =
+                Signaling.IsChecked =
+                BackParking.IsChecked =
+                UsingViewMirrors.IsChecked =
+                IsPass.IsChecked = false;
+            Note.Text = "";
+        }
+
 
         public event RoutedEventHandler SendClick;
 
@@ -32,9 +48,13 @@ namespace PL_WPF.UI.TesterInterface
             SendClick(this, new RoutedEventArgs()); // TODO send information in the args
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
+
+        public Test.Criteria Criteria { get; } = new Test.Criteria();
+
+        private void CheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO update criteria
         }
     }
 }

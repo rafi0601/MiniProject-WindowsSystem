@@ -193,63 +193,7 @@ namespace PL_WPF.UI.TraineeInterface
             //worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
 
-        //private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        bl.AddTest(trainee, (DateTime)AlternateDate, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
-        //        SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
-        //        DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
-        //        DetailsOfMyTest.Visibility = Visibility.Visible;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //    }
-        //}
-        //
-        //private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (AlternateDate == null)
-        //        {
-        //            dateTimePicker.Visibility = Visibility.Collapsed;
-        //            CheckDateButton.Visibility = Visibility.Collapsed;
-        //            ChooseLabel.Visibility = Visibility.Collapsed;
-        //            DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
-        //            DetailsOfMyTest.Visibility = Visibility.Visible;
-        //            return;
-        //        }
-        //        else
-        //        {
-        //            dateTimePicker.Visibility = Visibility.Collapsed;
-        //            CheckDateButton.Visibility = Visibility.Collapsed;
-        //            ChooseLabel.Visibility = Visibility.Collapsed;
-        //            SuggestAlternateDateOfTest.Date.Text = AlternateDate.ToString();
-        //            SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //    }
-        //}
 
-        //private void Worker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    try
-        //    {
-        //        AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
-        //        (sender as BackgroundWorker).ReportProgress(Configuration.rand.Next(0, 100));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //    }
-        //}
-
-        //BackgroundWorker worker;
         private DateTime? alternateDate;
 
         private async void CheckDateButton_Click(object sender, RoutedEventArgs e)
@@ -404,3 +348,61 @@ namespace PL_WPF.UI.TraineeInterface
         }
     }
 }
+
+//private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+//{
+//    try
+//    {
+//        bl.AddTest(trainee, (DateTime)AlternateDate, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
+//        SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
+//        DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+//        DetailsOfMyTest.Visibility = Visibility.Visible;
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//    }
+//}
+//
+//private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+//{
+//    try
+//    {
+//        if (AlternateDate == null)
+//        {
+//            dateTimePicker.Visibility = Visibility.Collapsed;
+//            CheckDateButton.Visibility = Visibility.Collapsed;
+//            ChooseLabel.Visibility = Visibility.Collapsed;
+//            DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+//            DetailsOfMyTest.Visibility = Visibility.Visible;
+//            return;
+//        }
+//        else
+//        {
+//            dateTimePicker.Visibility = Visibility.Collapsed;
+//            CheckDateButton.Visibility = Visibility.Collapsed;
+//            ChooseLabel.Visibility = Visibility.Collapsed;
+//            SuggestAlternateDateOfTest.Date.Text = AlternateDate.ToString();
+//            SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
+//        }
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//    }
+//}
+
+//private void Worker_DoWork(object sender, DoWorkEventArgs e)
+//{
+//    try
+//    {
+//        AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
+//        (sender as BackgroundWorker).ReportProgress(Configuration.rand.Next(0, 100));
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//    }
+//}
+
+//BackgroundWorker worker;

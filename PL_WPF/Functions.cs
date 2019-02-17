@@ -51,6 +51,11 @@ namespace PL_WPF
             return true;
         }
 
+        public static IEnumerable<string> VehiclesToDisplayStrings()
+        {
+            return from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
+                   select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
+        }
 
         internal static List<string> errorMessages = new List<string>();
         private static void Input_Error(object sender, ValidationErrorEventArgs e)
@@ -60,6 +65,7 @@ namespace PL_WPF
             else
                 errorMessages.Remove(e.Error.Exception.Message);
         }
+
 
         public class VehicleToString_Converter : IValueConverter
         {
@@ -74,7 +80,6 @@ namespace PL_WPF
                 throw new NotImplementedException();
             }
         }
-
     }
 
 }

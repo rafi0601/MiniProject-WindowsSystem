@@ -9,23 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
-    <!--<WrapPanel Orientation="Vertical">
-        <Label Content="No tests available on this date!" FontSize="30" Margin="220,0,0,0"/>
-        <Label Height="25"/>
-        <Label Content="Suggest Alternate Date For Test:" FontSize="25" RenderTransformOrigin="0.32,0.273"/>
-        <Label Height="25"/>
-        <TextBlock x:Name="Date" FontSize="25" Margin="100,0,0,0" Text="27/01/5777 10:00:00" FontFamily="Comic Sans MS" />
-        <Label Height="25"/>
-        <Grid Width="300" HorizontalAlignment="Left" Margin="100,0,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Button x:Name="AcceptButton" Content="Accept" Grid.Column="0" Width="100" Click="Accept_Button_Click"/>
-            <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" Width="100" Click="Cancel_Button_Click"/>
-        </Grid>
-    </WrapPanel>-->
     <DockPanel LastChildFill="False">
         <Label DockPanel.Dock="Top" Content="No tests available on this date!" FontSize="30" HorizontalAlignment="Center"/>
         <Label DockPanel.Dock="Top" Height="25"/>
@@ -39,7 +22,6 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
             <Button x:Name="AcceptButton" Content="Accept" Grid.Column="0" Width="100" Click="Accept_Button_Click"/>
             <Button x:Name="CancelButton" Content="Cancel" Grid.Column="1" Width="100" Click="Cancel_Button_Click"/>
         </Grid>

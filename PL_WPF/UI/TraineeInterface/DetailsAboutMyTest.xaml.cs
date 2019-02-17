@@ -25,11 +25,18 @@ namespace PL_WPF.UI.TraineeInterface
             InitializeComponent();
         }
 
-        public event RoutedEventHandler RefrashButtonClick; // CHECK which args to use
 
-        private void Refrash_Button_Click(object sender, RoutedEventArgs e)
+        public event RoutedEventHandler RefreshButtonClick
         {
-            RefrashButtonClick(this, new RoutedEventArgs());
+            add { Refresh_Button.Click += value; }
+            remove { Refresh_Button.Click -= value; }
+        }
+
+
+
+        private void Refresh_Button_Click(object sender, RoutedEventArgs e)
+        {
+            // RefreshButtonClick(this, new RoutedEventArgs());
         }
     }
 }

@@ -328,7 +328,7 @@
                     <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
                     <Label Height="15"/>
                     <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click"/>
-                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed" RefrashButtonClick="DetailsOfMyTest_RefrashButtonClick" Margin="160,0,0,0"/>
+                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed" RefreshButtonClick="DetailsOfMyTest_RefrashButtonClick" Margin="160,0,0,0"/>
                     <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
                     <!--<WindowsFormHost/>-->
                     <!--<xctk:DateTimePicker x:Name="addTestDateTimePicker" TimePickerAllowSpin="False" TimePickerShowButtonSpinner="False" AutoCloseCalendar="False" ValueChanged="DateTimePicker_ValueChanged" ShowButtonSpinner="False"  IsOpen="True" AllowTextInput="False" Height="103" Width="730"/>-->
