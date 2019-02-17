@@ -154,7 +154,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
                         </Grid>
 
                         <Grid>
@@ -164,7 +164,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
                         </Grid>
 
                         <Grid>
@@ -200,7 +200,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Mobile Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <xctk:MaskedTextBox BorderBrush="{x:Null}" Mask="000-000-0000" x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <xctk:MaskedTextBox BorderBrush="{x:Null}" Mask="000-000-0000" x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120"/>
                         </Grid>
 
                         <Label Content="    Address" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -212,7 +212,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                            <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
                         </Grid>
 
                         <Grid>
@@ -223,7 +223,7 @@
                             <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <!--<TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>-->
                             <xctk:IntegerUpDown BorderBrush="{x:Null}" ShowButtonSpinner="False" Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                            <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
                         </Grid>
 
                         <Grid>
@@ -233,7 +233,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                            <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
                         </Grid>
 
                         <Label Content="Training details" FontSize="25" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
@@ -268,7 +268,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Number Of Done Lessons:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <xctk:ByteUpDown x:Name="numberOfDoneLessonsByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding NumberOfDoneLessons, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" />
+                            <xctk:ByteUpDown x:Name="numberOfDoneLessonsByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding NumberOfDoneLessons, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" />
                         </Grid>
 
                         <Grid>
@@ -277,7 +277,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Driving School:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <TextBox x:Name="drivingSchoolTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding DrivingSchool, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <TextBox x:Name="drivingSchoolTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding DrivingSchool, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120"/>
                         </Grid>
                         <Label Content="    Teacher Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
@@ -288,7 +288,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="TeacherLastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
                         </Grid>
 
                         <Grid>
@@ -298,7 +298,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="TeacherFirstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
                         </Grid>
 
                         <Label Content="Account Update" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>

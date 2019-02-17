@@ -128,7 +128,7 @@ namespace BL
                     if (unavailableDate == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
                         return false;
 
-                    if (theFirstDayInTheWeek == unavailableDate.AddDays(-1 * (int)unavailableDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (theFirstDayInTheWeek == unavailableDate.Date.AddDays(-1 * (int)unavailableDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
                 }
                 return counterOfTheTestInTheWeek < tester.MaxOfTestsPerWeek;
