@@ -22,48 +22,13 @@ namespace PL_WPF
     /// </summary>
     public partial class LoginWindow : Window
     {
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public LoginWindow()
         {
             InitializeComponent();
         }
 
-        //private void Controller_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (!(sender is Button)) throw new Exception();
-        //
-        //    if (sender == Shutdown_Button)
-        //        switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
-        //        {
-        //            case MessageBoxResult.Yes:
-        //                Close();
-        //                break;
-        //        }
-        //    else if (sender == Minimize_Button)
-        //        WindowState = WindowState.Minimized;
-        //}
-
-        private void Controller_MouseEnter(object sender, MouseEventArgs e)
-        {
-            if (!(sender is Button button)) throw new Exception();
-            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-            packIcon.Foreground = Brushes.Black;
-        }
-        private void Controller_MouseLeave(object sender, MouseEventArgs e)
-        {
-            if (!(sender is Button button)) throw new Exception();
-            if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
-            packIcon.Foreground = Brushes.WhiteSmoke;//CHECK Shutdownd_Icon.ערך התחלתי
-        }
-
-
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
-        //    Close();
-        //
-        //}
 
         private void Login_Click(object sender, RoutedEventArgs e)
         {
@@ -121,6 +86,7 @@ namespace PL_WPF
             }
         }
 
+
         private void Shutdown_Click(object sender, RoutedEventArgs e)
         {
             switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
@@ -134,6 +100,140 @@ namespace PL_WPF
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void Languages_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        //private void Controller_MouseEnter(object sender, MouseEventArgs e)
+        //{
+        //    if (!(sender is Button button)) throw new Exception();
+        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+        //    packIcon.Foreground = Brushes.Black;
+        //}
+        //
+        //private void Controller_MouseLeave(object sender, MouseEventArgs e)
+        //{
+        //    if (!(sender is Button button)) throw new Exception();
+        //    if (!(button.Content is MaterialDesignThemes.Wpf.PackIcon packIcon)) throw new Exception();
+        //    packIcon.Foreground = Brushes.WhiteSmoke;//CHECK Shutdownd_Icon.ערך התחלתי
+        //}
+
+        //private void Controller_Click(object sender, RoutedEventArgs e)
+        //{
+        //    if (!(sender is Button)) throw new Exception();
+        //
+        //    if (sender == Shutdown_Button)
+        //        switch (MessageBox.Show("Are you sure you want to quit?", "Vertifying pass", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No))
+        //        {
+        //            case MessageBoxResult.Yes:
+        //                Close();
+        //                break;
+        //        }
+        //    else if (sender == Minimize_Button)
+        //        WindowState = WindowState.Minimized;
+        //}
+
+    }
+
+    class HelperPassword : DependencyObject
+    {
+        public string Password
+        {
+            get { return (string)GetValue(PasswordProperty); }
+            set { SetValue(PasswordProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.Register("Password", typeof(string), typeof(HelperPassword), new UIPropertyMetadata(string.Empty));
+    }
+
+    public static class PasswordHelper
+    {
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.RegisterAttached("Password",
+            typeof(string), typeof(PasswordHelper),
+            new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
+
+        public static readonly DependencyProperty AttachProperty =
+            DependencyProperty.RegisterAttached("Attach",
+            typeof(bool), typeof(PasswordHelper), new PropertyMetadata(false, Attach));
+
+        private static readonly DependencyProperty IsUpdatingProperty =
+           DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
+           typeof(PasswordHelper));
+
+
+        public static void SetAttach(DependencyObject dp, bool value)
+        {
+            dp.SetValue(AttachProperty, value);
+        }
+
+        public static bool GetAttach(DependencyObject dp)
+        {
+            return (bool)dp.GetValue(AttachProperty);
+        }
+
+        public static string GetPassword(DependencyObject dp)
+        {
+            return (string)dp.GetValue(PasswordProperty);
+        }
+
+        public static void SetPassword(DependencyObject dp, string value)
+        {
+            dp.SetValue(PasswordProperty, value);
+        }
+
+        private static bool GetIsUpdating(DependencyObject dp)
+        {
+            return (bool)dp.GetValue(IsUpdatingProperty);
+        }
+
+        private static void SetIsUpdating(DependencyObject dp, bool value)
+        {
+            dp.SetValue(IsUpdatingProperty, value);
+        }
+
+        private static void OnPasswordPropertyChanged(DependencyObject sender,
+            DependencyPropertyChangedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+            passwordBox.PasswordChanged -= PasswordChanged;
+
+            if (!GetIsUpdating(passwordBox))
+            {
+                passwordBox.Password = (string)e.NewValue;
+            }
+            passwordBox.PasswordChanged += PasswordChanged;
+        }
+
+        private static void Attach(DependencyObject sender,
+            DependencyPropertyChangedEventArgs e)
+        {
+            if (!(sender is PasswordBox passwordBox))
+                return;
+
+            if ((bool)e.OldValue)
+            {
+                passwordBox.PasswordChanged -= PasswordChanged;
+            }
+
+            if ((bool)e.NewValue)
+            {
+                passwordBox.PasswordChanged += PasswordChanged;
+            }
+        }
+
+        private static void PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordBox passwordBox = sender as PasswordBox;
+            SetIsUpdating(passwordBox, true);
+            SetPassword(passwordBox, passwordBox.Password);
+            SetIsUpdating(passwordBox, false);
         }
     }
 }

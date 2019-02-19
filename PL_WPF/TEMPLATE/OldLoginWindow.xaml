@@ -7,12 +7,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF.TEMPLATE"
         mc:Ignorable="d"
-        Title="OldLoginWindow" Height="450" Width="800">
+        Title="OldLoginWindow" Height="1000" Width="800">
     <Grid>
         <Image HorizontalAlignment="Left" Height="420" VerticalAlignment="Top" Width="794" Source="/TEMPLATE/timthumb.jpg" Grid.ColumnSpan="2" Margin="0,0,-0.4,0" Grid.RowSpan="2" Opacity="0.4"/>
         <Label Content="Welcome to the Israeli Driving Test System!" HorizontalAlignment="Left" Height="63" Margin="77,14,0,0" VerticalAlignment="Top" Width="655" FontSize="30" TextBlock.FontWeight="UltraBlack" TextBlock.Foreground="Black" TextOptions.TextHintingMode="Animated" Grid.RowSpan="2"/>
         <Label Content="Log In" HorizontalAlignment="Left" Height="53" Margin="323,33,0,270" Width="112" FontSize="30" TextBlock.FontWeight="UltraBlack" TextBlock.Foreground="Black" TextOptions.TextHintingMode="Animated" Grid.Row="1"/>
-        <TextBox Name="User_Name" Background="Beige" SelectionOpacity="1" AcceptsReturn="True" FontStyle="Italic" Foreground="Black" TextBlock.FontSize="16" Margin="201,137,236.6,251" TextChanged="User_Name_TextChanged" >
+        <TextBox Name="User_Name" Background="Beige" SelectionOpacity="1" AcceptsReturn="True" FontStyle="Italic" Foreground="Black" TextBlock.FontSize="16" Margin="201,137,236.333,604.667" TextChanged="User_Name_TextChanged" >
             User Name
         </TextBox>
         <!--<TextBox Name="Passward" Background="Beige" SelectionOpacity="1" AcceptsReturn="True" FontStyle="Italic" Foreground="Black" TextBlock.FontSize="16" TextChanged="Passward_TextChanged" Margin="201,194,236.6,194" >
@@ -20,6 +20,7 @@
         </TextBox>-->
         <Button Content="Sing In" HorizontalAlignment="Left" Height="42" VerticalAlignment="Top" Width="60" Click="Button_Click" Margin="342,242,0,0"/>
         <PasswordBox HorizontalAlignment="Left" Margin="201,187,0,0" VerticalAlignment="Top" Width="356" Height="32" PasswordChar="*" Background="Beige"/>
+        <Frame x:Name="frame" HorizontalAlignment="Left" Height="961" VerticalAlignment="Top" Width="793" Navigated="Frame_Navigated"/>
 
     </Grid>
 </Window>

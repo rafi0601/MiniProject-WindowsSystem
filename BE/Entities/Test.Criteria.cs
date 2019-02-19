@@ -4,19 +4,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace BE
 {
     public sealed partial class Test
     {
         [Serializable]
-        public class Criteria : IEnumerable
+        public class Criteria : IEnumerable<PropertyInfo>
         {
+            [UserDisplay("Keep distance")]
             public bool? KeepDistance { get; set; }
+
+            [UserDisplay("Back parking")]
             public bool? BackParking { get; set; }
+
+            [UserDisplay("Using view mirrors")]
             public bool? UsingViewMirrors { get; set; }
+
+            [UserDisplay("Signaling")]
             public bool? Signaling { get; set; }
+
+            [UserDisplay("Integration into movement")]
             public bool? IntegrationIntoMovement { get; set; }
+
+            [UserDisplay("Obey park signs")]
             public bool? ObeyParkSigns { get; set; }
 
 
@@ -28,12 +40,17 @@ namespace BE
             }
 
 
-            public IEnumerator GetEnumerator()
+            public IEnumerator<PropertyInfo> GetEnumerator()
             {
-                foreach (System.Reflection.PropertyInfo criterion in GetType().GetProperties())
+                foreach (PropertyInfo criterion in GetType().GetProperties())
                 {
                     yield return criterion;
                 }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                throw new NotImplementedException();
             }
 
 
@@ -51,7 +68,7 @@ namespace BE
         }
 
         ///       
-        ///   //אין קונסטרקטור כי כמו שיוצרים את התיבות סימון בפוראיצ על כל קריטריון כך עושים סטטר על כל קריטריון ממה שיש בתיבות
+        ///   //אין קונסטרקטור כי כמו שיוצרים את התיבות סימון בפוראיצ על כל קריטריון כך עושים סטר על כל קריטריון ממה שיש בתיבות
         ///   //להגדיר קבוע שאומר כמה תיבות צריך למלא במינימום (לא וי ולא איקס אלא ריק) ע
         ///   // לעשות איוונט של מה קורה שסיימו להזין ציונים ובתוכו פונקציה שעושה יילד רטורן של זוג סדור 
         ///

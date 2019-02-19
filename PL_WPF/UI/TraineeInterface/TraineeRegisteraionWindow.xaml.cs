@@ -23,7 +23,7 @@ namespace PL_WPF.UI.TraineeInterface
     public partial class TraineeRegisteraionWindow : Window
     {
         Trainee trainee = new Trainee();
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public TraineeRegisteraionWindow()
         {
@@ -33,12 +33,11 @@ namespace PL_WPF.UI.TraineeInterface
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
-            vehicleListBox.ItemsSource = from vehicle in Enum.GetValues(typeof(Vehicle)).Cast<Vehicle>()
-                                         select Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString();
-
+            vehicleListBox.ItemsSource = Functions.VehiclesToDisplayStrings();
 
             DataContext = trainee;
         }
+
 
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
@@ -52,10 +51,9 @@ namespace PL_WPF.UI.TraineeInterface
 
                 try
                 {
-
-                    trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
-                    trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
-                    trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+                    trainee.Name = new Person.PersonName(lastNameTextBox.Text, firstNameTextBox.Text);
+                    trainee.TeacherName = new Person.PersonName(TeacherLastNameTextBox.Text, TeacherFirstNameTextBox.Text);
+                    trainee.Address = new Address(Street.Text, uint.Parse(HouseNumber.Text), City.Text);
                     trainee.Password = passwordBoxNew.Password;
                 }
                 catch (Exception ex)
@@ -65,7 +63,7 @@ namespace PL_WPF.UI.TraineeInterface
 
 
                 foreach (string expertise in vehicleListBox.SelectedItems)
-                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                    trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), expertise);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
 
                 bl.AddTrainee(trainee);
 
@@ -83,9 +81,10 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
 
-        }
+        //private void Window_Loaded(object sender, RoutedEventArgs e)
+        //{
+        //
+        //}
     }
 }

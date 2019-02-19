@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,18 +24,15 @@ namespace PL_WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    [DebuggerDisplay("The main window")]
     public partial class MainWindow : Window
     {
-        private BL.IBL bl = BL.Singleton.Instance;
+        private BL.IBL bl = BL.FactorySingleton.Instance;
 
         public MainWindow()
         {
             InitializeComponent();
             //new LoginWindow().ShowDialog();
-            //new UI.TraineeInterface.TraineeWindow(new BE.Trainee()).ShowDialog();
-            //new UI.TraineeInterface.TraineeWindow(bl.GetTrainee("212384507")).Show();
-            //new UI.TesterInterface.TesterRegisteraionWindow().Show();
+
             try
             {
                 //new UI.AdminInterface.AdminWindow().Show();

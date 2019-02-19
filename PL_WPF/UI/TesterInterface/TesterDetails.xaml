@@ -38,7 +38,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <TextBox  x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" Width="120" />
-                <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
             </Grid>
 
             <Grid>
@@ -48,7 +48,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
             </Grid>
 
             <Grid>
@@ -84,7 +84,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Mobile Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <TextBox x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120"/>
             </Grid>
 
             <Label Content="    Address" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -96,7 +96,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
             </Grid>
 
             <Grid>
@@ -106,7 +106,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3"  VerticalAlignment="Center" Width="120"/>
-                <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
             </Grid>
 
             <Grid>
@@ -116,7 +116,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                 <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3"  VerticalAlignment="Center" Width="120"/>
-                <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
             </Grid>
 
             <Label Content="Password" Grid.Row="0" FontSize="25" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.4,0,3.2"  VerticalAlignment="Center" Width="213"/>
@@ -146,7 +146,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Years Of Experience:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:ByteUpDown x:Name="yearsOfExperienceByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding YearsOfExperience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                <xctk:ByteUpDown x:Name="yearsOfExperienceByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding YearsOfExperience, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
             </Grid>
 
             <Grid>
@@ -168,7 +168,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Max Of Tests Per Week:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:ByteUpDown x:Name="maxOfTestsPerWeekByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxOfTestsPerWeek, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                <xctk:ByteUpDown x:Name="maxOfTestsPerWeekByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxOfTestsPerWeek, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
             </Grid>
 
 
@@ -212,7 +212,7 @@
                 <Label Grid.Column="0" Grid.Row="6" Content="14:00"/>
                 <Label Grid.Column="0" Grid.Row="7" Content="15:00"/>
 
-                <CheckBox x:Name="CheckBox11" Grid.Row="1" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <!--<CheckBox x:Name="CheckBox11" Grid.Row="1" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <CheckBox x:Name="CheckBox12" Grid.Row="1" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <CheckBox x:Name="CheckBox13" Grid.Row="1" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <CheckBox x:Name="CheckBox14" Grid.Row="1" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -246,7 +246,7 @@
                 <CheckBox x:Name="CheckBox72" Grid.Row="7" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <CheckBox x:Name="CheckBox73" Grid.Row="7" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <CheckBox x:Name="CheckBox74" Grid.Row="7" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox75" Grid.Row="7" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <CheckBox x:Name="CheckBox75" Grid.Row="7" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
 
                 <Label  Grid.Row="8" Height="10"/>
                 <CheckBox x:Name="markAllCheckBox" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="9" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -339,7 +339,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="         Max Distance From Address" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <xctk:ByteUpDown x:Name="maxDistanceFromAddressByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxDistanceFromAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                <xctk:ByteUpDown x:Name="maxDistanceFromAddressByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxDistanceFromAddress, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
             </Grid>
 
             <Button Background="{x:Null}" BorderBrush="{x:Null}"/>

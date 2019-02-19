@@ -217,6 +217,7 @@ namespace BL
         /// <exception cref="CasingException">
         /// The operation could not be performed.
         /// </exception>
+        /// // TODO return bool is success, and get out HATZAA
         DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle);
 
         /// <summary>

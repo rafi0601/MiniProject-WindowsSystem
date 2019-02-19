@@ -24,7 +24,8 @@ namespace BE
             DisplayToUser = displayToUser;
             HelpLink = ""; //UNDONE link to our git hub?
         }
-
+        
+        
         // TODO more ovverides
 
 

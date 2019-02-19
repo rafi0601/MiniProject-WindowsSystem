@@ -86,7 +86,7 @@ namespace DAL
 
         public void AddTest(Test test)
         {
-            //TODO null check before all (now is implicit in the next line)
+            //TODO ? null check before all (now is implicit in the next line)
 
             if (DS_Lists.TesterList.Exists(tester => tester.ID == test?.TesterID))
                 throw new ExistingInTheDatabaseException("The tester doesn't exist in the database.");
@@ -163,7 +163,7 @@ namespace DAL
             return true;
         }
 
-        private T Get<T>(List<T> list, string key) where T : class, IKey // TODO input check
+        private T Get<T>(List<T> list, string key) where T : class, IKey // TODO? check that key is not null?
         {
             return list.Find(t => t.Key == key)?.Copy();
             //return Get(list, t => t.Key == key).SingleOrDefault();

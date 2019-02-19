@@ -19,7 +19,7 @@ namespace BL
     public partial class Bl_imp : IBL
     {
 
-        private protected readonly DAL.IDal dal = DAL.Singleton.Instance;
+        private protected readonly DAL.IDal dal = DAL.FactorySingleton.Instance;
 
         #region Tester functions
 
@@ -128,7 +128,7 @@ namespace BL
                     if (unavailableDate == dateAndTime || counterOfTheTestInTheWeek >= tester.MaxOfTestsPerWeek)
                         return false;
 
-                    if (theFirstDayInTheWeek == unavailableDate.AddDays(-1 * (int)unavailableDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
+                    if (theFirstDayInTheWeek == unavailableDate.Date.AddDays(-1 * (int)unavailableDate.DayOfWeek)) //if (IsDateAreInTheSameWeek(test.TestDate))
                         ++counterOfTheTestInTheWeek;
                 }
                 return counterOfTheTestInTheWeek < tester.MaxOfTestsPerWeek;
@@ -138,7 +138,7 @@ namespace BL
                 dateAndTime.Hour < BEGINNING_OF_A_WORKING_DAY || dateAndTime.Hour >= BEGINNING_OF_A_WORKING_DAY + WORKING_HOURS_A_DAY)
                 throw new ArgumentOutOfRangeException("The date is not in the working hours");
 
-            return (from tester in dal.GetTesters(t => t.WorkingHours[(int)dateAndTime.DayOfWeek, (int)dateAndTime.Hour])
+            return (from tester in dal.GetTesters(t => t.WorkingHours[dateAndTime.DayOfWeek, (int)dateAndTime.Hour])
                     where WillAvailable(tester)
                     select tester)
                     .ToList();
@@ -237,7 +237,7 @@ namespace BL
             if (!ExistingTraineeById(trainee?.ID))
                 throw new CasingException(true, new ArgumentException("This trainee doesn't exist in the database"));
 
-            return dal.GetTests(test => test.TraineeID == trainee.ID && test.IsPass == true).Count > 0; //==1
+            return dal.GetTests(test => test.TraineeID == trainee.ID && test.IsPass == true).Any();
         }
 
         #endregion
@@ -245,36 +245,41 @@ namespace BL
         #region Test functions
 
         public DateTime? AddTest(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
-        { // TODO return bool is success, and get out HATZAA
-            if (!vehicle.IsFlag())
-                throw new CasingException(false, new Exception("Test can be only on one vehicle."));
+        {
+            //TODO if !trainee.Equal(dal.GetTrainee())
 
             if (!ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
 
-            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
-                throw new CasingException(true, new ArgumentException("It is illegal to access to test less than 7 days after the last one"));
-
             if (trainee.NumberOfDoneLessons < MIN_LESSONS)
                 throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons"));
 
-            if (dal.GetTests(test => test.TraineeID == trainee.ID && test.Date == testDate).Any() == true)
-                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
+            if (!vehicle.IsFlag())
+                throw new CasingException(false, new Exception("Test can be only on one vehicle."));
 
-            if (IsEntitledToLicense(trainee))
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
+            //BUG only for debugging
+            //if (testDate < DateTime.Now)//Now+LengthOfTest
+            //    throw new ArgumentException("The requested time has passed");
 
-            if (dal.GetTests(test => test.TraineeID == trainee.ID && test.IsDone() == false).Any() == true)
-                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
+            if (testDate.DayOfWeek < BEGINNING_OF_A_WORKING_WEEK || testDate.DayOfWeek > END_OF_A_WORKING_WEEK || testDate.Hour > END_OF_A_WORKING_DAY || testDate.Hour < BEGINNING_OF_A_WORKING_DAY)
+                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers: " + $"{BEGINNING_OF_A_WORKING_WEEK}-{END_OF_A_WORKING_WEEK}, {BEGINNING_OF_A_WORKING_DAY}-{END_OF_A_WORKING_DAY}"));
 
             if (!trainee.VehicleTypeTraining.HasFlag(vehicle))
                 throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take a test on a vehicle he has not learned to drive"));
 
-            if (testDate.DayOfWeek == DayOfWeek.Friday || testDate.DayOfWeek == DayOfWeek.Saturday || testDate.Hour > 15 || testDate.Hour < 9)
-                throw new CasingException(true, new ArgumentException("The requested time exceeds the working hours of the testers"));
-            //BUG only for inits
-            //if (testDate < DateTime.Now)
-            //    throw new ArgumentException("The requested time has passed");
+            List<Test> testsOfTheTrainee = dal.GetTests(test => test.TraineeID == trainee.ID);
+
+            if (testsOfTheTrainee.Any(test => !test.IsDone())) // CHECK maybe not necccary (in IsEntitled)
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to set two tests for the same vehicle when he has not yet performed the first"));
+
+            if (IsEntitledToLicense(trainee))
+                throw new CasingException(true, new ArgumentException("It is illegal for a trainee to take the test he has succeeded in, once more"));
+
+            if (testsOfTheTrainee.Any(test => test.Date == testDate)) // CHECK maybe not neccary (in the next one)
+                throw new CasingException(true, new ArgumentException("It is illegal to set for a trainee two tests at the same time"));
+
+            if (testDate - trainee.TheLastTest < TIME_RANGE_BETWEEN_TESTS)
+                throw new CasingException(true, new ArgumentException($"It is illegal to access to test less than {TIME_RANGE_BETWEEN_TESTS} after the last one"));
 
 
             try
@@ -468,10 +473,10 @@ namespace BL
 
             TimeSpan testerAge = DateTime.Today - tester.Birthdate;
             if (testerAge < MIN_AGE_OF_TESTER || testerAge > MAX_AGE_OF_TESTER)
-                throw new CasingException(true, new ArgumentException("The tester's age is not appropriate."));
+                throw new CasingException(true, new ArgumentException($"The tester's age is not appropriate ({(int)(MIN_AGE_OF_TESTER.Days / 365.25)} - {(int)(MAX_AGE_OF_TESTER.Days / 365.25)})."));
 
-            if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365))// CHECK minageoftrainee? (start to count years from learn or teach?)
-                throw new CasingException(true, new ArgumentException("Years of experience do not make sense according to age."));
+            if (tester.YearsOfExperience > tester.AgeInYears - (MIN_AGE_OF_TESTER.Days / 365.25))// CHECK minageoftrainee? (start to count years from learn or teach?)
+                throw new CasingException(true, new ArgumentException($"Years of experience do not make sense according to age."));
 
             if (0 == tester.MaxOfTestsPerWeek)
                 throw new CasingException(true, new ArgumentException("It is illegal for the teter to not test."));
@@ -492,17 +497,19 @@ namespace BL
             }
 
             if (DateTime.Today - trainee.Birthdate < MIN_AGE_OF_TRAINEE)
-                throw new CasingException(true, new ArgumentOutOfRangeException("This Trainee's age is not appropriate."));
+                throw new CasingException(true, new ArgumentOutOfRangeException($"This Trainee's age is not appropriate (at least {(int)(MIN_AGE_OF_TRAINEE.Days / 365.25)})."));
         }
 
         private protected void TestLogicsInspections(Trainee trainee, DateTime testDate, Address departureAddress, Vehicle vehicle)
         {
-
+            // In AddTest and UpdateTest
         }
 
         #endregion
 
         #region private functions
+        // These are private function so all the input check were done before the call to the functions
+
 
         private bool ExistingTesterById(string id)
         {
@@ -520,54 +527,47 @@ namespace BL
         }
 
 
-        private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle) // BUG input check
+        private Tester SearchForTester(DateTime testDate, Address departureAddress, Vehicle vehicle)
         {
-            return (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)//.AsParallel()
-                    where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
-                    join vacantTester in VacantTesters(testDate)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
-                    where vacantTester != null
-                    select testerInArea).FirstOrDefault(); // IMPROVEMENT random
+            List<Tester> optionalTesters = (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)//.AsParallel()
+                                            where testerInArea.VehicleTypesExpertise.HasFlag(vehicle)
+                                            join vacantTester in VacantTesters(testDate)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
+                                            where vacantTester != null
+                                            select testerInArea).ToList(); // Intersect between the lists.
+            if (optionalTesters.Any())
+                return optionalTesters[rand.Next(optionalTesters.Count)];
+            return null;
 
-
-            //return (from vacantTester in VacantTesters(testDate)
-            //            from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
-            //                where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
-            //                select vacantTester).ToList().FirstOrDefault();
-
-            // List<Tester> optionalTesters = VacantTesters(testDate).Where(t => t.VehicleTypesExpertise.HasFlag(vehicle)).Intersect(TheTestersWhoLiveInTheDistance(departureAddress)).ToList();
-            // if (optionalTesters.Any())
-            //     return optionalTesters[rand.Next(optionalTesters.Count)];
-            // return null;
+            //return (from testerInArea in TheTestersWhoLiveInTheDistance(departureAddress)
+            //        from vacantTester in VacantTesters(testDate)
+            //        where vacantTester.VehicleTypesExpertise.HasFlag(vehicle) && vacantTester.ID == testerInArea.ID
+            //        select vacantTester).ToList().FirstOrDefault();
         }
 
-        private Tester FindsAnAlternativeTester(Test test)
-        {
-            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
-        }
 
         //private IEnumerable<(DateTime, Tester)?> FindingAnAlternativeDateForTest(DateTime startDate, Vehicle vehicle)
-        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning) // BUG input check of date
+        private (DateTime, Tester)? FindingAnAlternativeDateForTest(DateTime startDate, Address departureAddress, Vehicle vehicleTypeLearning)
         {
             if (!vehicleTypeLearning.IsFlag())
                 throw new CasingException(true, new ArgumentException("A test can be only on one type of vehicle."));
 
             List<Tester> theTestersWhoLiveInTheDistance = TheTestersWhoLiveInTheDistance(departureAddress);
 
-            DateTime dateTime = startDate,//startDate.AddDays(1).AddHours(9),
-                aPeriodFromToday = dateTime.AddMonths(1); // IMPROVEMENT convert to config
+            DateTime dateTime = startDate.Date.AddHours(BEGINNING_OF_A_WORKING_DAY),
+                aPeriodFromToday = dateTime + SPAN_FROM_TODAY_TO_SEARCH_TEST;
 
             while (dateTime < aPeriodFromToday)
             {
                 while (dateTime.Hour < WORKING_HOURS_A_DAY + BEGINNING_OF_A_WORKING_DAY)
                 {
-                    Tester tester = (from testerInArea in theTestersWhoLiveInTheDistance//.AsParallel()
-                                     where testerInArea.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)
-                                     join vacantTester in VacantTesters(dateTime)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
-                                     where vacantTester != null
-                                     select testerInArea).FirstOrDefault();
+                    List<Tester> optionalTesters = (from testerInArea in theTestersWhoLiveInTheDistance//.AsParallel()
+                                                    where testerInArea.VehicleTypesExpertise.HasFlag(vehicleTypeLearning)
+                                                    join vacantTester in VacantTesters(dateTime)/*.AsParallel()*/ on testerInArea.ID equals vacantTester.ID
+                                                    where vacantTester != null
+                                                    select testerInArea).ToList();
 
-                    if (tester != default)
-                        return (dateTime, tester);
+                    if (optionalTesters.Any())
+                        return (dateTime, optionalTesters[rand.Next(optionalTesters.Count)]);
                     dateTime = dateTime.AddHours(1);
                 }
 
@@ -591,43 +591,50 @@ namespace BL
                 @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
                 @"&enhancedNarrative=false&avoidTimedConditions=false";
 
-            //request from MapQuest service the distance between the 2 addresses
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader sreader = new StreamReader(dataStream);
-            string responsereader = sreader.ReadToEnd();
-            response.Close();
-            //the response is given in an XML format 
-            XmlDocument xmldoc = new XmlDocument();
-            xmldoc.LoadXml(responsereader);
-
-            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
-            {     //display the returned distance
-                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
-                double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
-                Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
-
-                //display the returned driving time   
-                XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
-                TimeSpan fTime = TimeSpan.Parse(formattedTime[0].ChildNodes[0].InnerText);
-                Debug.WriteLine("Driving Time: " + fTime);
-
-                return (distInMiles * 1.609344, fTime);
-            }
-            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
-            //we have an answer that an error occurred, one of the addresses is not found 
+            try
             {
-                //e.Cancel = true;
-                Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
-                return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                //request from MapQuest service the distance between the 2 addresses
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                WebResponse response = request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader sreader = new StreamReader(dataStream);
+                string responsereader = sreader.ReadToEnd();
+                response.Close();
+                //the response is given in an XML format 
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.LoadXml(responsereader);
+
+                if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0") //we have the expected answer
+                {     //display the returned distance
+                    XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                    double distInMiles = Convert.ToDouble(distance[0].ChildNodes[0].InnerText);
+                    Debug.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                    //display the returned driving time   
+                    XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                    TimeSpan fTime = TimeSpan.Parse(formattedTime[0].ChildNodes[0].InnerText);
+                    Debug.WriteLine("Driving Time: " + fTime);
+
+                    return (distInMiles * 1.609344, fTime);
+                }
+                else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+                //we have an answer that an error occurred, one of the addresses is not found 
+                {
+                    //e.Cancel = true;
+                    Debug.WriteLine("an error occurred, one of the addresses is not found. try again.");
+                    return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                }
+                else //busy network or other error... 
+                {
+                    Debug.WriteLine("We have'nt got an answer, maybe the net is busy...");
+                    Thread.Sleep(2000);
+                    //return DistanceAndTime(address1, address2);
+                    return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                }
             }
-            else //busy network or other error... 
+            catch (Exception ex)
             {
-                Debug.WriteLine("We have'nt got an answer, maybe the net is busy...");
-                Thread.Sleep(2000);
-                //return DistanceAndTime(address1, address2);
-                return (DEFAULT_DISTANCE, DEFAULT_TIME);
+                throw new CasingException(false, new WebException("A broblem from Map Request. Look in the inner exception.", ex));
             }
 
 
@@ -721,7 +728,7 @@ namespace BL
 
         #endregion
 
-        #region Not Used In UI
+        #region Not Used
 
         public void TakeVacations(Tester tester, params DateTime[] dateTimes)
         {
@@ -733,6 +740,11 @@ namespace BL
                 tester.UnavailableDates.Add(dateTime);
                 UpdateTester(tester);
             }
+        }
+
+        private Tester FindsAnAlternativeTester(Test test)
+        {
+            return dal.GetTesters(tester => tester.ID != test.TesterID && tester.UnavailableDates.All(t => t.Date != test.Date)).FirstOrDefault();
         }
 
         [Obsolete("Undone", true)]

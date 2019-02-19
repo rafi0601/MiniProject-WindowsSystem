@@ -9,18 +9,19 @@
              mc:Ignorable="d" >
     <UserControl.Resources>
         <Style TargetType="CheckBox">
-            <Setter Property="IsThreeState" Value="True"/>
+            <Setter Property="IsThreeState" Value="False"/>
             <Setter Property="FontSize" Value="20"/>
+            <EventSetter Event="Click" Handler="CheckBox_Click"/>
         </Style>
     </UserControl.Resources>
-    <ListBox SelectionChanged="ListBox_SelectionChanged">
-        <CheckBox x:Name="KeepDistance" Content="Keep Distance" IsThreeState="False" />
-        <CheckBox x:Name="BackParking" Content="Back Parking" IsThreeState="False" />
-        <CheckBox x:Name="UsingViewMirrors" Content="Using View Mirrors" IsThreeState="False" />
-        <CheckBox x:Name="Signaling" Content="Signaling" IsThreeState="False" />
-        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement" IsThreeState="False" />
+    <ListBox>
+        <CheckBox x:Name="KeepDistance" Content="Keep Distance"/>
+        <CheckBox x:Name="BackParking" Content="Back Parking"/>
+        <CheckBox x:Name="UsingViewMirrors" Content="Using View Mirrors"/>
+        <CheckBox x:Name="Signaling" Content="Signaling"/>
+        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement"/>
         <CheckBox x:Name="ObeyParkSigns" Content="Obey Park Signs"/>
-        <xctk:WatermarkTextBox x:Name="Note" FontSize="20" Watermark="Notes" />
+        <xctk:WatermarkTextBox x:Name="Note" FontSize="20" Watermark="Notes" BorderBrush="{x:Null}" />
         <CheckBox x:Name="IsPass" Content="Is Pass" IsThreeState="False"/>
         <Button x:Name="sendButton" Content="Send" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Send_Button_Click"/>
     </ListBox>

@@ -55,7 +55,7 @@ namespace BE
             return null;
         }
 
-        public static Enum GetEnum(Type enumType, string display)
+        public static Enum GetEnumAccordingToUserDisplay(Type enumType, string display)
         {
             if (enumType == null)
                 throw new ArgumentNullException("No enum for null");

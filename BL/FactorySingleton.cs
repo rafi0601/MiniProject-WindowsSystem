@@ -6,27 +6,24 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Singleton
+    public class FactorySingleton
     {
         protected static IBL instance = null;
         private static readonly object padlock = new object();
 
-        protected Singleton() { }
+        protected FactorySingleton() { }
 
         public static IBL Instance
         {
             get
             {
-                if (instance == null)
+                lock (padlock)
                 {
-                    lock (padlock)
-                    {
-                        if (instance == null)
-                            instance = new Bl_imp();
-                    }
-                }
+                    if (instance == null)
+                        instance = new Bl_imp();
 
-                return instance;
+                    return instance;
+                }
             }
         }
     }

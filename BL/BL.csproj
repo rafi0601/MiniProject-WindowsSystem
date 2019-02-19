@@ -39,6 +39,9 @@
     <Reference Include="Continuous.User, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Continuous.User.3.0.10-alpha\lib\net452\Continuous.User.dll</HintPath>
     </Reference>
+    <Reference Include="Itenso.TimePeriod, Version=2.1.1.0, Culture=neutral, PublicKeyToken=8cb6db75b4e81486, processorArchitecture=MSIL">
+      <HintPath>..\packages\TimePeriodLibrary.NET.2.1.1\lib\net46\Itenso.TimePeriod.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -65,9 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bl_Imp.cs" />
+    <Compile Include="FactorySingleton.cs" />
     <Compile Include="IBl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Singleton.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj">

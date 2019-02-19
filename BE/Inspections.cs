@@ -1,6 +1,7 @@
 ﻿//Bs"d
 
 #define TraineeHasOneTypes
+#define TestHaveConstantLentgh
 
 using System;
 using System.Collections.Generic;
@@ -96,7 +97,7 @@ namespace BE
                 throw new ArgumentNullException("Mobile Number mustn't be null or empty or consists only white spaces");
 
             List<char> digits = person.MobileNumber.ToList();
-            digits.RemoveAll(d=>d=='-');
+            digits.RemoveAll(d => d == '-');
             person.MobileNumber = new string(digits.ToArray());
 
             if (!(ulong.TryParse(person.MobileNumber, out ulong tmp) &&
@@ -112,12 +113,12 @@ namespace BE
             }
             catch (Exception e)
             {
-                throw new ArgumentException("This address is not valid", e);
+                throw new ArgumentException("The address is not valid", e);
             }
             #endregion
 
             #region Password
-            if (string.IsNullOrEmpty(person.Password))
+            if (string.IsNullOrWhiteSpace(person.Password))
                 throw new ArgumentNullException("Password must have value.");
             #endregion
         }
@@ -164,12 +165,12 @@ namespace BE
             #endregion
 
             #region VehicleTypeTraining
+            if (trainee.VehicleTypeTraining == 0)
+                throw new ArgumentException("Trainee must not have no vehicle type training.");
 #if TraineeHasOneTypes
             if (!trainee.VehicleTypeTraining.IsFlag())
                 throw new Exception("A trainee not allowed to learn two types of vehicles simultaneously");
 #endif
-            if (trainee.VehicleTypeTraining == 0)
-                throw new ArgumentException("Trainee must not have no vehicle type training.");
             #endregion
 
             #region GearboxTypeTraining
@@ -211,7 +212,7 @@ namespace BE
             {
                 IdValidator(test.TesterID);
             }
-            catch (Exception e)// when (e is ArgumentNullException)
+            catch (Exception e)
             {
                 new ArgumentException("ID is not valid", e);
             }
@@ -231,7 +232,6 @@ namespace BE
             #region Date
             if (test.Date == null)
                 throw new ArgumentNullException("The test's date musn't be null");
-            // check in  the bl that the date is good for the trainee age
             #endregion
 
             #region DepartureAddress
@@ -246,42 +246,32 @@ namespace BE
             #endregion
 
             #region Vehicle
+            if (test.Vehicle == 0)
+                throw new Exception("A test must be on vehicle.");
             if (!test.Vehicle.IsFlag())
                 throw new Exception("A test can be only on one type of vehicle.");
-            //if is zero
             #endregion
 
             #region CriteriasGrades
             #endregion
 
             #region IsPass
-            //BUG change it
-            if (test.Date > DateTime.Now && test.IsPass != null)
-                throw new Exception();
+            if (!test.IsDone() && test.IsPass != null)
+                throw new Exception("");
             #endregion
 
             #region TesterNotes
-            //if (string.IsNullOrWhiteSpace(test.TesterNotes))
-            //    throw new ArgumentException("The tester must enter notes.");
+            if (test.IsPass != null && string.IsNullOrWhiteSpace(test.TesterNotes))
+                throw new ArgumentException("The tester must enter notes.");
             #endregion
 
-            /*
+#if !TestHaveConstantLentgh
             #region Length
             if (test.Length == null)
                 throw new ArgumentNullException("The test's length musn't be null");
             #endregion
-            */
-            //IsDone cant done before TestDate
-            //IsPass cant pass if most failed
-            //TesterNotes
+#endif
         }
 
-        #region
-        //public static void StringInspection(string str, string nameOfVariable)
-        //{
-        //    if (string.IsNullOrWhiteSpace(str))
-        //        throw new ArgumentNullException(nameOfVariable + "mustn't be null or empty or consists only white spaces", nameOfVariable);
-        //}
-        #endregion
     }
 }

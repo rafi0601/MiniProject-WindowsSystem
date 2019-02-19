@@ -25,7 +25,7 @@ namespace PL_WPF.UI.TraineeInterface
     public partial class TraineeWindow : Window
     {
         Trainee trainee;
-        BL.IBL bl = BL.Singleton.Instance;
+        BL.IBL bl = BL.FactorySingleton.Instance;
 
         public TraineeWindow(Trainee trainee)
         {
@@ -36,7 +36,7 @@ namespace PL_WPF.UI.TraineeInterface
 
             DataContext = this.trainee = trainee;
             //this.Closing += (sender, e) => Environment.Exit(Environment.ExitCode);
-
+            this.DetailsOfMyTest.RefreshButtonClick += DetailsOfMyTest_RefreshButtonClick;
 
             gearboxComboBox.ItemsSource = Enum.GetValues(typeof(Gearbox));
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
@@ -78,7 +78,7 @@ namespace PL_WPF.UI.TraineeInterface
             if (bl.GetTests(t => t.TraineeID == trainee.ID).Any())
             {
                 dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }
 
@@ -86,22 +86,19 @@ namespace PL_WPF.UI.TraineeInterface
         }
 
 
-
         private void UpdateButtonClick(object sender, RoutedEventArgs e)
         {
             try
             {
-
                 try
                 {
-
-                    trainee.Name = new Person.PersonName { FirstName = firstNameTextBox.Text, LastName = lastNameTextBox.Text };
-                    trainee.TeacherName = new Person.PersonName { FirstName = TeacherFirstNameTextBox.Text, LastName = TeacherLastNameTextBox.Text };
-                    trainee.Address = new Address { City = City.Text, HouseNumber = uint.Parse(HouseNumber.Text), Street = Street.Text };
+                    trainee.Name = new Person.PersonName(lastNameTextBox.Text, firstNameTextBox.Text);
+                    trainee.TeacherName = new Person.PersonName(TeacherLastNameTextBox.Text, TeacherFirstNameTextBox.Text);
+                    trainee.Address = new Address(Street.Text, uint.Parse(HouseNumber.Text), City.Text);
 
                     trainee.VehicleTypeTraining = 0;
                     foreach (ListBoxItem itemExpertise in vehicleListBox.SelectedItems)
-                        trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnum(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
+                        trainee.VehicleTypeTraining |= (Vehicle)Tools.GetEnumAccordingToUserDisplay(typeof(Vehicle), itemExpertise.Content as string);  //tester.VehicleTypeExpertise = tester.VehicleTypeExpertise.AddFlag(expertise);
                 }
                 catch (Exception ex)
                 {
@@ -110,7 +107,7 @@ namespace PL_WPF.UI.TraineeInterface
 
 
                 bl.UpdateTrainee(trainee);
-                new UI.TraineeInterface.TraineeWindow(trainee).Show();
+                new TraineeWindow(trainee).Show();
                 Close();
             }
             catch (CasingException ex) when (ex.DisplayToUser)
@@ -150,42 +147,8 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
-        //private void DateTimePicker_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        //{
-        //    switch (MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.No))
-        //    {
-        //
-        //        case MessageBoxResult.OK:
-        //            try
-        //            {
-        //                bl.AddTest(trainee, (DateTime)addTestDateTimePicker.Value, new DateTime(), trainee.Address, trainee.Vehicle);
-        //                temp.Text = bl.GetTest("00000001").ToString();
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //            }
-        //            break;
-        //    }
-        //}
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
-            // Load data by setting the CollectionViewSource.Source property:
-            // testViewSource.Source = [generic data source]
-        }
-
-        private void Window_Loaded_1(object sender, RoutedEventArgs e)
-        {
-
-            System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
-            // Load data by setting the CollectionViewSource.Source property:
-            // testViewSource.Source = [generic data source]
-        }
-
-        private void DateTimePicker_SelectionChanged(object sender, EventArgs e)
+        
+        private void DateTimePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CheckDateButton.IsEnabled = true;
             //worker.DoWork += Worker_DoWork;
@@ -193,72 +156,15 @@ namespace PL_WPF.UI.TraineeInterface
             //worker.RunWorkerCompleted += Worker_RunWorkerCompleted;
         }
 
-        //private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        bl.AddTest(trainee, (DateTime)AlternateDate, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
-        //        SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
-        //        DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
-        //        DetailsOfMyTest.Visibility = Visibility.Visible;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //    }
-        //}
-        //
-        //private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (AlternateDate == null)
-        //        {
-        //            dateTimePicker.Visibility = Visibility.Collapsed;
-        //            CheckDateButton.Visibility = Visibility.Collapsed;
-        //            ChooseLabel.Visibility = Visibility.Collapsed;
-        //            DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
-        //            DetailsOfMyTest.Visibility = Visibility.Visible;
-        //            return;
-        //        }
-        //        else
-        //        {
-        //            dateTimePicker.Visibility = Visibility.Collapsed;
-        //            CheckDateButton.Visibility = Visibility.Collapsed;
-        //            ChooseLabel.Visibility = Visibility.Collapsed;
-        //            SuggestAlternateDateOfTest.Date.Text = AlternateDate.ToString();
-        //            SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //    }
-        //}
 
-        //private void Worker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    try
-        //    {
-        //        AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
-        //        (sender as BackgroundWorker).ReportProgress(Configuration.rand.Next(0, 100));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
-        //    }
-        //}
-
-        //BackgroundWorker worker;
         private DateTime? alternateDate;
 
-        private async void CheckDateButton_Click(object sender, RoutedEventArgs e)
+        private async void CheckDateButton_Click_Async(object sender, RoutedEventArgs e)
         {
             try
             {
                 dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
                 busyIndicator.Visibility = Visibility.Visible;
-                //new Thread(() => Dispatcher.BeginInvoke((Action)(() => busyIndicator.Visibility = Visibility.Visible))).Start();
 
                 DateTime dt = dateTimePicker.DateTime;
                 Exception exception = null;
@@ -284,13 +190,14 @@ namespace PL_WPF.UI.TraineeInterface
 
                 if (alternateDate == null)
                 {
-                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
+                    DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
                     DetailsOfMyTest.Visibility = Visibility.Visible;
                     return;
                 }
                 else
                 {
-                    SuggestAlternateDateOfTest.Date.Text = alternateDate.ToString();
+                    //SuggestAlternateDateOfTest.Date.Text = alternateDate.Value.ToString("g");
+                    SuggestAlternateDateOfTest.calendar.SelectedDate = alternateDate;
                     SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
                 }
             }
@@ -306,13 +213,22 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
-        private void SuggestAlternateDateOfTest_AcceptClick(object sender, RoutedEventArgs e)
+        private async void SuggestAlternateDateOfTest_AcceptClick_Async(object sender, RoutedEventArgs e)
         {
             try
             {
-                bl.AddTest(trainee, (DateTime)alternateDate, trainee.Address, trainee.VehicleTypeTraining);
                 SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining);
+                busyIndicator.Visibility = Visibility.Visible;
+
+                await Task.Run(new Action(() =>
+                {
+                    bl.AddTest(trainee, (DateTime)alternateDate, trainee.Address, trainee.VehicleTypeTraining);
+                }));
+
+                busyIndicator.Visibility = Visibility.Collapsed;
+
+                //בהנחה שאין בתוכנית תהליכונים אז זה יקבע בטוח
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining&&t.IsPass==null);
                 DetailsOfMyTest.Visibility = Visibility.Visible;
             }
             catch (CasingException ex) when (ex.DisplayToUser)
@@ -334,21 +250,22 @@ namespace PL_WPF.UI.TraineeInterface
             SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
         }
 
-        private void Refrash_Button_Click(object sender, RoutedEventArgs e)
+        private void Refresh_Button_Click(object sender, RoutedEventArgs e)
         {
             DadaGridOfDoneTests.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass != null);
         }
 
-        private void DetailsOfMyTest_RefrashButtonClick(object sender, RoutedEventArgs e)
+        private void DetailsOfMyTest_RefreshButtonClick(object sender, RoutedEventArgs e)
         {
-            if (bl.GetTests(t => t.TraineeID == trainee.ID).TrueForAll(t => t.IsPass == false))
+            List<Test> testsOfTheTrainee = bl.GetTests(test => test.TraineeID == trainee.ID);
+            if (testsOfTheTrainee.TrueForAll(t => t.IsPass == false))
             {
                 DetailsOfMyTest.Visibility = Visibility.Collapsed;
                 dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
             }
             else
             {
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = testsOfTheTrainee.FindAll(test=> test.Vehicle == trainee.VehicleTypeTraining && test.IsPass == null);
             }
         }
 
@@ -392,5 +309,100 @@ namespace PL_WPF.UI.TraineeInterface
                 Close();
             }
         }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // testViewSource.Source = [generic data source]
+        }
+
+        private void Window_Loaded_1(object sender, RoutedEventArgs e)
+        {
+
+            System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
+            // Load data by setting the CollectionViewSource.Source property:
+            // testViewSource.Source = [generic data source]
+        }
+
     }
 }
+
+//private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+//{
+//    try
+//    {
+//        bl.AddTest(trainee, (DateTime)AlternateDate, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
+//        SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
+//        DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+//        DetailsOfMyTest.Visibility = Visibility.Visible;
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//    }
+//}
+//
+//private void Worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+//{
+//    try
+//    {
+//        if (AlternateDate == null)
+//        {
+//            dateTimePicker.Visibility = Visibility.Collapsed;
+//            CheckDateButton.Visibility = Visibility.Collapsed;
+//            ChooseLabel.Visibility = Visibility.Collapsed;
+//            DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsDone() == false);
+//            DetailsOfMyTest.Visibility = Visibility.Visible;
+//            return;
+//        }
+//        else
+//        {
+//            dateTimePicker.Visibility = Visibility.Collapsed;
+//            CheckDateButton.Visibility = Visibility.Collapsed;
+//            ChooseLabel.Visibility = Visibility.Collapsed;
+//            SuggestAlternateDateOfTest.Date.Text = AlternateDate.ToString();
+//            SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
+//        }
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//    }
+//}
+
+//private void Worker_DoWork(object sender, DoWorkEventArgs e)
+//{
+//    try
+//    {
+//        AlternateDate = bl.AddTest(trainee, dateTimePicker.DateTime, /*new DateTime(),*/ trainee.Address, trainee.VehicleTypeTraining);
+//        (sender as BackgroundWorker).ReportProgress(Configuration.rand.Next(0, 100));
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//    }
+//}
+
+//BackgroundWorker worker;
+
+//private void DateTimePicker_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+//{
+//    switch (MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.No))
+//    {
+//
+//        case MessageBoxResult.OK:
+//            try
+//            {
+//                bl.AddTest(trainee, (DateTime)addTestDateTimePicker.Value, new DateTime(), trainee.Address, trainee.Vehicle);
+//                temp.Text = bl.GetTest("00000001").ToString();
+//            }
+//            catch (Exception ex)
+//            {
+//                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.No);
+//            }
+//            break;
+//    }
+//}

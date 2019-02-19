@@ -19,7 +19,6 @@ namespace BE
         [XmlIgnore]
         public Schedule WorkingHours { get; set; } = new Schedule();
         public uint MaxDistanceFromAddress { get; set; }
-        [XmlIgnore]
         public List<DateTime> UnavailableDates { get; set; } = new List<DateTime>(); //IMPROVEMENT sorted list
         //public SortedList<DateTime, DateTime> UnavailableDates = new SortedList<DateTime, DateTime>();// IMPROVMENT will take less time to search
 
@@ -55,35 +54,7 @@ namespace BE
         }
 
 
-        public string unavailableDates
-        {
-            get
-            {
-                if (UnavailableDates == null)
-                    return "";
-
-                string result = "";
-                foreach (var testDateTime in UnavailableDates)
-                    result += testDateTime.ToString() + ",";
-
-                return result;
-            }
-
-            set
-            {
-                if (value != null && value.Length > 0)
-                {
-                    string[] values = value.Split(',');
-
-                    UnavailableDates = new List<DateTime>();
-
-                    for (int i = 0; i < values.Length - 1; i++)
-                        UnavailableDates.Add(DateTime.Parse(values[i]));
-                }
-                else
-                    UnavailableDates = new List<DateTime>();
-            }
-        }
+        // For XmlSerializer: they both work, we prefer the first one because it is more secure (harder to forge)
         public string workingHours
         {
             get
@@ -92,28 +63,59 @@ namespace BE
                     return null;
 
                 StringBuilder result = new StringBuilder();
-                if (WorkingHours != null)
-                {
-                    for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
-                        for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
-                            result.Append(WorkingHours[i, (int)(j+BEGINNING_OF_A_WORKING_DAY)] + ",");
-                }
+                for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+                    for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                        result.Append(WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] + ",");
 
                 return result.ToString();
             }
 
             set
             {
-                if (value != null && value.Length > 0)
+                if (!string.IsNullOrEmpty(value))
                 {
                     string[] values = value.Split(',');
 
                     WorkingHours = new Schedule();
 
                     int index = 0;
-                    for (ushort i = 0; i < WORKING_DAYS_A_WEEK; i++)
-                        for (ushort j = 0; j < WORKING_HOURS_A_DAY; j++)
-                            WorkingHours[i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = bool.Parse(values[index++]);
+                    for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+                        for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                            WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = bool.Parse(values[index++]);
+                }
+            }
+        }
+        [XmlIgnore]
+        public bool[][] workinghours 
+        {
+            get
+            {
+                if (WorkingHours == null)
+                    return null;
+
+                bool[][] result = new bool[WORKING_DAYS_A_WEEK][];
+                for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+                {
+                    result[i] = new bool[WORKING_HOURS_A_DAY];
+                    for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                        result[i][j] = WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)];
+                }
+
+                return result;
+            }
+
+            set
+            {
+                if (value != null && value.GetLength(0) == WORKING_DAYS_A_WEEK) // TODO send exception
+                {
+                    WorkingHours = new Schedule();
+
+                    for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
+                    {
+                        if (value[1].GetLength(0) == WORKING_HOURS_A_DAY)
+                            for (int j = 0; j < WORKING_HOURS_A_DAY; j++)
+                                WorkingHours[(DayOfWeek)i, (int)(j + BEGINNING_OF_A_WORKING_DAY)] = value[i][j];
+                    }
                 }
             }
         }

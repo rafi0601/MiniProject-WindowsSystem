@@ -6,6 +6,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF.UI.TesterInterface"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:BE="clr-namespace:BE;assembly=BE"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -151,7 +152,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        Last name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox  x:Name="lastNameTextBox" Grid.Column="1" TextBlock.Foreground="Black"  HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" Width="120" />
-                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                            <!--Text="{Binding Name.LastName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
                         </Grid>
 
                         <Grid>
@@ -161,7 +162,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        First name:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="firstNameTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" -->
+                            <!--Text="{Binding Name.FirstName, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" -->
                         </Grid>
 
                         <Grid>
@@ -197,7 +198,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Mobile Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <xctk:MaskedTextBox  BorderBrush="{x:Null}" Mask="000-000-0000" x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                            <xctk:MaskedTextBox  BorderBrush="{x:Null}" Mask="000-000-0000" x:Name="MobileNumberTextBox" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MobileNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120"/>
                         </Grid>
 
                         <Label Content="    Address" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -209,7 +210,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="Street" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                            <!-- Text="{Binding Address.Street, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
                         </Grid>
 
                         <Grid>
@@ -219,8 +220,8 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        House Number:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <!--<TextBox x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3"  VerticalAlignment="Center" Width="120"/>-->
-                            <xctk:IntegerUpDown Minimum="0" Watermark="" UpdateValueOnEnterKey="True" x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                            <xctk:IntegerUpDown BorderBrush="{x:Null}" ShowButtonSpinner="False" Minimum="0" Watermark=""  x:Name="HouseNumber" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
+                            <!--Text="{Binding Address.HouseNumber, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
                         </Grid>
 
                         <Grid>
@@ -230,7 +231,7 @@
                             </Grid.ColumnDefinitions>
                             <Label Content="        City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
                             <TextBox x:Name="City" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" VerticalAlignment="Center" Width="120"/>
-                            <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}"-->
+                            <!--Text="{Binding Address.City, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}"-->
                         </Grid>
 
                         <Label Content="Work details" FontSize="25" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
@@ -241,7 +242,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Years Of Experience:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <xctk:ByteUpDown x:Name="yearsOfExperienceByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding YearsOfExperience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                            <xctk:ByteUpDown x:Name="yearsOfExperienceByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding YearsOfExperience, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" />
                         </Grid>
 
                         <Grid>
@@ -264,7 +265,8 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="        Max Of Tests Per Week:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <xctk:ByteUpDown x:Name="maxOfTestsPerWeekByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxOfTestsPerWeek, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                            <!--<xctk:ByteUpDown x:Name="maxOfTestsPerWeekByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxOfTestsPerWeek, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" />-->
+                            <Slider x:Name="maxOfTestsPerWeekByteUpDown" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Value="{Binding MaxOfTestsPerWeek, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Minimum="1" Maximum="{x:Static local:TesterWindow.MAX_TESTS_PER_WEEK}" AutoToolTipPlacement="BottomRight" Width="120" SmallChange="1"  />  <!-- ForgroudBlack -->
                         </Grid>
 
 
@@ -273,7 +275,7 @@
                             <GroupBox.Style>
                                 <Style/>
                             </GroupBox.Style>
-                            <Grid>
+                            <Grid x:Name="scheduleGrid">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -307,6 +309,7 @@
                                 <Label Grid.Column="0" Grid.Row="6" Content="14:00"/>
                                 <Label Grid.Column="0" Grid.Row="7" Content="15:00"/>
 
+                                <!--
                                 <CheckBox x:Name="CheckBox11" Grid.Row="1" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox12" Grid.Row="1" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox13" Grid.Row="1" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -342,8 +345,8 @@
                                 <CheckBox x:Name="CheckBox73" Grid.Row="7" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox74" Grid.Row="7" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                 <CheckBox x:Name="CheckBox75" Grid.Row="7" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                                <!-- <CheckBox x:Name="markAllCheckBox" Grid.Column="2" Grid.Row="8" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                                -->
+                                 <!--<CheckBox Visibility="Collapsed" x:Name="markAllCheckBox" Grid.Column="2" Grid.Row="8" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                             </Grid>
                         </GroupBox>
 
@@ -354,7 +357,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Label Content="         Max Distance From Address" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                            <xctk:ByteUpDown x:Name="maxDistanceFromAddressByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxDistanceFromAddress, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" UpdateValueOnEnterKey="True"/>
+                            <xctk:IntegerUpDown x:Name="maxDistanceFromAddressByteUpDown" Grid.Column="1" HorizontalAlignment="Left" TextBlock.Foreground="Black" Margin="3" Text="{Binding MaxDistanceFromAddress, Mode=TwoWay, NotifyOnValidationError=True, ValidatesOnExceptions=True}" VerticalAlignment="Center" Width="120" Minimum="0" Watermark="" />
                         </Grid>
 
                         <Label Content="Account Update" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
@@ -385,7 +388,7 @@
 
                             <Label Content="Future tests" FontSize="35" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
                             <!--<Button Content="Refrash" Click="Refrash_Button_Click" Grid.Column="1" Width="100" HorizontalAlignment="Right"/>-->
-                            <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refrash_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
+                            <Button RenderTransformOrigin="0.5,0.5" Name="Refresh_Button" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Background="{x:Null}" BorderBrush="{x:Null}" Click="Refresh_Button_Click" Height="Auto" Width="Auto" HorizontalAlignment="Center">
                                 <Button.RenderTransform>
                                     <RotateTransform Angle="0"/>
                                 </Button.RenderTransform>
@@ -423,8 +426,15 @@
                             </DataGrid.Columns>
                         </DataGrid>
 
+                        <Label Height="50" />
+
                         <Label Content="Tests that are waiting for a grade"  FontSize="35" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center" />
                         <DataGrid x:Name="TestsDataGrid" Grid.Column="1" SelectionChanged="TestsDataGrid_SelectionChanged" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True" FontSize="18">
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                    <Setter Property="FontSize" Value="20"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Code" Binding="{Binding Code}"/>
                                 <DataGridTextColumn Header="Trainee ID" Binding="{Binding TraineeID}"/>

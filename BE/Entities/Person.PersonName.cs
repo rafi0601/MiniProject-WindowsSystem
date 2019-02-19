@@ -7,7 +7,7 @@ namespace BE
     public abstract partial class Person
     {
         [Serializable]
-        public struct PersonName:IComparable
+        public struct PersonName : IComparable<PersonName>
         {
             public string LastName { get; set; }
             public string FirstName { get; set; }
@@ -23,9 +23,10 @@ namespace BE
                 return LastName + " " + FirstName;
             }
 
-            public int CompareTo(object obj)
+
+            public int CompareTo(PersonName other)
             {
-                return ToString().CompareTo(obj.ToString()); //TODO inputcheck if obl==NAME
+                return ToString().CompareTo(other.ToString());
             }
         }
     }

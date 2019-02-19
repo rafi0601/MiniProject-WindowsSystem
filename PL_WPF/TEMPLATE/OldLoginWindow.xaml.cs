@@ -24,6 +24,8 @@ namespace PL_WPF.TEMPLATE
         public OldLoginWindow()
         {
             InitializeComponent();
+
+            frame.NavigationService.Navigate(new UI.TesterInterface.TesterDetails());
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -32,6 +34,11 @@ namespace PL_WPF.TEMPLATE
         }
 
         private void User_Name_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Frame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
 
         }

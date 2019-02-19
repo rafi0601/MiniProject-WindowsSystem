@@ -9,12 +9,13 @@
     <UserControl.Resources>
         <local:DateTimeToDateString_Converter x:Key="con"/>
     </UserControl.Resources>
+    
     <WrapPanel Orientation="Vertical">
         <Calendar HorizontalAlignment="Center" x:Name="calendar" SelectionMode="SingleDate" SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
+        
         <ListBox x:Name="hoursListBox" IsEnabled="False" SelectionChanged="HoursListBox_SelectionChanged" VerticalContentAlignment="Center">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <!--<WrapPanel Orientation="Horizontal"/>-->
                     <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
@@ -26,6 +27,7 @@
             <ListBoxItem>14:00</ListBoxItem>
             <ListBoxItem>15:00</ListBoxItem>
         </ListBox>
+        
         <TextBlock x:Name="dateTextBlock" Text="(Please select a date and time!)" HorizontalAlignment="Center"/>
     </WrapPanel>
 </UserControl>

@@ -25,13 +25,13 @@ namespace PL_WPF
         {
             InitializeComponent();
 
-            SelectionChanged += DateTextBlock_SelectionChanged;
+            SelectionChanged += (sender, e) => dateTextBlock.Text = DateTime.ToString(); ; // TODO another to string
         }
 
-        private void DateTextBlock_SelectionChanged(object sender, EventArgs e)
-        {
-            dateTextBlock.Text = DateTime.ToString();
-        }
+
+        public event SelectionChangedEventHandler SelectionChanged;
+
+
 
         public DateTime DateTime
         {
@@ -43,6 +43,7 @@ namespace PL_WPF
             }
         }
 
+
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
             hoursListBox.IsEnabled = true;
@@ -50,11 +51,11 @@ namespace PL_WPF
 
         private void HoursListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectionChanged?.Invoke(this, new EventArgs());
+            SelectionChanged?.Invoke(this, e); // UNDONE new args(???)
         }
 
-        public event EventHandler SelectionChanged; // CHECK which args to use
     }
+
 
     public class DateTimeToDateString_Converter : IValueConverter
     {

@@ -17,10 +17,10 @@
     <Password>1</Password>
     <YearsOfExperience>10</YearsOfExperience>
     <MaxOfTestsPerWeek>30</MaxOfTestsPerWeek>
-    <VehicleTypesExpertise>privateCar tractor</VehicleTypesExpertise>
+    <VehicleTypesExpertise>tractor</VehicleTypesExpertise>
     <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
-    <unavailableDates>17/02/2019 11:00:00,17/02/2019 12:00:00,</unavailableDates>
-    <workingHours>False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False,False,False,</workingHours>
+    <UnavailableDates />
+    <workingHours>True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
   </Tester>
   <Tester>
     <ID>322680083</ID>
@@ -38,10 +38,13 @@
     </Address>
     <Password>1</Password>
     <YearsOfExperience>6</YearsOfExperience>
-    <MaxOfTestsPerWeek>16</MaxOfTestsPerWeek>
+    <MaxOfTestsPerWeek>1</MaxOfTestsPerWeek>
     <VehicleTypesExpertise>privateCar</VehicleTypesExpertise>
     <MaxDistanceFromAddress>100</MaxDistanceFromAddress>
-    <unavailableDates />
-    <workingHours>False,False,False,False,False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
+    <UnavailableDates>
+      <dateTime>2019-02-10T11:00:00</dateTime>
+      <dateTime>2019-02-17T11:00:00</dateTime>
+    </UnavailableDates>
+    <workingHours>False,False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,</workingHours>
   </Tester>
 </ArrayOfTester>

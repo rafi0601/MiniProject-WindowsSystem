@@ -25,18 +25,29 @@ namespace PL_WPF.UI.TraineeInterface
             InitializeComponent();
         }
 
-        public event RoutedEventHandler AcceptClick;// = AcceptButton.Click;
+
+        public event RoutedEventHandler AcceptClick
+        {
+            add { AcceptButton.Click += value; }
+            remove { AcceptButton.Click -= value; }
+        }
+
+        public event RoutedEventHandler CancelClick
+        {
+            add { CancelButton.Click += value; }
+            remove { CancelButton.Click -= value; }
+        }
+
+
 
         private void Accept_Button_Click(object sender, RoutedEventArgs e)
         {
-            AcceptClick(this, new RoutedEventArgs());
+            //AcceptClick(this, new RoutedEventArgs());
         }
-
-        public event RoutedEventHandler CancelClick;
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
-            CancelClick(this, new RoutedEventArgs());
+            //CancelClick(this, new RoutedEventArgs());
         }
     }
 }
