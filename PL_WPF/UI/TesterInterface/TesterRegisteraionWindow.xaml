@@ -133,7 +133,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Label Content="        Password:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <PasswordBox x:Name="passwordBoxNew" Grid.Column="1" PasswordChar="*" HorizontalAlignment="Left"  Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
+                <PasswordBox MaxLength="12" x:Name="passwordBoxNew" Grid.Column="1" PasswordChar="*" HorizontalAlignment="Left"  Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
             </Grid>
 
             <Grid>
@@ -141,7 +141,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <PasswordBox x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
+                <PasswordBox MaxLength="12" x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
                 <Label Content="        Password verification:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
             </Grid>
 
@@ -189,8 +189,8 @@
                     <Style/>
                 </GroupBox.Style>
             </GroupBox>-->
-            <Grid x:Name="scheduleGrid" Margin="60,0,0,0">
-                <Grid.ColumnDefinitions>
+            <Grid x:Name="scheduleGrid" Margin="60,0,0,0" >
+                <!--<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -210,143 +210,26 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Column="1" Grid.Row="0" Content="Sun" HorizontalContentAlignment="Center"/>
+                </Grid.RowDefinitions>-->
+                <!--<Label Grid.Column="1" Grid.Row="0" Content="Sun" HorizontalContentAlignment="Center"/>
                 <Label Grid.Column="2" Grid.Row="0" Content="Mon" HorizontalContentAlignment="Center"/>
                 <Label Grid.Column="3" Grid.Row="0" Content="Tue" HorizontalContentAlignment="Center"/>
                 <Label Grid.Column="4" Grid.Row="0" Content="Wed" HorizontalContentAlignment="Center"/>
-                <Label Grid.Column="5" Grid.Row="0" Content="Thu" HorizontalContentAlignment="Center"/>
+                <Label Grid.Column="5" Grid.Row="0" Content="Thu" HorizontalContentAlignment="Center"/>-->
 
-                <Label Grid.Column="0" Grid.Row="1" Content="09:00"/>
+                <!--<Label Grid.Column="0" Grid.Row="1" Content="09:00"/>
                 <Label Grid.Column="0" Grid.Row="2" Content="10:00"/>
                 <Label Grid.Column="0" Grid.Row="3" Content="11:00"/>
                 <Label Grid.Column="0" Grid.Row="4" Content="12:00"/>
                 <Label Grid.Column="0" Grid.Row="5" Content="13:00"/>
                 <Label Grid.Column="0" Grid.Row="6" Content="14:00"/>
-                <Label Grid.Column="0" Grid.Row="7" Content="15:00"/>
+                <Label Grid.Column="0" Grid.Row="7" Content="15:00"/>-->
 
-                <!--
-                <CheckBox x:Name="CheckBox11" Grid.Row="1" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox12" Grid.Row="1" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox13" Grid.Row="1" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox14" Grid.Row="1" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox15" Grid.Row="1" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox21" Grid.Row="2" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox22" Grid.Row="2" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox23" Grid.Row="2" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox24" Grid.Row="2" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox25" Grid.Row="2" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox31" Grid.Row="3" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox32" Grid.Row="3" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox33" Grid.Row="3" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox34" Grid.Row="3" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox35" Grid.Row="3" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox41" Grid.Row="4" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox42" Grid.Row="4" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox43" Grid.Row="4" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox44" Grid.Row="4" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox45" Grid.Row="4" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox51" Grid.Row="5" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox52" Grid.Row="5" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox53" Grid.Row="5" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox54" Grid.Row="5" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox55" Grid.Row="5" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox61" Grid.Row="6" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox62" Grid.Row="6" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox63" Grid.Row="6" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox64" Grid.Row="6" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox65" Grid.Row="6" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox71" Grid.Row="7" Grid.Column="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox72" Grid.Row="7" Grid.Column="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox73" Grid.Row="7" Grid.Column="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox74" Grid.Row="7" Grid.Column="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <CheckBox x:Name="CheckBox75" Grid.Row="7" Grid.Column="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                -->
 
-                <Label  Grid.Row="8" Height="10"/>
-                <CheckBox x:Name="markAllCheckBox" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="9" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
+            <Label  Grid.Row="8" Height="10"/>
+            <CheckBox x:Name="markAllCheckBox" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="9" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-            <!--<Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Label Content="        Working Hours:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
-                <Grid Grid.Column="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Content="Thursday"/>
-                    <CheckBox x:Name="CheckBox01" Grid.Column="0" Grid.Row="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox02" Grid.Column="0" Grid.Row="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox03" Grid.Column="0" Grid.Row="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox04" Grid.Column="0" Grid.Row="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox05" Grid.Column="0" Grid.Row="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox06" Grid.Column="0" Grid.Row="6" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox07" Grid.Column="0" Grid.Row="7" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Label Grid.Column="1" Grid.Row="0" Content="Wednesday"/>
-                    <CheckBox x:Name="CheckBox11" Grid.Column="1" Grid.Row="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox12" Grid.Column="1" Grid.Row="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox13" Grid.Column="1" Grid.Row="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox14" Grid.Column="1" Grid.Row="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox15" Grid.Column="1" Grid.Row="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox16" Grid.Column="1" Grid.Row="6" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox17" Grid.Column="1" Grid.Row="7" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Label Grid.Column="2" Grid.Row="0" Content="Tuesday"/>
-                    <CheckBox x:Name="CheckBox21" Grid.Column="2" Grid.Row="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox22" Grid.Column="2" Grid.Row="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox23" Grid.Column="2" Grid.Row="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox24" Grid.Column="2" Grid.Row="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox25" Grid.Column="2" Grid.Row="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox26" Grid.Column="2" Grid.Row="6" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox27" Grid.Column="2" Grid.Row="7" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Label Grid.Column="3" Grid.Row="0" Content="Monday"/>
-                    <CheckBox x:Name="CheckBox31" Grid.Column="3" Grid.Row="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox32" Grid.Column="3" Grid.Row="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox33" Grid.Column="3" Grid.Row="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox34" Grid.Column="3" Grid.Row="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox35" Grid.Column="3" Grid.Row="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox36" Grid.Column="3" Grid.Row="6" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox37" Grid.Column="3" Grid.Row="7" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <Label Grid.Column="4" Grid.Row="0" Content="Sunday"/>
-                    <CheckBox x:Name="CheckBox41" Grid.Column="4" Grid.Row="1" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox42" Grid.Column="4" Grid.Row="2" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox43" Grid.Column="4" Grid.Row="3" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox44" Grid.Column="4" Grid.Row="4" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox45" Grid.Column="4" Grid.Row="5" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox46" Grid.Column="4" Grid.Row="6" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    <CheckBox x:Name="CheckBox47" Grid.Column="4" Grid.Row="7" IsChecked="{Binding ElementName=markAllCheckBox, Path=IsChecked, Mode=OneWay}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-
-                    <Label Grid.Column="5" Grid.Row="1" Content="09:00"/>
-                    <Label Grid.Column="5" Grid.Row="2" Content="10:00"/>
-                    <Label Grid.Column="5" Grid.Row="3" Content="11:00"/>
-                    <Label Grid.Column="5" Grid.Row="4" Content="12:00"/>
-                    <Label Grid.Column="5" Grid.Row="5" Content="13:00"/>
-                    <Label Grid.Column="5" Grid.Row="6" Content="14:00"/>
-                    <Label Grid.Column="5" Grid.Row="7" Content="15:00"/>
-
-                    <CheckBox x:Name="markAllCheckBox" Grid.Column="2" Grid.Row="8" Content="Mark all" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Grid>
-
-            </Grid>-->
 
             <Grid>
                 <Grid.ColumnDefinitions>

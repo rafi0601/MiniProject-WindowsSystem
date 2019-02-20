@@ -51,8 +51,7 @@
                     </Style.Resources>
                 </Style>
 
-                <local:HelperPassword x:Key="helperPassword" x:Name="helperPassword" Password="{Binding ElementName=passwordPasswordBox, Path=Password, Mode=OneWay}"/>
-            
+                <local:HelperPassword x:Key="helperPassword" x:Name="helperPassword"/>
             </Grid.Resources>
 
             <Rectangle Height="280" VerticalAlignment="Top">
@@ -76,10 +75,11 @@
             <Grid Width="280" Height="240" VerticalAlignment="Bottom" Margin="0,100">
                 <TextBlock Text="LOGIN" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5" Foreground="Gray" FontSize="18" />
                 <StackPanel VerticalAlignment="Center" Margin="10">
-                    <TextBox x:Name="idTextBox" materialDesign:HintAssist.Hint="ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18"/>
-                    <!--<PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="8"/>-->
-                    <PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="8"
-                                 local:PasswordHelper.Attach="True" />  <!--local:PasswordHelper.Password="{Binding ElementName=dt, Path=Password, Mode=TwoWay}"-->
+                    <TextBox x:Name="idTextBox" materialDesign:HintAssist.Hint="ID" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="9"/>
+                    <!--<PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="8" PasswordChanged="{StaticResource helperPassword.PasswordBox_PasswordChanged}" />-->
+                    <!--<PasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="8"
+                                 local:PasswordHelper.Attach="True" local:PasswordHelper.Password="{Binding ElementName=helperPassword, Path=Password, Mode=OneWayToSource}"/>-->
+                    <local:DependencyPasswordBox x:Name="passwordPasswordBox" materialDesign:HintAssist.Hint="Password" PasswordBoxStyle="{StaticResource MaterialDesignFloatingHintPasswordBox}" Margin="0,10" FontFamily="Imprint MT Shadow" FontSize="18" MaxLength="12"/>
                 </StackPanel>
             </Grid>
 
@@ -91,7 +91,7 @@
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                             <!--<DataTrigger Binding="{Binding Source={StaticResource helperPassword}, Path=Password}" Value="{x:Static System:String.Empty}">-->
-                            <DataTrigger x:Name="dt" Binding="{Binding ElementName=helperPassword, Path=Password}" Value="{x:Static System:String.Empty}">
+                            <DataTrigger Binding="{Binding ElementName=passwordPasswordBox, Path=Password}" Value="{x:Static System:String.Empty}">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
                             <!--<MultiDataTrigger>

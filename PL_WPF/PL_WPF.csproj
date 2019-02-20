@@ -102,11 +102,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Functions.cs" />
+    <Compile Include="Aids\Converters\BaseConverter.cs" />
+    <Compile Include="Aids\Converters\DateTimeToDateString_Converter.cs" />
+    <Compile Include="DependencyPasswordBox.xaml.cs">
+      <DependentUpon>DependencyPasswordBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Aids\Functions.cs" />
+    <Compile Include="Aids\Converters\IsEnableConverter.cs" />
+    <Compile Include="Aids\PasswordHelper.cs" />
     <Compile Include="RoleInput.xaml.cs">
       <DependentUpon>RoleInput.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TEMPLATE\notes.xaml.cs">
+    <Compile Include="Trush\notes.xaml.cs">
       <DependentUpon>notes.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\TesterInterface\TesterDetails.xaml.cs">
@@ -118,10 +125,10 @@
     <Compile Include="LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TEMPLATE\OldLoadingWindow.xaml.cs">
+    <Compile Include="Trush\OldLoadingWindow.xaml.cs">
       <DependentUpon>OldLoadingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TEMPLATE\OldLoginWindow.xaml.cs">
+    <Compile Include="Trush\OldLoginWindow.xaml.cs">
       <DependentUpon>OldLoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\AdminInterface\AdminWindow.xaml.cs">
@@ -148,11 +155,18 @@
     <Compile Include="UI\TraineeInterface\TraineeWindow.xaml.cs">
       <DependentUpon>TraineeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Aids\Converters\VehicleToString_Converter.cs" />
+    <Compile Include="Aids\Converters\VisibilitiesToVisibilityConverter.cs" />
+    <Compile Include="Aids\Converters\ValuesToMax_MultiConverter.cs" />
+    <Page Include="DependencyPasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RoleInput.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TEMPLATE\notes.xaml">
+    <Page Include="Trush\notes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -184,11 +198,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TEMPLATE\OldLoadingWindow.xaml">
+    <Page Include="Trush\OldLoadingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TEMPLATE\OldLoginWindow.xaml">
+    <Page Include="Trush\OldLoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -289,8 +303,8 @@
     <Resource Include="Accessories\Images\profile.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="TEMPLATE\a.jpg" />
-    <Resource Include="TEMPLATE\timthumb.jpg" />
+    <Resource Include="Trush\a.jpg" />
+    <Resource Include="Trush\timthumb.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Accessories\Images\shalechet4.jpg" />

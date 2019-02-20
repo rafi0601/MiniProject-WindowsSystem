@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -77,9 +78,10 @@ namespace PL_WPF.UI.TraineeInterface
 
             if (bl.GetTests(t => t.TraineeID == trainee.ID).Any())
             {
-                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
+                //dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
+                choosingControls.Visibility = Visibility.Collapsed;
                 DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
-                DetailsOfMyTest.Visibility = Visibility.Visible;
+                detailsControls.Visibility = Visibility.Visible;
             }
 
             Grading.sendButton.Visibility = Visibility.Collapsed;
@@ -147,7 +149,7 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
-        
+
         private void DateTimePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CheckDateButton.IsEnabled = true;
@@ -163,8 +165,8 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
-                busyIndicator.Visibility = Visibility.Visible;
+                choosingControls.Visibility = Visibility.Collapsed;// CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Collapsed;
+                //busyIndicator.Visibility = Visibility.Visible;
 
                 DateTime dt = dateTimePicker.DateTime;
                 Exception exception = null;
@@ -181,7 +183,7 @@ namespace PL_WPF.UI.TraineeInterface
                     }
                 }));
 
-                busyIndicator.Visibility = Visibility.Collapsed;
+                //busyIndicator.Visibility = Visibility.Collapsed;
 
                 if (exception != null)
                     throw exception;
@@ -191,20 +193,21 @@ namespace PL_WPF.UI.TraineeInterface
                 if (alternateDate == null)
                 {
                     DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
-                    DetailsOfMyTest.Visibility = Visibility.Visible;
+                    detailsControls.Visibility = Visibility.Visible;
                     return;
                 }
                 else
                 {
                     //SuggestAlternateDateOfTest.Date.Text = alternateDate.Value.ToString("g");
                     SuggestAlternateDateOfTest.calendar.SelectedDate = alternateDate;
-                    SuggestAlternateDateOfTest.Visibility = Visibility.Visible;
+                    suggestControls.Visibility = Visibility.Visible;
                 }
             }
             catch (CasingException ex) when (ex.DisplayToUser)
             {
                 Functions.ShowMessageToUser(ex);
-                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
+                choosingControls.Visibility = Visibility.Visible;
+                //dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
@@ -217,19 +220,19 @@ namespace PL_WPF.UI.TraineeInterface
         {
             try
             {
-                SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
-                busyIndicator.Visibility = Visibility.Visible;
+                suggestControls.Visibility = Visibility.Collapsed;
+                //busyIndicator.Visibility = Visibility.Visible;
 
                 await Task.Run(new Action(() =>
                 {
+                    //בהנחה שאין בתוכנית תהליכונים אז זה יקבע בטוח
                     bl.AddTest(trainee, (DateTime)alternateDate, trainee.Address, trainee.VehicleTypeTraining);
                 }));
 
-                busyIndicator.Visibility = Visibility.Collapsed;
+                //busyIndicator.Visibility = Visibility.Collapsed;
 
-                //בהנחה שאין בתוכנית תהליכונים אז זה יקבע בטוח
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining&&t.IsPass==null);
-                DetailsOfMyTest.Visibility = Visibility.Visible;
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = bl.GetTests(t => t.TraineeID == trainee.ID && t.Vehicle == trainee.VehicleTypeTraining && t.IsPass == null);
+                detailsControls.Visibility = Visibility.Visible;
             }
             catch (CasingException ex) when (ex.DisplayToUser)
             {
@@ -244,10 +247,9 @@ namespace PL_WPF.UI.TraineeInterface
 
         private void SuggestAlternateDateOfTest_CancelClick(object sender, RoutedEventArgs e)
         {
-            dateTimePicker.Visibility = Visibility.Visible;
-            CheckDateButton.Visibility = Visibility.Visible;
-            ChooseLabel.Visibility = Visibility.Visible;
-            SuggestAlternateDateOfTest.Visibility = Visibility.Collapsed;
+            suggestControls.Visibility = Visibility.Collapsed;
+            choosingControls.Visibility = Visibility.Visible;
+            //dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
         }
 
         private void Refresh_Button_Click(object sender, RoutedEventArgs e)
@@ -260,12 +262,13 @@ namespace PL_WPF.UI.TraineeInterface
             List<Test> testsOfTheTrainee = bl.GetTests(test => test.TraineeID == trainee.ID);
             if (testsOfTheTrainee.TrueForAll(t => t.IsPass == false))
             {
-                DetailsOfMyTest.Visibility = Visibility.Collapsed;
-                dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
+                detailsControls.Visibility = Visibility.Collapsed;
+                choosingControls.Visibility = Visibility.Visible;
+                //dateTimePicker.Visibility = CheckDateButton.Visibility = ChooseLabel.Visibility = Visibility.Visible;
             }
             else
             {
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = testsOfTheTrainee.FindAll(test=> test.Vehicle == trainee.VehicleTypeTraining && test.IsPass == null);
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = testsOfTheTrainee.FindAll(test => test.Vehicle == trainee.VehicleTypeTraining && test.IsPass == null);
             }
         }
 
@@ -310,6 +313,16 @@ namespace PL_WPF.UI.TraineeInterface
             }
         }
 
+        private void TabItem_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            Point p = Mouse.GetPosition(element);
+
+            if (p.X < 0 || p.X > element.ActualWidth || p.Y < 0 || p.Y > element.ActualHeight)
+            {
+                e.Handled = true;
+            }
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -328,6 +341,8 @@ namespace PL_WPF.UI.TraineeInterface
         }
 
     }
+
+
 }
 
 //private void Worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

@@ -395,48 +395,39 @@ namespace BL
 
         public List<IGrouping<string, Trainee>> TraineesByDrivingSchool(bool toSort = false)
         {
-            return (
-                !toSort ? from trainee in dal.GetTrainees()
-                          group trainee by trainee.DrivingSchool
-                        :
-                          from trainee in dal.GetTrainees()
-                          orderby trainee.TeacherName, trainee.ID
-                          group trainee by trainee.DrivingSchool into @group
-                          orderby @group.Key
-                          select @group
-                    ).ToList();
+            //return (
+            //    !toSort ? from trainee in dal.GetTrainees()
+            //              group trainee by trainee.DrivingSchool
+            //            :
+            //              from trainee in dal.GetTrainees()
+            //              orderby trainee.TeacherName, trainee.ID
+            //              group trainee by trainee.DrivingSchool into @group
+            //              orderby @group.Key
+            //              select @group
+            //        ).ToList();
 
-            //IEnumerable<IGrouping<string, Trainee>> groupsOfTrainees;
-            //
-            //if (!toSort)
-            //    groupsOfTrainees = from trainee in dal.GetTrainees()
-            //                       group trainee by trainee.DrivingSchool;
-            //else
-            //    groupsOfTrainees = from trainee in dal.GetTrainees()
-            //                       orderby trainee.DrivingSchool
-            //                       group trainee by trainee.DrivingSchool into groupBySchool
-            //                       from trainee in groupBySchool
-            //                       orderby trainee.TeacherName
-            //                       group trainee by trainee.DrivingSchool;
-            //
-            //return groupsOfTrainees.ToList();
+            return Grouping(dal.GetTrainees(), trainee => trainee.DrivingSchool,
+                toSort?(Func<Trainee,Person.PersonName>)(trainee=>trainee.TeacherName):null).ToList();
         }
 
         public List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false)
         {
-            IEnumerable<IGrouping<Person.PersonName, Trainee>> groups;
+            //IEnumerable<IGrouping<Person.PersonName, Trainee>> groups;
+            //
+            //if (!toSort)
+            //    groups = from trainee in dal.GetTrainees()
+            //             group trainee by trainee.TeacherName;
+            //else
+            //    groups = from trainee in dal.GetTrainees()
+            //             orderby trainee.Name, trainee.ID
+            //             group trainee by trainee.TeacherName into @group
+            //             orderby @group.Key
+            //             select @group;
+            //
+            //return groups.ToList();
 
-            if (!toSort)
-                groups = from trainee in dal.GetTrainees()
-                         group trainee by trainee.TeacherName;
-            else
-                groups = from trainee in dal.GetTrainees()
-                         orderby trainee.Name, trainee.ID
-                         group trainee by trainee.TeacherName into @group
-                         orderby @group.Key
-                         select @group;
-
-            return groups.ToList();
+            return Grouping(dal.GetTrainees(), trainee => trainee.TeacherName,
+                toSort ? (Func<Trainee,Person.PersonName>)(trainee => trainee.Name) : null).ToList();
         }
 
         public List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false)
@@ -449,11 +440,31 @@ namespace BL
             else
                 groups = from trainee in dal.GetTrainees()//.AsParallel().AsOrdered()
                          orderby trainee.DrivingSchool, trainee.ID
-                         group trainee by NumberOfDoneTests(trainee) into @group
+                         group trainee by NumberOfDoneTests(trainee) into @group //IMPROVEMENT by ClassesTheNumbers(NumberOfDoneTests(trainee))
                          orderby @group.Key
                          select @group;
 
             return groups.ToList();
+
+            char ClassesTheNumbers(uint numberOfDoneTests)
+            {
+                return numberOfDoneTests < 3 ? 'A' : numberOfDoneTests <= 5 ? 'B' : 'D';
+            }
+        }
+
+        protected IEnumerable<IGrouping<Key, Type>> Grouping<Type, Key, Order>(IEnumerable<Type> elements, Func<Type, Key> groupBy, Func<Type, Order> sortBy = null) where Type : IKey
+        {
+            if (groupBy == null)
+                throw new ArgumentNullException(nameof(groupBy));
+            
+            return sortBy != null ? from element in elements
+                                    orderby sortBy(element), element.Key
+                                    group element by groupBy(element) into @group
+                                    orderby @group.Key
+                                    select @group
+                                    :
+                                    from element in elements
+                                    group element by groupBy(element);
         }
 
         #endregion
@@ -509,7 +520,6 @@ namespace BL
 
         #region private functions
         // These are private function so all the input check were done before the call to the functions
-
 
         private bool ExistingTesterById(string id)
         {

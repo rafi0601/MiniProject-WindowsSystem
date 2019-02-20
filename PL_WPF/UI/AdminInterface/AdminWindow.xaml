@@ -6,11 +6,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF.UI.AdminInterface"
+        xmlns:BE="clr-namespace:BE;assembly=BE"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:PL_WPF="clr-namespace:PL_WPF"
         mc:Ignorable="d"
-        Height="660" Width="1000"
+        Height="660" Width="1000" WindowStartupLocation="CenterScreen"
         Style="{StaticResource WindowsStyle}">
     <!-- <Grid>
         <StackPanel>
@@ -23,7 +25,7 @@
         <!--<Style TargetType="{x:Type Label}">
             <Setter Property="FontFamily" Value="{x:Null}"/>
         </Style>-->
-        
+
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="20"/>
@@ -94,7 +96,7 @@
         <Label x:Name="MainGrid_Col1" Grid.Column="1"/>
         <Label x:Name="MainGrid_Col1Row1" Grid.Column="1" Grid.Row="1"/>
         <Label x:Name="MainGrid_Row1" Grid.Row="1"/>
-        
+
         <Grid x:Name="MenuGrid" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2">
             <Grid.Effect>
                 <DropShadowEffect/>
@@ -112,7 +114,7 @@
                     <GradientStop Color="#FF484545" Offset="0.86"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            
+
             <Label x:Name="MenuGrid_Row1" Grid.Row="1"/>
             <Image Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" Source="/Accessories/Images/profile.png"/>
         </Grid>
@@ -128,18 +130,18 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        
+
         <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI"/>
-        
+
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}">
-            
+
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
-            
+
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
                 <WrapPanel Orientation="Vertical">
-                    
+
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
-                    
+
                     <ListBox x:Name="Testers_ListBox" HorizontalAlignment="Center" SelectionChanged="Testers_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -180,12 +182,12 @@
                     </ListView>
                 </WrapPanel>
             </TabItem>
-            
+
             <TabItem Style="{DynamicResource Tab_Style}" Header="Trainees" >
                 <WrapPanel Orientation="Vertical">
-                    
+
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
-                    
+
                     <ListBox x:Name="Trainees_ListBox" HorizontalAlignment="Center" SelectionChanged="Trainees_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -216,7 +218,7 @@
                                 <GridViewColumn Header="The last test" DisplayMemberBinding="{Binding TheLastTest}"/>
                             </GridView>
                         </ListView.View>
-                        
+
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
@@ -229,12 +231,12 @@
                     </ListView>
                 </WrapPanel>
             </TabItem>
-            
+
             <TabItem Style="{DynamicResource Tab_Style}" Header="Tests">
                 <WrapPanel Orientation="Vertical">
-                    
+
                     <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center" Margin="160,0,0,0"/>
-                    
+
                     <ListBox x:Name="Tests_ListBox" HorizontalAlignment="Center" SelectionChanged="Tests_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -255,7 +257,7 @@
                                 <GridViewColumn Header="Vehicle" DisplayMemberBinding="{Binding Vehicle}" />
                             </GridView>
                         </ListView.View>
-                        
+
                         <ListView.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.HeaderTemplate>
@@ -265,12 +267,108 @@
                                 </GroupStyle.HeaderTemplate>
                             </GroupStyle>
                         </ListView.GroupStyle>
-                        
+
                     </ListView>
                 </WrapPanel>
 
             </TabItem>
-        
+
+            <TabItem Style="{DynamicResource Tab_Style}" Header="OurGroup" Name="ourGroup">
+                <TabItem.Resources>
+
+                </TabItem.Resources>
+
+                <DockPanel LastChildFill="True" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
+                    <!--Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Path=Width}"-->
+                    <Menu DockPanel.Dock="Top" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="300">
+                        <Menu.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </Menu.ItemsPanel>
+                        <Menu.Resources>
+                            <Style x:Key="finalMenu" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <CheckBox ClickMode="Release" Content="To sort?" IsChecked="{Binding toSort, Mode=OneWayToSource}"/>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
+                                <EventSetter Event="Click" Handler="ListBoxItem_Selected"/>
+                            </Style>
+                        </Menu.Resources>
+                        <MenuItem Header="Testeres">
+                            <MenuItem Header="Expertise" Style="{StaticResource finalMenu}"/>
+                        </MenuItem>
+                        <MenuItem Header="Trainees">
+                            <MenuItem Header="Teacher" Style="{StaticResource finalMenu}"/>
+                            <MenuItem Header="Lessons" Style="{StaticResource finalMenu}"/>
+                        </MenuItem>
+                        <MenuItem Header="Tests"/>
+                    </Menu>
+
+                    <ItemsControl ItemsSource="{Binding}" d:DataContext="{d:DesignInstance Type=BE:Tester}" >
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Vertical" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <GroupBox Header="{Binding Path=Key}" MaxHeight="350" Width="400" HorizontalAlignment="Left">
+                                    <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding Path=.}">
+                                            <ItemsControl.Resources>
+                                            </ItemsControl.Resources>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="BE:Tester">
+                                                    <Expander Header="{Binding Path=ID}">
+                                                        <StackPanel Orientation="Vertical">
+                                                            <StackPanel.Resources>
+                                                                <PL_WPF:VehicleToString_Converter x:Key="vehicleToString_Converter"/>
+                                                            </StackPanel.Resources>
+                                                            <TextBlock Text="{Binding Path=Name, Mode=OneWay, StringFormat='Name: {0,30}'}"/>
+                                                            <TextBlock Text="{Binding Path=Gender, StringFormat='Gender: {0,30}'}"/>
+                                                            <TextBlock Text="{Binding Path=Address, StringFormat='Address: {0,30}'}"/>
+                                                            <TextBlock Text="{Binding Path=MobileNumber, StringFormat='Mobile: {0,30}'}"/>
+                                                            <TextBlock Text="{Binding Path=VehicleTypesExpertise, Mode=OneWay, StringFormat='Expertises: {0,30}', Converter={StaticResource vehicleToString_Converter}}"/>
+                                                        </StackPanel>
+                                                    </Expander>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </GroupBox>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!--<ListBox>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Vertical" IsItemsHost="True"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                        <TextBox Text="4444"/>
+                    </ListBox>-->
+                </DockPanel>
+            </TabItem>
+
         </TabControl>
     </Grid>
 

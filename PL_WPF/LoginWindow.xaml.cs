@@ -37,6 +37,7 @@ namespace PL_WPF
                 if (idTextBox.Text.ToUpper().CompareTo("ADMIN") == 0 && passwordPasswordBox.Password.ToUpper().CompareTo("ADMIN") == 0)
                 {
                     new UI.AdminInterface.AdminWindow().Show();
+                    idTextBox.Text = passwordPasswordBox.Password = string.Empty;
                     return;
                 }
 
@@ -56,6 +57,8 @@ namespace PL_WPF
                         new UI.AdminInterface.AdminWindow().Show();
                         break;
                 }
+                
+                idTextBox.Text = passwordPasswordBox.Password = string.Empty;
             }
             catch (CasingException ex) when (ex.DisplayToUser)
             {
@@ -76,13 +79,15 @@ namespace PL_WPF
             switch (roleInput.RoleName)
             {
                 case "Tester":
+                case "tester":
                     new UI.TesterInterface.TesterRegisteraionWindow().Show();
                     break;
                 case "Trainee":
+                case "trainee":
                     new UI.TraineeInterface.TraineeRegisteraionWindow().Show();
                     break;
-                default:
-                    throw new Exception("");
+                //default:
+                //    throw new CasingException(false,new Exception("No valid name of type"));
             }
         }
 
@@ -146,94 +151,17 @@ namespace PL_WPF
             get { return (string)GetValue(PasswordProperty); }
             set { SetValue(PasswordProperty, value); }
         }
-
+    
         // Using a DependencyProperty as the backing store for Password.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PasswordProperty =
             DependencyProperty.Register("Password", typeof(string), typeof(HelperPassword), new UIPropertyMetadata(string.Empty));
-    }
-
-    public static class PasswordHelper
-    {
-        public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.RegisterAttached("Password",
-            typeof(string), typeof(PasswordHelper),
-            new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
-
-        public static readonly DependencyProperty AttachProperty =
-            DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(PasswordHelper), new PropertyMetadata(false, Attach));
-
-        private static readonly DependencyProperty IsUpdatingProperty =
-           DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
-           typeof(PasswordHelper));
-
-
-        public static void SetAttach(DependencyObject dp, bool value)
+    
+        public void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            dp.SetValue(AttachProperty, value);
-        }
-
-        public static bool GetAttach(DependencyObject dp)
-        {
-            return (bool)dp.GetValue(AttachProperty);
-        }
-
-        public static string GetPassword(DependencyObject dp)
-        {
-            return (string)dp.GetValue(PasswordProperty);
-        }
-
-        public static void SetPassword(DependencyObject dp, string value)
-        {
-            dp.SetValue(PasswordProperty, value);
-        }
-
-        private static bool GetIsUpdating(DependencyObject dp)
-        {
-            return (bool)dp.GetValue(IsUpdatingProperty);
-        }
-
-        private static void SetIsUpdating(DependencyObject dp, bool value)
-        {
-            dp.SetValue(IsUpdatingProperty, value);
-        }
-
-        private static void OnPasswordPropertyChanged(DependencyObject sender,
-            DependencyPropertyChangedEventArgs e)
-        {
-            PasswordBox passwordBox = sender as PasswordBox;
-            passwordBox.PasswordChanged -= PasswordChanged;
-
-            if (!GetIsUpdating(passwordBox))
-            {
-                passwordBox.Password = (string)e.NewValue;
-            }
-            passwordBox.PasswordChanged += PasswordChanged;
-        }
-
-        private static void Attach(DependencyObject sender,
-            DependencyPropertyChangedEventArgs e)
-        {
-            if (!(sender is PasswordBox passwordBox))
-                return;
-
-            if ((bool)e.OldValue)
-            {
-                passwordBox.PasswordChanged -= PasswordChanged;
-            }
-
-            if ((bool)e.NewValue)
-            {
-                passwordBox.PasswordChanged += PasswordChanged;
-            }
-        }
-
-        private static void PasswordChanged(object sender, RoutedEventArgs e)
-        {
-            PasswordBox passwordBox = sender as PasswordBox;
-            SetIsUpdating(passwordBox, true);
-            SetPassword(passwordBox, passwordBox.Password);
-            SetIsUpdating(passwordBox, false);
+            if (sender is PasswordBox passwordBox)
+                Password = passwordBox.Password;
+            else
+                throw new CasingException(false, new InvalidOperationException(nameof(sender) + " is not " + nameof(PasswordBox)));
         }
     }
 }

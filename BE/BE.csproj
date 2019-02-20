@@ -68,13 +68,14 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatasourceChangedEventArgs.cs" />
     <Compile Include="Entities\Person.PersonName.cs" />
     <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Entities\Test.Criteria.cs" />
-    <Compile Include="Entities\TestDateTime.cs" />
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Constants\Configuration.cs" />
     <Compile Include="Constants\Enums.cs" />
+    <Compile Include="Entities\WorkingDateTime.cs" />
     <Compile Include="Exceptions\CasingException.cs" />
     <Compile Include="Exceptions\ExistingInTheDatabaseException.cs" />
     <Compile Include="IKey.cs" />

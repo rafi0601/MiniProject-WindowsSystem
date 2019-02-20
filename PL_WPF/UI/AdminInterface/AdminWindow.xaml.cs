@@ -23,11 +23,13 @@ namespace PL_WPF.UI.AdminInterface
     public partial class AdminWindow : Window
     {
         BL.IBL bl = BL.FactorySingleton.Instance;
+        bool toSort;
 
         public AdminWindow()
         {
             InitializeComponent();
-
+            ourGroup.DataContext = bl.TestersByExpertise(true);
+            
             //List<Tester> res = instance.Get_testers_list_grouping_by_CarType(false).SelectMany(item => item).ToList();
         }
 

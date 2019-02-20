@@ -28,6 +28,9 @@
             <Setter Property="Height" Value="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
             <Setter Property="Margin" Value="-6,0,0,0"/>
+
+            <EventSetter Event="ToolTipOpening" Handler="TabItem_ToolTipOpening"/>
+
             <!--<Setter Property="TextBlock.Foreground" Value="#FF08FF02"/>-->
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
@@ -49,6 +52,7 @@
                     <Setter Property="Background" Value="LightSkyBlue"/>
                 </MultiTrigger>
             </Style.Triggers>
+
         </Style>
 
         <Style x:Key="ComboBox_Style" TargetType="{x:Type ComboBox}">
@@ -128,21 +132,21 @@
             </Rectangle.Fill>
         </Rectangle>
         <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Global Sans Serif"/>
-       
+
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}" d:DataContext="{d:DesignInstance Type=BE:Trainee}">
 
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
-            
-            <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile">
+
+            <TabItem ToolTip="Update and remove your profile" IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile">
                 <Grid>
                     <WrapPanel Orientation="Vertical" >
                         <WrapPanel.Resources>
                             <Style x:Name="GridStyle" TargetType="{x:Type Grid}">
-                                
+
                             </Style>
                             <!--<StaticResource />-->
                         </WrapPanel.Resources>
-                        
+
                         <Label Content="Personal details" FontSize="25" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
 
                         <Label Content="    Name" FontSize="20" HorizontalAlignment="Left" Margin="3"  VerticalAlignment="Center"/>
@@ -312,36 +316,76 @@
                     </WrapPanel>
                 </Grid>
             </TabItem>
-            
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Add Test" >
 
-                <!--<TabItem.Header>-->
-                <!--<StackPanel Orientation="Horizontal">-->
+            <TabItem ToolTip="Order a test" Style="{DynamicResource Tab_Style}" Header="Add Test" >
+                <TabItem.Resources>
+                    <PL_WPF:VisibilitiesToVisibilityConverter x:Key="visibilitiesToVisibilityConverter"/>
+                </TabItem.Resources>
+                <StackPanel Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}">
+                    <!--<TabItem.Header>-->
+                    <!--<StackPanel Orientation="Horizontal">-->
 
-                <!--<materialDesign:PackIcon Kind="PlusCircle" Height="50" Width="40"/>-->
-                <!--<Label Content="Add Test"/>-->
-                <!--</StackPanel>-->
-                <!--</TabItem.Header>-->
-                <WrapPanel Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
-                    <Label x:Name="ChooseLabel" FontSize="25" Margin="160,0,0,0">Choose a date that's convenient for you</Label>
-                    <xctk:BusyIndicator Margin="0,0,-150,0" x:Name="busyIndicator" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed" Height="60" IsBusy="True" BusyContent="Please wait when we check your date"/>
-                    <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
-                    <Label Height="15"/>
-                    <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click_Async"/>
-                    <local:DetailsAboutMyTest x:Name="DetailsOfMyTest" Visibility="Collapsed"  Margin="160,0,0,0"/>
+                    <!--<materialDesign:PackIcon Kind="PlusCircle" Height="50" Width="40"/>-->
+                    <!--<Label Content="Add Test"/>-->
+                    <!--</StackPanel>-->
+                    <!--</TabItem.Header>-->
+                    <WrapPanel x:Name="choosingControls" Visibility="Visible" Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
+                        <!--<WrapPanel.Visibility>
+                            <MultiBinding Converter="{StaticResource visibilitiesToVisibilityConverter}">
+                                <Binding ElementName="suggestControls" Path="Visibility" Mode="OneWay"/>
+                                <Binding ElementName="detailsControls" Path="Visibilty" Mode="OneWay"/>
+                                <Binding ElementName="WaitingControls" Path="Visibility" Mode="OneWay"/>
+                            </MultiBinding>
+                        </WrapPanel.Visibility>-->
+                        <TextBlock x:Name="ChooseLabel" FontSize="25" Margin="160,0,0,0" Text="Choose a date that's convenient for you"/>
+                        <PL_WPF:DateTimePicker x:Name="dateTimePicker" HorizontalAlignment="Center" Margin="160,0,0,0" VerticalAlignment="Center" SelectionChanged="DateTimePicker_SelectionChanged" />
+                        <Label Height="15"/>
+                        <Button x:Name="CheckDateButton" Content="Check Date" FontSize="20" Width="150" Margin="160,0,0,0" IsEnabled="False" Click="CheckDateButton_Click_Async"/>
+                    </WrapPanel>
+
+                    <WrapPanel x:Name="suggestControls" Visibility="Collapsed" Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
+                        <!--<WrapPanel.Visibility>
+                            <MultiBinding Converter="{StaticResource visibilitiesToVisibilityConverter}">
+                                <Binding ElementName="choosingControls" Path="Visibility" Mode="OneWay"/>
+                                <Binding ElementName="detailsControls" Path="Visibilty" Mode="OneWay"/>
+                                <Binding ElementName="WaitingControls" Path="Visibility" Mode="OneWay"/>
+                            </MultiBinding>
+                        </WrapPanel.Visibility>-->
+                        <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" AcceptClick="SuggestAlternateDateOfTest_AcceptClick_Async" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
+                    </WrapPanel>
+
+                    <WrapPanel x:Name="detailsControls" Visibility="Collapsed" Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
+                        <!--<WrapPanel.Visibility>
+                            <MultiBinding Converter="{StaticResource visibilitiesToVisibilityConverter}">
+                                <Binding ElementName="choosingControls" Path="Visibility" Mode="OneWay"/>
+                                <Binding ElementName="suggestControls" Path="Visibilty" Mode="OneWay"/>
+                                <Binding ElementName="WaitingControls" Path="Visibility" Mode="OneWay"/>
+                            </MultiBinding>
+                        </WrapPanel.Visibility>-->
+                        <local:DetailsAboutMyTest x:Name="DetailsOfMyTest"  Margin="160,0,0,0"/>
+                    </WrapPanel>
+
+
+                    <WrapPanel x:Name="WaitingControls" Orientation="Vertical" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
+                        <WrapPanel.Visibility>
+                            <MultiBinding Converter="{StaticResource visibilitiesToVisibilityConverter}">
+                                <Binding ElementName="choosingControls" Path="Visibility" Mode="OneWay"/>
+                                <Binding ElementName="suggestControls" Path="Visibilty" Mode="OneWay"/>
+                                <Binding ElementName="detailsControls" Path="Visibility" Mode="OneWay"/>
+                            </MultiBinding>
+                        </WrapPanel.Visibility>
+                        <xctk:BusyIndicator Margin="0,0,-150,0" x:Name="busyIndicator" HorizontalAlignment="Center" VerticalAlignment="Center" Height="100" IsBusy="True" BusyContent="Please wait when we check your date"/>
+                    </WrapPanel>
+
                     <!--RefreshButtonClick="DetailsOfMyTest_RefreshButtonClick"-->
-                    <local:SuggestAlternateDate x:Name="SuggestAlternateDateOfTest" Visibility="Collapsed" AcceptClick="SuggestAlternateDateOfTest_AcceptClick_Async" CancelClick="SuggestAlternateDateOfTest_CancelClick"/>
                     <!--<WindowsFormHost/>-->
                     <!--<xctk:DateTimePicker x:Name="addTestDateTimePicker" TimePickerAllowSpin="False" TimePickerShowButtonSpinner="False" AutoCloseCalendar="False" ValueChanged="DateTimePicker_ValueChanged" ShowButtonSpinner="False"  IsOpen="True" AllowTextInput="False" Height="103" Width="730"/>-->
-
-
-                </WrapPanel>
-                <!--<xctk:DateTimePicker TimePickerAllowSpin="False" AllowSpin="False" TimePickerShowButtonSpinner="False" ShowButtonSpinner="False"  Format="FullDateTime"/>-->
-                <!--BUG minimun={Today}-->
-
+                    <!--<xctk:DateTimePicker TimePickerAllowSpin="False" AllowSpin="False" TimePickerShowButtonSpinner="False" ShowButtonSpinner="False"  Format="FullDateTime"/>-->
+                    <!--BUG minimun={Today}-->
+                </StackPanel>
             </TabItem>
-            
-            <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
+
+            <TabItem ToolTip="Your tests and your grades" Style="{DynamicResource Tab_Style}" Header="My Tests">
                 <WrapPanel Orientation="Vertical" Margin="160,0,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -414,8 +458,8 @@
                     <Grid colu/>
                 </WrapPanel>-->
             </TabItem>
-            
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Setting">
+
+            <TabItem ToolTip="Change your password" Style="{DynamicResource Tab_Style}" Header="Setting">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -429,9 +473,9 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Password update" Grid.Row="0" FontSize="25" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.4,0,3.2"  VerticalAlignment="Center" Width="213"/>
-                    <PasswordBox x:Name="passwordBoxNew" Grid.Row="1" PasswordChar="*" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
+                    <PasswordBox MaxLength="12" x:Name="passwordBoxNew" Grid.Row="1" PasswordChar="*" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
                     <Label Content="        Password:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                    <PasswordBox x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
+                    <PasswordBox MaxLength="12" x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
                     <Label Content="        Password verification:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
                     <Button Content="Update" FontSize="25" Click="UpdatePasswordButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Grid.Row="3"/>
                     <!--<xctk:SplitButton Grid.Row="4">
@@ -441,7 +485,7 @@
                     </xctk:SplitButton>-->
                 </Grid>
             </TabItem>
-        
+
         </TabControl>
     </Grid>
 </Window>

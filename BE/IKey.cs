@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BE
 {
     public interface IKey //IMPROVEMENT:ISerializable
-                          //TODO : IEqualityComparer<Person>,
+                          //TODO : IEquateable<IKey>,
     {
         string Key { get; }
         //T Key { get; }

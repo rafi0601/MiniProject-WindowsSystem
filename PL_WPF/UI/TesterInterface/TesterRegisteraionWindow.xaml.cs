@@ -36,6 +36,25 @@ namespace PL_WPF.UI.TesterInterface
             genderComboBox.ItemsSource = Enum.GetValues(typeof(Gender));
             vehicleTypeExpertiseListBox.ItemsSource = Functions.VehiclesToDisplayStrings();
 
+            for (DayOfWeek d = BEGINNING_OF_A_WORKING_WEEK; d <= END_OF_A_WORKING_WEEK; d++)
+            {
+                scheduleGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                Label dayLabel = new Label { Content = d.ToString().Substring(0, 3), HorizontalContentAlignment = HorizontalAlignment.Center };
+                Grid.SetColumn(dayLabel, d - BEGINNING_OF_A_WORKING_WEEK + 1);
+                Grid.SetRow(dayLabel, 0);
+                scheduleGrid.Children.Add(dayLabel);
+            }
+            scheduleGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            for (uint i = BEGINNING_OF_A_WORKING_DAY; i <= END_OF_A_WORKING_DAY; i++)
+            {
+                scheduleGrid.RowDefinitions.Add(new RowDefinition());
+                Label hourLabel = new Label { Content = i.ToString("00") + ":00" };
+                Grid.SetColumn(hourLabel, 0);
+                Grid.SetRow(hourLabel, (int)(i - BEGINNING_OF_A_WORKING_DAY + 1));
+                scheduleGrid.Children.Add(hourLabel);
+            }
+            scheduleGrid.RowDefinitions.Add(new RowDefinition());
+
             for (int i = 0; i < WORKING_DAYS_A_WEEK; i++)
             {
                 for (int j = 0; j < WORKING_HOURS_A_DAY; j++)

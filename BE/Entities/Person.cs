@@ -20,7 +20,7 @@ namespace BE
 
     [Serializable]
     [DebuggerDisplay("ID={ID}, Name={Name}")]
-    public abstract partial class Person : IKey //: DependencyObject    
+    public abstract partial class Person : IKey    
     {
         string IKey.Key => ID;
 

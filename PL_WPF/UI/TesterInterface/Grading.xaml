@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL_WPF.UI.TesterInterface"
+             xmlns:PL_WPF="clr-namespace:PL_WPF"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" >
     <UserControl.Resources>
@@ -13,6 +14,7 @@
             <Setter Property="FontSize" Value="20"/>
             <EventSetter Event="Click" Handler="CheckBox_Click"/>
         </Style>
+        <PL_WPF:ValuesToMax_MultiConverter x:Key="valuesToMax_MultiConverter"/>
     </UserControl.Resources>
     <ListBox>
         <CheckBox x:Name="KeepDistance" Content="Keep Distance"/>
@@ -21,7 +23,20 @@
         <CheckBox x:Name="Signaling" Content="Signaling"/>
         <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement"/>
         <CheckBox x:Name="ObeyParkSigns" Content="Obey Park Signs"/>
-        <xctk:WatermarkTextBox x:Name="Note" FontSize="20" Watermark="Notes" BorderBrush="{x:Null}" />
+        <xctk:WatermarkTextBox TextWrapping="Wrap" x:Name="Note" FontSize="20" Watermark="Notes" BorderBrush="{x:Null}">
+            <Control.Width>
+                <MultiBinding Converter="{StaticResource valuesToMax_MultiConverter}" Mode="OneWay">
+                    <MultiBinding.Bindings>
+                        <Binding ElementName="KeepDistance" Path="ActualWidth"/>
+                        <Binding ElementName="BackParking" Path="ActualWidth"/>
+                        <Binding ElementName="UsingViewMirrors" Path="ActualWidth"/>
+                        <Binding ElementName="Signaling" Path="ActualWidth"/>
+                        <Binding ElementName="IntegrationIntoMovement" Path="ActualWidth"/>
+                        <Binding ElementName="ObeyParkSigns" Path="ActualWidth"/>
+                    </MultiBinding.Bindings>
+                </MultiBinding>
+            </Control.Width>
+        </xctk:WatermarkTextBox>
         <CheckBox x:Name="IsPass" Content="Is Pass" IsThreeState="False"/>
         <Button x:Name="sendButton" Content="Send" HorizontalAlignment="Center" Margin="100,0,0,0" Click="Send_Button_Click"/>
     </ListBox>

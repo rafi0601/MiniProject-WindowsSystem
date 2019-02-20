@@ -243,5 +243,7 @@ namespace DAL
         /// Problems with the database.
         /// </exception>
         List<Test> GetTests(Predicate<Test> match = null);
+
+        //event EventHandler DSchanged;
     }
 }

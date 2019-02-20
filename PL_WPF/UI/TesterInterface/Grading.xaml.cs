@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BE;
+using static BE.Configuration;
 
 namespace PL_WPF.UI.TesterInterface
 {
@@ -56,5 +58,7 @@ namespace PL_WPF.UI.TesterInterface
         {
             // TODO update criteria
         }
+
+
     }
 }

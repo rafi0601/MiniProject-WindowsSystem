@@ -63,6 +63,10 @@
             </DataGrid.Columns>
             
         </DataGrid>
-        
+
+        <Label Height="25"/>
+
+        <TextBlock x:Name="timerTextBlock" Text="" FontSize="50" TextAlignment="Center" Foreground="DarkSlateBlue"/>
+
     </WrapPanel>
 </UserControl>

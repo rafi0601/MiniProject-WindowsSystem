@@ -1,7 +1,10 @@
-﻿using System;
+﻿using BE;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,9 +23,52 @@ namespace PL_WPF.UI.TraineeInterface
     /// </summary>
     public partial class DetailsAboutMyTest : UserControl
     {
+        protected BackgroundWorker timerWorker;
+        protected TimeSpan timeSpanToTheTest;
+
         public DetailsAboutMyTest()
         {
             InitializeComponent();
+            timerWorker = new BackgroundWorker();
+            timerWorker.WorkerReportsProgress = true;
+            timerWorker.WorkerSupportsCancellation = true;
+            timerWorker.DoWork += (sender, e) =>
+            {
+                BackgroundWorker backgroundWorker = sender as BackgroundWorker;
+                timeSpanToTheTest = ((TimeSpan)e.Argument).Duration(); // the duration is for debugging
+
+                TimeSpan aSecond = new TimeSpan(0, 0, 1);
+                while (timeSpanToTheTest.TotalSeconds > 0)
+                {
+                    backgroundWorker.ReportProgress(1);
+                    Thread.Sleep(1000);
+                    timeSpanToTheTest=timeSpanToTheTest.Subtract(aSecond);
+                }
+
+                e.Result = "Successfully!!!";
+            };
+            timerWorker.ProgressChanged += (sender, e) =>
+            {
+                //e.ProgressPercentage;
+                timerTextBlock.Text = string.Format(@"{0}.{1:hh\:mm\:ss}", timeSpanToTheTest.Days, timeSpanToTheTest);
+            };
+            timerWorker.RunWorkerCompleted += (sender, e) =>
+            {
+                if (e.Error != null)
+                    return; // TODO something
+                else
+                {
+                    timerTextBlock.Text = e.Result as string;
+                }
+            };
+
+            RefreshButtonClick += (sender, e) =>
+            {
+                if (!timerWorker.IsBusy&&MyTestDadaGrid.HasItems)
+                    timerWorker.RunWorkerAsync((MyTestDadaGrid.Items[0] as Test).Date - DateTime.Now);
+            };
+
+            //MyTestDadaGrid.di += (sender, e) => { e.}
         }
 
 

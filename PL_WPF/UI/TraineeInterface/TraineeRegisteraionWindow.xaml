@@ -148,7 +148,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <PasswordBox x:Name="passwordBoxNew" Grid.Row="1" PasswordChar="*" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
+                <PasswordBox MaxLength="12" x:Name="passwordBoxNew" Grid.Row="1" PasswordChar="*" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
                 <Label Content="        Password:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
             </Grid>
 
@@ -157,7 +157,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <PasswordBox x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
+                <PasswordBox  MaxLength="12" x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" VerticalAlignment="Center" Width="120" FontSize="18"/>
                 <Label Content="        Password verification:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center" FontSize="18"/>
             </Grid>
 

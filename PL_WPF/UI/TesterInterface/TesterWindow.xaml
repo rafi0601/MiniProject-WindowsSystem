@@ -27,6 +27,9 @@
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
             <Setter Property="Margin" Value="-6,0,0,0"/>
             <Setter Property="FontFamily" Value="Global Sans Serif" />
+
+            <EventSetter Event="ToolTipOpening" Handler="TabItem_ToolTipOpening"/>
+
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="TextBlock.Foreground" Value="Black"/>
@@ -133,7 +136,7 @@
         <Label x:Name="headlineLable" Grid.Row="0" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Microsoft YaHei UI" Grid.ColumnSpan="2" Margin="149,36,0,36"/>
         <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}" Grid.RowSpan="2" d:DataContext="{d:DesignInstance Type=BE:Tester}">
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
-            <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile" VerticalAlignment="Top">
+            <TabItem ToolTip="Update and remove your profile" IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Profile" VerticalAlignment="Top">
                 <Grid>
                     <WrapPanel Orientation="Vertical" >
                         <WrapPanel.Resources>
@@ -372,7 +375,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Style="{DynamicResource Tab_Style}" Header="My Tests">
+            <TabItem ToolTip="Your future tests &amp; Grading" Style="{DynamicResource Tab_Style}" Header="My Tests">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -473,7 +476,7 @@
 
                 </WrapPanel>
             </TabItem>-->
-            <TabItem Style="{DynamicResource Tab_Style}" Header="Setting">
+            <TabItem ToolTip="Change your password" Style="{DynamicResource Tab_Style}" Header="Setting">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -487,9 +490,9 @@
                     </Grid.RowDefinitions>
 
                     <Label Content="Password update" Grid.Row="0" FontSize="25" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.4,0,3.2"  VerticalAlignment="Center" Width="213"/>
-                    <PasswordBox x:Name="passwordBoxNew" Grid.Row="1" PasswordChar="*" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
+                    <PasswordBox MaxLength="12" x:Name="passwordBoxNew" Grid.Row="1" PasswordChar="*" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
                     <Label Content="        Password:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
-                    <PasswordBox x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
+                    <PasswordBox MaxLength="12" x:Name="passwordBoxAuthentication" Grid.Row="2" PasswordChar="*"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3"  VerticalAlignment="Center" Width="120"/>
                     <Label Content="        Password verification:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="3" VerticalAlignment="Center"/>
                     <Button Content="Update" FontSize="25" Click="UpdatePasswordButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center" Grid.Row="3"/>
                     <!--<xctk:SplitButton Grid.Row="4">
