@@ -98,11 +98,11 @@ namespace BE
 
             List<char> digits = person.MobileNumber.ToList();
             digits.RemoveAll(d => d == '-');
-            person.MobileNumber = new string(digits.ToArray());
+            string mobileNumber = new string(digits.ToArray());
 
-            if (!(ulong.TryParse(person.MobileNumber, out ulong tmp) &&
-                person.MobileNumber.Length == 10 && person.MobileNumber.StartsWith("05") ||
-                person.MobileNumber.Length == 13 && person.MobileNumber.StartsWith("+9725")))
+            if (!(ulong.TryParse(mobileNumber, out ulong tmp) &&
+                mobileNumber.Length == 10 && mobileNumber.StartsWith("05") ||
+                mobileNumber.Length == 13 && mobileNumber.StartsWith("+9725")))
                 throw new ArgumentException("The mobile number is not valid");
             #endregion
 

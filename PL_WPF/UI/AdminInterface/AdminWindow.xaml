@@ -138,11 +138,11 @@
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
 
             <TabItem IsSelected="True" Style="{DynamicResource Tab_Style}" Header="Testers">
-                <WrapPanel Orientation="Vertical">
+                <DockPanel LastChildFill="True">
 
-                    <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
+                    <Label DockPanel.Dock="Top" Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
 
-                    <ListBox x:Name="Testers_ListBox" HorizontalAlignment="Center" SelectionChanged="Testers_ListBox_SelectionChanged">
+                    <ListBox DockPanel.Dock="Top" x:Name="Testers_ListBox" HorizontalAlignment="Center" SelectionChanged="Testers_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
@@ -153,7 +153,7 @@
                         <ListBoxItem FontSize="25">Gender</ListBoxItem>
                     </ListBox>
 
-                    <ListView Margin="10" Name="Testers_ListView">
+                    <ListView DockPanel.Dock="Top" Margin="10" Name="Testers_ListView">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" Width="120" DisplayMemberBinding="{Binding ID}" />
@@ -180,15 +180,15 @@
                             </GroupStyle>
                         </ListView.GroupStyle>
                     </ListView>
-                </WrapPanel>
+                </DockPanel>
             </TabItem>
 
             <TabItem Style="{DynamicResource Tab_Style}" Header="Trainees" >
-                <WrapPanel Orientation="Vertical">
+                <DockPanel LastChildFill="True" >
 
-                    <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
+                    <Label DockPanel.Dock="Top" Content="Gruping by" FontSize="35" HorizontalAlignment="Center"/>
 
-                    <ListBox x:Name="Trainees_ListBox" HorizontalAlignment="Center" SelectionChanged="Trainees_ListBox_SelectionChanged">
+                    <ListBox DockPanel.Dock="Top" x:Name="Trainees_ListBox" HorizontalAlignment="Center" SelectionChanged="Trainees_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
@@ -201,7 +201,7 @@
                         <ListBoxItem FontSize="25">Gender</ListBoxItem>
                     </ListBox>
 
-                    <ListView Margin="10" Name="Trainees_ListView">
+                    <ListView DockPanel.Dock="Top" Margin="10" Name="Trainees_ListView">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}"/>
@@ -229,15 +229,15 @@
                             </GroupStyle>
                         </ListView.GroupStyle>
                     </ListView>
-                </WrapPanel>
+                </DockPanel>
             </TabItem>
 
             <TabItem Style="{DynamicResource Tab_Style}" Header="Tests">
-                <WrapPanel Orientation="Vertical">
+                <DockPanel LastChildFill="True">
 
-                    <Label Content="Gruping by" FontSize="35" HorizontalAlignment="Center" Margin="160,0,0,0"/>
+                    <Label DockPanel.Dock="Top" Content="Gruping by" FontSize="35" HorizontalAlignment="Center" Margin="160,0,0,0"/>
 
-                    <ListBox x:Name="Tests_ListBox" HorizontalAlignment="Center" SelectionChanged="Tests_ListBox_SelectionChanged">
+                    <ListBox DockPanel.Dock="Top" x:Name="Tests_ListBox" HorizontalAlignment="Center" SelectionChanged="Tests_ListBox_SelectionChanged">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel Orientation="Horizontal" IsItemsHost="True"/>
@@ -246,7 +246,7 @@
                         <ListBoxItem FontSize="25" Margin="95,0,0,0" Selected="ListBoxItem_Selected">Vehicle</ListBoxItem>
                     </ListBox>
 
-                    <ListView Name="Tests_ListView" Margin="160,0,0,0">
+                    <ListView DockPanel.Dock="Top" Name="Tests_ListView" Margin="160,0,0,0">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Code" DisplayMemberBinding="{Binding Code}"/>
@@ -269,7 +269,7 @@
                         </ListView.GroupStyle>
 
                     </ListView>
-                </WrapPanel>
+                </DockPanel>
 
             </TabItem>
 
@@ -280,33 +280,40 @@
 
                 <DockPanel LastChildFill="True" Height="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualHeight}" Width="{Binding ElementName=MainGrid_Col1Row1 , Path=ActualWidth}" >
                     <!--Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Path=ActualHeight}" Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=TabItem}, Path=Width}"-->
-                    <Menu DockPanel.Dock="Top" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="300">
-                        <Menu.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </Menu.ItemsPanel>
-                        <Menu.Resources>
-                            <Style x:Key="finalMenu" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-                                <Setter Property="ContextMenu">
-                                    <Setter.Value>
-                                        <ContextMenu>
-                                            <CheckBox ClickMode="Release" Content="To sort?" IsChecked="{Binding toSort, Mode=OneWayToSource}"/>
-                                        </ContextMenu>
-                                    </Setter.Value>
-                                </Setter>
-                                <EventSetter Event="Click" Handler="ListBoxItem_Selected"/>
-                            </Style>
-                        </Menu.Resources>
-                        <MenuItem Header="Testeres">
-                            <MenuItem Header="Expertise" Style="{StaticResource finalMenu}"/>
-                        </MenuItem>
-                        <MenuItem Header="Trainees">
-                            <MenuItem Header="Teacher" Style="{StaticResource finalMenu}"/>
-                            <MenuItem Header="Lessons" Style="{StaticResource finalMenu}"/>
-                        </MenuItem>
-                        <MenuItem Header="Tests"/>
-                    </Menu>
+                    <StackPanel Background="{Binding ElementName=menu, Path=Background}" HorizontalAlignment="Center"  Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Menu Name="menu" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="300">
+                            <Menu.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </Menu.ItemsPanel>
+                            <Menu.Resources>
+                                <Style x:Key="finalMenu" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                                    <Setter Property="ContextMenu">
+                                        <Setter.Value>
+                                            <ContextMenu>
+                                                <CheckBox ClickMode="Release" Content="To sort?" IsChecked="{Binding ToSort, Mode=OneWayToSource}"/>
+                                            </ContextMenu>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <EventSetter Event="Click" Handler="ListBoxItem_Selected"/>
+                                </Style>
+                            </Menu.Resources>
+                            <MenuItem Header="Testeres">
+                                <MenuItem Header="Expertise" Style="{StaticResource finalMenu}"/>
+                            </MenuItem>
+                            <MenuItem Header="Trainees">
+                                <MenuItem Header="Teacher" Style="{StaticResource finalMenu}"/>
+                                <MenuItem Header="Lessons" Style="{StaticResource finalMenu}"/>
+                            </MenuItem>
+                            <MenuItem Header="Tests"/>
+                        </Menu>
+                        <TextBlock Text="          ToSort?    " VerticalAlignment="Center"/>
+                        <ToggleButton x:Name="toSortToggleButton" Style="{StaticResource MaterialDesignActionToggleButton}" IsChecked="{Binding ToSort, Mode=OneWayToSource}" >
+                            <materialDesign:PackIcon Kind="Close" />
+                        </ToggleButton>
+
+                    </StackPanel>
 
                     <ItemsControl ItemsSource="{Binding}" d:DataContext="{d:DesignInstance Type=BE:Tester}" >
                         <ItemsControl.ItemsPanel>
@@ -343,6 +350,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
                     <!--<ListBox>
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>

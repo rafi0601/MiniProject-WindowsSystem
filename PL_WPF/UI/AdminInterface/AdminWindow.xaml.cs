@@ -3,11 +3,13 @@
 using BE;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,12 +25,14 @@ namespace PL_WPF.UI.AdminInterface
     public partial class AdminWindow : Window
     {
         BL.IBL bl = BL.FactorySingleton.Instance;
-        bool toSort;
+        protected bool ToSort { get; set; }
 
         public AdminWindow()
         {
             InitializeComponent();
+            //new ObservableCollection<Tester>()
             ourGroup.DataContext = bl.TestersByExpertise(true);
+            toSortToggleButton.DataContext = this;
             
             //List<Tester> res = instance.Get_testers_list_grouping_by_CarType(false).SelectMany(item => item).ToList();
         }

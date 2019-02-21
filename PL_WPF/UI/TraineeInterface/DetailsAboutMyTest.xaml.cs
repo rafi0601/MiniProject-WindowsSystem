@@ -42,7 +42,7 @@ namespace PL_WPF.UI.TraineeInterface
                 {
                     backgroundWorker.ReportProgress(1);
                     Thread.Sleep(1000);
-                    timeSpanToTheTest=timeSpanToTheTest.Subtract(aSecond);
+                    timeSpanToTheTest = timeSpanToTheTest.Subtract(aSecond);
                 }
 
                 e.Result = "Successfully!!!";
@@ -64,11 +64,12 @@ namespace PL_WPF.UI.TraineeInterface
 
             RefreshButtonClick += (sender, e) =>
             {
-                if (!timerWorker.IsBusy&&MyTestDadaGrid.HasItems)
+                if (!timerWorker.IsBusy && MyTestDadaGrid.HasItems)
                     timerWorker.RunWorkerAsync((MyTestDadaGrid.Items[0] as Test).Date - DateTime.Now);
             };
 
-            //MyTestDadaGrid.di += (sender, e) => { e.}
+            //MyTestDadaGrid.AddingNewItem += (sender, e) => { e.}
+            //BUG not change after failed
         }
 
 

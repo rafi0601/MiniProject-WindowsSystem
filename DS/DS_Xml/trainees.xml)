@@ -150,4 +150,29 @@
     <NumberOfDoneLessons>205</NumberOfDoneLessons>
     <TheLastTest>2019-03-03T13:00:00</TheLastTest>
   </Trainee>
+  <Trainee>
+    <ID>322680042</ID>
+    <Name>
+      <LastName>aaa</LastName>
+      <FirstName>aaa</FirstName>
+    </Name>
+    <Birthdate>1970-01-01T00:00:00</Birthdate>
+    <Gender>male</Gender>
+    <MobileNumber>058-550-9050</MobileNumber>
+    <Address>
+      <Street>Jafo</Street>
+      <HouseNumber>10</HouseNumber>
+      <City>Jerusalem</City>
+    </Address>
+    <Password>1</Password>
+    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
+    <GearboxTypeTraining>automatic</GearboxTypeTraining>
+    <DrivingSchool>a</DrivingSchool>
+    <TeacherName>
+      <LastName>a</LastName>
+      <FirstName>a</FirstName>
+    </TeacherName>
+    <NumberOfDoneLessons>3</NumberOfDoneLessons>
+    <TheLastTest>0001-01-01T00:00:00</TheLastTest>
+  </Trainee>
 </trainees>

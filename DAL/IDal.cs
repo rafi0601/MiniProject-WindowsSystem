@@ -244,6 +244,11 @@ namespace DAL
         /// </exception>
         List<Test> GetTests(Predicate<Test> match = null);
 
-        //event EventHandler DSchanged;
+
+        //event EventHandler<DatasourceChangedEventArgs> DataSourceChanged;
+
+        //event EventHandler<DatasourceChangedEventArgs> ItemAdded;
+        //event EventHandler<DatasourceChangedEventArgs> ItemUpdated;
+        //event EventHandler<DatasourceChangedEventArgs> ItemRemoved;
     }
 }

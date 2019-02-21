@@ -26,7 +26,6 @@ namespace PL_WPF.UI.TesterInterface
         public Grading() // TODO (Criteria ctiteria)
         {
             InitializeComponent();
-            //Note.Width=this.child.max
         }
 
 
