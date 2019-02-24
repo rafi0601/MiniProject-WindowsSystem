@@ -26,7 +26,7 @@ namespace BE
         {
             StringBuilder str = new StringBuilder();
             foreach (PropertyInfo property in t.GetType().GetProperties(BindingFlags.Public))
-                str.Append(property.Name + ": " + property.GetValue(t, null) + "\n"); //BUG if property is indexer
+                str.Append(property.Name + ": " + property.GetValue(t, null) + "\n"); //CHECK if work when property is indexer
             return str.ToString();
         }
 
@@ -34,11 +34,17 @@ namespace BE
 
         #region Flags
 
-        public static T AddFlag<T>(this Enum type, T value) => (T)(object)((uint)(object)type | (uint)(object)value);
+        public static T AddFlag<T>(this Enum type, T value)
+            => (T)(object)((uint)(object)type | (uint)(object)value);
 
-        public static T RemoveFlag<T>(this Enum type, T value) => (T)(object)((uint)(object)type & ~(uint)(object)value);
+        public static T RemoveFlag<T>(this Enum type, T value)
+            => (T)(object)((uint)(object)type & ~(uint)(object)value);
 
-        public static bool IsFlag(this Enum type) => Convert.ToString((uint)(object)type, 2).Count(bit => bit == '1') == 1;
+        public static bool IsFlag(this Enum type)
+            => Convert.ToString((uint)(object)type, 2).Count(bit => bit == '1') == 1;
+
+        //public static bool IsFlag<T>(this T type) where T : struct, Enum
+        //    => Convert.ToString((uint)(object)type, 2).Count(bit => bit == '1') == 1;
 
         #endregion
 

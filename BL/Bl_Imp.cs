@@ -251,8 +251,8 @@ namespace BL
             if (!ExistingTraineeById(trainee.ID))
                 throw new CasingException(true, new ArgumentException("This Trainee doesn't exist in the database"));
 
-            if (trainee.NumberOfDoneLessons < MIN_LESSONS)
-                throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS + " lessons"));
+            if (trainee.NumberOfDoneLessons < MIN_LESSONS_TO_ORDER_TEST)
+                throw new CasingException(true, new ArgumentException("It is illegal to access to test if you did less than " + MIN_LESSONS_TO_ORDER_TEST + " lessons"));
 
             if (!vehicle.IsFlag())
                 throw new CasingException(false, new Exception("Test can be only on one vehicle."));
@@ -407,7 +407,7 @@ namespace BL
             //        ).ToList();
 
             return Grouping(dal.GetTrainees(), trainee => trainee.DrivingSchool,
-                toSort?(Func<Trainee,Person.PersonName>)(trainee=>trainee.TeacherName):null).ToList();
+                toSort ? (Func<Trainee, Person.PersonName>)(trainee => trainee.TeacherName) : null).ToList();
         }
 
         public List<IGrouping<Person.PersonName, Trainee>> TraineesByTeacher(bool toSort = false)
@@ -427,7 +427,7 @@ namespace BL
             //return groups.ToList();
 
             return Grouping(dal.GetTrainees(), trainee => trainee.TeacherName,
-                toSort ? (Func<Trainee,Person.PersonName>)(trainee => trainee.Name) : null).ToList();
+                toSort ? (Func<Trainee, Person.PersonName>)(trainee => trainee.Name) : null).ToList();
         }
 
         public List<IGrouping<uint, Trainee>> TraineesByNumberOfTests(bool toSort = false)
@@ -456,7 +456,7 @@ namespace BL
         {
             if (groupBy == null)
                 throw new ArgumentNullException(nameof(groupBy));
-            
+
             return sortBy != null ? from element in elements
                                     orderby sortBy(element), element.Key
                                     group element by groupBy(element) into @group
@@ -582,7 +582,7 @@ namespace BL
                 }
 
                 dateTime = dateTime.AddHours(-WORKING_HOURS_A_DAY);
-                dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Thursday ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
+                dateTime = dateTime.AddDays(dateTime.DayOfWeek != END_OF_A_WORKING_WEEK ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
             }
 
             return null;

@@ -63,7 +63,7 @@ namespace BE
             else if (testDateTime.DateAndTime.DayOfWeek < END_OF_A_WORKING_WEEK)
                 dateTime = testDateTime.DateAndTime;
             else dateTime = new DateTime();
-            dateTime = dateTime.AddDays(dateTime.DayOfWeek != DayOfWeek.Thursday ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
+            dateTime = dateTime.AddDays(dateTime.DayOfWeek != END_OF_A_WORKING_WEEK ? 1 : 7 - WORKING_DAYS_A_WEEK + 1);
             testDateTime.DateAndTime = testDateTime.DateAndTime.AddHours(-WORKING_HOURS_A_DAY);
             return (WorkingDateTime)dateTime;
 

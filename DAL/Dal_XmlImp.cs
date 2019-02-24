@@ -23,7 +23,7 @@ namespace DAL
 
         #region Bundles
 
-        private protected struct HelpreBundle
+        private protected struct HelperBundle
         {
             private XElement root; public XElement Root
             {
@@ -43,7 +43,7 @@ namespace DAL
                     Root.Save(FilePath);
             }
 
-            public HelpreBundle(XElement root, string folderPath, bool byLinqToXml) : this() // CHECK need input check for path?
+            public HelperBundle(XElement root, string folderPath, bool byLinqToXml) : this() // CHECK need input check for path?
             {
                 Root = root;
                 Root.Changed += Root_Changed;
@@ -69,10 +69,10 @@ namespace DAL
             }
         }
 
-        private HelpreBundle tests = new HelpreBundle(new XElement(nameof(tests)), filesPath, false);
-        private HelpreBundle testers = new HelpreBundle(new XElement(nameof(testers)), filesPath, false);
-        private HelpreBundle trainees = new HelpreBundle(new XElement(nameof(trainees)), filesPath, true);
-        private HelpreBundle configs = new HelpreBundle(new XElement(nameof(configs)), filesPath, true);
+        private HelperBundle tests = new HelperBundle(new XElement(nameof(tests)), filesPath, false);
+        private HelperBundle testers = new HelperBundle(new XElement(nameof(testers)), filesPath, false);
+        private HelperBundle trainees = new HelperBundle(new XElement(nameof(trainees)), filesPath, true);
+        private HelperBundle configs = new HelperBundle(new XElement(nameof(configs)), filesPath, true);
 
         private static readonly string filesPath = Path.Combine(Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).FullName).FullName).FullName, nameof(DS), $"{nameof(DS)}_Xml");
 
