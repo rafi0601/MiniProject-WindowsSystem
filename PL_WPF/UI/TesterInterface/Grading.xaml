@@ -17,12 +17,12 @@
         <PL_WPF:ValuesToMax_MultiConverter x:Key="valuesToMax_MultiConverter"/>
     </UserControl.Resources>
     <ListBox>
-        <CheckBox x:Name="KeepDistance" Content="Keep Distance"/>
-        <CheckBox x:Name="BackParking" Content="Back Parking"/>
-        <CheckBox x:Name="UsingViewMirrors" Content="Using View Mirrors"/>
+        <CheckBox x:Name="KeepDistance" Content="Keep distance"/>
+        <CheckBox x:Name="BackParking" Content="Back parking"/>
+        <CheckBox x:Name="UsingViewMirrors" Content="Using view mirrors"/>
         <CheckBox x:Name="Signaling" Content="Signaling"/>
-        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration Into Movement"/>
-        <CheckBox x:Name="ObeyParkSigns" Content="Obey Park Signs"/>
+        <CheckBox x:Name="IntegrationIntoMovement" Content="Integration into traffic"/>
+        <CheckBox x:Name="ObeyParkSigns" Content="Obey park signs"/>
         <xctk:WatermarkTextBox TextWrapping="Wrap" x:Name="Note" FontSize="20" Watermark="Notes" BorderBrush="{x:Null}">
             <Control.Width>
                 <MultiBinding Converter="{StaticResource valuesToMax_MultiConverter}" Mode="OneWay">

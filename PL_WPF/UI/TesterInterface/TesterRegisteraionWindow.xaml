@@ -15,7 +15,7 @@
 
     <Window.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="FontFamily" Value="Global Sans Serif" />
+            <Setter Property="FontFamily" Value="{StaticResource fontFamily}" />
         </Style>
 
         <Style x:Key="ComboBox_Style" TargetType="ComboBox">

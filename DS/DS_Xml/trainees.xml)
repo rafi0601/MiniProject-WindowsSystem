@@ -175,4 +175,29 @@
     <NumberOfDoneLessons>3</NumberOfDoneLessons>
     <TheLastTest>0001-01-01T00:00:00</TheLastTest>
   </Trainee>
+  <Trainee>
+    <ID>322680034</ID>
+    <Name>
+      <LastName>qqq</LastName>
+      <FirstName>qqq</FirstName>
+    </Name>
+    <Birthdate>1970-01-01T00:00:00</Birthdate>
+    <Gender>male</Gender>
+    <MobileNumber>058-000-0000</MobileNumber>
+    <Address>
+      <Street>Kissufim</Street>
+      <HouseNumber>2</HouseNumber>
+      <City>Jerusalem</City>
+    </Address>
+    <Password>1</Password>
+    <VehicleTypeTraining>privateCar</VehicleTypeTraining>
+    <GearboxTypeTraining>automatic</GearboxTypeTraining>
+    <DrivingSchool>qqq</DrivingSchool>
+    <TeacherName>
+      <LastName>qqq</LastName>
+      <FirstName>qqq</FirstName>
+    </TeacherName>
+    <NumberOfDoneLessons>24</NumberOfDoneLessons>
+    <TheLastTest>2019-03-17T10:00:00</TheLastTest>
+  </Trainee>
 </trainees>

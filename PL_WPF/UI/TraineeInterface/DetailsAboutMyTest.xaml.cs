@@ -25,6 +25,8 @@ namespace PL_WPF.UI.TraineeInterface
     {
         protected BackgroundWorker timerWorker;
         protected TimeSpan timeSpanToTheTest;
+        private readonly TimeSpan aSecond = new TimeSpan(0, 0, 1);
+
 
         public DetailsAboutMyTest()
         {
@@ -37,7 +39,6 @@ namespace PL_WPF.UI.TraineeInterface
                 BackgroundWorker backgroundWorker = sender as BackgroundWorker;
                 timeSpanToTheTest = ((TimeSpan)e.Argument).Duration(); // the duration is for debugging
 
-                TimeSpan aSecond = new TimeSpan(0, 0, 1);
                 while (timeSpanToTheTest.TotalSeconds > 0)
                 {
                     backgroundWorker.ReportProgress(1);
@@ -64,6 +65,8 @@ namespace PL_WPF.UI.TraineeInterface
 
             RefreshButtonClick += (sender, e) =>
             {
+                if (timerWorker.IsBusy && !MyTestDadaGrid.HasItems && timerWorker.WorkerSupportsCancellation)
+                    timerWorker.CancelAsync();
                 if (!timerWorker.IsBusy && MyTestDadaGrid.HasItems)
                     timerWorker.RunWorkerAsync((MyTestDadaGrid.Items[0] as Test).Date - DateTime.Now);
             };

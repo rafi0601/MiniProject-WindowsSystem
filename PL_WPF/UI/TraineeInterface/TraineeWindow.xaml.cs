@@ -73,7 +73,6 @@ namespace PL_WPF.UI.TraineeInterface
                     vehicleListBox.Items.Add(new ListBoxItem() { Content = Tools.GetUserDisplayAttribute(vehicle)?.DisplayName ?? vehicle.ToString() });
 
 
-
             DadaGridOfDoneTests.SelectedItem = bl.GetTests(t => t.TraineeID == trainee.ID && t.IsPass != null);
 
             if (bl.GetTests(t => t.TraineeID == trainee.ID).Any())
@@ -268,7 +267,7 @@ namespace PL_WPF.UI.TraineeInterface
             }
             else
             {
-                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = testsOfTheTrainee.FindAll(test => test.Vehicle == trainee.VehicleTypeTraining && test.IsPass == null);
+                DetailsOfMyTest.MyTestDadaGrid.ItemsSource = testsOfTheTrainee.FindAll(test => test.Vehicle == trainee.VehicleTypeTraining && test.IsPass == null); //IMPROVEMENT change findall to find
             }
         }
 
@@ -281,7 +280,7 @@ namespace PL_WPF.UI.TraineeInterface
             Grading.Note.IsEnabled = Grading.BackParking.IsEnabled = Grading.IntegrationIntoMovement.IsEnabled = Grading.IsPass.IsEnabled = Grading.KeepDistance.IsEnabled = Grading.ObeyParkSigns.IsEnabled = Grading.Signaling.IsEnabled = Grading.UsingViewMirrors.IsEnabled = false;
 
             Grading.BackParking.IsChecked = test.CriteriasGrades.BackParking;
-            Grading.IntegrationIntoMovement.IsChecked = test.CriteriasGrades.IntegrationIntoMovement;
+            Grading.IntegrationIntoMovement.IsChecked = test.CriteriasGrades.IntegrationIntoTraffic;
             Grading.IsPass.IsChecked = test.IsPass;
             Grading.KeepDistance.IsChecked = test.CriteriasGrades.KeepDistance;
             Grading.Note.Text = test.TesterNotes;

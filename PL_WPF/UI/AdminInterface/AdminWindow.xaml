@@ -164,8 +164,8 @@
                                 <GridViewColumn Header="Mobile Number" DisplayMemberBinding="{Binding MobileNumber}"/>
                                 <GridViewColumn Header="Address" DisplayMemberBinding="{Binding Address}" />
                                 <GridViewColumn Header="Years of experience" DisplayMemberBinding="{Binding YearsOfExperience}" />
-                                <GridViewColumn Header="Max of tests per week" DisplayMemberBinding="{Binding Address}" />
-                                <GridViewColumn Header="Vehicle type expertise" DisplayMemberBinding="{Binding VehicleTypeExpertise}" />
+                                <GridViewColumn Header="Max of tests per week" DisplayMemberBinding="{Binding MaxOfTestsPerWeek}" />
+                                <GridViewColumn Header="Vehicle types expertise" DisplayMemberBinding="{Binding VehicleTypesExpertise}" />
                                 <GridViewColumn Header="Max distance from address" DisplayMemberBinding="{Binding MaxDistanceFromAddress}" />
                             </GridView>
                         </ListView.View>

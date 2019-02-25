@@ -25,8 +25,8 @@ namespace BE
             [UserDisplay("Signaling")]
             public bool? Signaling { get; set; }
 
-            [UserDisplay("Integration into movement")]
-            public bool? IntegrationIntoMovement { get; set; }
+            [UserDisplay("Integration into traffic")]
+            public bool? IntegrationIntoTraffic { get; set; }
 
             [UserDisplay("Obey park signs")]
             public bool? ObeyParkSigns { get; set; }
@@ -56,13 +56,13 @@ namespace BE
 
             public Criteria() { }
 
-            public Criteria(bool? keepDistance, bool? backParking, bool? usingViewMirrors, bool? signaling, bool? integrationIntoMovement, bool? obeyParkSigns)
+            public Criteria(bool? keepDistance, bool? backParking, bool? usingViewMirrors, bool? signaling, bool? integrationIntoTraffic, bool? obeyParkSigns)
             {
                 KeepDistance = keepDistance;
                 BackParking = backParking;
                 UsingViewMirrors = usingViewMirrors;
                 Signaling = signaling;
-                IntegrationIntoMovement = integrationIntoMovement;
+                IntegrationIntoTraffic = integrationIntoTraffic;
                 ObeyParkSigns = obeyParkSigns;
             }
         }

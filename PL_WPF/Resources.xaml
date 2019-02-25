@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:PL_WPF">
 
-    <Style x:Key="WindowsStyle" TargetType="{x:Type Window}"> <!--The implicit style didnt work so wo use explicit-->
+    <Style x:Key="WindowsStyle" TargetType="{x:Type Window}"> <!--An implicit style doesnt work because each window derihed from window work so wo use explicit-->
         <Setter Property="Title" Value="The Tests System"/>
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
         <Setter Property="MinWidth" Value="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}"/>
@@ -11,15 +11,18 @@
         <!--<Setter Property="WindowStartupLocation" Value="CenterScreen"/>-->
     </Style>
     <WindowStartupLocation x:Key="WSL">CenterScreen</WindowStartupLocation>
-    <!--<Style TargetType="{x:Type Window}">
-        --><!--The implicit style didnt work so wo use explicit--><!--
-        <Setter Property="Title" Value="The Tests System"/>
-        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
-        <Setter Property="MinWidth" Value="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}"/>
-        <Setter Property="MinHeight" Value="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" />
-        <Setter Property="Icon" Value="/Accessories/Images/logo3.png"/>
-        --><!--<Setter Property="WindowStartupLocation" Value="CenterScreen"/>--><!--
-    </Style>-->
+
     
+    <ControlTemplate x:Key="RoundButton" TargetType="Button">
+        <Border CornerRadius="20" Background="{TemplateBinding Background}" BorderThickness="1">
+            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+    </ControlTemplate>
+
+
+    <Style x:Key="DataGridTextColumnHeader_Style" TargetType="{x:Type DataGridRowHeader}">
+        <Setter Property="FontSize" Value="36"/>
+    </Style>
     
+    <FontFamily x:Key="fontFamily">Global Sans Serif</FontFamily>
 </ResourceDictionary>

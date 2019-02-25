@@ -6,24 +6,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL_WPF.UI.TraineeInterface"
-    xmlns:BE="clr-namespace:BE;assembly=BE"
+        xmlns:BE="clr-namespace:BE;assembly=BE"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:PL_WPF="clr-namespace:PL_WPF"
-    xmlns:local1="clr-namespace:PL_WPF.UI.TesterInterface" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
+        xmlns:local1="clr-namespace:PL_WPF.UI.TesterInterface" x:Class="PL_WPF.UI.TraineeInterface.TraineeWindow"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Title="The Tests System" ResizeMode="CanResizeWithGrip" Width="1000" Height="640" MinWidth="{Binding Width, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" MinHeight="{Binding Height, Mode=OneTime, RelativeSource={RelativeSource Mode=Self}}" Icon="/Accessories/Images/logo3.png">
+        WindowStartupLocation="CenterScreen" Height="640" Width="1000"
+        Style="{StaticResource WindowsStyle}">
 
     <Window.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-            <Setter Property="FontFamily" Value="Global Sans Serif" />
+            <Setter Property="FontFamily" Value="{StaticResource fontFamily}" />
         </Style>
 
         <Style x:Key="Tab_Style" TargetType="{x:Type TabItem}">
             <Setter Property="Background" Value="{x:Null}"/>
             <Setter Property="TextBlock.FontSize" Value="18"/>
             <Setter Property="BorderBrush" Value="Beige"/>
-            <Setter Property="FontFamily" Value="Global Sans Serif" />
+            <Setter Property="FontFamily" Value="{StaticResource fontFamily}" />
 
             <Setter Property="Height" Value="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
             <Setter Property="Width" Value="{Binding Width, ElementName=MenuGrid}"/>
@@ -31,7 +32,6 @@
 
             <EventSetter Event="ToolTipOpening" Handler="TabItem_ToolTipOpening"/>
 
-            <!--<Setter Property="TextBlock.Foreground" Value="#FF08FF02"/>-->
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="TextBlock.Foreground" Value="Black"/>
@@ -131,9 +131,9 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="Global Sans Serif"/>
+        <Label x:Name="headlineLable" Grid.Row="0" Grid.Column="1" Content="{Binding SelectedItem.Header, ElementName=menuTabControl}" FontSize="37" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="Beige" FontFamily="{StaticResource fontFamily}"/>
 
-        <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding Width, ElementName=TheMainGrid}" d:DataContext="{d:DesignInstance Type=BE:Trainee}">
+        <TabControl x:Name="menuTabControl" Grid.Row="1"  Grid.Column="0" BorderBrush="{x:Null}" TabStripPlacement="left" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Grid.ColumnSpan="2" Width="{Binding ActualWidth, ElementName=MainGrid}" Height="{Binding ActualHeight, ElementName=MainGrid_Row1}" d:DataContext="{d:DesignInstance Type=BE:Trainee}">
 
             <TabItem Visibility="Hidden" Width="{Binding ActualWidth, ElementName=MenuGrid}" Height="{Binding ActualHeight, ElementName=MenuGrid_Row1}"/>
 
@@ -307,11 +307,11 @@
 
                         <Label Content="Account Update" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
 
-                        <Button Content="Update" FontSize="25" Click="UpdateButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="40" VerticalAlignment="Center"/>
+                        <Button Content="Update" FontSize="22" Click="UpdateButtonClick" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="45" Width="140" VerticalAlignment="Center" Template="{StaticResource RoundButton}"/>
 
                         <Label Content="Remove Account" FontSize="25" HorizontalAlignment="Center" Margin="3" VerticalAlignment="Center"/>
 
-                        <Button Content="Remove" Background="Red" FontSize="25" Click="RemoveButtonClick" HorizontalAlignment="Center" Height="45" VerticalAlignment="Top" Width="132"/>
+                        <Button Content="Remove" Background="Red" FontSize="22" Click="RemoveButtonClick" HorizontalAlignment="Center" Height="45" Width="140" VerticalAlignment="Top" Template="{StaticResource RoundButton}"/>
 
                     </WrapPanel>
                 </Grid>
@@ -462,14 +462,15 @@
             <TabItem ToolTip="Change your password" Style="{DynamicResource Tab_Style}" Header="Setting">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="90"/>
                     </Grid.RowDefinitions>
 
                     <Label Content="Password update" Grid.Row="0" FontSize="25" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3.4,0,3.2"  VerticalAlignment="Center" Width="213"/>

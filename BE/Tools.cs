@@ -55,7 +55,8 @@ namespace BE
             if (item == null)
                 throw new ArgumentNullException("No attributes for null");
 
-            object[] arr = item.GetType().GetField(item.ToString()).GetCustomAttributes(false);
+            Type theAttributeType = typeof(UserDisplayAttribute);
+            object[] arr = item.GetType().GetField(item.ToString()).GetCustomAttributes(theAttributeType, false);
             if (arr.Length == 1)
                 return (UserDisplayAttribute)arr[0];
             return null;

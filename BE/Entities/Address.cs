@@ -26,7 +26,7 @@ namespace BE
 
         public override string ToString()
         {
-            return $"{City}, {Street}, {HouseNumber}.";
+            return $"{City}, {Street}, {HouseNumber}";
         }
     }
 }

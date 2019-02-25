@@ -26,7 +26,7 @@ namespace PL_WPF.UI.TesterInterface
     {
         Tester tester;
         BL.IBL bl = BL.FactorySingleton.Instance;
-        public static readonly double MAX_TESTS_PER_WEEK= (int)(WORKING_DAYS_A_WEEK * WORKING_HOURS_A_DAY);
+        public static readonly double MAX_TESTS_PER_WEEK = (int)(WORKING_DAYS_A_WEEK * WORKING_HOURS_A_DAY);
 
         public TesterWindow(Tester tester)
         {

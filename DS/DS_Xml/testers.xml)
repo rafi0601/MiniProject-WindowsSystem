@@ -72,7 +72,10 @@
     <MaxOfTestsPerWeek>14</MaxOfTestsPerWeek>
     <VehicleTypesExpertise>privateCar</VehicleTypesExpertise>
     <MaxDistanceFromAddress>7</MaxDistanceFromAddress>
-    <UnavailableDates />
+    <UnavailableDates>
+      <dateTime>2019-02-24T10:00:00</dateTime>
+      <dateTime>2019-03-17T10:00:00</dateTime>
+    </UnavailableDates>
     <workingHours>False,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,True,False,False,False,False,False,False,False,False,False,False,False,False,False,False,</workingHours>
   </Tester>
   <Tester>
